@@ -1,0 +1,15 @@
+ul { list-style: none; }
+
+#userpage-wrap { padding: 0 5 em; }
+
+#userpage-keywords-title {
+    margin-top: 1.3em;
+    margin-bottom: 1.5em;
+    font-size: 1.1em;
+    color: #aaa;
+}
+
+.userpage-wrap__child {
+    min-height: 30em;
+    padding: 2em;
+}

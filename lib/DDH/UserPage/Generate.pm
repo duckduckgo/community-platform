@@ -82,13 +82,15 @@ sub generate {
             next;
         }
         my $build_dir = $self->contributor_dir( $contributor );
+        my $contributor_data = $self->contributors->{ $contributor };
 
         my $content = $self->xslate->render(
             'userpage/index.tx',
             {
-                data => $self->json->encode(
-                    $self->contributors->{ $contributor }
-                )
+                json_data => $self->json->encode(
+                    $contributor_data
+                ),
+                data => $contributor_data
             }
         );
 

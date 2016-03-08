@@ -43,6 +43,7 @@ sub transform {
 
     for my $ia_id ( keys $ia ) {
         my @contributors;
+        my @topics;
         $ia->{ia_id} = $ia_id;
 
         if ( $ia->{$ia_id}->{developer} ) {
@@ -76,6 +77,14 @@ sub transform {
             $contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
             push @{ $transform->{$contributor}->{ $milestone } }, $ia->{$ia_id};
+            if ( $ia->{$ia_id}->{topic} && ( $ia->{$ia_id}->{dev_milestone} eq 'live' ) ) {
+                for my $topic ( @{ $ia->{$ia_id}->{topic} } ) {
+
+                    my $topic_count = $transform->{contributor}->{topics}->{$topic};
+                    $topic_count = $topic_count? $topic_count + 1 : 1;
+                    $transform->{$contributor}->{topics}->{$topic} = $topic_count;
+                }
+            }
         }
     }
 
