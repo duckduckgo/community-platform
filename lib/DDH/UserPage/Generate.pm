@@ -54,6 +54,13 @@ sub _build_db {
     $_[0]->ddgc->db;
 }
 
+has settings => ( is => 'lazy' );
+sub _build_settings {
+    +{
+        ddgc_config => $_[0]->ddgc->config,
+    }
+}
+
 sub contributor_dir {
     my ( $self, $contributor ) = @_;
     my $p = abs_path(
@@ -76,12 +83,24 @@ sub generate {
         }
         my $build_dir = $self->contributor_dir( $contributor );
 
+        my $content = $self->xslate->render(
+            'userpage/index.tx',
+            {
+                data => $self->json->encode(
+                    $self->contributors->{ $contributor }
+                )
+            }
+        );
+
+
         open my $fh, '>:encoding(UTF-8)', "$build_dir/index.html" or die();
         print $fh $self->xslate->render(
-            'userpage/index.tx',
-            { data => $self->json->encode(
-                $self->contributors->{ $contributor }
-            ) }
+            'layouts/main.tx',
+            {
+                content => $content,
+                settings => $self->settings,
+                hide_login => 1,
+            }
         );
         close $fh;
     }
