@@ -9,6 +9,7 @@ use File::Path qw/ make_path /;
 use JSON::MaybeXS;
 use Cwd qw/ abs_path /;
 use Carp;
+use DDGC;
 
 has view_dir => (
     is       => 'ro',
@@ -41,6 +42,16 @@ sub _build_xslate {
 has json => ( is => 'lazy' );
 sub _build_json {
     JSON::MaybeXS->new( utf8 => 1, pretty => 1 );
+}
+
+has ddgc => ( is => 'lazy' );
+sub _build_ddgc {
+    DDGC->new;
+}
+
+has db => ( is => 'lazy' );
+sub _build_db {
+    $_[0]->ddgc->db;
 }
 
 sub contributor_dir {
