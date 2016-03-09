@@ -1050,21 +1050,20 @@
                                     });
                                 }
 
-                                equal_vals = (eqArrays(temp_val, live_value) || eqArrays(temp_val, edited_value))? true : false;
+                                equal_vals = eqArrays(temp_val, live_value)? true : false;
                                 
                                 value = JSON.stringify(value);
                                 temp_val = JSON.stringify(temp_val);
                                 edited_value = JSON.stringify(ia_data.edited[field]);
                                 live_value = JSON.stringify(ia_data.live[field]);
                                 
-                                equal_vals = equal_vals? equal_vals : ((temp_val === live_value) || (temp_val === edited_value));
+                                equal_vals = equal_vals? equal_vals : (temp_val === live_value);
                                 is_json = true;
                             } else {
-                                equal_vals = ((value === live_value) || (value === edited_value))? true : false;
+                                equal_vals = (value === live_value)? true : false;
                             }
 
                             var both_empty = checkEmpty(value, live_value, 1);
-                            both_empty = (!both_empty)? checkEmpty(value, edited_value, 0) : both_empty;
                             
                             if ((!equal_vals) && (!both_empty)) {
                                 save(field, value, DDH_iaid, $obj, is_json);
@@ -1084,14 +1083,9 @@
                     }
 
                     //Check if both the edited value and the live value are empty
-                    function checkEmpty(value, live_data, not_null) {
+                    function checkEmpty(value, live_data) {
                         var value_empty = (!value || value === "" || value === "[]" || value === "{}")? true : false;
-                        var live_empty;
-                        if (not_null) {
-                            live_empty = (!live_data || live_data === "" || live_data === "[]" || live_data === "{}")? true : false;
-                        } else {
-                            live_empty = (live_data === "" || live_data === "[]" || live_data === "{}")? true : false;
-                        }
+                        var live_empty = (!live_data || live_data === "" || live_data === "[]" || live_data === "{}")? true : false;
 
                         var both_empty = (value_empty && live_empty)? true : false;
 
