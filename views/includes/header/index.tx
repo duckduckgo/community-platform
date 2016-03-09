@@ -15,10 +15,12 @@
 		<: } :>
         : include "includes/header/nav.tx"
 
-        : if $vars.user {
-            : include "includes/header/accountinfo.tx"
-        : } else {
-            : include "includes/header/login.tx"
+        : if !$hide_login {
+            : if $vars.user {
+                : include "includes/header/accountinfo.tx"
+            : } else {
+                : include "includes/header/login.tx"
+            : }
         : }
 
     </div>
@@ -28,12 +30,14 @@
 <div class="site-header mobile">
   <div class="content-wrap">
     <div class="flex-container">
+      : if !$hide_login {
       <div class="notification-bubble">
 	<: my $notification_count = $vars.user.unread_notifications || $undone_notifications_count || $vars.user.undone_notifications_count || 0; :>
 	  <a href="/my/notifications">
 	    <i class="ddgsi ddgsi-comment notification <: if $notification_count { :>has-notification<: } :>"></i>
 	  </a>
       </div>
+      : }
 
       <div class="header-logo">
 	<div class="header-logo__logo"><a href="/"><img src="/static/images/logo.svg" /></a></div>
