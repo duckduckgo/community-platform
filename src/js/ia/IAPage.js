@@ -1063,8 +1063,8 @@
                                 equal_vals = ((value === live_value) || (value === edited_value))? true : false;
                             }
 
-                            var both_empty = checkEmpty(value, live_value);
-                            both_empty = (!both_empty)? checkEmpty(value, edited_value) : both_empty;
+                            var both_empty = checkEmpty(value, live_value, 1);
+                            both_empty = (!both_empty)? checkEmpty(value, edited_value, 0) : both_empty;
                             
                             if ((!equal_vals) && (!both_empty)) {
                                 save(field, value, DDH_iaid, $obj, is_json);
@@ -1084,9 +1084,15 @@
                     }
 
                     //Check if both the edited value and the live value are empty
-                    function checkEmpty(value, live_data) {
+                    function checkEmpty(value, live_data, not_null) {
                         var value_empty = (!value || value === "" || value === "[]" || value === "{}")? true : false;
-                        var live_empty = (!live_data || live_data === "" || live_data === "[]" || live_data === "{}")? true : false;
+                        var live_empty;
+                        if (not_null) {
+                            live_empty = (!live_data || live_data === "" || live_data === "[]" || live_data === "{}")? true : false;
+                        } else {
+                            live_empty = (live_data === "" || live_data === "[]" || live_data === "{}")? true : false;
+                        }
+
                         var both_empty = (value_empty && live_empty)? true : false;
 
                         return both_empty;
@@ -1175,7 +1181,7 @@
                         console.log("Live data: " + live_data);
                         console.log("Live data without JSON " + ia_data.live[field]);
 
-                        var both_empty = checkEmpty(value, live_data);
+                        var both_empty = checkEmpty(value, live_data, 1);
 
                         if (field && (live_data != value) && (!both_empty)) {
                             if (parent_field) {
