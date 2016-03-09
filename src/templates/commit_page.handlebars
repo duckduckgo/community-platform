@@ -192,18 +192,14 @@
 
                 <td name="maintainer"  id="maintainer_original">
                     {{#if original.maintainer}}
-                        {{#if original.maintainer.duckco}}
-                            <a href="/user/{{original.maintainer.duckco}}">{{original.maintainer.duckco}}</a>
-                        {{else}}
+                        {{#if original.maintainer.github}}
                             <a href="https://github.com/{{original.maintainer.github}}">{{original.maintainer.github}}</a>
                         {{/if}}
                     {{/if}}
                 </td>
                 <td name="maintainer">
                     {{#if maintainer}}
-                        {{#if maintainer.duckco}}
-                            <a href="/user/{{maintainer.duckco}}">{{maintainer.duckco}}</a>
-                        {{else}}
+                        {{#if maintainer.github}}
                             <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a>
                         {{/if}}
                     {{/if}}
