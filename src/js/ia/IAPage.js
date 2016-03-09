@@ -990,6 +990,7 @@
                             var live_value = ia_data.live[field];
                             var $obj = $("#row-diff-" + field);
                             var equal_vals;
+                            var temp_live;
 
                             if ($(this).hasClass("js-input")) {
                                 value = $.trim($(this).val().replace(/"/g, ""));
@@ -1060,10 +1061,11 @@
                                 equal_vals = equal_vals? equal_vals : (temp_val === live_value);
                                 is_json = true;
                             } else {
-                                equal_vals = (value === live_value)? true : false;
+                                temp_live = (field === "maintainer")? live_value.github : live_value;
+                                equal_vals = (value === temp_live)? true : false;
                             }
 
-                            var both_empty = checkEmpty(value, live_value, 1);
+                            var both_empty = (field === "maintainer")? checkEmpty(value, temp_live) : checkEmpty(value, live_value);
                             
                             if ((!equal_vals) && (!both_empty)) {
                                 save(field, value, DDH_iaid, $obj, is_json);
@@ -1175,7 +1177,7 @@
                         console.log("Live data: " + live_data);
                         console.log("Live data without JSON " + ia_data.live[field]);
 
-                        var both_empty = checkEmpty(value, live_data, 1);
+                        var both_empty = checkEmpty(value, live_data);
 
                         if (field && (live_data != value) && (!both_empty)) {
                             if (parent_field) {
