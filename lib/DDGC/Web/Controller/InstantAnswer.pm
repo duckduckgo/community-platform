@@ -1406,9 +1406,10 @@ sub format_maintainer {
         # but can't give edit permissions
 
         %maintainer = ( github => $value );
-
-        if (my $gh_id = $c->d->rs('GitHub::User')->find({login => $value})->github_id) {
-            $complat_user = $user->find({github_id => $gh_id});
+        my $gh_user;
+        if (my $gh_user = $c->d->rs('GitHub::User')->find({login => $value})) {
+            my $gh_id = $gh_user->github_id;
+            $complat_user = $gh_id ? $user->find({github_id => $gh_id}) : '';
             $complat_user_admin = $complat_user? $complat_user->admin : '';
         }
     }
