@@ -292,7 +292,7 @@ gimp_cheat_sheet	elebow
 jargon	elebow				
 people_in_space	elebow				
 yacht_specs	elephantRunAway				
-conversions mintsoft
+conversions	mintsoft
 figlet	engvik				
 minecraft	engvik				
 jquery_cheat_sheet	epik				
@@ -643,7 +643,7 @@ xkcd	sdball
 teredo	seanheaton				
 redis_cheat_sheet	seisfeld				
 sip_response_codes_cheat_sheet	seisfeld				
-recipes bsstoner
+recipes	bsstoner
 product_hunt	sevastos				
 http_status_codes_cheat_sheet	ShreyasMinocha				
 angular_js_cheat_sheet	SibuStephen				
