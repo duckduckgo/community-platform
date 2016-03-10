@@ -12,7 +12,6 @@ use Plack::App::File;
 
 builder {
     mount '/' => Plack::App::Directory::WithIndex->new( root => $FindBin::Dir . "/../build" )->to_app;
-    mount '/json' => Plack::App::Directory::WithIndex->new( root => $FindBin::Dir . "/../json_build" )->to_app;
     mount "/static" => Plack::App::File->new(root => $FindBin::Dir . '/../root/static')->to_app;
 };
 

@@ -27,16 +27,6 @@ has build_dir => (
     },
 );
 
-has json_build_dir => (
-    is       => 'ro',
-    required => 1,
-    coerce   => sub {
-        my $p = abs_path( $_[0] );
-        make_path( $p );
-        return $p;
-    },
-);
-
 has contributors => (
     is       => 'ro',
     required => 1,
