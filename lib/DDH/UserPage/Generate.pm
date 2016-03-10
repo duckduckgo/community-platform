@@ -27,6 +27,16 @@ has build_dir => (
     },
 );
 
+has json_build_dir => (
+    is       => 'ro',
+    required => 1,
+    coerce   => sub {
+        my $p = abs_path( $_[0] );
+        make_path( $p );
+        return $p;
+    },
+);
+
 has contributors => (
     is       => 'ro',
     required => 1,
@@ -70,6 +80,15 @@ sub contributor_dir {
     return $p;
 }
 
+sub json_dir {
+    my ( $self, $contributor ) = @_;
+    my $p = abs_path(
+        sprintf( '%s/%s', $self->build_dir, $contributor . '/json' )
+    );
+    make_path( $p );
+    return $p;
+}
+
 sub generate {
     my ( $self ) = @_;
 
@@ -87,13 +106,9 @@ sub generate {
         my $content = $self->xslate->render(
             'userpage/index.tx',
             {
-                json_data => $self->json->encode(
-                    $contributor_data
-                ),
                 data => $contributor_data
             }
         );
-
 
         open my $fh, '>:encoding(UTF-8)', "$build_dir/index.html" or die();
         print $fh $self->xslate->render(
@@ -105,6 +120,19 @@ sub generate {
             }
         );
         close $fh;
+
+        # JSON dump of user's data
+        my $json_build_dir = $self->json_dir( $contributor );
+        open my $jfh, '>:encoding(UTF-8)', "$json_build_dir/index.html" or die();
+        print $jfh $self->xslate->render(
+            'userpage/json_index.tx',
+            {
+                json_data => $self->json->encode(
+                    $contributor_data
+                ),
+            }
+        );
+        close $jfh;
     }
 }
 

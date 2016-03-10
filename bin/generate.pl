@@ -15,5 +15,6 @@ DDH::UserPage::Generate->new(
     contributors => DDH::UserPage::Gather->new->contributors,
     view_dir     => "$FindBin::Dir/../views",
     build_dir    => "$FindBin::Dir/../build",
+    json_build_dir    => "$FindBin::Dir/../json_build",
 )->generate;
 
