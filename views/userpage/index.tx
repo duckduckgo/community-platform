@@ -28,8 +28,8 @@
             <h2 id="userpage-main-title">Contributed Instant Answers</h2>
 
             <ul id="userpage-main-ias">
-                : if $data.live {
-                    : for $data.live -> $ia {
+                : if $data.ia && $data.ia.live {
+                    : for $data.ia.live -> $ia {
                         <li class="userpage-main-ias__item">
                             <a href="https://duck.co/ia/view/<:$ia.id:>">
                                 : $ia.name

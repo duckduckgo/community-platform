@@ -27,6 +27,11 @@ sub _build_json {
     JSON::MaybeXS->new(utf8 => 1);
 }
 
+has ddgc => ( is => 'lazy' );
+sub _build_ddgc {
+    DDGC->new;
+}
+
 sub ia_repo {
     my ( $self ) = @_;
     my $response = $self->http->get( $self->repo_url );
@@ -40,13 +45,12 @@ sub ia_repo {
 
 sub gh_issues {
     my ( $self, $username ) = @_;
-    my $d = DDGC->new;
     my $issues;
 
-    if ( my $gh_user = $d->rs('GitHub::User')->find({ login => $username }) ) {
+    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->find({ login => $username }) ) {
 
         my $gh_id = $gh_user->github_id;
-        $issues = $d->rs('GitHub::Issue')->search({
+        $issues = $self->ddgc->rs('GitHub::Issue')->search({
            ( -or => [{ github_user_id_assignee => $gh_id },
                    { github_user_id => $gh_id }]
            ),
@@ -99,7 +103,7 @@ sub transform {
             push @{ $transform->{$contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
 
             #Append GitHub issues and pull requests
-            if ( my $issues = gh_issues( $contributor ) ) {
+            if ( my $issues = $self->gh_issues( $contributor ) ) {
                 $transform->{contributor}->{issues} = $issues;
             }
 
