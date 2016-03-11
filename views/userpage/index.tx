@@ -38,6 +38,23 @@
                     : }
                 : }
             </ul>
+            
+            <h2 id="userpage-main-issues-title">Issues</h2>
+
+            <ul id="userpage-main-issues">
+                <pre>
+                : $json_data | raw;
+                </pre>
+                : if $data.issues {
+                    : for $data.issues -> $issue {
+                        <li class="userpage-main-issues__item">
+                            <a href="https://github.com/zeroclickinfo-<:$issue.github_repo_id:>/<:$issue.number:>">
+                                : $issue.title
+                            </a>
+                        </li>
+                    : }
+                : }
+            </ul>
         </div>
         <span class="clear"></span>
     </div>

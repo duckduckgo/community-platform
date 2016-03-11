@@ -55,6 +55,10 @@ sub gh_issues {
                    { github_user_id => $gh_id }]
            ),
            ( state => 'open' ),
+        },
+        {
+            columns => [ qw/ id github_repo_id title number / ],
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         })->all;
     }
 
