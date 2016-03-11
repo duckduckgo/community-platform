@@ -46,7 +46,7 @@ sub gh_issues {
     if ( my $gh_user = $d->rs('GitHub::User')->find({ login => $username }) ) {
 
         my $gh_id = $gh_user->github_id;
-        $issues = $d->rs('Github::Issue')->search({
+        $issues = $d->rs('GitHub::Issue')->search({
            ( -or => [{ github_user_id_assignee => $gh_id },
                    { github_user_id => $gh_id }]
            ),
