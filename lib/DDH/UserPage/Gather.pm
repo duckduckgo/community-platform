@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Moo;
+use DDGC;
 
 use HTTP::Tiny;
 use Try::Tiny;
@@ -35,6 +36,25 @@ sub ia_repo {
     }
 
     $self->json->decode( $response->{content} );
+}
+
+sub gh_issues {
+    my ( $self, $username ) = @_;
+    my $d = DDGC->new;
+    my $issues;
+
+    if ( my $gh_user = $d->rs('GitHub::User')->find({ login => $username }) ) {
+
+        my $gh_id = $gh_user->github_id;
+        $issues = $d->rs('Github::Issue')->search({
+           ( -or => [{ github_user_id_assignee => $gh_id },
+                   { github_user_id => $gh_id }]
+           ),
+           ( state => 'open' ),
+        })->all;
+    }
+
+    return $issues;
 }
 
 sub transform {
@@ -76,7 +96,14 @@ sub transform {
             # Some of our github logins contain '/' at the end?
             $contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
-            push @{ $transform->{$contributor}->{ $milestone } }, $ia->{$ia_id};
+            push @{ $transform->{$contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
+
+            #Append GitHub issues and pull requests
+            if ( my $issues = gh_issues( $contributor ) ) {
+                $transform->{contributor}->{issues} = $issues;
+            }
+
+            # Append topics
             if ( $ia->{$ia_id}->{topic} && ( $ia->{$ia_id}->{dev_milestone} eq 'live' ) ) {
                 for my $topic ( @{ $ia->{$ia_id}->{topic} } ) {
 
