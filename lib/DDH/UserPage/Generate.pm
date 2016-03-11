@@ -113,15 +113,8 @@ sub generate {
 
         # JSON dump of user's data
         my $json_build_dir = $self->json_dir( $contributor );
-        open my $jfh, '>:encoding(UTF-8)', "$json_build_dir/index.html" or die();
-        print $jfh $self->xslate->render(
-            'userpage/json_index.tx',
-            {
-                json_data => $self->json->encode(
-                    $contributor_data
-                ),
-            }
-        );
+        open my $jfh, '>:encoding(UTF-8)', "$json_build_dir/index.json" or die();
+        print $jfh $self->json->encode( $contributor_data );
         close $jfh;
     }
 }
