@@ -70,15 +70,6 @@ sub contributor_dir {
     return $p;
 }
 
-sub json_dir {
-    my ( $self, $contributor ) = @_;
-    my $p = abs_path(
-        sprintf( '%s/%s', $self->build_dir, $contributor . '/json' )
-    );
-    make_path( $p );
-    return $p;
-}
-
 sub generate {
     my ( $self ) = @_;
 
@@ -112,8 +103,7 @@ sub generate {
         close $fh;
 
         # JSON dump of user's data
-        my $json_build_dir = $self->json_dir( $contributor );
-        open my $jfh, '>:encoding(UTF-8)', "$json_build_dir/index.json" or die();
+        open my $jfh, '>:encoding(UTF-8)', "$build_dir/index.json" or die();
         print $jfh $self->json->encode( $contributor_data );
         close $jfh;
     }
