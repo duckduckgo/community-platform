@@ -62,6 +62,8 @@ sub gh_issues {
         })->all;
     }
 
+    warn $issues;
+
     return $issues;
 }
 
