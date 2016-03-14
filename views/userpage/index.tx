@@ -45,15 +45,15 @@
                 <pre>
                 : $json_data | raw;
                 </pre>
-                : if $data.issues {
-                    : for $data.issues -> $issue {
+                <!-- : if $data.issues {
+                    for $data.issues -> $issue {
                         <li class="userpage-main-issues__item">
                             <a href="https://github.com/zeroclickinfo-<:$issue.github_repo_id:>/<:$issue.number:>">
-                                : $issue.title
+                                $issue.title
                             </a>
                         </li>
-                    : }
-                : }
+                    }
+                 } -->
             </ul>
         </div>
         <span class="clear"></span>
