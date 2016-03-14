@@ -45,12 +45,12 @@ sub ia_repo {
 
 sub gh_issues {
     my ( $self, $username ) = @_;
-    my $issues;
+    my @issues;
 
-    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->find({ lc login => $username }) ) {
+    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->find({ login => $username }) ) {
 
         my $gh_id = $gh_user->id;
-        $issues = $self->ddgc->rs('GitHub::Issue')->search({
+        @issues = $self->ddgc->rs('GitHub::Issue')->search({
            ( -or => [{ github_user_id_assignee => $gh_id },
                    { github_user_id => $gh_id }]
            ),
@@ -59,10 +59,10 @@ sub gh_issues {
         {
             columns => [ qw/ id github_repo_id title number / ],
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        })->all;
+        });
     }
 
-    return $issues;
+    return \@issues;
 }
 
 sub transform {
@@ -84,7 +84,7 @@ sub transform {
                     ( my $login = $developer->{url} ) =~
                         s{https://github.com/(.*)/?}{$1};
 
-                    push @contributors, lc $login;
+                    push @contributors, $login;
                 }
             }
 
@@ -102,23 +102,24 @@ sub transform {
 
         for my $contributor ( uniq @contributors ) {
             # Some of our github logins contain '/' at the end?
-            $contributor =~ s{/$}{};
+            my $lc_contributor = lc $contributor;
+            $lc_contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
-            push @{ $transform->{$contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
+            push @{ $transform->{$lc_contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
             
-                $transform->{$contributor}->{issues} = 'placeholder';
             #Append GitHub issues and pull requests
             if ( my $issues = $self->gh_issues( $contributor ) ) {
-                $transform->{$contributor}->{issues} = $issues;
+                $transform->{$lc_contributor}->{issues} = $issues;
+                warn $issues;
             }
 
             # Append topics
             if ( $ia->{$ia_id}->{topic} && ( $ia->{$ia_id}->{dev_milestone} eq 'live' ) ) {
                 for my $topic ( @{ $ia->{$ia_id}->{topic} } ) {
 
-                    my $topic_count = $transform->{contributor}->{topics}->{$topic};
+                    my $topic_count = $transform->{$lc_contributor}->{topics}->{$topic};
                     $topic_count = $topic_count? $topic_count + 1 : 1;
-                    $transform->{$contributor}->{topics}->{$topic} = $topic_count;
+                    $transform->{$lc_contributor}->{topics}->{$topic} = $topic_count;
                 }
             }
         }
