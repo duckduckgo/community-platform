@@ -51,13 +51,14 @@ sub gh_issues {
 
         my $gh_id = $gh_user->id;
         @issues = $self->ddgc->rs('GitHub::Issue')->search({
-           ( -or => [{ github_user_id_assignee => $gh_id },
-                   { github_user_id => $gh_id }]
+           ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
+                   { 'me.github_user_id' => $gh_id }]
            ),
            ( state => 'open' ),
         },
         {
             columns => [ qw/ id github_repo_id title number / ],
+            prefetch => 'github_repo',
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         });
     }

@@ -45,7 +45,7 @@
                 : if $data.issues {
                     : for $data.issues -> $issue {
                         <li class="userpage-main-issues__item">
-                            <a href="https://github.com/zeroclickinfo-<:$issue.github_repo_id:>/<:$issue.number:>">
+                            <a href="https://github.com/<:$issue.github_repo.full_name:>/issues/<:$issue.number:>">
                                 : $issue.title
                             </a>
                         </li>
