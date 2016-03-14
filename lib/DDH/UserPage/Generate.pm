@@ -90,6 +90,7 @@ sub generate {
 
     open my $fh, '>:encoding(UTF-8)', $self->build_dir . "/index.json" or die();
     print $fh $self->json->encode( $self->contributors );
+    close $fh;
 
     for my $contributor ( keys $self->contributors ) {
         if ( $contributor=~ /^https?:/ ) {
