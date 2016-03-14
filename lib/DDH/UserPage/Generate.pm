@@ -10,6 +10,7 @@ use JSON::MaybeXS;
 use Cwd qw/ abs_path /;
 use Carp;
 use DDGC;
+use DDH::UserPage::Gather;
 
 has view_dir => (
     is       => 'ro',
@@ -29,7 +30,21 @@ has build_dir => (
 
 has contributors => (
     is       => 'ro',
-    required => 1,
+    default  => sub {
+        my ( $self ) = @_;
+        my $index_json = $self->build_dir . "/index.json";
+
+        # if index.json is older than 15 mins...
+        if ( !-f $index_json || ( time - ( stat $index_json )[10] > 900 ) ) {
+            return DDH::UserPage::Gather->new->contributors
+        }
+        else {
+            local $/;
+            open my $fh, '<:encoding(UTF-8)', $index_json or die;
+            my $json = <$fh>;
+            return $self->json->decode( $json );
+        }
+    }
 );
 
 has xslate => ( is => 'lazy' );
