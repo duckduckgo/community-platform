@@ -119,7 +119,6 @@ sub transform {
                         push @{ $transform->{$lc_contributor}->{issues} }, $issue;
                     }
                 }
-                warn $issues;
             }
 
             # Append topics

@@ -39,6 +39,20 @@
                 : }
             </ul>
             
+            <h2 id="userpage-main-issues-title">Pull Requests</h2>
+
+            <ul id="userpage-main-issues">
+                : if $data.pulls {
+                    : for $data.pulls -> $pull {
+                        <li class="userpage-main-issues__item">
+                            <a href="https://github.com/<:$pull.github_repo.full_name:>/issues/<:$pull.number:>">
+                                : $pull.title
+                            </a>
+                        </li>
+                    : }
+                 : }
+            </ul>
+            
             <h2 id="userpage-main-issues-title">Issues</h2>
 
             <ul id="userpage-main-issues">
