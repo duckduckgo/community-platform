@@ -54,11 +54,13 @@ sub gh_issues {
            ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
                    { 'me.github_user_id' => $gh_id }]
            ),
-           ( state => 'open' ),
+           ( 'me.state' => 'open' ),
         },
         {
-            columns => [ qw/ id github_repo_id title number / ],
-            prefetch => 'github_repo',
+            join => [ qw/ github_repo / ],
+            columns => [ qw/ id state github_repo_id title number isa_pull_request github_repo.full_name / ],
+            collapse => 1,
+            group_by => 'me.id',
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         });
     }
@@ -109,8 +111,14 @@ sub transform {
             push @{ $transform->{$lc_contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
             
             #Append GitHub issues and pull requests
-            if ( my $issues = $self->gh_issues( $contributor ) ) {
-                $transform->{$lc_contributor}->{issues} = $issues;
+            if ( (my $issues = $self->gh_issues( $contributor )) && !($transform->{$lc_contributor}->{pulls}) && !($transform->{$lc_contributor}->{issues}) ) {
+                for my $issue ( uniq @{ $issues } ) {
+                    if ( $issue->{isa_pull_request} ) {
+                        push @{ $transform->{$lc_contributor}->{pulls} }, $issue;
+                    } else {
+                        push @{ $transform->{$lc_contributor}->{issues} }, $issue;
+                    }
+                }
                 warn $issues;
             }
 
