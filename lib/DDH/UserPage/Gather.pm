@@ -68,6 +68,16 @@ sub gh_issues {
     return \@issues;
 }
 
+sub find_ia {
+    my ( $self, $issue ) = @_;
+    
+    if ( my $ia_issue = $self->ddgc->rs('InstantAnswer::Issues')->search({ issue_id => $issue->{number} })->first ) {
+        $issue->{ia_id} = $ia_issue->{instant_answer_id};
+    }
+
+    return $issue;
+}
+
 sub transform {
     my ( $self, $ia ) = @_;
     my $transform = {};
@@ -113,6 +123,9 @@ sub transform {
             #Append GitHub issues and pull requests
             if ( (my $issues = $self->gh_issues( $contributor )) && !($transform->{$lc_contributor}->{pulls}) && !($transform->{$lc_contributor}->{issues}) ) {
                 for my $issue ( uniq @{ $issues } ) {
+                    # Pair the issue to an IA if possible
+                    $issue = $self->find_ia( $issue );
+
                     if ( $issue->{isa_pull_request} ) {
                         push @{ $transform->{$lc_contributor}->{pulls} }, $issue;
                     } else {
