@@ -356,6 +356,10 @@
     .ia-single--info ul li .date a {
         display: inline;
     }
+
+    .ia-single--info i {
+	margin-right: .5em;
+    }
 }
 
 @include keyframes(loader-animate) {
