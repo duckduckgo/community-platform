@@ -72,7 +72,12 @@ sub find_ia {
     my ( $self, $issue ) = @_;
     
     if ( my $ia_issue = $self->ddgc->rs('InstantAnswer::Issues')->search({ issue_id => $issue->{number} })->first ) {
-        $issue->{ia_id} = $ia_issue->{instant_answer_id};
+        $issue->{ia_id} = $ia_issue->instant_answer_id;
+
+        if ( my $ia = $self->ddgc->rs('InstantAnswer')->find({ meta_id => $ia_issue->instant_answer_id }) ) {
+            $issue->{ia_name} = $ia->name;
+        }
+        
     }
 
     return $issue;
