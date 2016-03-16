@@ -108,9 +108,14 @@ sub transform {
 
         }
 
-        if ( my $db_ia = $self->ddgc->rs('InstantAnswer')->find({ meta_id => $ia_id }) ) {
+        if ( my $issues = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 0 })->count ) {
 
-            $ia->{$ia_id}->{issues_count} = $db_ia->issues;
+            $ia->{$ia_id}->{issues_count} = $issues;
+        }
+
+        if ( my $pulls = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 1 })->count ) {
+        
+            $ia->{$ia_id}->{prs_count} = $pulls;
         }
 
 
