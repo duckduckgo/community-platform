@@ -108,6 +108,12 @@ sub transform {
 
         }
 
+        if ( my $db_ia = $self->ddgc->rs('InstantAnswer')->find({ meta_id => $ia_id }) ) {
+
+            $ia->{$ia_id}->{issues_count} = $db_ia->issues;
+        }
+
+
         if ( $ia->{$ia_id}->{attribution} ) {
 
             for my $attribution ( keys $ia->{$ia_id}->{attribution} ) {
