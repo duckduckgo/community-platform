@@ -292,7 +292,7 @@ sub update_repo_pulls {
         for @$pulls_data;
 
     my @gh_events;
-    push @gh_events, $self->update_repo_pull_from_data($gh_repo, $_, 'github_pull')
+    push @gh_events, $self->update_github_event_from_data($gh_repo, $_, 'github_pull')
         for @$pulls_data;
 
     return \@gh_pulls;
