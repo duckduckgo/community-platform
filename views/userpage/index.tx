@@ -44,10 +44,18 @@
             <ul id="userpage-main-issues">
                 : if $data.pulls {
                     : for $data.pulls -> $pull {
-                        <li class="userpage-main-issues__item">
-                            <a href="https://github.com/<:$pull.github_repo.full_name:>/issues/<:$pull.number:>">
-                                : $pull.title
-                            </a>
+                        <li class="userpage-main-pulls__item">
+                            <div class="left pull_title">
+                                <a href="https://github.com/<:$pull.github_repo.full_name:>/pulls/<:$pull.number:>">
+                                    : $pull.title
+                                </a>
+                            </div>
+                            <div class="right pull_ia">
+                                <a href="/ia/view/<:$pull.ia_id:>">
+                                    : $pull.ia_name
+                                </a>
+                            </div>
+                            <div class="clear"></div>
                         </li>
                     : }
                  : }
@@ -59,9 +67,17 @@
                 : if $data.issues {
                     : for $data.issues -> $issue {
                         <li class="userpage-main-issues__item">
-                            <a href="https://github.com/<:$issue.github_repo.full_name:>/issues/<:$issue.number:>">
-                                : $issue.title
-                            </a>
+                            <div class="left issue_title">
+                                <a href="https://github.com/<:$issue.github_repo.full_name:>/issues/<:$issue.number:>">
+                                    : $issue.title
+                                </a>
+                            </div>
+                            <div class="right issue_ia">
+                                <a href="/ia/view/<:$issue.ia_id:>">
+                                    : $issue.ia_name
+                                </a>
+                            </div>
+                            <div class="clear"></div>
                         </li>
                     : }
                  : }
