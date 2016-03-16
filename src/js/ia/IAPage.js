@@ -1061,7 +1061,7 @@
                                 equal_vals = equal_vals? equal_vals : (temp_val === live_value);
                                 is_json = true;
                             } else {
-                                temp_live = (field === "maintainer")? live_value.github : live_value;
+                                temp_live = ((field === "maintainer") && live_value)? live_value.github : live_value;
                                 equal_vals = (value === temp_live)? true : false;
                             }
 
