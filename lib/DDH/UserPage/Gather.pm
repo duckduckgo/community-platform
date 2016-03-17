@@ -108,14 +108,22 @@ sub transform {
 
         }
 
+        # Issues count for this IA
         if ( my $issues = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 0 })->count ) {
 
             $ia->{$ia_id}->{issues_count} = $issues;
         }
 
+        # PRs count for this IA
         if ( my $pulls = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 1 })->count ) {
         
             $ia->{$ia_id}->{prs_count} = $pulls;
+        }
+
+        # Maintained IAs for each contributor
+        if ( ( my $maintainer = $ia->{$ia_id}->{maintainer} ) && ( $ia->{$ia_id}->{maintainer}->{github} ) ) {
+            
+            push @{ $transform->{$maintainer->{github}}->{maintained} }, $ia->{$ia_id};
         }
 
 

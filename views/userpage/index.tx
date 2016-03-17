@@ -25,6 +25,20 @@
         </div>
 
         <div class="left userpage-wrap__child" id="userpage-main">
+            <h2 id="userpage-main-maintained-title">Maintained Instant Answers</h2>
+
+            <ul id="userpage-main-maintained-ias">
+                : if $data.maintained {
+                    : for $data.maintained -> $m_ia {
+                        <li class="userpage-main-maintained-ias__item">
+                            <a href="https://duck.co/ia/view/<:$m_ia.id:>">
+                                : $m_ia.name
+                            </a>
+                        </li>
+                    : }
+                : }
+            </ul>
+            
             <h2 id="userpage-main-title">Contributed Instant Answers</h2>
 
             <ul id="userpage-main-ias">
