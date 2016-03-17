@@ -5,10 +5,14 @@ use warnings;
 
 use Moo;
 use DDGC;
+use DDGC::Web;
 
 use HTTP::Tiny;
 use Try::Tiny;
 use JSON::MaybeXS;
+use Plack::Builder;
+use Plack::Test;
+use HTTP::Request::Common;
 use List::MoreUtils qw/ uniq /;
 use Carp;
 
@@ -30,6 +34,15 @@ sub _build_json {
 has ddgc => ( is => 'lazy' );
 sub _build_ddgc {
     DDGC->new;
+}
+
+has app => ( is => 'lazy' );
+sub _build_app {
+    Plack::Test->create(
+        builder {
+            mount '/' => DDGC::Web->new->psgi_app;
+        }
+    );
 }
 
 sub ia_repo {
