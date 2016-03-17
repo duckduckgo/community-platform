@@ -25,6 +25,7 @@ for my $ia_id (keys $data) {
     my $topics = delete $data->{$ia_id}->{topic};
     my $developer = delete $data->{$ia_id}->{developer};
     my $attribution = delete $data->{$ia_id}->{attribution};
+    my $maintainer = delete $data->{$ia_id}->{maintainer};
     my $src_options = delete $data->{$ia_id}->{src_options};
 
     my $ia = $d->rs('InstantAnswer')->update_or_create({
@@ -38,6 +39,9 @@ for my $ia_id (keys $data) {
             : (),
         ( $developer )
             ? ( developer => encode_json( $developer ) )
+            : (),
+        ( $maintainer )
+            ? ( maintainer => encode_json( $maintainer ) )
             : (),
     });
 
