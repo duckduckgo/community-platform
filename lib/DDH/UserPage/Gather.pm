@@ -108,6 +108,17 @@ sub transform {
 
         }
 
+        if ( my $issues = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 0 })->count ) {
+
+            $ia->{$ia_id}->{issues_count} = $issues;
+        }
+
+        if ( my $pulls = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 1 })->count ) {
+        
+            $ia->{$ia_id}->{prs_count} = $pulls;
+        }
+
+
         if ( $ia->{$ia_id}->{attribution} ) {
 
             for my $attribution ( keys $ia->{$ia_id}->{attribution} ) {
