@@ -118,16 +118,25 @@ sub transform {
 
         if ( $ia->{$ia_id}->{developer} ) {
 
-            for my $developer ( @{ $ia->{$ia_id}->{developer} } ) {
+            if ( ref $ia->{$ia_id}->{developer} eq 'ARRAY' ) {
 
-                if ( $developer->{type} &&
-                     $developer->{type} eq 'github' ) {
+                for my $developer ( @{ $ia->{$ia_id}->{developer} } ) {
 
-                    ( my $login = $developer->{url} ) =~
-                        s{https://github.com/(.*)/?}{$1};
+                    if ( $developer->{type} &&
+                         $developer->{type} eq 'github' ) {
 
-                    push @contributors, $login;
+                        ( my $login = $developer->{url} ) =~
+                            s{https://github.com/(.*)/?}{$1};
+
+                        push @contributors, $login;
+                    }
                 }
+
+            }
+            else {
+                use DDP;
+                warn sprintf("IA $ia_id - 'developer' is not an array:\n%s\n",
+                    p $ia->{$ia_id}->{developer});
             }
 
         }
