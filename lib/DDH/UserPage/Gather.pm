@@ -56,6 +56,17 @@ sub ia_repo {
     $self->json->decode( $response->{content} );
 }
 
+sub ia_local {
+    my ( $self ) = @_;
+    my $response = $self->app->request( GET '/ia/repo/all/json?all_milestones=1' );
+
+    if ( !$response->is_success ) {
+        croak sprintf( "%s %s", $response->code, $response->message );
+    }
+
+    $self->json->decode( $response->decoded_content );
+}
+
 sub gh_issues {
     my ( $self, $username ) = @_;
     my @issues;
@@ -169,7 +180,7 @@ sub transform {
 
 sub contributors {
     my ( $self ) = @_;
-    $self->transform( $self->ia_repo );
+    $self->transform( $self->ia_local );
 }
 
 1;
