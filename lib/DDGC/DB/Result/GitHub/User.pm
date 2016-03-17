@@ -63,8 +63,8 @@ has_many github_issue_events => 'DDGC::DB::Result::GitHub::Issue::Event',
     { 'foreign.github_user_id' => 'self.id' },
     { cascade_delete => 1 };
 
-has_many github_events => 'DDGC::DB::Result::GitHub::Event',
-    { 'foreign.github_user_id' => 'self.id' },
+has_many contributor_activity => 'DDGC::DB::Result::ContributorActivity',
+    { 'foreign.contributor_id' => 'self.id' },
     { cascade_delete => 1 };
 
 no Moose;
