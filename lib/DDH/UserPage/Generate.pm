@@ -114,6 +114,7 @@ sub generate {
                 content => $content,
                 settings => $self->settings,
                 hide_login => 1,
+                no_js => 1
             }
         );
         close $fh;
