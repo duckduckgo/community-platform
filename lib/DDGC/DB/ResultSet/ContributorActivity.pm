@@ -1,5 +1,5 @@
-package DDGC::DB::ResultSet::GitHub::Event;
-# ABSTRACT: Resultset class for GitHub Events
+package DDGC::DB::ResultSet::ContributorActivity;
+# ABSTRACT: Resultset class for Contributor Activity
 
 use Moose;
 extends 'DDGC::DB::Base::ResultSet';
@@ -7,12 +7,12 @@ use namespace::autoclean;
 
 sub with_created_at {
     my ($self, $operator, $date) = @_;
-	$self->search({ 'me.github_event_date' => { $operator => $date } });
+	$self->search({ 'me.contribution_date' => { $operator => $date } });
 }
 
 sub with_github_user_id {
-    my ($self, $operator, $github_user_id) = @_;
-	$self->search({ 'me.github_user_id' => { $operator => $github_user_id } });
+    my ($self, $operator, $contributor_id) = @_;
+	$self->search({ 'me.contributor_id' => { $operator => $contributor_id } });
 }
 
 # ignore users who are members of the owners team on github.  these users are
