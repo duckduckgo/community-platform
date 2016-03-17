@@ -46,7 +46,7 @@
                     : for $data.pulls -> $pull {
                         <li class="userpage-main-pulls__item">
                             <div class="left pull_title">
-                                <a href="https://github.com/<:$pull.github_repo.full_name:>/pulls/<:$pull.number:>">
+                                <a href="https://github.com/<:$pull.github_repo.full_name:>/pull/<:$pull.number:>">
                                     : $pull.title
                                 </a>
                             </div>
