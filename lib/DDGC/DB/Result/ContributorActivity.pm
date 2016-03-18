@@ -8,8 +8,7 @@ use namespace::autoclean;
 
 table 'contributor_activity';
 
-column github_event_id  => {data_type => 'text', is_nullable => 0};
-primary_key 'github_event_id';
+primary_column github_event_id  => {data_type => 'text', is_nullable => 0};
 column contributor_id    => {data_type => 'bigint', is_nullable => 0};
 column github_repo_id    => {data_type => 'bigint', is_nullable => 0};
 column contribution_type => {data_type => 'text', is_nullable => 0};

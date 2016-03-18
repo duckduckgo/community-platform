@@ -65,7 +65,7 @@ has_many github_issue_events => 'DDGC::DB::Result::GitHub::Issue::Event',
 
 has_many contributor_activity => 'DDGC::DB::Result::ContributorActivity',
     { 'foreign.contributor_id' => 'self.id' },
-    { cascade_delete => 1 };
+    { cascade_delete => 0 };
 
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );

@@ -62,7 +62,7 @@ has_many github_forks => 'DDGC::DB::Result::GitHub::Fork',
 
 has_many contributor_activity => 'DDGC::DB::Result::ContributorActivity',
     { 'foreign.github_repo_id'=> 'self.id' },
-    { cascade_delete => 1 };
+    { cascade_delete => 0 };
 
 sub owner_name { my @p = split('/',$_[0]->full_name); return $p[0]; }
 sub repo_name  { my @p = split('/',$_[0]->full_name); return $p[1]; }
