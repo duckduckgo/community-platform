@@ -1008,6 +1008,7 @@
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $input.length? $.trim($input.val().replace(/"/g, "")) : '';
+                                    value = value? value.substr(0, 1000) : '';
                                 }
                             }
 
@@ -1228,6 +1229,7 @@
                                     }
                                 } else if (editable_type === "input" || editable_type === "textarea") {
                                     value = ($editable.attr("type") === "number")? parseInt($editable.val()) : $.trim($editable.val().replace(/"/g, ""));
+                                    value = value? value.substr(0, 1000) : '';
 
                                     if ($editable.hasClass("comma-separated")) {
                                         value = value.length? JSON.stringify(value.split(/\s*,\s*/)) : "[]";
