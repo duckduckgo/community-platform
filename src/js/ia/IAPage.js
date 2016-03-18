@@ -1008,7 +1008,10 @@
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
                                     value = $input.length? $.trim($input.val().replace(/"/g, "")) : '';
-                                    value = value? value.substr(0, 1000) : '';
+                                    
+                                    if (value.length > 1000) {
+                                        value = truncateDesc(value); 
+                                    }
                                 }
                             }
 
@@ -1093,6 +1096,15 @@
                         var both_empty = (value_empty && live_empty)? true : false;
 
                         return both_empty;
+                    }
+
+                    // Truncate desc to max 1000 chars and try to break on the last period
+                    function truncateDesc(value) {
+                        value = value.substr(0, 1000);
+                        var last_period = value.lastIndexOf(".") + 1;
+                        value = last_period? value.substring(0, last_period) : value;
+                        
+                        return value;
                     }
 
                     // Check if username exists for the given account type (either github or duck.co)
@@ -1228,8 +1240,11 @@
                                         value = null;
                                     }
                                 } else if (editable_type === "input" || editable_type === "textarea") {
-                                    value =  $.trim($editable.val().replace(/"/g, ""));
-                                    value = ($editable.attr("type") === "number")? parseInt(value) : value.substr(0, 1000);
+                                    value =  ($editable.attr("type") === "number")? parseInt($editable.val()) :$.trim($editable.val().replace(/"/g, ""));
+
+                                    if ((field === "description") && (value.length > 1000)) {
+                                        value = truncateDesc(value);
+                                    }
 
                                     if ($editable.hasClass("comma-separated")) {
                                         value = value.length? JSON.stringify(value.split(/\s*,\s*/)) : "[]";
