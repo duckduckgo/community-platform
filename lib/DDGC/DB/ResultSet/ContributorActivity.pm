@@ -10,7 +10,7 @@ sub with_created_at {
 	$self->search({ 'me.contribution_date' => { $operator => $date } });
 }
 
-sub with_github_user_id {
+sub with_contributor_id {
     my ($self, $operator, $contributor_id) = @_;
 	$self->search({ 'me.contributor_id' => { $operator => $contributor_id } });
 }
@@ -31,7 +31,7 @@ sub most_recent {
     return $self->search(
         {},
         {
-            order_by => { -desc => 'updated_at' },
+            order_by => { -desc => 'contribution_date' },
         }
     )->one_row;
 }
