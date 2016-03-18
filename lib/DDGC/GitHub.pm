@@ -580,7 +580,7 @@ sub update_contributor_activity_from_data {
     my $date = $data->{commit} ? parse_datetime($data->{commit}->{$user}->{date}) : parse_datetime($data->{created_at});
 
     my %columns;
-    $columns{github_id}         = $unique;
+    $columns{github_event_id}   = $unique;
     $columns{contributor_id}    = $self->find_or_update_user($data->{$user}->{login})->id;
     $columns{github_repo_id}    = $gh_repo->id;
     $columns{contribution_type} = $contribution_type;
@@ -588,7 +588,7 @@ sub update_contributor_activity_from_data {
       
     return $gh_repo
            ->related_resultset('contributor_activity')
-           ->update_or_create(\%columns, { key => 'contributor_activity_github_id' });
+           ->update_or_create(\%columns, { key => 'contributor_activity_github_event_id' });
 }
 
 
