@@ -293,7 +293,7 @@ sub update_repo_pulls {
 
     print "   contributor_activity...\n";
     my @contributions;
-    push @contributions, $self->update_contribution_activity_from_data($gh_repo, $_, 'github_pull')
+    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'github_pull')
         for @$pulls_data;
 
     return \@gh_pulls;
@@ -588,7 +588,7 @@ sub update_contributor_activity_from_data {
       
     return $gh_repo
            ->related_resultset('contributor_activity')
-           ->update_or_create(\%columns, { key => 'contributor_activity_github_event_id' });
+           ->update_or_create(\%columns);
 }
 
 
