@@ -142,7 +142,7 @@
                     var temp_id = $temp_el.attr("id");
                     var temp_field = temp_id.replace(/\-[^\-]+$/, "");
                     var temp_type = temp_id.replace(/^.+\-/, "");
-                    var temp_val = (temp_type === "radio")? $.trim($temp_el.find('input[type="radio"]:checked').val()) : $.trim($temp_el.val().replace(/"/g, ""));
+                    var temp_val = (temp_type === "radio")? $.trim($temp_el.find('input[type="radio"]:checked').val()) : $.trim($temp_el.val().replace(/"/g, "").substr(0, 1000));
 
                     if (temp_field) {
                         temp_field = temp_field.replace(/^.+\-/, "");
