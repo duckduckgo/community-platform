@@ -153,6 +153,11 @@
 
                     page.updateAll(readonly_templates, ia_data, false);
 
+                    // Only logged in contributors can assign themselves IAs to maintain
+                    if (!this_username) {
+                        $("#maintain-button").remove();
+                    }
+
                     $('body').on("click", "#show-all-issues", function(evt) {
                         $(this).hide();
                         $(".ia-issues ul li").show();
@@ -884,6 +889,10 @@
                         usercheck("duck.co", this_username, null, $("#producer-input"));
                     });
 
+                    $("body").on('click', '#maintain-button', function(evt) {
+                        autocommit('maintainer', this_username, DDH_iaid);
+                    });
+
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
                         var field = $(this).attr('name');
                         var $row = $(this).parent();
@@ -1590,7 +1599,7 @@
                                 } else {
                                     ia_data.edited[field] = data.result[field];
                                 }
-
+                                
                                 pre_templates[field] = Handlebars.templates['pre_edit_' + field](ia_data);
 
                                 $obj.replaceWith(pre_templates[field]);
