@@ -51,8 +51,8 @@
     <ul>
     {{#each prs}}
         <li>
-            {{#eq_or status 'merged' 'closed'}} <i class="platform-pr-{{status}} left" /> {{/eq_or}}
             <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{id}}" class="one-line {{#eq_or status 'closed' 'merged'}}no-pr{{/eq_or}} left" id="pr">{{id}}</a>
+            {{#eq_or status 'merged' 'closed'}} <i class="platform-pr-{{status}} left" /> {{/eq_or}}
             <span class="clearfix"></span>
         </li>
     {{/each}}
