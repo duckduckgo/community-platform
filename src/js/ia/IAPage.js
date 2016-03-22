@@ -1198,6 +1198,7 @@
                             } else {
                                 // Ensure name has always a value
                                 if (value || (field !== "name")) {
+                                    console.log("calling autocommit");
                                     autocommit(field, value, DDH_iaid, is_json);
                                 }
                             }
@@ -1558,6 +1559,10 @@
                                     var $error_msg = $("." + field).siblings(".error-notification");
                                     $error_msg.removeClass("hide");
                                     $error_msg.text(data.result.msg);
+
+                                    if (field === "dev_milestone") {
+                                        $("#dev_milestone-select").find('option[value="' + ia_data.live.dev_milestone + '"]').attr("selected", "selected");
+                                    }
                                 }
 
                                 if (field === "developer" && ia_data.permissions && ia_data.permissions.admin) {
