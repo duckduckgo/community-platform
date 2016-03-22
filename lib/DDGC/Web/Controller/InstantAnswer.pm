@@ -949,6 +949,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $is_admin = 0;
     my $saved = 0;
     my $field = $c->req->params->{field};
+            my $value = $c->req->params->{value};
     my $msg = "";
 
     # if the update fails because of invalid values
@@ -970,11 +971,11 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
        $permissions = $ia->users->find($c->user->id);
        $is_admin = $c->user->admin;
 
-        if ($permissions || $is_admin) {
+        # Allow any logged in user to self-assign an IA for maintainership
+        if ($permissions || $is_admin || (($field eq 'maintainer') && ($value eq $c->user->username) && (!$ia_data->{maintainer}->{github}))) {
             $result->{is_admin} = $is_admin;
             $c->stash->{x}->{result} = $result;
 
-            my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             my $rs_user = $c->d->rs('User');
             my $complat_user = $rs_user->find({username => $value}) || $rs_user->find_by_github_login($value);
