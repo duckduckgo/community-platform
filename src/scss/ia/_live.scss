@@ -1,4 +1,7 @@
-#error-msg { font-size: 0.7em; }
+#error-msg { 
+    font-size: 0.7em; 
+    color: $red-dark;
+}
 
 #ia_traffic {
     width: 47em !important;
