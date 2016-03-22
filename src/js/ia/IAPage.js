@@ -1594,9 +1594,14 @@
                                 pre_templates[field] = Handlebars.templates['pre_edit_' + field](ia_data);
 
                                 $obj.replaceWith(pre_templates[field]);
+
                             } else {
                                 if ($("#error").hasClass("hide")) {
                                     $("#error").removeClass("hide");
+                                }
+                               
+                                if (data.result && data.result.msg) {
+                                    $("#error-msg").removeClass("hide").html(data.result.msg);
                                 }
                             }
                         });
