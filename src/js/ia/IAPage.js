@@ -156,6 +156,8 @@
                     // Only logged in contributors can assign themselves IAs to maintain
                     if (!this_username) {
                         $("#maintain-button").remove();
+                    } else {
+                        $("#maintainer--readonly .no-available").remove();
                     }
 
                     $('body').on("click", "#show-all-issues", function(evt) {
