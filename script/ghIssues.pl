@@ -199,7 +199,7 @@ sub getIssues{
                 } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated')) {
                     if ($state eq 'merged') {
                         $dev_milestone = 'complete';
-                    } elsif ($state eq 'closed') {
+                    } elsif (($state eq 'closed') && ($ia->{production_state} eq 'offline')) {
                         $dev_milestone = 'planning';
                     }
                 } 
