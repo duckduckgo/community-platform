@@ -69,6 +69,19 @@
             </tr>
         {{/not_null}}
 
+        {{#not_null production_state}}
+            <tr class="updates_list">
+                <th>Production State</th>
+
+                <td name="production_state"  id="production_state_original">
+                    {{original.production_state}}
+                </td>
+                <td name="production_state">
+                    {{production_state}}
+                </td>
+            </tr>
+        {{/not_null}}
+
         {{#not_null template}}
             <tr class="updates_list">
                 <th>Template</th>
@@ -126,7 +139,7 @@
                 <th>Unsafe</th>
 
                 <td name="unsafe"  id="unsafe_original">
-                    {{original.unsafe}}
+                    {{#if original.unsafe}}1{{else}}0{{/if}}
                 </td>
                 <td name="unsafe">
                     {{unsafe}}
@@ -169,6 +182,27 @@
                 </td>
                 <td name="producer">
                     {{producer}}
+                </td>
+            </tr>
+        {{/not_null}}
+
+        {{#not_null maintainer}}
+            <tr class="updates_list">
+                <th>Maintainer</th>
+
+                <td name="maintainer"  id="maintainer_original">
+                    {{#if original.maintainer}}
+                        {{#if original.maintainer.github}}
+                            <a href="https://github.com/{{original.maintainer.github}}">{{original.maintainer.github}}</a>
+                        {{/if}}
+                    {{/if}}
+                </td>
+                <td name="maintainer">
+                    {{#if maintainer}}
+                        {{#if maintainer.github}}
+                            <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a>
+                        {{/if}}
+                    {{/if}}
                 </td>
             </tr>
         {{/not_null}}
@@ -331,6 +365,19 @@
             </tr>
         {{/not_null}}
 
+        {{#not_null src_url}}
+            <tr class="updates_list">
+                <th>Data Source</th>
+
+                <td name="src_url"  id="src_url_original">
+                    {{original.src_url}}
+                </td>
+                <td name="src_url">
+                    {{src_url}}
+                </td>
+            </tr>
+        {{/not_null}}
+        
         {{#not_null src_domain}}
             <tr class="updates_list">
                 <th>Source Domain</th>

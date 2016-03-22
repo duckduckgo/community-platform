@@ -1,0 +1,61 @@
+.ddgsi-comment {
+    &.notification {
+	float: right;
+	font-size: 1.2em;
+	padding-left: 30px;
+	padding-top: 7px;
+	position: relative;
+	color: $grey-light;
+    }
+
+    &.has-notification {
+	&:after {
+	    visibility: visible;
+	}
+    }
+
+    &:after {
+	content: ' ';
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	background: $blue-light;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 12px;
+	right: -2px;
+	border: 1px solid white;
+	visibility: hidden;
+    }
+}
+
+.desktop {
+    .ddgsi-comment:after {
+	bottom: 9px;
+    }
+}
+
+.modal--popout--bottom.modal--popout--sm .modal__box {
+    left: -60px;
+}
+
+.modal--popout .modal__box {
+    font-size: 14.4px;
+}
+
+.modal__box {
+    min-width: 85px;
+    text-align: left;
+
+    .modal__body > div {
+	padding-bottom: 1em;
+
+	&:last-child {
+	    padding-bottom: 0;
+	}
+    }
+}
+
+.modal--popout--sm .modal__box {
+    width: 85px;
+}

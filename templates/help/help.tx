@@ -50,7 +50,7 @@
 				<span class="nav-item__title  js-toggle-sibling  is-exclusive"><: $category.content_by_language_id($help_language_id).title :></span>
 			  <: } :>
 				<ul class="nav  nav--sub <: if $category.key == $help_category.key { :> is-open <: } else {:> is-closed <:}:>">
-					<: for $category.helps.all_ref -> $help_nav { :>
+					<: for $category.helps.order_by( { '-asc' => 'me.sort' } ).all_ref -> $help_nav { :>
 					  <li class="sub-item <: if $help_nav.key == $help.key { :> sub-item--active<:}:>">
 						<: if $help_nav.key == $help.key { :>
 						  <span class="sub-item__title"><: $help_nav.content_by_language_id($help_language_id).title :></span>

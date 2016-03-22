@@ -20,9 +20,14 @@
         init: function(ops) {
             //console.log("IAPage.init()\n");
 
+            // Allow blue band to get 100% page width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap");
+            $(".breadcrumb-nav").remove();
+
             var page = this;
             var json_url = "/ia/view/" + DDH_iaid + "/json";
-
+            var this_username = $.trim($(".header-account-info .user-name a.js-popout-link").text());
+            
             if (DDH_iaid) {
                 //console.log("for ia id '%s'", DDH_iaid);
 
@@ -62,10 +67,6 @@
                             ia_data.edited_dev_milestone = ia_data.live.dev_milestone;
                         }
                     }
-
-                    // Allow blue band to get 100% page width
-                    $(".site-main > .content-wrap").first().removeClass("content-wrap");
-                    $(".breadcrumb-nav").remove();
 
                     // Separate back-end files from front-end ones
                     ia_data.live.back_end = [];
@@ -109,7 +110,8 @@
                             triggers: Handlebars.templates.triggers(latest_edits_data),
                             test: Handlebars.templates.test(latest_edits_data),
                             advanced:  Handlebars.templates.advanced(latest_edits_data),
-                            traffic: Handlebars.templates.traffic(latest_edits_data)
+                            traffic: Handlebars.templates.traffic(latest_edits_data),
+                            src_url: Handlebars.templates.src_url(latest_edits_data)
                         },
                         screens : Handlebars.templates.screens(ia_data),
                     };
@@ -143,7 +145,10 @@
                         is_stackexchange : Handlebars.templates.pre_edit_is_stackexchange(ia_data),
                         id : Handlebars.templates.pre_edit_id(ia_data),
                         blockgroup: Handlebars.templates.pre_edit_blockgroup(ia_data),
-                        deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data)
+                        deployment_state: Handlebars.templates.pre_edit_deployment_state(ia_data),
+                        src_url: Handlebars.templates.pre_edit_src_url(ia_data),
+                        maintainer: Handlebars.templates.pre_edit_maintainer(ia_data),
+                        production_state: Handlebars.templates.pre_edit_production_state(ia_data)
                     };
 
                     page.updateAll(readonly_templates, ia_data, false);
@@ -152,6 +157,24 @@
                         $(this).hide();
                         $(".ia-issues ul li").show();
                     });
+
+		    if($('.infobox[data-contributor=old]').length) {
+			$('.infobox').hide();
+			$('.infobox__button').show();
+		    } else {
+			$('.infobox').show();
+		    }
+
+		    $('body').on('click', '.infobox .ddgsi-close-bold', function() {
+			$('.infobox').hide();
+			$('.infobox__button').show();
+		    });
+
+		    $('body').on('click', '.infobox__button', function(evt) {
+			evt.preventDefault();
+			$('.infobox').show();
+			$('.infobox__button').hide();
+		    });
 
                     $("#view_json").click(function(evt) {
                         location.href = json_url;
@@ -226,13 +249,6 @@
                         $("#contributors-popup").addClass("hide");
                     });
 
-                    $("body").on("click", "#asana_button", function(evt) {
-                        if(!$(this).hasClass("is-disabled")) {
-                            create_task(DDH_iaid);
-                            $(this).addClass("is-disabled");
-                        }
-                    });
-
                     $("body").on("click", ".devpage-cancel", function(evt) {
                         evt.preventDefault();
 
@@ -281,7 +297,7 @@
                             if (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") {
                                 $parent = $(this).parent().parent().parent();
                             } else {
-                                $parent =  $(this).parent();
+                                $parent =  $(this).parent().parent();
                             }
 
                             $dev_username = $parent.find(".developer_username input");
@@ -292,7 +308,7 @@
                             }
 
                             var type = $.trim($available_types.find("option:selected").text());
-                            var username = $.trim($dev_username.val());
+                            var username = $.trim($dev_username.val().replace(/"/g, ""));
 
                             if (username && type && (type !== "ddg")) {
                                 usercheck(type, username, $available_types, $dev_username);
@@ -316,7 +332,7 @@
                     });
 
                     // Dev Page: commit blockgroup on change
-                    $("body").on("change", ".blockgroup.js-autocommit", function(evt) {
+                    $("body").on("change", ".blockgroup.js-autocommit, .production_state.js-autocommit", function(evt) {
                         commitEdit($(this));
                     });
 
@@ -437,8 +453,8 @@
                                        encodeURIComponent('https://ia-screenshots.s3.amazonaws.com/' + DDH_iaid + '_' + image + '.png?nocache=' + Math.floor(Math.random() * 10000)) +
                                        '&f=1';
                             },
-                            createImageEndpoint: 'https://jag.duckduckgo.com/screenshot/create/' + DDH_iaid,
-                            saveImageEndpoint: 'https://jag.duckduckgo.com/screenshot/save/' + DDH_iaid
+                            createImageEndpoint: 'https://ranger.duckduckgo.com/screenshot/create/' + DDH_iaid,
+                            saveImageEndpoint: 'https://ranger.duckduckgo.com/screenshot/save/' + DDH_iaid
                         },
                         events: {
                             refreshClick: {
@@ -831,6 +847,14 @@
                         }
                     });
 
+                    $("body").on('click', ".page-toggle-public", function(evt) {
+                        var field = "public";
+                        var value = $(this).attr("id").replace(/^.+\-/, "");
+                        value = (value === "true")? 1 : 0;
+
+                        autocommit(field, value, DDH_iaid, false);
+                    });
+
                     // Dev Page: commit any field inside .ia-single--left and .ia-single--right (except popup fields)
                     $("body").on('click', ".devpage-commit", function(evt) {
                         evt.preventDefault();
@@ -854,11 +878,10 @@
 
                     $("body").on('click', ".assign-button.js-autocommit", function(evt) {
                         var $input = $(".team-input");
-                        var username = $.trim($(".header-account-info .user-name").text());
-                        $input.val(username);
+                        $input.val(this_username);
                         $("#producer-input").removeClass("focused");
                          $("#contributors-popup .save-button-popup").removeClass("is-disabled");
-                        usercheck("duck.co", username, null, $("#producer-input"));
+                        usercheck("duck.co", this_username, null, $("#producer-input"));
                     });
 
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
@@ -966,23 +989,25 @@
                             var edited_value = ia_data.edited[field];
                             var live_value = ia_data.live[field];
                             var $obj = $("#row-diff-" + field);
+                            var equal_vals;
+                            var temp_live;
 
                             if ($(this).hasClass("js-input")) {
-                                value = $.trim($(this).val());
+                                value = $.trim($(this).val().replace(/"/g, ""));
                             } else if ($(this).hasClass("js-check")) {
                                 value = $("#" + field + "-check").hasClass("icon-check")? 1 : 0;
                                 console.log("#" + field + "-check");
                                 console.log(value);
                             } else {
-                                var input;
-                                if (field === "dev_milestone" || field === "repo" || field === "blockgroup" || field === "deployment_state") {
-                                     $input = $obj.find(".available_" + field + "s option:selected");
+                                // Dropdowns
+                                var $input = $obj.find(".available_" + field + "s option:selected");
+                                if ($input.length) {
                                      value = $.trim($input.text());
                                      value = (value === "---")? null : value;
                                      console.log(value);
                                 } else {
                                     $input = $obj.find("input.js-input,#description textarea");
-                                    value = $.trim($input.val());
+                                    value = $input.length? $.trim($input.val().replace(/"/g, "")) : '';
                                 }
                             }
 
@@ -990,7 +1015,8 @@
                                 && (field === "topic" || field === "other_queries" || field === "triggers" || field === "perl_dependencies" || field === "src_options"))
                                 || (field === "answerbar") || (field === "developer")) {
                                 if (field !== "answerbar" && field !== "src_options") {
-                                    value = getGroupVals(field);
+                                    var $selector = $("#column-edits-" + field + " ." + field + " input");
+                                    value = getGroupVals(field, $selector);
                                 } else if (field === "src_options") {
                                     value = {};
                                     value = getSectionVals(null, "src_options-group");
@@ -999,13 +1025,49 @@
                                     value.fallback_timeout = $("#answerbar input").val();
                                 }
 
+
+                                var temp_val = value;
+                                if (field === "developer") {
+                                    temp_val = [];
+                                    var gh_url = "https://github.com/";
+                                    var ddg_url = "www.duckduckhack.com";
+                                    var temp_url = "/user/";
+                                    $.each(value, function(idx) {
+                                        var idx_val = value[idx];
+                                        
+                                        if (idx_val.type === "github") {
+                                            temp_url = gh_url;
+                                        } else if (idx_val.type === "ddg") {
+                                            temp_url = ddg_url;
+                                        }
+
+                                        var temp_hash = {
+                                            url: temp_url + idx_val.username,
+                                            name: idx_val.name,
+                                            type: idx_val.type
+                                        };
+
+                                        temp_val.push(temp_hash);
+                                    });
+                                }
+
+                                equal_vals = eqArrays(temp_val, live_value)? true : false;
+                                
                                 value = JSON.stringify(value);
+                                temp_val = JSON.stringify(temp_val);
                                 edited_value = JSON.stringify(ia_data.edited[field]);
                                 live_value = JSON.stringify(ia_data.live[field]);
+                                
+                                equal_vals = equal_vals? equal_vals : (temp_val === live_value);
                                 is_json = true;
+                            } else {
+                                temp_live = ((field === "maintainer") && live_value)? live_value.github : live_value;
+                                equal_vals = (value === temp_live)? true : false;
                             }
 
-                            if (value !== edited_value && value !== live_value) {
+                            var both_empty = (field === "maintainer")? checkEmpty(value, temp_live) : checkEmpty(value, live_value);
+                            
+                            if ((!equal_vals) && (!both_empty)) {
                                 save(field, value, DDH_iaid, $obj, is_json);
                             } else {
                                 $obj.replaceWith(pre_templates[field]);
@@ -1017,11 +1079,27 @@
                         }
                     });
 
+                    // Check if two arrays are equal
+                    function eqArrays(arr1, arr2) {
+                        return (($(arr1).not(arr2).length === 0) && ($(arr2).not(arr1).length === 0));
+                    }
+
+                    //Check if both the edited value and the live value are empty
+                    function checkEmpty(value, live_data) {
+                        var value_empty = (!value || value === "" || value === "[]" || value === "{}")? true : false;
+                        var live_empty = (!live_data || live_data === "" || live_data === "[]" || live_data === "{}")? true : false;
+
+                        var both_empty = (value_empty && live_empty)? true : false;
+
+                        return both_empty;
+                    }
+
                     // Check if username exists for the given account type (either github or duck.co)
                     function usercheck(type, username, $type, $username) {
                         var jqxhr = $.post("/ia/usercheck", {
                             type: type,
-                            username: username
+                            username: username,
+                            action_token: $.trim($('meta[name=action-token]').attr("content")) 
                         })
                         .done(function(data) {
                             var $parent =  $username.hasClass("group-vals")? $username.parent().parent() : $username.parent();
@@ -1098,7 +1176,10 @@
                         console.log("After getUnsaved... " + field + " " + value);
                         console.log("Live data: " + live_data);
                         console.log("Live data without JSON " + ia_data.live[field]);
-                        if (field && (live_data != value)) {
+
+                        var both_empty = checkEmpty(value, live_data);
+
+                        if (field && (live_data != value) && (!both_empty)) {
                             if (parent_field) {
                                 autocommit(parent_field, value, DDH_iaid, is_json, field);
                             } else {
@@ -1146,7 +1227,7 @@
                                         value = null;
                                     }
                                 } else if (editable_type === "input" || editable_type === "textarea") {
-                                    value = ($editable.attr("type") === "number")? parseInt($editable.val()) : $.trim($editable.val());
+                                    value = ($editable.attr("type") === "number")? parseInt($editable.val()) : $.trim($editable.val().replace(/"/g, ""));
 
                                     if ($editable.hasClass("comma-separated")) {
                                         value = value.length? JSON.stringify(value.split(/\s*,\s*/)) : "[]";
@@ -1190,32 +1271,34 @@
                             } else if ((ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated") && (field === "developer")) {
                                 $selector = $(".developer_username input[type='text']");
                             } else {
-                                $selector = $("." + field).children("input");
+                                $selector = $("." + field).find("input");
                             }
                         }
 
                         $selector.each(function(index) {
-                            if (field === "developer") {
-                                var $li_item = (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")? $(this).parent().parent().parent() : $(this).parent().parent();
+                            if ($(this).css("display") !== "none") {
+                                if (field === "developer") {
+                                    var $li_item = (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")? $(this).parent().parent().parent() : $(this).parent().parent();
 
-                                temp_val = {};
-                                temp_val.name = $.trim($(this).val());
-                                temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
-                                temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val());
-                                
-                                if (!temp_val.username) {
-                                    return;
-                                }
-                            } else {
-                                if (field === "topic") {
-                                    temp_val = $(this).attr("value").length? $.trim($(this).text()) : "";
+                                    temp_val = {};
+                                    temp_val.name = $.trim($(this).val()).replace(/"/g, "");
+                                    temp_val.type = $.trim($li_item.find(".available_types").find("option:selected").text()) || "legacy";
+                                    temp_val.username = $.trim($li_item.find(".developer_username input[type='text']").val().replace(/"/g, ""));
+                                    
+                                    if (!temp_val.username) {
+                                        return;
+                                    }
                                 } else {
-                                    temp_val = $.trim($(this).val());
+                                    if (field === "topic") {
+                                        temp_val = $(this).attr("value").length? $.trim($(this).text()) : "";
+                                    } else {
+                                        temp_val = $.trim($(this).val().replace(/"/g, ""));
+                                    }
                                 }
-                            }
 
-                            if (temp_val && $.inArray(temp_val, value) === -1) {
-                                value.push(temp_val);
+                                if (temp_val && $.inArray(temp_val, value) === -1) {
+                                    value.push(temp_val);
+                                }
                             }
                         });
 
@@ -1234,7 +1317,7 @@
                                 if ($(this).hasClass("frm__input")
                                     || $(this).hasClass("selection-group__item-input")) {
                                     temp_field = $.trim($(this).attr("id").replace("-input", ""));
-                                    temp_value = ($(this).attr("type") === "number")? parseInt($(this).val()) : $.trim($(this).val());
+                                    temp_value = ($(this).attr("type") === "number")? parseInt($(this).val()) : $.trim($(this).val().replace(/"/g, ""));
                                 } else {
                                     temp_field = $.trim($(this).attr("id").replace("-check", ""));
                                     if ($(this).attr("checked") || $(this).hasClass("icon-check")) {
@@ -1405,8 +1488,12 @@
                     //Install pr on beta
                     function beta_install(pr) {
                         var prs = [pr];
+                        var action_token = $.trim($('meta[name=action-token]').attr("content"));
+                        
+                        var data = JSON.stringify(prs);
                         var jqxhr = $.post("/ia/send_to_beta", {
-                            data : JSON.stringify(prs)
+                            data : data,
+                            action_token : action_token
                         })
                         .done(function (data) {
                             if (!ia_data.staged) {
@@ -1416,13 +1503,6 @@
                             ia_data.staged.beta = 1;
                         });
                     }
-                    function create_task(id) {
-                        var jqxhr = $.post("/ia/asana", {
-                            id : id
-                        })
-                        .done(function(data) {
-                        });
-                    }
 
                     // Saves values for editable fields on the dev page
                     function autocommit(field, value, id, is_json, subfield) {
@@ -1430,7 +1510,8 @@
                             field : field,
                             value : value,
                             id : id,
-                            autocommit: 1
+                            autocommit: 1,
+                            action_token: $.trim($('meta[name=action-token]').attr("content"))
                         })
                         .done(function(data) {
                             subfield = subfield? subfield : "";
@@ -1441,7 +1522,7 @@
                                     } else if (field === "id" || data.result.id) {
                                         location.href = "/ia/view/" + data.result.id;
                                     } else {
-                                        ia_data.live[field] = (is_json && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
+                                        ia_data.live[field] = ((is_json || (field === "maintainer")) && data.result[field])? $.parseJSON(data.result[field]) : data.result[field];
                                         if ((field === "developer" && ia_data.permissions && ia_data.permissions.admin)
                                             || ($("#ia-single--details ." + field).length || (subfield && $("#ia-single--details ." + subfield).length))
                                             || ((field === "example_query" || field === "other_queries") && (!ia_data.examples_saved))) {
@@ -1474,7 +1555,8 @@
                             field : field,
                             value : value,
                             id : id,
-                            autocommit: 0
+                            autocommit: 0,
+                            action_token: $.trim($('meta[name=action-token]').attr("content"))
                         })
                         .done(function(data) {
                             console.log(data);
@@ -1486,7 +1568,7 @@
                                     }
                                 }
 
-                                if (is_json) {
+                                if (is_json || (field === "maintainer")) {
                                     ia_data.edited[field] = $.parseJSON(data.result[field]);
                                 } else {
                                     ia_data.edited[field] = data.result[field];
@@ -1510,12 +1592,14 @@
 
         field_order: [
             'description',
+            'src_url',
             'examples',
             'screens',
             'github',
             'triggers',
             'advanced',
-            'test'
+            'test',
+            'traffic'
         ],
 
         edit_field_order: [
@@ -1533,6 +1617,7 @@
             'src_id',
             'src_name',
             'src_domain',
+            'src_url',
             'is_stackexchange',
             'src_options',
             'unsafe',
@@ -1626,6 +1711,57 @@
             });
         },
 
+        // Build a new array from counts,
+        // filled with zeros in the days for which
+        // we have no traffic
+        normalizeTraffic: function(traffic, live_date) {
+            var result = [];
+
+            // Data is updated every Monday
+            // so the dates array will have last Monday as last entry
+            var monday = moment(traffic.dates[traffic.dates.length - 1]);
+            var month_ago = monday.subtract(30, "days");
+            var iap = this;
+
+            live_date = moment(live_date);
+            var last_date = live_date.diff(month_ago) > 1? live_date : month_ago;
+            
+            for (var idx = 0; idx < traffic.dates.length; idx++) {
+                var temp_date = moment(traffic.dates[idx]);
+                result = iap.diffZeros(temp_date, last_date, result);
+                result.push(traffic.counts[idx]);
+                last_date = temp_date;
+            }
+
+            return result;
+        },
+
+        diffZeros: function(last, previous, result) {
+            var diff = last.diff(previous, "days");
+
+            if (diff > 1) {
+                var zeros = [];
+                
+                for (var i = 0; i < (diff - 1); i++) {
+                    zeros.push(0);
+                }
+
+                result = result.concat(zeros);
+            } 
+
+            return result;
+        },
+
+        sumCounts: function(counts) {
+            var sum = 0;
+
+            $.each(counts, function(idx) {
+                sum += counts[idx];
+            });
+
+            return sum;
+        },
+
         updateAll: function(templates, ia_data, edit) {
             var dev_milestone = ia_data.live.dev_milestone;
 
@@ -1646,27 +1782,37 @@
                     }
                 }
 
-                /*
-                if (ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic) {
+                if ((ia_data.live.dev_milestone === "live") && ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
+                    //var weekend_labels = this.getWeekends(ia_data.live.traffic.dates);
+                    var traffic_header =  ": " + this.sumCounts(ia_data.live.traffic.counts) + " queries total";
+                    $("#queries_total").text(traffic_header);
+                    var counts = this.normalizeTraffic(ia_data.live.traffic, ia_data.live.live_date);
+                    $("#traffic_count").text(counts.length);
+                    var empty_labels = counts.map(function(obj){return "";});
+
                     var chart_data = {
-                        labels: ia_data.live.traffic.dates,
+                        labels: empty_labels,
                         datasets: [
                             {
-                                label: "Last 30 days traffic",
-                                fillColor: "#60a5da",
+                                fillColor: "rgba(0,0,0,0)",
                                 strokeColor: "#4495d4",
                                 pointColor: "#4495d4",
                                 pointStrokeColor: "#fff",
                                 pointHighlightFill: "#fff",
                                 pointHighlightStroke: "#4495d4",
-                                data: ia_data.live.traffic.counts
+                                data: counts
                             }
                         ]
                     };
+
+                    Chart.defaults.global.datasetFill = false;
+                    Chart.defaults.global.scaleBeginAtZero = true;
                     var chart = new Chart(traffic).Line(chart_data);
+                } else {
+                    $("#traffic_dates, #update_frequency, canvas").addClass("hide");
+                    $("#no_traffic").removeClass("hide");
                 }
-                */
 
                 $(".ia-single--right").append(templates.live.devinfo);
 
@@ -1703,10 +1849,12 @@
                     $(".ia-single--edits").append(templates.producer);
                     $(".ia-single--edits").append(templates.designer);
                     $(".ia-single--edits").append(templates.developer);
+                    $(".ia-single--edits").append(templates.maintainer);
                     $(".ia-single--edits").append(templates.tab);
                     $(".ia-single--edits").append(templates.id);
                     $(".ia-single--edits").append(templates.blockgroup);
                     $(".ia-single--edits").append(templates.deployment_state);
+                    $(".ia-single--edits").append(templates.production_state);
                 }
             }
 

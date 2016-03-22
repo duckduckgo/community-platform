@@ -8,13 +8,30 @@
         return new Handlebars.SafeString(string);
     });
 
+    Handlebars.registerHelper("issueToFilter", function(issue) {
+	if(issue === "lhf") {
+	    return "lowhangingfruit";
+	}
+
+	if(issue === "high_p") {
+	    return "priorityhigh";
+	}
+
+	if(issue === "bugs") {
+	    return "bug";
+	}
+	
+	return issue;
+    });
+
     // Return elapsed time expressed as days from now (e.g. 5 days, 1 day, today)
-    Handlebars.registerHelper("timeago", function(date, full) {
+    Handlebars.registerHelper("timeago", function(date, full, from_beta) {
+        var format = from_beta? "ddd MMM D HH:mm:ss YYYY" : "YYYY-MM-DD";
         var timestring = full? " days ago" : "d";
         if (date) {
             // expected date format: YYYY-MM-DDTHH:mm:ssZ e.g. 2011-04-22T13:33:48Z
-            date = date.replace("/T.*Z/", " ");
-            date = moment.utc(date, "YYYY-MM-DD");
+            date = date.replace(/T.*Z/, "");
+            date = moment.utc(date, format);
             
             var elapsed = parseInt(moment().diff(date, "days", true));
             date = elapsed + timestring;
@@ -129,6 +146,29 @@
         }
     });
 
+    // Check if val1 matches val2 using a regex
+    Handlebars.registerHelper('match', function(val1, val2, options) {
+       val2 = new RegExp(val2);
+       if ((val1 && val2) && val1.match(val2)) {
+           return options.fn(this);
+       } else {
+           return options.inverse(this);
+       }
+    });
+
+    // Check if val1 matches val2 (not conditional)
+    Handlebars.registerHelper('match_fn', function(val1, val2) {
+         var result = false;
+         if (val1 && val2) {
+             val2 = new RegExp(val2);
+             if (val1.match(val2)) {
+                  result = true;
+             } 
+         }
+
+         return result;
+    });
+
     // Check if two values are equal
     Handlebars.registerHelper('eq', function(value1, value2, options) {
         if (value1 === value2) {
@@ -220,6 +260,8 @@
         value = parseInt(value);
         if (!value) {
             return options.fn(this);
+        } else {
+            return options.inverse(this);
         }
     });
 
@@ -269,13 +311,15 @@
 
     // Parse date
     Handlebars.registerHelper('parse_date', function(date) {
-        date = date.replace(/T.*/, '').split('-');
-        var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
-        var year = date[0] || '';
-        var month = date[1]? months[parseInt(date[1].replace('0', '')) - 1] : '';
-        var day = date[2] || '';
+        if (date) {
+            date = date.replace(/T.*/, '').split('-');
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+            var year = date[0] || '';
+            var month = date[1]? months[parseInt(date[1].replace('0', '')) - 1] : '';
+            var day = date[2] || '';
 
-        return month + ", " + day + " " + year;
+            return month + " " + day + ", " + year;
+        }
     });
 
     // Returns true if value1 % value2 equals zero

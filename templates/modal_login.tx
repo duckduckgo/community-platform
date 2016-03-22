@@ -1,12 +1,14 @@
 <div id="login-box" class="reveal-modal modal-form account-form">
 	<h4>Login</h4>
 	<form action="<: $u('My','login') :>" method="post">
-		<div class="input-wrap"><input type="text" placeholder="Your Username" name="<: $c.session.username_field :>" class="text" value="<: $username :>" /></div>
+		<input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+		<div class="input-wrap"><input type="text" placeholder="Your Username" name="username" class="text" value="<: $username :>" /></div>
 		<div class="input-wrap"><input type="password" placeholder="Your Password" name="password" class="text password" /></div>
 		<fieldset class="buttons">
 			<span class="half  palm-half"><input type="button" value="Cancel" class="button close-modal" /></span>
 			<span class="half  palm-half"><input type="submit" value="Login" class="button blue submit" /></span>	
 		</fieldset>	
+		or <a href="/my/github_oauth" name="register">Login with Github</a>
 		<div class="account-links clear">
 			<p class="half  palm-half"><a href="<: $u('My','forgotpw') :>">Forgot your password?</a></p>
 			<p class="half  palm-half">Don't have an account? <a href="<: $u('My','register') :>">Sign up</a></p>

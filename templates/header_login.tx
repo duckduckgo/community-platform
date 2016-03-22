@@ -1,3 +1,3 @@
 <div class="header-login">
-	<span class="account-actions"><a href="<: $u('My','register') :>" class="account-actions__btn account-actions__btn--first nav-signup">Sign up</a> <a href="<: $u('My','login') :>" class="account-actions__btn nav-login  js-reveal" data-reveal-id="login-box">Login</a></span>
+	<span class="account-actions"><a href="<: $u('My','register') :>" class="account-actions__btn--first nav-signup">Sign up</a> <a href="<: $u('My','login') :>" class="nav-login  js-reveal" data-reveal-id="login-box">Login</a></span>
 </div>

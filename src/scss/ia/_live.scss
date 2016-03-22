@@ -1,10 +1,18 @@
-#asana_button {
-    display: inline;
-    bottom: 0.8em;
-}
-
 #ia_traffic {
     width: 47em !important;
+}
+
+.index-main {
+    padding: 0;
+}
+
+.index-wrap {
+    @include wrapper;
+}
+
+#ia-index {
+    padding-top: 3.5em;
+    @include center-content(962px);
 }
 
 .ia-single {
@@ -12,14 +20,7 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
 
-    /* Add padding left and right of the wrapper.
-       This is so that when the screen gets smaller the content won't
-       touch the side of the screen. */
-    .content-wrap {
-        padding-left: 2em;
-        padding-right: 2em;
-        width: auto;
-    }
+    .platform-pr-merged, .platform-pr-closed { line-height: 1.35; }
 
     #beta-install { margin-left: 0; }
 
@@ -39,6 +40,8 @@
         div {
             margin-left: 65px;
         }
+
+        li { margin-bottom: 0.25em; }
     }
 
     .tag-grp {
@@ -352,109 +355,6 @@
 
     .ia-single--info ul li .date a {
         display: inline;
-    }
-}
-
-/* Media queries */
-
-@media only screen and (max-width: 730px) {
-    .ia-single .ia-single--right div {
-        margin: 0;
-    }
-
-    .ia-single--right {
-        padding-left: 0;
-        margin-top: 2em;
-    }
-
-    .ia-single .ia-issues {
-        padding-bottom: 0;
-    }
-}
-
-@media only screen and (max-width: 883px) {
-    .pending-edits.sep--after:after {
-        opacity: 0;
-    }
-}
-
-@media only screen and (max-width: 763px) {
-    .pending-edits.sep--after:after {
-        opacity: 0;
-    }
-
-    .ia-single #ia-single-top .preview-switch, .edit-buttons, #edit_activate {
-        display: none;
-    }
-
-    .ia-single #ia-single-top .very-top {
-        width: 100%;
-    }
-
-    span.top__categories {
-        display: initial;
-    }
-
-    span.top__categories .sep--after:after {
-        opacity: 0.4;
-    }
-}
-
-@media only screen and (max-width: 320px) {
-    .ia-single .content-wrap {
-        min-width: 80%;
-    }
-
-    span.top__categories {
-        display: block;
-
-        .detail-title {
-            display: none;
-        }
-    }
-}
-
-@media only screen and (max-width: 414px) {
-    span.top__categories {
-        display: block;
-
-        .detail-title {
-            display: none;
-        }
-    }
-
-    span.top__categories .sep--after:after {
-        opacity: 0;
-    }
-}
-
-@media only screen and (max-width: 576px) {
-    span.top__categories {
-        display: block;
-    }
-
-    span.top__categories .sep--after:after {
-        opacity: 0;
-    }
-}
-
-@media only screen and (max-width: 885px) {
-    .top__categories {
-        display: block;
-    }
-
-    .top__categories .sep--after:after {
-        opacity: 0;
-    }
-}
-
-@media only screen and (max-width: 1015px) {
-    #ia-single-top #ia-single-top-details {
-          width: 100%;
-    }
-
-    #ia-single-top .pager-wrap {
-        padding-left: 0;
     }
 }
 

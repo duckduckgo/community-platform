@@ -1,3 +1,19 @@
+<div class="developer-nav">
+    <h1>Instant Answers</h1>
+
+    <div class="pages">
+      <a href="/ia/dev">Overview</a>
+      <a href="/ia/" class="active-link">Live</a>
+      <a href="/ia/dev/pipeline">In-Development</a>
+      <a href="/ia/dev/issues">Issues</a>
+      <: if $is_admin { :>
+	<a href="/ia/dev/deprecated">Archives</a>
+      <: } :>
+    </div>
+</div>
+
+
+<div id="ia-index">
 <script>
   function ia_init() { return( <: $ia_init | raw :> ) }
 </script>
@@ -22,11 +38,11 @@
     <div class="one-field clearfix">
         <!--[if lt IE 10]> 
             <input type="text" class="text filters--search" name="query" 
-            value="" autocorrect="off" autocapitalize="off" autocomplete="off">
+            value="" autocorrect="off" autocapitalize="off" autocomplete="off" autofocus>
         <![endif]-->
         <!--[if gt IE 9]><!--> 
              <input type="text" class="text filters--search" placeholder="Filter Instant Answers" name="query"
-             value="" autocorrect="off" autocapitalize="off" autocomplete="off">
+             value="" autocorrect="off" autocapitalize="off" autocomplete="off" autofocus>
         <!--<![endif]-->
         <div class="filters--search-button">
           <span class="ddgsi-loupe"></span>
@@ -148,4 +164,4 @@
 </div>
 
 <span class="clearfix"></span>
-
+</div>

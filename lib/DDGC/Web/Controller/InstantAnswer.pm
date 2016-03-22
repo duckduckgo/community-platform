@@ -66,10 +66,11 @@ sub ialist_json :Chained('base') :PathPart('json') :Args() {
 
     my @ial = $rs->search(
         {'topic.name' => [{ '!=' => 'test' }, { '=' => undef}],
+         'me.perl_module' => { -not_like => 'DDG::Goodie::IsAwesome::%' },
          'me.dev_milestone' => { '=' => 'live'},
         },
         {
-            columns => [ qw/ name repo src_name dev_milestone description template /, {id => 'meta_id'} ],
+            columns => [ qw/ perl_module name repo src_name dev_milestone description template /, {id => 'meta_id'} ],
             prefetch => { instant_answer_topics => 'topic' },
             result_class => 'DBIx::Class::ResultClass::HashRefInflator',
         }
@@ -103,7 +104,7 @@ sub iarepo_json :Chained('iarepo') :PathPart('json') :Args(0) {
               ),
     });
 
-    $c->return_if_not_modified( $iarepo->last_modified );
+    $c->return_if_not_modified( $c->d->rs('InstantAnswer::LastUpdated')->search->last_modified );
 
     $iarepo = $iarepo->prefetch( { instant_answer_topics => 'topic' });
     my %iah;
@@ -211,38 +212,28 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     # Get IAs not yet live
     # and sort them by last activity (newest activity on top - ones with null activity value last)
     # the sorting here is temporary, just for demonstrational purposes
-    @ias = $rs->search(
-        {'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}},
-        {
-                order_by => \[ 'me.last_update DESC NULLS LAST'],
-        }
-    );
+    if ($c->stash->{is_admin}) {
+        @ias = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}});
+    } else {
+        @ias = $rs->search(
+            {
+                'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']},
+                'public' => { '=' => 1 }
+            }
+        );
+    }
+
     $key = 'dev_milestone';
-
-    my $asana_server = "http://beta.duckduckgo.com/install?asana&ia=everything";
-
-    my $result = asana_req('', $asana_server);
-    $result = $result->decoded_content ? from_json($result->decoded_content) : undef;
 
     my %dev_ias;
     my $temp_ia;
 
-    my $ua = LWP::UserAgent->new;
-    my $server = "http://beta.duckduckgo.com/installed.json";
-    my $env_key = $ENV{'BETA_KEY'};
-    my $req = HTTP::Request->new(GET => $server);
-    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
-    $req->header('content-type' => 'application/json');
-    $req->header("x-hub-signature" => $header_data);
-    $req->content(to_json({test => 'test' }));
-
-    my $resp = $ua->request($req);
-    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    my $resp = beta_req();
 
     for my $ia (@ias) {
         $temp_ia = $ia->TO_JSON('pipeline');
         
-        my $pr = $c->d->rs('InstantAnswer::Issues')->search({is_pr => 1, instant_answer_id => $ia->id}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->first;
+        my $pr = $c->d->rs('InstantAnswer::Issues')->search({is_pr => 1, instant_answer_id => $ia->id}, {result_class => 'DBIx::Class::ResultClass::HashRefInflator'})->one_row;
         $pr->{tags} = $pr->{tags}? from_json($pr->{tags}) : undef;
         $temp_ia->{pr} = $pr;
 
@@ -250,22 +241,22 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
             my $can_edit = $ia->users->find($c->user->id)? 1 : undef;
             $temp_ia->{can_edit} = $can_edit;
         }
-
-        if ($result && $result->{$ia->id}) {
-            $temp_ia->{asana} = $result->{$ia->id};
-        }
         
-        if ($ia->last_update && $ia->last_commit && $pr->{issue_id}) {
-            my $last_commit = from_json($ia->last_commit);
-            if (($pr->{status} eq 'open' ||$pr->{status} eq 'merged') && $resp) {
+        if ($pr->{issue_id}) {
+            my $last_commit = $ia->last_commit? from_json($ia->last_commit) : undef;
+            if (($pr->{status} eq 'open'  && $resp) || ($pr->{status} eq 'merged')) {
                 my $pr_id = $pr->{issue_id};
                 my $repo = $ia->repo;
-                my $beta_pr = $resp->{$repo}->{$pr_id};
+                my $beta_pr = $resp? $resp->{$repo}->{$pr_id} : undef;
                 $temp_ia->{beta_install} = 0;
-                warn $beta_pr->{install_status};
+                #warn $beta_pr->{install_status};
                 if ($beta_pr) {
                     $temp_ia->{beta_install} = $beta_pr->{install_status};
                     $temp_ia->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+                } elsif ($pr->{status} eq 'merged') {
+                    #All merged PRs are on beta
+                    $temp_ia->{beta_install} = "success";
+                    $temp_ia->{beta_query} = 0;
                 }
             }
        }
@@ -274,8 +265,7 @@ sub dev_pipeline_json :Chained('dev_pipeline_base') :PathPart('json') :Args(0) {
     }
 
     $c->stash->{x} = {
-        $key.'s' => \%dev_ias,
-        asana => $result
+        $key.'s' => \%dev_ias
     };
 
     $c->stash->{not_last_url} = 1;
@@ -288,8 +278,16 @@ sub deprecated_base :Chained('overview_base') :PathPart('deprecated') :CaptureAr
     $c->stash->{ia_page} = "IADeprecated";
     $c->stash->{title} = "Deprecated IA Pages";
    
-    $c->stash->{logged_in} = $c->user;
-    $c->stash->{is_admin} = $c->user? $c->user->admin : 0;
+    my $user = $c->user;
+    my $is_admin = $c->user? $c->user->admin : 0;
+    
+    if ((!$user) || (!$is_admin)) {
+        $c->response->redirect($c->chained_uri('My','login',{ admin_required => 1 }));
+        return $c->detach;
+    }
+
+    $c->stash->{logged_in} = $user;
+    $c->stash->{is_admin} = $is_admin;
 
     $c->add_bc('Deprecated', $c->chained_uri('InstantAnswer', 'deprecated'));
 }
@@ -351,7 +349,7 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
     my ( $self, $c ) = @_;        
 
     my $rs = $c->d->rs('InstantAnswer::Issues');
-    my @result = $rs->search({'is_pr' => 0},{order_by => { -desc => 'date'}})->all;
+    my @result = $rs->search({'is_pr' => { '=' => 0}, 'status' => { '=' => 'open'}},{order_by => { -desc => 'date'}})->all;
     my %ial;
     my $ia;
     my $id;
@@ -383,7 +381,8 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
                     author => $issue->author,
                     ia_id => $id,
                     ia_name => $ia->name,
-                    repo => $issue->repo
+                    repo => $issue->repo,
+                    status => $issue->status
             );
 
             push @issues_by_date, \%temp_issue;
@@ -394,7 +393,7 @@ sub issues_json :Chained('issues_base') :PathPart('json') :Args(0) {
 
                 $ial{$id}->{issues} = \@existing_issues;
             } else {
-                push @issues, \%temp_issue;;
+                push @issues, \%temp_issue;
 
                 $ial{$id}  = {
                         name => $ia->name,
@@ -447,146 +446,121 @@ sub overview_base :Chained('base') :PathPart('dev') :CaptureArgs(0) {
 }
 
 sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
-     my ( $self, $c ) = @_;
+    my ( $self, $c ) = @_;
 
-     my @ias;
-     my @live_ias;
-     my @dev_ias;
-     my $rs = $c->d->rs('InstantAnswer');
-     my $dev_count = $rs->search({'dev_milestone' => { '=' => ['planning', 'development', 'testing', 'complete']}})->count;
-     my $live_count = $rs->search({
-             dev_milestone => 'live', 
-             'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
-         },
-         {   prefetch => { instant_answer_topics => 'topic' }
-         })->count;
+    my @ias;
+    my @live_ias;
+    my @dev_ias;
+    my $rs = $c->d->rs('InstantAnswer');
+    my $dev_count = 0;
+    my $live_count = $rs->search({
+            dev_milestone => 'live', 
+            'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
+        },
+        {   prefetch => { instant_answer_topics => 'topic' }
+        })->count;
 
-     if ($c->user) {
-        @ias = $rs->search({dev_milestone => {'!=' => 'deprecated'}},{order_by => 'name'})->all;
-        
-        my $temp_ia;
-        for my $ia (@ias) {
-            $temp_ia = $ia->TO_JSON('pipeline');
-            $temp_ia->{producer} = $temp_ia->{producer} || '';
-            $temp_ia->{designer} = $temp_ia->{designer} || '';
-            $temp_ia->{developer} = $temp_ia->{developer} || '';
-
-            my $username = $c->user->username;
-            my $is_mine = ($c->user->admin && ($temp_ia->{producer} eq $username || $temp_ia->{designer} eq $username))? 1 : 0;
-
-            if (!$is_mine && ref($temp_ia->{developer}) eq 'ARRAY') {
-                for my $dev (@{$temp_ia->{developer}}) {
-                    if (ref($dev) eq 'HASH' && $dev->{name} eq $username) {
-                        $is_mine = 1;
-                    }
-                }
-            }
-
-            if ($is_mine) {
-                $temp_ia->{edits} = scalar get_all_edits($c->d, $temp_ia->{id});
-                $temp_ia->{issues} = $c->d->rs('InstantAnswer::Issues')->search({is_pr => 0, instant_answer_id => $temp_ia->{id}})->count eq '0'? 0 : 1;
-
-                if ($temp_ia->{dev_milestone} eq 'live') {
-                    push @live_ias, $temp_ia;
-                } else {
-                    push @dev_ias, $temp_ia;
-                }
-            }
-        }
-     } 
+    my $resp = beta_req();
      
-     if (!$c->user || !@live_ias) {
-        @ias = $rs->search({
-             dev_milestone => 'live',
-             live_date => { '!=' => undef }, 
-             'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
-         },
-         {   
-             prefetch => { instant_answer_topics => 'topic'},
-             rows => 5,
-             order_by => {-desc => 'live_date'}
-         })->all;
-
-         my $temp_ia;
-         for my $ia (@ias) {
-            $temp_ia = $ia->TO_JSON('pipeline');
-            $temp_ia->{most_recent} = 1;
-            push @live_ias, $temp_ia;
-         }
+    @ias = $rs->search({
+         dev_milestone => 'live',
+         live_date => { '!=' => undef }, 
+         'topic.name' => [{ '!=' => 'test' }, { '=' => undef}]
+     },
+     {   
+         prefetch => { instant_answer_topics => 'topic'},
+         rows => 5,
+         order_by => {-desc => 'live_date'}
+    })->all;
+    
+    my $temp_ia;
+    for my $ia (@ias) {
+        $temp_ia = $ia->TO_JSON('pipeline');
+        $temp_ia->{most_recent} = 1;
+        push @live_ias, $temp_ia;
      }
 
-     if (!$c->user || !@dev_ias) {
-        @ias = $rs->search({
-                dev_milestone => { '=' => ['planning', 'development', 'testing', 'complete']},
-                created_date => { '!=' => undef }
-            },{
-                rows => 5,  
-                order_by => {-desc => 'created_date'}
-            })->all;
-
-        my $temp_ia;
-        for my $ia (@ias) {
-            $temp_ia = $ia->TO_JSON('pipeline');
-            $temp_ia->{most_recent} = 1;
-            push @dev_ias, $temp_ia;
-        }
-     }
-
-     my @issues = $c->d->rs('InstantAnswer::Issues')->search({'is_pr' => 0},{order_by => {-desc => 'date'}})->all;
+     my @issues = $c->d->rs('InstantAnswer::Issues')->search({},{order_by => {-desc => 'date'}})->all;
 
      my @bugs;
      my @high_p;
      my @lhf;
 
      for my $issue (@issues) {
-        my %temp_issue = (
-            title => $issue->title,
-            body => $issue->body,
-            date => $issue->date,
-            issue_id => $issue->issue_id,
-            ia_id => $issue->instant_answer_id,
-            repo => $issue->repo,
-            status => $issue->status? $issue->status : undef,
-            author => $issue->author
-        );
-
-        my @temp_tags;
-        my $is_highp = 0;
-        my $is_bug = 0;
-        my $is_lhf = 0;
-
+        my $is_pr = $issue->is_pr;
         my $issue_ia = $c->d->rs('InstantAnswer')->find($issue->instant_answer_id);
+        next unless $issue_ia;
 
-        $temp_issue{ia_name} = $issue_ia->name;
-
-        for my $tag (@{$issue->tags}) {
-            my $tag_name = $tag->{name};
-
-            my %temp_tag = (
-                name => $tag_name,
-                color => $tag->{color}
+        if (($is_pr ne 1) && ($issue->status eq 'open')) {
+            my %temp_issue = (
+                title => $issue->title,
+                body => $issue->body,
+                date => $issue->date,
+                issue_id => $issue->issue_id,
+                ia_id => $issue->instant_answer_id,
+                repo => $issue->repo,
+                status => $issue->status? $issue->status : undef,
+                author => $issue->author
             );
 
-            push @temp_tags, \%temp_tag;
+            my @temp_tags;
+            my $is_highp = 0;
+            my $is_bug = 0;
+            my $is_lhf = 0;
 
-            if ($tag_name eq 'Priority: High') {
-                $is_highp = 1;
-            } elsif ($tag_name eq 'Bug') {
-                $is_bug = 1;
-            } elsif ($tag_name eq 'Low-Hanging Fruit') {
-                $is_lhf = 1;
+            $temp_issue{ia_name} = $issue_ia->name;
+
+            for my $tag (@{$issue->tags}) {
+                my $tag_name = $tag->{name};
+
+                my %temp_tag = (
+                    name => $tag_name,
+                    color => $tag->{color}
+                );
+
+                push @temp_tags, \%temp_tag;
+
+                if ($tag_name eq 'Priority: High') {
+                    $is_highp = 1;
+                } elsif ($tag_name eq 'Bug') {
+                    $is_bug = 1;
+                } elsif ($tag_name eq 'Low-Hanging Fruit') {
+                    $is_lhf = 1;
+                }
             }
-        }
 
-        $temp_issue{tags} = \@temp_tags;
+            $temp_issue{tags} = \@temp_tags;
 
-        if ($is_highp) {
-            push @high_p, \%temp_issue;
-        } elsif ($is_bug) {
-            push @bugs, \%temp_issue;
-        } elsif ($is_lhf) {
-            push @lhf, \%temp_issue;
-        }
+            if ($is_highp) {
+                push @high_p, \%temp_issue;
+            } elsif ($is_bug) {
+                push @bugs, \%temp_issue;
+            } elsif ($is_lhf) {
+                push @lhf, \%temp_issue;
+            }
+         } else {
+            my $pr = $issue;
+            if ($pr->status && ($pr->status eq 'open' || $pr->status eq 'merged') && $resp && 
+                (($issue_ia->dev_milestone ne 'live') && ($issue_ia->dev_milestone ne 'deprecated') && ($issue_ia->dev_milestone ne 'ghosted'))) {
+                my $pr_id = $pr->issue_id;
+                my $repo = $issue_ia->repo;
+                my $beta_pr = $resp->{$repo}->{$pr_id};
+                if ($beta_pr) {
+                    my $beta_install = $beta_pr->{install_status};
+                    if ($beta_install =~ /success/i) {
+                        if (scalar @dev_ias < 5) {
+                            $temp_ia = $issue_ia->TO_JSON('pipeline');
+                            $temp_ia->{most_recent} = 1;
+                            $temp_ia->{beta_date} = $beta_pr->{date};
+                            push @dev_ias, $temp_ia;
+                        }
+                        
+                        $dev_count++;
+                    }
+                }
+
+            }
+         }
      }
 
 
@@ -596,9 +570,12 @@ sub overview_json :Chained('overview_base') :PathPart('json') :Args(0) {
          lhf => { name => "Low-Hanging Fruit", list => \@lhf }
      );
 
+     #Sort IAs in beta by date
+     @dev_ias = reverse sort { str2time($a->{beta_date}) <=> str2time($b->{beta_date}) } @dev_ias;
+
      my %ias = (
          live => { count => $live_count, list => \@live_ias },
-         new => { count => $dev_count, list => \@dev_ias }
+         new => { count =>  $dev_count, list => \@dev_ias }
      );
 
      $c->stash->{x} = {
@@ -634,6 +611,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my $can_commit;
     my $commit_class = "hide";
     my $dev_milestone = $ia->dev_milestone;
+    $c->stash->{repo} = $ia->repo;
 
     if ($c->user) {
         $permissions = $ia->users->find($c->user->id);
@@ -661,7 +639,6 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
                 if ($c->user->new_contributor) {
                     $c->stash->{new_contributor} = 1;
                     $c->stash->{id} = $ia->id;
-                    $c->stash->{repo} = $ia->repo;
                     user_contributed($c->user);
                 }
             }
@@ -703,8 +680,8 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my $edited;
     my @issues = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id},{order_by => {'-desc' => 'date'}});
     my @ia_issues;
-    my %pull_request;
     my @ia_pr;
+    my @all_prs;
     my %ia_data;
     my $permissions;
     my $is_admin;
@@ -712,22 +689,12 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
 
     $ia_data{live} = $ia->TO_JSON;
 
-    my $ua = LWP::UserAgent->new;
-    my $server = "http://beta.duckduckgo.com/installed.json";
-    my $env_key = $ENV{'BETA_KEY'};
-    my $req = HTTP::Request->new(GET => $server);
-    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json({test => 'test' }), $env_key);
-    $req->header('content-type' => 'application/json');
-    $req->header("x-hub-signature" => $header_data);
-    $req->content(to_json({test => 'test' }));
-
-    my $resp = $ua->request($req);
-    $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    my $resp = beta_req();
     
     for my $issue (@issues) {
         if ($issue) {
             if ($issue->is_pr) {
-               %pull_request = (
+               my %pull_request = (
                     id => $issue->issue_id,
                     title => $issue->title,
                     body => $issue->body,
@@ -737,29 +704,38 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
                     date => $issue->date
                );
 
-               $ia_data{live}->{pr} = \%pull_request;
+               push(@all_prs, \%pull_request);
 
-               if ($resp) {
+               if ($pull_request{status} && ($pull_request{status} eq 'open')) {
+                   $ia_data{live}->{pr} = \%pull_request;
+               }
+
+               if ($resp && (!$ia_data{live}->{beta_install})) {
                    my $pr_id = $pull_request{id};
                    my $repo = $ia->repo;
-                   my $beta_pr = $resp->{$repo}->{$pr_id};
+                   my $beta_pr = $resp->{$repo}? $resp->{$repo}->{$pr_id} : 0;
                    $ia_data{live}->{beta_install} = 0;
 
                    if ($beta_pr) {
                        $ia_data{live}->{beta_install} = $beta_pr->{install_status};
                        $ia_data{live}->{beta_query} = $beta_pr->{meta}? $beta_pr->{meta}->{example_query} : 0;
+                   } elsif ($issue->status  && ($issue->status eq 'merged')) {
+                       $ia_data{live}->{beta_install} = 'success';
+                       $ia_data{live}->{beta_query} = 0;
                    }
                }
             } else {
-                push(@ia_issues, {
-                    issue_id => $issue->issue_id,
-                    title => $issue->title,
-                    body => $issue->body,
-                    tags => $issue->tags,
-                    author => $issue->author,
-                    status => $issue->status? $issue->status : undef,
-                    date => $issue->date
-                });
+                if (($issue->status eq 'open') && $issue->title) {
+                    push(@ia_issues, {
+                        issue_id => $issue->issue_id,
+                        title => $issue->title,
+                        body => $issue->body,
+                        tags => $issue->tags,
+                        author => $issue->author,
+                        status => $issue->status? $issue->status : undef,
+                        date => $issue->date
+                    });
+                }
             }
         }
     }
@@ -769,6 +745,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     warn Dumper $ia->TO_JSON if debug;
     
     $ia_data{live}->{issues} = \@ia_issues;
+    $ia_data{live}->{prs} = \@all_prs;
     
     if ($c->user) {
         $permissions = $c->stash->{ia}->users->find($c->user->id);
@@ -777,37 +754,26 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
         if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live' || $ia->dev_milestone eq 'deprecated')) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = $edited;
-            my $is_dev = 0;
-
-            foreach my $dev (@{$ia_data{live}->{developer}}) {
-                $dev->{name} =~ s/.*\/([^\/]*)$/$1/;
-                if (($dev->{name} eq $c->user->username) && ($dev->{type} eq 'duck.co')) {
-                    $is_dev = 1;
-                }
-            }
             
-            if ($is_dev || $is_admin) {
-                my $today = DateTime->today();
-                my $month_ago = $today->clone->subtract( days => 30 )->date();
-                my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
-                    {
-                        answer_id => $ia->meta_id, 
-                        date => { '<' => $today->date()}, 
-                        date => { '>' => $month_ago},
-                        pixel_type => [{ '=' => 'iaoi'}]
-                    });
-                
-                my $iaoi = $traffic_rs->get_array_by_pixel();
-                $ia_data{live}->{traffic} = $iaoi;
-            }
+            my $today = DateTime->today();
+            my $monday = 1;
+            my $weekdays = 7;
+            
+            # Traffic data is updated on Mondays
+            my $last_monday = $today->subtract(days => ($today->day_of_week - $monday) %$weekdays || $weekdays);
+            my $month_ago = $last_monday->clone->subtract( days => 30 )->date();
+            my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
+                {
+                    answer_id => $ia->meta_id, 
+                    date => { '<' => $last_monday->date()}, 
+                    date => { '>' => $month_ago},
+                    pixel_type => [qw( iaoi iaoe )]
+                });
+            
+            my $iaoi = $traffic_rs->get_array_by_pixel();
+            $ia_data{live}->{traffic} = $iaoi;
         }
     }
-
-    $server = "http://beta.duckduckgo.com/install?asana&ia=" . $ia->id;
-
-    my $result = asana_req('', $server);
-    $ia_data{live}->{asana} = $result->decoded_content ? from_json($result->decoded_content) : undef;
-    $ia_data{live}->{asana} = $ia_data{live}->{asana}? $ia_data{live}->{asana}->{$ia->id} : undef;
 
     $c->stash->{x} = \%ia_data;
 
@@ -856,6 +822,7 @@ sub commit_json :Chained('commit_base') :PathPart('json') :Args(0) {
 
 sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
 
     my $is_admin;
     my $result = '';
@@ -866,7 +833,8 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
             # get the IA 
             my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
             my $params = from_json($c->req->params->{values});
-            $result = save($c, $params, $ia);
+            
+            $result = save($c, $params, $ia, 0);
         }
     }
 
@@ -883,6 +851,7 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
 # {goodies: [#pr1, #pr2, #pr3], spice: [#pr1, #pr2] ... and so on
 sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
     
     my $ua = LWP::UserAgent->new;
 
@@ -911,72 +880,27 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
-sub asana :Chained('base') :PathPart('asana') :Args(0) {
-    my ($self, $c) = @_;
-
-    my @ia = $c->d->rs('InstantAnswer')->search(
-        {meta_id => $c->req->params->{id}},
-        {
-            prefetch => qw/issues/,
-            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
-        }
-    );
-    my $ia = $ia[0];
-
-    my $pr;
-    foreach my $issue (@{$ia->{issues}}){
-        if($issue->{is_pr}){
-            $pr = $issue;
-        }
-    }
-
-    $c->stash->{x}->{result} = '';
-    return $c->forward($c->view('JSON')) unless ($ia && $c->user && $c->user->admin);
-
-    my %data = (
-          repo      => $ia->{repo},
-          user      => $c->user->username,
-          producer  => $ia->{producer},
-          action    => 'duckco',
-          number    => $pr->{issue_id},
-          id        => $c->req->params->{id},
-          title     => $pr->{title},
-    );
-
-    my $server = "http://beta.duckduckgo.com/install?asana";
-
-    my $result = asana_req(\%data, $server);
-
-    $c->stash->{x}->{result} = $result->decoded_content;
-    return $c->forward($c->view('JSON'));
-}
-
-sub asana_req {
-    my ($data, $server) = @_;
-
-    if(!$data){
-        $data = { stuff => "nothing"};
-    }
+sub beta_req {
+    my ($self) = @_;
 
     my $ua = LWP::UserAgent->new;
-    my $json_data = $data? to_json($data) : '';
-
-    my $key = $ENV{'BETA_KEY'};
+    my $server = "http://beta.duckduckgo.com/installed.json";
     my $req = HTTP::Request->new(GET => $server);
-    my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex($json_data, $key);
 
-    $req->header('content-type' => 'application/json');
-    $req->header("x-hub-signature" => $header_data);
-    $req->content($json_data);
+    my $resp;
+    try {
+        $resp = $ua->request($req);
+        $resp = $resp->decoded_content? from_json($resp->decoded_content) : undef;
+    };
 
-    my $result = $ua->request($req);
-    return $result;
+    return $resp;
 }
 
 # Save values for multiple IAs at once (just one field for each IA).
 # This is used only in the dev pipeline and for now it's only available to admins
 sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
 
     my %result;
     $c->stash->{x}->{result} = '';
@@ -1000,7 +924,7 @@ sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
         my @update;
         
         push(@update, {value => $value, field => $field});
-        save($c, \@update, $ia);
+        save($c, \@update, $ia, 0);
         save_milestone_date($ia, $value);
 
         $result{$id} = 1;
@@ -1012,6 +936,8 @@ sub save_multiple :Chained('base') :PathPart('save_multiple') :Args(0) {
 
 sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
+    
     my $ia = $c->d->rs('InstantAnswer')->find({meta_id => $c->req->params->{id}});
     
     unless ($ia) {
@@ -1050,7 +976,8 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
             my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
-            my $complat_user = $c->d->rs('User')->find({username => $value});
+            my $rs_user = $c->d->rs('User');
+            my $complat_user = $rs_user->find({username => $value}) || $rs_user->find_by_github_login($value);
             my $complat_user_admin = $complat_user? $complat_user->admin : '';
             
             # developers can be any complat user
@@ -1103,8 +1030,11 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             my $new_meta_id;
 
             if ($field =~ /designer|producer/){
-                return $c->forward($c->view('JSON')) unless $complat_user_admin || $value eq '';
+                return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
+            } elsif ($field eq "maintainer") {
+                return $c->forward($c->view('JSON')) unless $value = format_maintainer($c, $value, $ia, 0);
             } elsif ($field eq "id") {
+                return $c->forward($c->view('JSON')) unless $is_admin;
                 $field = "meta_id";
                 $value = format_id($value);
                 
@@ -1128,8 +1058,12 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
                 }
-            } elsif (($field eq "blockgroup") && ($value eq "")) {
-                $value = undef;
+            } elsif ($field eq "blockgroup") {
+                return $c->forward($c->view('JSON')) unless $is_admin;
+                $value = ($value eq "")? undef : $value;
+            } elsif ($field eq "production_state") {
+                my $valid_val = (($value eq "offline") || ($value eq "online"))? 1 : 0;
+                return $c->forward($c->view('JSON')) unless ($is_admin && $valid_val);
             }
 
             my $edits = add_edit($c, $ia,  $field, $value);
@@ -1159,7 +1093,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $value = $new_meta_id;
                 }
                 
-                save($c, \@update, $ia);
+                save($c, \@update, $ia, 1);
                 $saved = 1;
                 
                 save_milestone_date($ia, $c->req->params->{value});
@@ -1180,6 +1114,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
 
 sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
 
     my $username = $c->req->params->{username};
     my $type = $c->req->params->{type};
@@ -1202,19 +1137,15 @@ sub usercheck :Chained('base') :PathPart('usercheck') :Args() {
 
 sub new_ia :Chained('base') :PathPart('new_ia') :Args() {
     my ( $self, $c ) = @_;
-
-    my $user = $c->user;
-    if (!$user) {
-        $c->response->redirect($c->chained_uri('My','login',{ admin_required => 1 }));
-        return $c->detach;
-    }
-
+    
     $c->stash->{ia_page} = "IAPageNew";
+    $c->stash->{result} = 1;
     $c->stash->{title} = "Create New Instant Answer";
 }
 
 sub create_ia :Chained('base') :PathPart('create') :Args() {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
 
     my $is_admin;
     my $result = '';
@@ -1224,15 +1155,28 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     my $meta_id = format_id($data->{id});
     warn $meta_id;
     my $ia = $c->d->rs('InstantAnswer')->find({id => $meta_id}) || $c->d->rs('InstantAnswer')->find({meta_id => $meta_id});
+    my $name;
+    my $exists;
 
     if ($c->user && (!$ia)) {
-       $is_admin = $c->user->admin;
+        $is_admin = $c->user->admin;
+        my $gh_id = $c->user->github_id;
         my $dev_milestone = $data->{dev_milestone}? $data->{dev_milestone} : "planning";
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
+        my $other_queries = $data->{other_queries}? from_json($data->{other_queries}) : [];
+        my $author = {
+            url => 'https://duck.co/user/' . $c->user->username,
+            name => $c->user->username,
+            type => "duck.co"
+        };
+
+        my $maintainer = { 
+            github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
+        };
 
         # Capitalize each word in the name string
-        $name =~ s/([\w']+)/\u\L$1/g; 
+        $name =~ s/([\w']+)/\u\L$1/g;
         
         if (length $meta_id) { 
             my $new_ia = $c->d->rs('InstantAnswer')->create({
@@ -1241,22 +1185,38 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
                 name => $name,
                 dev_milestone => $dev_milestone,
                 description => $data->{description},
-                repo => $repo
+                repo => $repo,
+                src_url => $data->{src_url},
+                example_query => $data->{example_query},
+                other_queries => $data->{other_queries},
+                public => 0,
+                maintainer => to_json($maintainer),
+                developer => to_json([$author]),
+                perl_module => $data->{perl_module},
+                tab => $data->{tab}
             });
 
             save_milestone_date($new_ia, 'created');
 
-            if (!$is_admin) {
+            if ((!$is_admin) && (!$new_ia->users->find($c->user->id))) {
                 $new_ia->add_to_users($c->user);
             }
 
             $result = 1;
+            delete $c->session->{ia_data};
         }
+    } elsif ($ia) {
+        $meta_id = $ia->meta_id;
+        $name = $ia->name;
+        $exists = 1;
+        delete $c->session->{ia_data};
     }
-
+    
     $c->stash->{x} = {
         result => $result,
-        id => $meta_id
+        id => $meta_id,
+        name => $name,
+        exists => $exists
     };
 
     $c->stash->{not_last_url} = 1;
@@ -1265,19 +1225,40 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
 sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     my ( $self, $c ) = @_;
+    $c->check_action_token;
+    
     my $url = $c->req->params->{pr};
     my ($id, $result) = '';
     my $user = $c->user;
-
+    my $name;
+    my $exists;
+    my $pr_data;
+    my $repo;
+    my $pr_number;
+    my $gh;
+    
     if ($user) {
-        if(my ($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
+        if(($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
             # get data form this pr
             my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
-            my $gh = Net::GitHub->new(access_token => $token);
+            $gh = Net::GitHub->new(access_token => $token);
             $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
 
             my @files = $gh->pull_request->files($pr_number);
-            my $pr_data = $gh->pull_request->pull($pr_number);
+            my $gh_id = $user->github_id;
+            $pr_data = $gh->pull_request->pull($pr_number);
+            my $author = {
+                url => 'https://duck.co/user/' . $c->user->username,
+                name => $user->username,
+                type => "duck.co"
+            };
+            
+            my $maintainer = { 
+                github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
+            };
+            
+            my $perl_module;
+            my $tab;
 
                 # spice
             if($repo =~ /spice/i){
@@ -1300,6 +1281,8 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                 # cheat sheets
                 if($is_cheatsheet){
                     ($id) = $cheat_sheet_json =~ /(?:'|")id(?:'|"):\s?(?:'|")(.+)(?:'|"),/;
+                    $perl_module = "DDG::Goodie::CheatSheets";
+                    $tab = "Cheat Sheet";
                 }else{
                     # find from perl module
                     foreach my $file (@files){
@@ -1313,35 +1296,66 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             }
 
             if($id){
-                $result = 1;
+                my $ia = $c->d->rs('InstantAnswer')->find({id => $id}) || $c->d->rs('InstantAnswer')->find({meta_id => $id});
 
-                my $new_ia = $c->d->rs('InstantAnswer')->update_or_create({
-                    id => $id,
-                    meta_id => $id,
-                    name => $id,
-                    repo => $repo,
-                    dev_milestone => 'planning'
-                });
+                if (!$ia) {
+                    $result = 1;
 
-                $c->d->rs('InstantAnswer::Issues')->update_or_create({
-                    instant_answer_id => $id,
-                    repo => $repo,
-                    issue_id => $pr_number,
-                    is_pr => 1,
-                    tags => {},
-                });
+                    my $name = $id;
+                    
+                    # Underscores to spaces
+                    $name =~ s/\_/ /g;
+                    
+                    # Capitalize each word in the name string
+                    $name =~ s/([\w']+)/\u\L$1/g;
+                    
+                    my $new_ia = $c->d->rs('InstantAnswer')->update_or_create({
+                        id => $id,
+                        meta_id => $id,
+                        name => $name,
+                        repo => $repo,
+                        dev_milestone => 'planning',
+                        public => 1,
+                        maintainer => to_json($maintainer),
+                        developer => to_json([$author]),
+                        perl_module => $perl_module,
+                        tab => $tab
+                    });
 
-                # update first comment with link to IA page
-                my $has_link = $pr_data->{body} =~ /https?:\/\/duck.co\/ia\/view\/.+$/;
+                    my $status = $pr_data->{state};
+                    if ($status ne 'open') {
+                        $status = $gh->pull_request->is_merged('duckduckgo', 'zeroclickinfo-' . $repo, $pr_data->{number})? 'merged' : $status;
+                    }
 
-                if(!$has_link){
-                    $gh->pull_request->update_pull($pr_number, {
-                            body => "$pr_data->{body}\n---\nhttps://duck.co/ia/view/$id"
-                            });
-                }
+                    $c->d->rs('InstantAnswer::Issues')->update_or_create({
+                        instant_answer_id => $id,
+                        repo => $repo,
+                        issue_id => $pr_number,
+                        is_pr => 1,
+                        tags => {},
+                        date => $pr_data->{created_at},
+                        status => $status
+                    });
 
-                if (!$user->admin) {
-                    $new_ia->add_to_users($user);
+                    # update first comment with link to IA page
+                    my $has_link = $pr_data->{body} =~ /https?:\/\/duck.co\/ia\/view\/.+$/;
+
+                    if(!$has_link){
+                        $gh->pull_request->update_pull($pr_number, {
+                                body => "$pr_data->{body}\n---\nhttps://duck.co/ia/view/$id"
+                                });
+                    }
+
+                    if (!$user->admin) {
+                        $new_ia->add_to_users($user);
+                    }
+
+                    delete $c->session->{ia_data};
+                } else {
+                    $id = $ia->meta_id;
+                    $name = $ia->name;
+                    $exists = 1;
+                    delete $c->session->{ia_data};
                 }
             }
         }
@@ -1349,7 +1363,9 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     
     $c->stash->{x} = {
         result => $result,
-        id => $id
+        id => $id,
+        exists => $exists,
+        name => $name
     };
 
     $c->stash->{not_last_url} = 1;
@@ -1371,8 +1387,43 @@ sub format_id {
     return $id;
 }
 
+# Return the properly formatted JSON value
+# for the maintainer column
+sub format_maintainer {
+    my ( $c, $value, $ia, $commit ) = @_;
+    
+    my $user = $c->d->rs('User');
+    my $complat_user = $user->find({username => $value}) || $user->find_by_github_login($value);
+    my $complat_user_admin = $complat_user? $complat_user->admin : '';
+
+    
+    my %maintainer;
+    if ($complat_user && (my $gh_id = $complat_user->github_id)) {
+        %maintainer = ( github => $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login );
+    } elsif (check_github($value)) {
+        # this github account isn't tied to any duck.co account
+        # we still allow it to be listed as maintainer
+        # but can't give edit permissions
+
+        %maintainer = ( github => $value );
+        my $gh_user;
+        if (my $gh_user = $c->d->rs('GitHub::User')->find({login => $value})) {
+            my $gh_id = $gh_user->github_id;
+            $complat_user = $gh_id ? $user->find({github_id => $gh_id}) : '';
+            $complat_user_admin = $complat_user? $complat_user->admin : '';
+        }
+    }
+
+    if ($complat_user && $commit && %maintainer) {
+        # give edit permissions
+        $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
+    }
+
+    return %maintainer ? to_json \%maintainer : 0;
+}
+
 sub save {
-    my($c, $params, $ia) = @_;
+    my($c, $params, $ia, $autocommit) = @_;
     my %result;
     my $saved;
 
@@ -1396,6 +1447,8 @@ sub save {
         } else {          
             if ($field eq 'id') {
                $field = 'meta_id';
+            } elsif ($field eq 'maintainer' && (!$autocommit)) {
+                $value = format_maintainer($c, $value, $ia, 1);
             }
             
             commit_edit($c->d, $ia, $field, $value);
@@ -1562,7 +1615,9 @@ sub save_milestone_date {
     return unless $field;
     
     my @time = localtime(time);
-    my $date = "$time[4]/$time[3]/".($time[5]+1900);
+    my ($month, $day, $year) = ($time[4]+1, $time[3], $time[5]+1900);
+    my $date = "$month/$day/$year";
+
     update_ia($ia, $field, $date);
 
     update_ia($ia, 'test_machine', undef) if ($milestone eq 'live');

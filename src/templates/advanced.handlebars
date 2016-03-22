@@ -117,9 +117,9 @@
                         <label class="details__label">
                             Template
                         </label>
-                        <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{#exists_subkey staged 'details' 'template'}}{{staged.details.template}}{{else}}{{template}}{{/exists_subkey}}">
+                        <input disabled type="text" class="js-autocommit frm__input frm__input--disabled template" id="template-input" value="Fathead default">
                     </div>
-
+                    
                     <div class="half">
                         <label  class="details__label">
                             Source ID
@@ -246,7 +246,7 @@
                     <label class="details__label">
                         Template
                     </label>
-                    <input type="text" class="js-autocommit frm__input template" id="template-input" value="{{#exists_subkey staged 'details' 'template'}}{{staged.details.template}}{{else}}{{template}}{{/exists_subkey}}">
+                    <input disabled type="text" class="js-autocommit frm__input frm__input--disabled template" id="template-input" value="Longtail default">
                 </div>
             </div>
 

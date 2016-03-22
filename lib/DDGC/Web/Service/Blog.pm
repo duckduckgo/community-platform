@@ -90,7 +90,7 @@ get '/post/by_url' => sub {
         (my $post = posts_rset->search(
             { uri => param_hmv('url') },
             { order_by => { -asc => 'me.id' } }
-        )->prefetch([qw/ user comments /])->first)
+        )->prefetch([qw/ user comments /])->one_row)
     ) {
         return {
             post     => $post,
@@ -182,7 +182,7 @@ get '/by_user' => sub {
         return {
             posts  => $posts,
             topics => topics,
-        } if ($posts->first);
+        } if ($posts->first); # using ->one_row will exhaust the underlying cursor, so just stay with ->first
     }
     bailout( 404, "Not found" );
 };

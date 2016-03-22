@@ -273,6 +273,8 @@ sub delete {
 	return $result;
 }
 
+sub get { shift->get_column(@_); }
+
 use overload '""' => sub {
 	my $self = shift;
 	return (ref $self).' #'.$self->id;

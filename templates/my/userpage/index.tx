@@ -21,7 +21,7 @@
 		<h3>Links</h3>
 	</div>
 	<div class="body">
-		<: for ['email','web','github'] -> $field { :>
+		<: for ['email','web'] -> $field { :>
 			<: i($fields[$field], 'edit') :>
 		<: } :>
 	</div>

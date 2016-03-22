@@ -24,8 +24,6 @@ column updated_at             => {data_type => 'timestamp with time zone', is_nu
 column isa_owners_team_member => {data_type => 'int',    is_nullable       => 0, default_value => 0};
 column scope_public_repo      => {data_type => 'int',    is_nullable       => 0, default_value => 0};
 column scope_user_email       => {data_type => 'int',    is_nullable       => 0, default_value => 0};
-column access_token           => {data_type => 'text',   is_nullable       => 1};
-column users_id               => {data_type => 'bigint', is_nullable       => 1};
 column created                => {data_type => 'timestamp with time zone', set_on_create  => 1};
 column updated                => {data_type => 'timestamp with time zone', set_on_create  => 1, set_on_update => 1};
 column gh_data                => {
@@ -36,7 +34,7 @@ column gh_data                => {
 };
 
 belongs_to user => 'DDGC::DB::Result::User',
-    { 'foreign.id' => 'self.users_id' },
+    { 'foreign.github_id' => 'self.github_id' },
     { on_delete => 'no action', join_type => 'left' };
 
 has_many github_commits_authored => 'DDGC::DB::Result::GitHub::Commit',

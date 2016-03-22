@@ -10,6 +10,7 @@ use Catalyst::Utils;
 use FindBin;
 use IO::All;
 use JSON;
+use Sys::Hostname;
 
 use DDGC::Config::Subscriptions;
 
@@ -61,6 +62,7 @@ sub has_conf {
 has_conf nid => DDGC_NID => 1;
 has_conf pid => DDGC_PID => $$;
 
+has_conf livereload_js_uri => DDGC_LIVERELOAD_JS_URI => sprintf( 'http://%s:5000/livereload.js', hostname() );
 has_conf appdir_path => DDGC_APPDIR => "$FindBin::Bin/../";
 has_conf rootdir_path => DDGC_ROOTDIR => $ENV{HOME}.'/ddgc/';
 has_conf no_cache => DDGC_NOCACHE => 0;
@@ -75,7 +77,7 @@ sub rootdir {
 has_conf web_base => DDGC_WEB_BASE => sub {
 	( $_[0]->is_live )
 		? 'https://duck.co'
-		: 'https://view.dukgo.com';
+		: 'https://ddgc-staging.duckduckgo.com';
 };
 
 sub prosody_db_samplefile { File::Spec->rel2abs( File::Spec->catfile( dist_dir('DDGC'), 'ddgc.prosody.sqlite' ) ) }
@@ -113,7 +115,7 @@ sub is_live {
 
 sub is_view {
 	my $self = shift;
-	$self->prosody_userhost() eq 'view.dukgo.com' ? 1 : 0
+	$self->prosody_userhost() eq 'ddgc-staging-xmpp.duckduckgo.com' ? 1 : 0
 }
 
 has_conf prosody_admin_username => DDGC_PROSODY_ADMIN_USERNAME => 'testone';

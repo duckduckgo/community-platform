@@ -5,7 +5,7 @@
 <div class="callout">	
 	<div class="third">
 		<div class="callout-box green">
-			<a class="head" href="<: $u('Forum','index') :>">
+			<a class="head" href="http://duckduckhack.com/#join-community">
 				<i class="icon-bubbles"></i> 
 				<h2>Discuss</h2>				
 			</a>
@@ -17,13 +17,13 @@
 					<li>Speak with other passionate DuckDuckGo users.</li>
 					<li></li>
 				</ul>
-				<a href="<: $u('Forum','index') :>" class="cta"><i class="icon-circle-arrow-right"></i>Join the DuckDuckGo Community</a>
+				<a href="http://duckduckhack.com/#join-community" class="cta"><i class="icon-circle-arrow-right"></i>Join the DuckDuckGo Community</a>
 			</div>
 		</div>
 	</div>
 	<div class="third">
 		<div class="callout-box blue">
-			<a class="head" href="<: $u('DuckDuckHack','index') :>">
+			<a class="head" href="http://duckduckhack.com/">
 				<i class="icon-tools"></i> 
 				<h2>Develop</h2>				
 			</a>

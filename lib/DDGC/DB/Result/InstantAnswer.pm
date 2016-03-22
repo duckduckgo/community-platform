@@ -48,6 +48,13 @@ column description => {
     pipeline => 1
 };
 
+column public => {
+    data_type => 'smallint',
+    is_nullable => 0,
+    default_value => 1,
+    pipeline => 1
+};
+
 # JSON string cointaining parameters such as
 # fallback_timeout, for IAs with slow upstream providers
 column answerbar => {
@@ -131,6 +138,7 @@ column src_name => {
 column src_url => {
 	data_type => 'text',
 	is_nullable => 1,
+        for_endpt => 1
 };
 
 # documentation url
@@ -241,6 +249,7 @@ column screenshots => {
 column unsafe => {
 	data_type => 'integer',
 	is_nullable => 1,
+    for_endpt => 1
 };
 
 # IA type
@@ -267,6 +276,15 @@ column designer => {
 
 # IA developer
 column developer => {
+    data_type => 'text',
+    is_nullable => 1,
+    pipeline => 1,
+    is_json => 1,
+    for_endpt => 1
+};
+
+#IA maintainer
+column maintainer => {
     data_type => 'text',
     is_nullable => 1,
     pipeline => 1,
@@ -443,7 +461,7 @@ column release_version => {
     is_nullable => 1,
 };
 
-# Is it live or not?
+# Where is it in the release process?
 column deployment_state => {
     data_type => 'varchar',
     size => 15,
@@ -451,9 +469,17 @@ column deployment_state => {
 };
 
 column blockgroup => {
-	data_type => 'varchar',
-	size => 20,
-	is_nullable => 1,
+    data_type => 'varchar',
+    size => 20,
+    is_nullable => 1,
+    for_endpt => 1
+};
+
+# Should this be made live or not?
+column production_state => {
+    data_type => 'varchar',
+    size => 10,
+    is_nullable => 1,
 	for_endpt => 1
 };
 
@@ -481,7 +507,12 @@ after insert => sub {
         description  => sprintf('Instant Answer Page [%s](%s) created!',
             $self->name, $self->uri( { activity_feed => 1 } ) ),
     } );
+
+    $schema->resultset('InstantAnswer::LastUpdated')->touch;
 };
+
+after update => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
+after delete => sub { $_[0]->schema->resultset('InstantAnswer::LastUpdated')->touch; };
 
 sub create_update_activity {
     my ( $self, $meta3, $description ) = @_;

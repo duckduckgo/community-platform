@@ -1,0 +1,45 @@
+<!doctype html>
+<head>
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body>
+    <div id="userpage-wrap">
+        <div class="left userpage-wrap__child" id="userpage-keywords">
+            <div id="userpage-keywords-title">Keywords</div>
+            
+            <ul id="userpage-keywords-list">
+                : if $data.topics {
+                    : for $data.topics.keys() -> $topic {
+                        <li class="userpage-keywords-list__item">
+                            <div class="left topic_name">
+                                : $topic
+                            </div>
+                            <div class="right topic_count">
+                                : $data.topics[$topic]
+                            </div>
+                            <span class="clear"></span>
+                        </li>
+                    : }
+                : }
+            </ul>
+        </div>
+
+        <div class="left userpage-wrap__child" id="userpage-main">
+            <h2 id="userpage-main-title">Contributed Instant Answers</h2>
+
+            <ul id="userpage-main-ias">
+                : if $data.live {
+                    : for $data.live -> $ia {
+                        <li class="userpage-main-ias__item">
+                            <a href="https://duck.co/ia/view/<:$ia.id:>">
+                                : $ia.name
+                            </a>
+                        </li>
+                    : }
+                : }
+            </ul>
+        </div>
+        <span class="clear"></span>
+    </div>
+</body>
+</html>

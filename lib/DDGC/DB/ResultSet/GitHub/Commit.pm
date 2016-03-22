@@ -31,10 +31,9 @@ sub most_recent {
     return $self->search(
         {},
         {
-            rows => 1,
             order_by => { -desc => 'author_date' },
         }
-    )->first;
+    )->one_row;
 }
 
 no Moose;

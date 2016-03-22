@@ -204,7 +204,7 @@ sub set_user_vote {
 	if ($vote) {
 		my $voted = $self->search_related('idea_votes',{
 			users_id => $user->id,
-		})->first;
+		})->one_row;
 		unless ($voted) {
 			$self->create_related('idea_votes',{
 				users_id => $user->id,

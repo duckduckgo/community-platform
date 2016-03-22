@@ -124,7 +124,7 @@ sub type :Chained('base') :Args(1) {
 
 sub status_name_to_id {
 	my ( $self, $c, $status ) = @_;
-	my $idea = $c->d->rs('Idea')->first;
+	my $idea = $c->d->rs('Idea')->one_row;
 	my $statuses = $idea->statuses;
 	$status =~ s/-/ /g;
 	return ( grep { Core::index( lc($statuses->{$_}), lc($status) ) == 0 } keys $statuses )[0];

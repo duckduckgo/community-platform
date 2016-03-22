@@ -1,22 +1,65 @@
-@import "../../../bower_components/duckduckgo-colors/_colors";
-@import "compass/css3/border-radius";
-@import "compass/css3/text-shadow";
-
-.heavy {
-    font-weight: 700;
+a {
+    &:hover {
+	color: $blue;
+    }
 }
 
-.half-w {
-    width: 42%;
+.overview-wrap {
+    @include wrapper();
 }
 
-#create-ia-from-pr { margin-right: 1em; }
+#ia-overview {
+    /* This provides the spacing between the two columns */
+    .overview__clm--left {
+	font-size: 1.15384615384615em; // 15px
+	padding-right: 35px;
+    }
 
-#create-ia-from-pr-form {
-    width: 40em;
-    left: 43em;
+    .overview__clm--right {
+	font-size: 1.15384615384615em; // 15px
+	padding-left: 35px;
+    }
 
-    input { margin-bottom: 1em; }
+    .tx-size--small {
+	font-size: 13px;
+    }
+
+    /* This styles the headers before each section such as "Top Issues on GitHub" and "Instant Answers" */
+    & > header {
+	overflow: auto;
+	padding-bottom: 2em;
+	font-size: 1.15384615384615em; // 15px;
+
+
+	& > * {
+	    font-size: 1.4em;
+	    font-weight: bold;
+	}
+
+	.btn {
+	    font-size: 1em;
+	    padding: 0 0.5em;
+	    font-weight: 500;
+	}
+    }
+
+    /* This gives each section some breathing room */
+    & > section {
+	padding-bottom: 2em;
+    }
+
+    /* This gives each issue a 1px separator */
+    .iap-list {
+	border-top: 1px solid $silver-dark;
+	border-bottom: 1px solid $silver-dark;
+
+	padding-top: 0.5em;
+	margin-top: 2.5em;
+
+	li {
+	    padding: .5em 0;
+	}
+    }
 }
 
 #create-new-ia-form {
@@ -31,9 +74,7 @@
     #id-input { width: 18.25em; }
 
     #name-input { width: 29em; }
-}
-
-#create-new-ia-form, #create-ia-from-pr-form {
+    
     position: fixed;
     background-color: #fff;
     z-index: 1000;
@@ -51,6 +92,8 @@
 
 /* General page style */
 #ia-overview { 
+    @include center-content(962px);
+
     margin-top: 3.5em; 
 
     ul li { list-style: none; }
@@ -67,8 +110,6 @@
 
 /* Top Issues */
 #top-issues {
-    margin-top: 2.5em;
-
     .top-issues__title { 
         text-align: center; 
         width: 25em;
@@ -91,14 +132,14 @@
 
         .tag-container { 
             padding: 0.15em 0.5em; 
-            @include border-radius(3px);
+            border-radius: 3px;
             text-align: center;
             max-width: 15em;
             min-width: 5em;
 
             h3 { 
                 margin-top: 0.25em; 
-                @include text-shadow(2px 2px 2px $slate);
+                text-shadow: 2px 2px 2px $slate;
             }
         }
 

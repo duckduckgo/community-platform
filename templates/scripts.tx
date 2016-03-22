@@ -18,3 +18,7 @@
 	<script src="/static/js/highlight.pack.js" type="text/javascript"></script>
 	<script>hljs.initHighlightingOnLoad();</script>
 : }
+
+: if $is_dev {
+  <script src="<: d().config.livereload_js_uri :>"></script>
+: }

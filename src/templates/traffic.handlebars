@@ -1,6 +1,12 @@
 {{#or permissions.can_edit permissions.admin}}
-    <h3 class="ia-single--header">
-        <span>Traffic Data</span>
-    </h3>
-    <canvas class="charts" id="ia_traffic"></canvas>
+    {{#eq dev_milestone 'live'}}
+        <div id="traffic_wrapper">
+            <h3 class="ia-single--header">
+                <span>Traffic <span id="traffic_dates">from Last <span id="traffic_count">30</span> Days</span><span id="queries_total"></span></span>
+            </h3>
+            <p id="no_traffic" class="hide"> Not enough data. </p>
+            <p id="update_frequency">Updated weekly </p>
+            <canvas class="charts" id="ia_traffic"></canvas>
+        </div>
+    {{/eq}}
 {{/or}}

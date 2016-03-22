@@ -16,6 +16,8 @@
     <: } :>
 </select>
 
+<input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+
 <div class="ia-single">
     <div class="ia-single__top nowrap" id="ia-single-top">
         <div class="content-wrap">
@@ -42,61 +44,45 @@
     </div>
 
     <div class="ia-single__body content-wrap" id="ia-single-body">
-        <: if $new_contributor { :>
-            <div id="next-steps-bg"></div>
-            <div id="next-steps-overlay">
-                <h2> Welcome! </h2>
-                <p> This is the home of your Instant Answer. </p>
-                <hr />
-                <ul>
-                    <li>
-                        <h3 class="ia-single--header"> Make sure that basic information is filled out </h3>
-                        <p> Write a good description, add various example queries. </p>
-                    </li>
-                    <: if !$repo { :>
-                        <li>
-                            <h3 class="ia-single--header"> Choose your Instant Answer type </h3>
-                            <p> Not sure which type to pick?
-                                <a href="https://duck.co/duckduckhack/determine_your_instant_answer_type">Take a look here.</a>
-                            </p>
-                        </li>
-                    <: } :>
-                    <li> 
-                        <h3 class="ia-single--header"> Fork the <: if $repo { :>
-                            <a href="https://github.com/duckduckgo/zeroclickinfo-<: $repo :>#fork-destination-box">
-                                zeroclickinfo-<: $repo :>
-                            </a> repo
-                        <: } else { :> correct repo for your IA type <: } :> </h3>
-                        <p> Read <a href="https://duck.co/duckduckhack/setup_dev_environment#fork-the-correct-duckduckhack-repository-on-github">
-                            the docs </a>
-                            in case you need help.
-                        </p>
-                    </li>
-                    <li>
-                        <h3 class="ia-single--header"> Set up your development environment </h3>
-                        <p> 
-                            <a href="https://duck.co/duckduckhack/setup_dev_environment"> Here </a> you'll find a quick explanation. 
-                        </p>
-                    </li>
-                    <li>
-                        <h3 class="ia-single--header">Create a Pull Request </h3>
-                        <p> Don't forget to include the link to this 
-                            <a href="https://duck.co/ia/view/<: $id :>"> IA Page</a>
-                            in the PR description.<br/>
-                            Dax will post to your PR from time to time: when you open your PR, when it gets deployed
-                            to the beta server, and when it's merged. 
-                        </p>
-                    </li>
-                </ul>
-                <p>
-                    If you have any questions, feel free to ask them on our 
-                        <a href="https://duckduckhack.slack.com/messages/ask-anything/">Slack channel</a>.<br />
-                    Thanks for contributing, we hope you'll have fun!
-                </p>
-                <div class="button btn--primary" id="next-steps-close"> Ok </div>
-                <span class="clearfix"></span>
-            </div>
-        <: } :>
+      <div class="infobox hide" data-contributor="<: if $new_contributor { :>new<: } else { :>old<: } :>">
+	<header>
+	  <div class="fix">
+	    <h1 class="pull-left tx-size--medium tx-clr--dk">Next Steps</h1>
+	    <span class="ddgsi-close-bold tx-size--medium pull-right"></span>
+	  </div>
+	  <p>This is the home page for your Instant Answer and can be referred to by its URL: <a href="<: $c.request.base ~ $c.request.path :>"><: $c.request.base ~ $c.request.path :></a></p>
+	</header>
+	<div class="gw infobox__container">
+	  <div class="g third">
+	    <h2 class="tx-size--small tx-clr--dk">
+	      <strong>Set Up Your Dev Environment</strong>
+	    </h2>
+	    <p>
+	      See the <a href="http://docs.duckduckhack.com/welcome/setup-dev-environment.html">Setup Guide</a> to get your dev environment ready for coding.
+	    </p>
+	  </div>
+	  <div class="g third">
+	    <h2 class="tx-size--small tx-clr--dk">
+	      <strong>Fork the Repo</strong>
+	    </h2>
+	    <p>
+	      <: if !$repo { :> Choose the <a href="http://docs.duckduckhack.com/welcome/determining-ia-type.html">type of Instant Answer</a>, and then f<: } else { :>F<: } :>ork the <: if $repo { :><a href="https://github.com/duckduckgo/zeroclickinfo-<: $repo :>#fork-destination-box">zeroclickinfo-<: $repo :></a> <: } else { :> correct <: } :> repository on GitHub to get started. For more information see the documentation on <a href="http://docs.duckduckhack.com/welcome/setup-dev-environment.html#1-fork-the-appropriate-repository-on-githubcom">choosing the correct repo</a>.
+	    </p>
+	  </div>
+	  <div class="g third">
+	    <h2 class="tx-size--small tx-clr--dk">
+	      <strong>Create a Pull Request</strong>
+	    </h2>
+	    <p>
+	      When your Instant Answer is ready for an initial review, <a href="http://docs.duckduckhack.com/submitting/pull-request.html">create a pull request</a>. Be sure to paste the link to this Instant Answer page in the PR description:
+	    </p>
+	    <p>
+	      IA: <a href="<: $c.request.base ~ $c.request.path :>"><: $c.request.base ~ $c.request.path :></a>
+	    </p>
+	  </div>
+	</div>
+      </div>
+
         <div class="ia-single--left seventy"></div>
         <div class="ia-single--right g thirty"></div>
         <div class="ia-single--edits hide">

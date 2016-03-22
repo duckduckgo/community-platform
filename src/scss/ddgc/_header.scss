@@ -1,0 +1,143 @@
+@import "bower_components/compass-sass-mixins/lib/compass/css3/flexbox";
+@import "bower_components/compass-sass-mixins/lib/compass/css3/transform";
+
+.page-blog .site-main {
+    padding: 15px 20px;
+    padding-bottom: 200px;
+}
+
+#plDebug {
+    display: none;
+}
+
+.site-header.desktop {
+    padding-left: 20px;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.site-header.mobile {
+    display: none;
+    
+    .header-logo {
+	margin-right: auto;
+	float: none;
+	text-align: center;
+
+	&__logo {
+	    width: initial;
+	    height: initial;
+	    float: none;
+	    padding: initial;
+	    padding-top: 13px;
+	}
+    }
+
+    .ddgsi-comment.notification {
+	float: none;
+	font-size: 1.5em;
+	padding-left: 0px;
+    }
+
+    .notification-bubble {
+	margin-right: auto;
+    }
+
+    .flex-container {
+	@include display-flex;
+	@include flex-direction(row);
+	@include align-items(center);
+	@include justify-content(center);
+	padding: 0 20px 0 20px;
+    }
+
+    .nav-menu {
+	padding-top: 13px;
+	padding-left: 6px;
+
+	.ddgsi-menu {
+	    font-size: 1.2em;
+	    color: #a5a5a5;
+	}
+    }
+}
+
+.slideout {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: auto;
+    z-index: 3;
+    width: 14em;
+    height: 100%;
+    box-shadow: -1px 0 1px rgba(0,0,0,0.2);
+    background-color: rgba(242,242,242,0.975);
+    transition: transform 0.3s ease-in-out 0s;
+    @include transform(translate3d(14.25em, 0, 0));
+
+    &.is-open {
+	@include transform(translate3d(0, 0, 0));
+    }
+
+    .ddgsi-close {
+	z-index: 1;
+	padding: 1.6em 1em 1em;
+	position: absolute;
+	top: 0;
+	right: 0;
+	text-align: center;
+	color: #bfbfbf;
+	font-size: 1.2em;
+    }
+}
+
+.nav-menu {
+    &__list {
+	padding-left: 1.5em;
+	padding-top: 0;
+	padding-bottom: 0;
+	list-style: none;
+
+	li {
+	    position: relative;
+	    top: -0.65em;
+	}
+
+	.active {
+	    color: $blue-light;
+	}
+    }
+
+    &__heading {
+	padding-top: 2.2em;
+	padding-bottom: 1.8em;
+	margin-bottom: -1.25em;
+	color: $grey-dark;
+	
+	span {
+	    text-transform: uppercase;
+	    font-size: 0.75em;
+	}
+    }
+
+    &__item a {
+	line-height: 21px;
+	font-size: 0.9176em;
+	color: $slate;
+    }
+}
+
+@media all and (max-width: 500px) {
+    .blog-content {
+	-webkit-text-size-adjust: 100%;
+    }
+
+    .site-header {
+	display: none;
+    }
+    
+    .site-header.mobile {
+	display: block;
+    }
+}

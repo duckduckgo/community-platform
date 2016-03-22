@@ -9,7 +9,8 @@
             'missing',
             'important',
             'mentioned',
-            'attention'
+            'attention',
+            'beta'
         ],
 
         current_filter: '',
@@ -26,7 +27,27 @@
             // console.log("IADevPipeline init()");
             var dev_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
-            var username = $(".user-name").text();
+            var username = $(".user-name a.js-popout-link").text();
+
+	        // 100% width
+            $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
+	        $(".breadcrumb-nav").remove();
+	        $(".site-main").addClass("developer-main");
+
+
+	    $(window).scroll((function() {
+		// Cache the DOM queries.
+		var headerHeight = $('.site-header').outerHeight() + $('.developer-nav').outerHeight(),
+		    $sidebar = $('#page_sidebar, #actions_sidebar');
+
+		return function() {
+		    if(headerHeight - window.pageYOffset <= 0) {
+			$sidebar.addClass('is_fixed');
+		    } else {
+			$sidebar.removeClass('is_fixed');
+		    }
+		};
+	    }()));
 
             $.getJSON(url, function(data) { 
                 // console.log(window.location.pathname);
@@ -48,16 +69,10 @@
 
                 sort_pipeline();
 
-                $("#pipeline-stats").html(stats);
-
                 if ($.trim($("#select-action option:selected").text()) === "type") {
                     $("#select-milestone").addClass("hide");
                     $("#select-type").removeClass("hide");
                 }
-
-                // 100% width
-                $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
-		        $(".breadcrumb-nav").remove();
 
                 var parameters = window.location.search.replace("?", "");
                 parameters = $.trim(parameters.replace(/\/$/, ''));
@@ -95,11 +110,9 @@
                 }
             });
 
-            $("body").on("click", "#asana-create", function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    create_task($.trim($("#edit-sidebar-id").val()));
-                    $(this).addClass("disabled");
-                }
+            $("body").on("click", "#sidebar-maintainer", function(evt) {
+                $(this).find("input").removeClass("hide");
+                $(this).find(".readonly").addClass("hide");
             });
 
             $("body").on("click", "#pipeline_toggle-dev", function(evt) {
@@ -214,12 +227,21 @@
                 if ((evt.type === "keypress" && evt.which === 13) || (evt.type === "change" && $(this).children("select").length)) {
                    var field = $(this).attr("id").replace("edit-sidebar-", "");
                    if ((field !== "description") || (field === "description" && evt.ctrlKey)) {
-                       var value = (evt.type === "change")? $.trim($(this).find("option:selected").text()) : $.trim($(this).val());
+                       var value = (evt.type === "change")? $.trim($(this).find("option:selected").text()) : $.trim($(this).val().replace(/"/g, ""));
                        var id = $("#page_sidebar").attr("ia_id");
 
                        autocommit(field, value, id);
                    }
                 }
+            });
+
+            $("body").on("click", ".sidebar-toggle-public", function(evt) {
+                var field = "public";
+                var value = $(this).attr("id").replace(/^.+\-/, "");
+                value = (value === "true")? 1 : 0;
+                var id = $("#page_sidebar").attr("ia_id");
+
+                autocommit(field, value, id);
             });
 
             $("body").on("click", "#sidebar-close, .deselect-all", function(evt) {
@@ -267,7 +289,7 @@
                         value = $.trim($(this).find("option:selected").text().replace(/\s/g, "_"));
                     } else {
                         field = $.trim($(this).attr("id").replace("input-", ""));
-                        value = $.trim($(this).val());
+                        value = $.trim($(this).val().replace(/"/g, ""));
                     }
 
                     $(".dev_pipeline-column__list .selected").each(function(idx) {
@@ -315,7 +337,8 @@
 
             function send_to_beta(prs) {
                 var jqxhr = $.post("/ia/send_to_beta", {
-                    data : prs
+                    data : prs,
+                    action_token: $.trim($('meta[name=action-token]').attr("content")) 
                 })
                 .done(function(data) {
                     dev_p.saved = true;
@@ -327,11 +350,21 @@
                    field : field,
                    value : value,
                    id : id,
-                   autocommit : 1
+                   autocommit : 1,
+                   action_token: $.trim($('meta[name=action-token]').attr("content")) 
                })
                .done(function(data) {
                    if (data.result.saved) {
                        dev_p.saved = true;
+                       var $item = $(".dev_pipeline-column__list .selected");
+                       var meta_id = $item.attr("id").replace("pipeline-list__", "");
+                       var milestone = $item.parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
+                       value = ((field === "maintainer") && value)? JSON.parse(data.result[field]) : value;
+                       setPageData(meta_id, milestone, field, value);
+
+                       if (!$("#page_sidebar").hasClass("hide")) {
+                           appendSidebar(1, false);
+                       }
                    }
                });
             }
@@ -404,6 +437,18 @@
 
                     if (temp_ia.id === meta_id) {
                         return temp_ia;
+                    }
+                }
+            }
+            
+            function setPageData(meta_id, milestone, field, value) {
+                console.log(meta_id);
+                console.log(milestone);
+                for (var idx = 0; idx < dev_p.data.dev_milestones[milestone].length; idx++) {
+                    var temp_ia = dev_p.data.dev_milestones[milestone][idx];
+
+                    if (temp_ia.id === meta_id) {
+                        dev_p.data.dev_milestones[milestone][idx][field] = value;
                     }
                 }
             }
@@ -522,17 +567,6 @@
                 });
             }
 
-            function create_task(id) {
-                var jhxqr = $.post("/ia/asana", {
-                    id : id
-                })
-                .done(function(data) {
-                    console.log("Got so far");
-                    dev_p.saved = true;
-                });
-                    
-            }
-
             function filter(which_filter, reset) {
                 var query = dev_p.query? dev_p.query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&") : '';
                 var url = "";
@@ -589,7 +623,8 @@
                 var jqxhr = $.post("/ia/save_multiple", {
                     field : field,
                     value : value,
-                    ias : ias
+                    ias : ias,
+                    action_token: $.trim($('meta[name=action-token]').attr("content")) 
                 })
                 .done(function(data) {
                     dev_p.saved = true;

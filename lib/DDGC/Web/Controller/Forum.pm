@@ -312,7 +312,7 @@ sub comment_id : Chained('comment_view') PathPart('comment') CaptureArgs(1) {
     my $thread = $c->d->rs('Thread')->search({
       key => $id,
       forum => $c->d->config->id_for_forum('general'),
-    })->first;
+    })->one_row;
     if ($thread) {
       $c->response->redirect($c->chained_uri('Forum','thread',$thread->id,$thread->key));
       return $c->detach;

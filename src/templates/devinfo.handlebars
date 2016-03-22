@@ -1,4 +1,12 @@
 {{#ne_and dev_milestone 'live' 'deprecated'}}
+    {{#if permissions.can_edit}}
+        <div class="ia-single--info infobox__button hide">
+          <a href="#">
+            <span class="icon-question-sign"></span> Next Steps
+          </a>
+        </div>
+    {{/if}}
+
     <div class="ia-single--info">
         <h3 class="ia-single--header">
             <span {{#ne_and dev_milestone 'live' 'deprecated'}}{{#if permissions.admin}}class="asterisk"{{/if}}{{/ne_and}}>ID</span>
@@ -20,16 +28,36 @@
             <span class="error-notification hide">ID can't be empty</span>
         {{/if}}
     </div>
+    
+    {{#if permissions.can_edit}}
+        <div class="ia-single--info">
+            <h3 class="ia-single--header">
+                <span>Public</span>
+            </h3>
+
+           {{#is_false public}}
+               <p> This IA Page is hidden</p>
+               {{#if permissions.admin}}<div class="button btn--primary page-toggle-public" id="public-true">Make Public</div>{{/if}}
+           {{else}}
+               <p> This IA Page is public </p>
+               {{#if permissions.admin}}<div class="button btn--primary page-toggle-public" id="public-false">Hide from Dev Pipeline</div>{{/if}}
+           {{/is_false}}
+        </div>
+    {{/if}}
 {{/ne_and}}
 
-    {{#exists pr 'id'}}
-        <div class="ia-single--info">
-            <h3 class="ia-single--header">PR #</h3>
-            <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.id}}" class="one-line" id="pr">
-                {{pr.id}}
-            </a>
-        </div>
-    {{/exists}}
+<div class="ia-single--info">
+    <h3 class="ia-single--header">PR #</h3>
+    <ul>
+    {{#each prs}}
+        <li>
+            {{#eq_or status 'merged' 'closed'}} <i class="platform-pr-{{status}} left" /> {{/eq_or}}
+            <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{id}}" class="one-line {{#eq_or status 'closed' 'merged'}}no-pr{{/eq_or}} left" id="pr">{{id}}</a>
+            <span class="clearfix"></span>
+        </li>
+    {{/each}}
+    </ul>
+</div>
 
 {{#ne_and dev_milestone 'live' 'deprecated'}}
     {{#if permissions.admin}}
@@ -37,17 +65,30 @@
             <h3 class="ia-single--header">Blockgroup</h3>
             <span class="frm__select">
                 <select class="available_blockgroups blockgroup js-autocommit" tabindex="-1" id="blockgroup-select">
-                    {{#if blockgroup}}<option value="0">{{blockgroup}}</blockgroup>{{/if}}
+                    {{#if blockgroup}}<option value="0">{{blockgroup}}</option>{{/if}}
                 </select>
             </span>
         </div>
     {{/if}}
 
+    {{#if permissions.admin}}
+        <div class="ia-single--info">
+            <h3 class="ia-single--header">Production State</h3>
+            <span class="frm__select">
+                <select class="available_production_states production_state js-autocommit" tabindex="-1" id="production_state-select">
+                    {{#if production_state}}<option value="0">{{production_state}}</option>{{/if}}
+                    {{#not_eq production_state 'offline'}}<option value="1">offline</option>{{/not_eq}}
+                    {{#not_eq production_state 'online'}}<option value="2">online</option>{{/not_eq}}
+                </select>
+            </span>
+        </div>
+    {{/if}}
+    
     <div class="ia-single--info">
         <h3 class="ia-single--header">Dev Machine</h3>
 
         {{#if permissions.admin}}
-            {{#eq beta_install 'success'}}
+            {{#match beta_install 'success'}}
                 <p>Installed on <a href="http://beta.duckduckgo.com/{{#or example_query beta_query}}?q={{#if example_query}}{{example_query}}{{else}}{{beta_query}}{{/if}}{{/or}}">beta</a></p>
                 {{#if pr.id}}
                     <div class="button btn--primary {{#if staged.beta}}disabled{{/if}}" id="beta-install">Re-install on beta</div>
@@ -61,20 +102,54 @@
                 {{else}}
                     <p> Can't install on beta without a PR </p>
                 {{/if}}
-            {{/eq}}
+            {{/match}}
         {{else}}
             <span class="readonly--info" id="test_machine--readonly">
-                {{#eq beta_install 'success'}}
+                {{#match beta_install 'success'}}
                     Installed on <a href="http://beta.duckduckgo.com/{{#or example_query beta_query}}?q={{#if example_query}}{{example_query}}{{else}}{{beta_query}}{{/if}}{{/or}}">beta</a>
                 {{else}}
                     <span class="no-available">
                         Not yet installed on beta
                     </span>
-                {{/eq}}
+                {{/match}}
             </span>
         {{/if}}
     </div>
 {{/ne_and}}
+
+<div class="ia-single--info">
+    <h3 class="ia-single--header">
+            <span>Maintainer</span>
+    {{#if permissions.admin}}
+        {{#ne_and dev_milestone 'live' 'deprecated'}}
+            <a href="#" class="devpage-edit {{#exists staged 'maintainer'}}hide{{/exists}}" id="dev-edit-maintainer">Edit</a>
+            <a href="#" class="devpage-commit sep--after {{#n_exists staged 'maintainer'}}hide{{/n_exists}}" id="dev-commit-maintainer">Commit</a>
+            <a href="#" class="devpage-cancel {{#n_exists staged 'maintainer'}}hide{{/n_exists}}" id="dev-cancel-maintainer">Cancel</a>
+        {{/ne_and}}
+    {{/if}}
+    </h3>
+
+    <p  class="readonly--info {{#exists staged 'maintainer'}}hide{{/exists}}" id="maintainer--readonly">
+        {{#if maintainer}}
+            {{#if maintainer.github}}
+                <a href="https://github.com/{{maintainer.github}}"> {{maintainer.github}}</a>
+            {{else}}
+                <span class="no-available">No maintainer yet.</span>
+            {{/if}}
+        {{else}}
+            <span class="no-available">No maintainer yet.</span>
+        {{/if}}
+    </p>
+
+    {{#if permissions.admin}}
+        <input class="{{#n_exists staged 'maintainer'}}hide{{/n_exists}} frm__input maintainer js-autocommit hidden-toshow" id="maintainer-input"
+            value="{{~#exists staged 'maintainer'~}}
+                {{staged.maintainer}}
+            {{~else~}}
+                {{#if maintainer.duckco}}{{maintainer.duckco}}{{else}}{{maintainer.github}}{{/if}}
+            {{~/exists~}}" />
+    {{/if}}
+</div>
 
 <div class="ia-attribution ia-single--info">
     <h3 class="ia-single--header">Contributors

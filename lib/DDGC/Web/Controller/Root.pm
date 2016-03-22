@@ -62,9 +62,6 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 			}
 		}
 	}
-	elsif (!$c->session->{username_field}) {
-		$c->session->{username_field} = $c->d->uid;
-	}
 
 	$c->stash->{web_base} = $c->d->config->web_base;
 	$c->stash->{template_layout} = [ 'base.tx' ];
@@ -74,7 +71,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 	$c->stash->{page_class} = "texture";
 	$c->stash->{is_live} = $c->d->is_live;
 	$c->stash->{is_view} = $c->d->is_view;
-	$c->stash->{is_dev} = ( $c->d->is_live || $c->d->is_view ) ? 1 : 0;
+	$c->stash->{is_dev} = ( $c->d->is_live || $c->d->is_view ) ? 0 : 1;
 	$c->stash->{errors} = [];
     $c->stash->{js_version} = $c->d->config->js_version;
 
@@ -118,7 +115,7 @@ sub redir :Chained('base') :PathPart('redir') :Args(0) {
 		$c->response->redirect($c->chained_uri('Root','index',{ bad_url => 1 }));
 		return $c->detach;
 	}
-	$c->session->{r_url} = $u->canonical;
+	( $c->session->{r_url} = $u->canonical ) =~ s/'/%27/g;
 	$c->session->{r_referer_validated} = (index($c->req->headers->referer, $c->req->base->as_string) == 0) ? 1 : 0;
 	$c->response->redirect($c->chained_uri('Root','r'));
 	return $c->detach;
@@ -170,6 +167,7 @@ sub end : ActionClass('RenderView') {
 
 sub wear :Chained('base') :PathPart('wear') :Args(0) {
 	my ( $self, $c ) = @_;
+	goto REDIRECT;
 
 	$c->session->{wear_referer} = lc( $c->req->headers->referer ) if !$c->session->{wear_referer};
 

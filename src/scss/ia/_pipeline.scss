@@ -1,6 +1,10 @@
 $blue-variant: #7AB4E3;
 $gold-variant: #F6BE68;
 
+.platform-pr-merged { color: $purple; }
+
+.platform-pr-closed { color: $red; }
+
 #sort_pipeline {
     background-color: transparent;
     border: none;
@@ -143,12 +147,7 @@ textarea.edit-sidebar {
 }
 
 .wrap-pipeline {
-    /* Make the fonts look snazzy. */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    font-size: 13px;
-    min-height: 100vh;
+    @include wrapper();
 
     input, textarea {
 	outline: none;
@@ -185,11 +184,18 @@ textarea.edit-sidebar {
     color: $grey;
     position: relative;
 }
+
 #page_sidebar {
     width: 395px;
     overflow-x: hidden;
     overflow-y: auto;
     margin-bottom: 13em;
+
+    &.is_fixed {
+	position: fixed;
+	height: 100vh;
+	padding-top: 23px;
+    }
 }
 
 #actions_sidebar {
@@ -197,6 +203,12 @@ textarea.edit-sidebar {
 
     .frm__select {
 	width: 100%;
+    }
+
+    &.is_fixed {
+	position: fixed;
+	height: 100vh;
+	padding-top: 23px;
     }
 }
 
@@ -209,8 +221,8 @@ textarea.edit-sidebar {
     bottom: 0;
     background-color: $white;
     padding: 2em;
-    border: 1px solid rgba(200,200,200,0.2);
-    padding-top: 17.7em;
+    box-shadow: -1px 0 0 rgba(0,0,0,.15);
+    padding-top: 14.7em;
 
     .frm__label {
 	font-weight: 400;
@@ -283,15 +295,15 @@ textarea.edit-sidebar {
 }
 
 #dev_pipeline { 
-    margin-top: 0.5em; 
-    max-width: 1200px;
-    margin: 0 auto;
+    @include center-content();
+    width: auto;
+    margin: 0px 20px;
+    overflow: initial;
 }
 
 .item-activity a { 
     color: $grey-dark; 
 }
-
 
 #dev_pipeline .dev_pipeline-column {
     text-align: left;
@@ -302,9 +314,6 @@ textarea.edit-sidebar {
 	background-color: $silver;
     }
 
-    .platform-pr-merged { color: $purple; }
-
-    .platform-pr-closed { color: $red; }
 
     .activity-details {
         a { 
@@ -367,12 +376,11 @@ textarea.edit-sidebar {
 	}
 
 	&.dog-ear {
-	    @include background-image(linear-gradient(
-					  -135deg, 
-					  $blue-variant,
-					  $blue-variant 2%,
-					  transparent 2%,
-					  transparent));
+	    background-image: linear-gradient(-135deg, 
+					$blue-variant,
+					$blue-variant 2%,
+					transparent 2%,
+					transparent);
 	    background-origin: border-box;
 	}
 
@@ -389,7 +397,6 @@ textarea.edit-sidebar {
 	}
 
         .item-name {
-            .no-pr { text-decoration: line-through; }
 
 	    .item-activity a {
 		color: $blue;
@@ -407,26 +414,26 @@ textarea.edit-sidebar {
 	    }
 
             /* Change content to match the repo. */
-            &.pipeline__stamp {
+            &.pipeline__stamp- {
 
-		&-:before {
+		&:before {
 		    @include pipeline_stamp();
 		    margin-left: -3px;
 		}
 
-                &-spice:before,  &-goodies:before, &-fathead:before, &-longtail:before {
+                &spice:before,  &goodies:before, &fathead:before, &longtail:before {
 		    @include pipeline_stamp();
                 }
 
-		&-goodies:before {
+		&goodies:before {
 		    margin-left: -2px;
 		}
 
-		&-spice:before {
+		&spice:before {
 		    margin-left: -4px;
 		}
 
-		&-fathead:before, &-longtail:before {
+		&fathead:before, &longtail:before {
 		    margin-left: -5px;
 		}
             } 
@@ -539,19 +546,12 @@ textarea.edit-sidebar {
     padding-top: 2em;
 }
 
-.wrap-pipeline .pipeline__toggle-view {
-    background-color: $blue-light;
-    padding: 1em 1em;
-    margin-top: -1.2em;
-    color: white;
-
-    // Adjust z-index.
-    // It has to be above the actions sidebar.
-    position: relative;
-    z-index: $pipeline-blue-bar;
-
-    h1 {
-	color: white;
-    }
+.filter-count {
+    padding-left: 0.4em;
 }
 
+.no-pr { text-decoration: line-through; }
+
+#dev_pipeline .waiting-circle {
+    margin-top: 3.5em;
+}

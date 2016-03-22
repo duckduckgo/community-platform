@@ -12,7 +12,7 @@ sub base :Chained('/admin/base') :PathPart('help') :CaptureArgs(0) {
 	my ( $self, $c ) = @_;
 	$c->add_bc('Help editor', $c->chained_uri('Admin::Help','index'));
 
-	$c->stash->{help_language} = $c->d->rs('Language')->search({ locale => 'en_US' })->first;
+	$c->stash->{help_language} = $c->d->rs('Language')->search({ locale => 'en_US' })->one_row;
 	die 'english not found?!?!?' unless $c->stash->{help_language};
 	$c->stash->{help_language_id} = $c->stash->{help_language}->id;
 }
@@ -57,7 +57,7 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 			$c->stash->{changed_help_id} = $help->id;
 			my $help_content = $help->search_related('help_contents',{
 				language_id => $c->stash->{help_language_id},
-			})->first;
+			})->one_row;
 			if ($help_content) {
 				for (keys %help_content_values) {
 					$help_content->$_($help_content_values{$_});
@@ -136,7 +136,7 @@ sub categories :Chained('base') :Args(0) {
 			$c->stash->{changed_category_id} = $category->id;
 			my $help_category_content = $category->search_related('help_category_contents',{
 				language_id => $c->stash->{help_language_id},
-			})->first;
+			})->one_row;
 			if ($help_category_content) {
 				for (keys %category_content_values) {
 					$help_category_content->$_($category_content_values{$_});
@@ -163,7 +163,7 @@ sub media :Chained('base') :Args(2) {
 	$c->stash->{help_category} = $c->d->rs('Help::Category')->find({ key => $category_key });
 	$c->stash->{help} = $c->stash->{help_category}->search_related('helps',{
 		key => $help_key,
-	})->first;
+	})->one_row;
 	if (!$c->stash->{help}->content_by_language_id($c->stash->{help_language_id})->raw_html) {
 		$c->stash->{no_raw_html} = 1;
 		return $c->detach;

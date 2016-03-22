@@ -1,0 +1,27 @@
+.modal-bg {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    zoom: 1;
+    background-color: rgba(68, 149, 212, 0.6);
+    z-index: 100;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+    
+    margin-left: 0;
+}
+
+.modal-wrapper {
+    position: fixed;
+    z-index: 1000;
+    padding: 2.5em;
+    margin-left: -177px;
+    margin-top: -181px;
+    background-color: $white;
+    box-shadow: 0 0 10px rgba(0,0,0,.2);
+    overflow: auto;
+}
+

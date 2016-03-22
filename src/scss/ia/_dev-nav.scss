@@ -1,0 +1,52 @@
+// This is the "blue bar" navigation that
+// is available across all the developer pages.
+.developer-nav {
+    background: $blue-light;
+    padding: 2em calc(50% - 481px) 1em calc(50% - 481px);
+    height: 130px;
+    color: white;
+
+    // Adjust z-index to be above the sidebar.
+    position: relative;
+    z-index: $pipeline-blue-bar;
+    
+    h1 {
+	color: currentColor;
+	margin: 0.6em 0;
+    }
+
+    .pages, .sub {
+	text-align: center;
+
+	& > a {
+	    padding: 1em;
+	    color: currentColor;
+	    opacity: .65;
+	}
+
+	& > a.active-link {
+	    opacity: 1;
+	}
+    }
+
+    .sub {
+	text-align: initial;
+	color: $blue-lightest;
+
+	& > a {
+	    padding: inherit;
+	    opacity: 1;
+	    color: $white;
+	}
+    }
+}
+
+.developer-nav--new {
+    @extend .developer-nav;
+
+    h1 {
+	text-align: initial;
+	margin-bottom: 0.2em;
+	margin-top: 0.8em;
+    }
+}

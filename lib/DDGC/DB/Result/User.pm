@@ -120,9 +120,14 @@ column updated => {
 	set_on_update => 1,
 };
 
-column github_user => {
-    data_type => 'text',
-    is_nullable => 1
+column github_user_plaintext => {
+	data_type => 'text',
+	is_nullable => 1
+};
+
+unique_column github_id => {
+	data_type => 'bigint',
+	is_nullable => 1
 };
 
 column new_contributor => {
@@ -140,6 +145,12 @@ has xmpp => (
 sub _build_xmpp {
 	my ( $self ) = @_;
 	return { $self->ddgc->xmpp->user($self->username) };
+}
+
+sub github_user {
+	my ( $self ) = @_;
+	return $self->github_stats_user->login if $self->github_stats_user;
+	return $self->github_user_plaintext;
 }
 
 sub userpage_obj {
@@ -201,9 +212,15 @@ has_many 'user_blogs', 'DDGC::DB::Result::User::Blog', 'users_id', {
 has_many 'user_reports', 'DDGC::DB::Result::User::Report', 'users_id', {
   cascade_delete => 0,
 };
-has_many 'github_users', 'DDGC::DB::Result::GitHub::User', 'users_id', {
-  cascade_delete => 0,
-};
+
+# DDGC::DB::Result::GitHub::User already belongs to User...
+# But this happens to be a handy way of having a nullable-might_have-left-joiny
+# accessor to a Result instance without complaining from DBIC.
+# This almost certainly means I am missing something in the docs, but it works.
+#  - JBa
+belongs_to github_stats_user => 'DDGC::DB::Result::GitHub::User',
+    { 'foreign.github_id' => 'self.github_id' },
+    { on_delete => 'no action', join_type => 'left' };
 
 has_many 'failedlogins', 'DDGC::DB::Result::User::FailedLogin', 'users_id';
 
@@ -222,6 +239,40 @@ after insert => sub {
 	my ( $self ) = @_;
 	$self->add_default_notifications;
 };
+
+sub store_github_credentials {
+	my ( $self, $user_info ) = @_;
+	my $gh_data = { %$user_info };
+	delete $gh_data->{access_token};
+	$self->update( {
+		github_id          => $user_info->{id},
+	} );
+	my %github_stats_user_columns = map {
+		$_ => $user_info->{$_},
+	} (qw/
+		login gravatar_id name company
+		blog location email bio type
+		created_at updated_at
+	/);
+
+	# update_or_create_related would be nice here, but GitHub::User is not keyed on github_id
+	my $github_stats_user = $self->schema->resultset('GitHub::User')->find({
+		github_id => $user_info->{id}
+	});
+	if ( $github_stats_user ) {
+		$github_stats_user->update({
+			%github_stats_user_columns,
+			gh_data => $gh_data,
+		})
+	}
+	else {
+		$self->schema->resultset('GitHub::User')->create({
+			%github_stats_user_columns,
+			github_id => $user_info->{id},
+			gh_data => $gh_data,
+		})
+	}
+}
 
 sub add_default_notifications {
 	my ( $self ) = @_;
@@ -248,13 +299,6 @@ sub admin {
 	( $set )
 		? $self->add_role('admin')
 		: $self->del_role('admin');
-}
-
-sub github_user {
-	my ( $self ) = @_;
-	return $self->search_related('github_users',{},{
-		order_by => { -desc => 'updated' }
-	})->first;
 }
 
 sub normalise_role {
@@ -387,7 +431,7 @@ sub rate_limit_comment {
 			$self->ddgc->db->format_datetime(
 				DateTime->now - DateTime::Duration->new( seconds => $self->ddgc->config->comment_rate_limit ),
 			) },
-		})->first;
+		})->one_row;
 	}
 	return 0;
 }
@@ -751,7 +795,7 @@ sub responded_campaign {
 			responded => { '!=' => undef },
 			($time_ago) ? ( responded => { '<' => $time_ago } ) : (),
 			(defined $bad) ? ( bad_response => $bad ) : (),
-	})->first;
+	})->one_row;
 }
 
 sub set_responded_campaign {
@@ -816,13 +860,13 @@ sub get_coupon {
 	my $coupon = $self->schema->resultset('User::Coupon')->search({
 		users_id => $self->id,
 		campaign_id => $self->ddgc->config->id_for_campaign($campaign),
-	})->first;
+	})->one_row;
 
 	if (!$coupon && $opts->{create}) {
 		$coupon = $self->schema->resultset('User::Coupon')->search({
 			users_id => undef,
 			campaign_id => $self->ddgc->config->id_for_campaign($campaign),
-		})->first;
+		})->one_row;
 	}
 
 	return 0 if (!$coupon);

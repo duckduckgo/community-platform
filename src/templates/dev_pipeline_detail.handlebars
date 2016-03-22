@@ -68,6 +68,17 @@
         <div class="field-label primary-label"> Producer </div>
         <input class="edit-sidebar" data-focus-class="frm__input" id="edit-sidebar-producer" value="{{producer}}" />
     </div>
+    
+    <div id="sidebar-maintainer" class="sidebar-field">
+        <div class="field-label primary-label"> Maintainer </div>
+        {{#if maintainer}} <span class="readonly"> {{#if maintainer.github}} <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a> {{/if}} </span> {{/if}}
+        <input class="edit-sidebar {{#if maintainer}}hide{{/if}}" data-focus-class="frm__input" id="edit-sidebar-maintainer" value="{{#if maintainer.github}}{{maintainer.github}}{{/if}}" />
+    </div>
+
+    <div  class="sidebar-field">
+        <div class="field-label primary-label"> Contributors </div>
+        <span class="readonly"> {{#each developer}} <a href="{{url}}">{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
+    </div>
 
     <div class="sidebar-field">
         <div class="field-label primary-label"> Template </div>
@@ -75,22 +86,24 @@
     </div>
 
     <div class="sidebar-field">
-        <div class="field-label primary-label"> Asana Tasks </div>
-        {{#if asana}}
-            <span class="readonly">
-                <a href="https://app.asana.com/0/0/{{asana.asana_id}}">One open task</a>
-            </span>
+        <div class="field-label primary-label"> Public </div>
+        {{#is_false public}}
+            <p>This IA Page is hidden</p>
+            <div class="button btn--primary sidebar-toggle-public" id="public-true">Make Public</div>
         {{else}}
-            <div class="button btn--primary" id="asana-create">Create Task</div>
-        {{/if}}
+            <p>This IA Page is public</p>
+            <div class="button btn--primary sidebar-toggle-public" id="public-false">Hide from Dev Pipeline</div>
+        {{/is_false}}
     </div>
     
     {{#if pr.issue_id}}
         <div class="sidebar-field">
             <div class="field-label primary-label"> Dev Machine </div>
-            {{#eq beta_install 'success'}}
+            {{#match beta_install 'success'}}
                 <p>Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a></p>
-                <div class="button btn--primary" id="beta-single">Re-install on beta</div>
+                {{#eq pr.status 'open'}}
+                    <div class="button btn--primary" id="beta-single">Re-install on beta</div>
+                {{/eq}}
             {{else}}
                 {{#eq pr.status 'open'}}
                     {{#if beta_install}}Install on beta failed: <div class="readonly">{{beta_install}}</div>{{/if}}
@@ -98,7 +111,7 @@
                 {{else}}
                     <span></span>
                 {{/eq}}
-            {{/eq}}
+            {{/match}}
         </div>
     {{/if}}
 
@@ -139,40 +152,61 @@
             <span class="readonly"> {{perl_module}} </span>
         </div>
     {{/if}}
+    
+    {{#if maintainer}}
+        <div id="sidebar-maintainer" class="sidebar-field">
+            <div class="field-label primary-label"> Maintainer </div>
+            <span class="readonly"> {{#if maintainer.github}} <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a>{{/if}}</span>
+        </div>
+    {{/if}}
+
+    {{#is_true (length developer)}}
+        <div id="sidebar-perl_module" class="sidebar-field">
+            <div class="field-label primary-label"> Contributors </div>
+            <span class="readonly"> {{#each developer}} <a href="{{url}}">{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
+        </div>
+    {{/is_true}}
+
+    {{#if pr.issue_id}}
+        {{#match beta_install 'success'}}
+            <div class="sidebar-field">
+                <div class="field-label primary-label"> Dev Machine </div>
+                    <p>Installed on <a href="http://beta.duckduckgo.com/{{#if beta_query}}?q={{beta_query}}{{/if}}">beta</a></p>
+            </div>
+        {{/match}}
+    {{/if}}
 {{/if}}
 
 {{#if pr.status}}
-    {{#eq pr.status 'open'}}
-        <hr />
+    <hr />
 
-        <div id="sidebar-pr">
-            <div class="left">
-                <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line" id="pr">
-                    PR #{{pr.issue_id}}
-                </a>
-            </div>
-            <div class="right" title="{{format_time last_update}}">
-                <i class="ddgsi ddgsi-clock" />
-                {{timeago last_update}}
-            </div>
-            {{#if last_comment}}
-                <div class="right" id="all_comments">
-                    <i class="ddgsi ddgsi-comment" />
-                    {{length all_comments}}
-                </div>
-            {{/if}}
-
-            <span class="clearfix"></span>
-            
-            {{#each all_comments}}
-                <p class="comment">
-                    <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{../pr.issue_id}}#issuecomment-{{id}}">
-                        {{text}}
-                    </a>
-                </p>
-                <div>by <a href="https://github.com/{{user}}">{{user}}</a> {{timeago date 1}}</div>
-            {{/each}}
+    <div id="sidebar-pr">
+        <div class="left">
+            <a href="https://github.com/duckduckgo/zeroclickinfo-{{repo}}/issues/{{pr.issue_id}}" class="one-line {{#not_eq pr.status 'open'}}no-pr{{/not_eq}}" id="pr">
+                PR #{{pr.issue_id}}
+            </a>
         </div>
-    {{/eq}}
+        <div class="right" title="{{format_time last_update}}">
+            <i class="ddgsi ddgsi-clock" />
+            {{timeago last_update}}
+        </div>
+        {{#if last_comment}}
+            <div class="right" id="all_comments">
+                <i class="ddgsi ddgsi-comment" />
+                {{length all_comments}}
+            </div>
+        {{/if}}
+
+        <span class="clearfix"></span>
+        
+        {{#each all_comments}}
+            <p class="comment">
+                <a href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/issues/{{../pr.issue_id}}#issuecomment-{{id}}">
+                    {{text}}
+                </a>
+            </p>
+            <div>by <a href="https://github.com/{{user}}">{{user}}</a> {{timeago date 1}}</div>
+        {{/each}}
+    </div>
 {{/if}}
 

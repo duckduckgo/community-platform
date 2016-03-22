@@ -1,4 +1,16 @@
 $(document).ready(function() {
+    $('.nav-menu a').click(function() {
+	$('.slideout').toggleClass('is-open');
+    });
+
+    $('.slideout .ddgsi-close').click(function() {
+	$('.slideout').toggleClass('is-open');
+    });
+
+    $('.user-name .js-popout-link').click(function() {
+	$('.user-name .modal').toggleClass('is-showing');
+    });
+
 	$('.no-js').addClass('js').removeClass('no-js');
 	
 	$('.js-remove').remove();

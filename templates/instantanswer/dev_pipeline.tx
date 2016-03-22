@@ -1,32 +1,22 @@
-<div class="pipeline__toggle-view" id="pipeline_toggle-view">
-  <!--
-    <div class="pager-wrap">
-        <span class="button-group  button-group--paging">
-            <a href="/ia/dev" class="button pipeline__toggle-view__button" id="pipeline_toggle-home">
-                Home
-            </a>
-            <a href="#" class="button pipeline__toggle-view__button button-nav-current disabled" id="pipeline_toggle-dev">
-                Dev Pipeline
-            </a>
-            <a href="/ia/dev/issues" class="button pipeline__toggle-view__button" id="pipeline_toggle-live">
-                Issues
-            </a>
-            <a href="/ia/dev/deprecated" class="button pipeline__toggle-view__button" id="pipeline_toggle-deprecated">
-                Deprecated
-            </a>
-        </span>
+<div class="developer-nav">
+    <h1>Instant Answers</h1>
+
+    <div class="pages">
+      <a href="/ia/dev">Overview</a>
+      <a href="/ia/">Live</a>
+      <a href="/ia/dev/pipeline" class="active-link">In-Development</a>
+      <a href="/ia/dev/issues">Issues</a>
+      <: if $is_admin { :>
+	<a href="/ia/dev/deprecated">Archives</a>
+      <: } :>
     </div>
-  -->
-    <: if $is_admin { :>
-      <div id="create-new-ia" class="button right hide">
-        New IA Page
-      </div>
-    <: } :>
-
-    <span class="clearfix"></span>
-
-    <div id="pipeline-stats"></div>
 </div>
+
+<input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+
+<: if $is_admin { :>
+    <div id="create-new-ia" class="button right hide"></div>
+<: } :>
 
 <div id="page_sidebar" class="hide">
 </div>
@@ -35,4 +25,12 @@
 </div>
 
 <div id="dev_pipeline">
+    <div class='waiting-circle'>
+      <div class='waiting'>
+	<span><div></div></span>
+	<div></div>
+	<div></div>
+	<span><div></div></span>
+      </div>
+    </div>
 </div>

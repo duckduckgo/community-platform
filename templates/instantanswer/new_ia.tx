@@ -1,41 +1,140 @@
-<div id="new_ia_wizard">
-    <h1> New Instant Answer </h1>
-    <div class="wizard_field">
-        <h3 class="label"> Description </h3>
-        <p class="field_desc"> What does your Instant Answer do?</p>
-        <textarea cols="149" class="frm__text wizard_field_insert" id="description-input" ></textarea>
-    </div>
-    
-    <div class="wizard_field">
-        <h3 class="label"> Name </h3>
-        <p class="field_desc"> Good names have typically one or two words in them (e.g. Airlines, BBC, GitHub Status)</p>
-        <input class="frm__input wizard_field_insert" id="name-input" />
-    </div>   
- 
-    <div class="wizard_field">
-        <h3 class="label"> Example Query </h3>
-        <p class="field_desc"> What example search query would you like to answer?</p>
-        <input class="frm__input wizard_field_insert" id="example_query-input" />
-    </div>
-    
-    <div class="wizard_field">
-        <h3 class="label"> Data Source </h3>
-        <p class="field_desc">What's the data source for your IA?</p>
-        <input class="frm__input wizard_field_insert" id="src_url-input" />
-    </div>
-    
-    <div class="wizard_field">
-        <h3 class="label"> Type </h3>
-        <p class="field_desc">Depending on the scale of the data and how often it might change, your IA will be best suited for a specific type.</p>
-        <span class="frm__select">
-            <select id="repo-select" class="wizard_field_insert">
-                <option>Goodies</option>
-                <option>Spice</option>
-                <option>Fathead</option>
-                <option>Longtail</option>
-            </select>
-        </span>
+<div class="developer-nav--new">
+  <h1> New Instant Answer </h1>
+  <p class="sub">If you've already created a pull request, you can <a href="#" id="create-ia-from-pr">skip this step</a></p>
+</div>
+<div id="new_ia_wizard" class="ia-new">
+    <div id="create-ia-from-pr-bg" class="modal-bg <: if !$c.session.ia_data || ($c.session.ia_data && !$c.session.ia_data.pr) { :>hide<: } :>"></div>
+    <div id="create-ia-from-pr-form" class="new-ia-div <: if !$c.session.ia_data || ($c.session.ia_data && !$c.session.ia_data.pr) { :>hide<: } :> modal-wrapper">
+        <div>
+            <h3 class="left tx-clr--dk"> <strong>Enter Pull Request Link</strong></h3>
+            <div class="right" id="create-ia-from-pr-cancel">
+                 <i class="ddgsi ddgsi-close"></i>
+            </div>
+            <p class="clearfix tx-clr--lt">The IA Page will be created from the details within your pull request.</p>
+            <p class="error-message hide" id="pr-error">Incorrect URL</p>
+            <p class="error-message hide" id="pr-id-error">IA Page already exists: <a href=""></a></p>
+            <p class="error-message hide" id="pr-empty-error">This field can't be empty</p>
+            <input id="pr-input" class="new-ia-input frm__input" <: if $c.session.ia_data { :>value="<: $c.session.ia_data.pr :>"<: } :> placeholder="e.g., https://github.com/duckduckgo/zeroclickinfo-spice/pull/2328"/>
+        </div>
+
+        <div class="button btn--primary left" id="create-ia-from-pr-save">
+            Create Instant Answer Page
+        </div>
+
+        <span class="clearfix"></span>
     </div>
 
-    <div id="new_ia_wizard_save" class="button btn--primary"> Save </div>
+    <div id="login-bg" class="modal-bg hide"></div>
+    <div id="login-form" class="hide modal-wrapper">
+        <div>
+            <h3 class="label left"> Sign in</h3>
+            <div class="right" id="login-cancel">
+                 <i class="ddgsi ddgsi-close"></i>
+            </div>
+            <p class="clearfix first-p">Thanks - but you'll need to sign in before you can proceed. Don't worry, it will be quick!</p>
+            <p class="error-message hide" id="login-undef-error">Wrong username or password</p>
+            <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
+            <span class="error-message hide" id="login-username-error">Username can't be empty</span>
+            <input id="login-username-input" placeholder="Username" name="username" class="username-input frm__input" />
+            <span class="error-message hide" id="login-pwd-error">Invalid password</span>
+            <input id="login-pwd-input" type="password" placeholder="Password" name="password" class="pwd-input frm__input" />
+
+        <div class="button btn--primary"  name="login" id="login-save" >Sign in</div>
+        <div>
+            <p id="oauth_p"> Or <a id="save_before_oauth" href="#">Login with GitHub</a></p>
+        </div>
+        </div>
+        <p>Your duck.co community account is not in any way connected to your searches on duckduckgo.com</p>
+        <span class="clearfix"></span>
+    </div>
+
+    <div class="twothirds">
+	    <div class="wizard_field">
+		<div class="ia-new__title tx-clr--dk">Title</div>
+        <p class="error-message hide" id="id-error">An Instant Answer with this title already exists: <a href=""></a></p>
+        <p class="error-message hide" id="id-empty-error">The value for this field can't be empty</p>
+		<input class="frm__input wizard_field_insert" id="name-input" placeholder="e.g., AlternativeTo" <: if $c.session.ia_data { :>value="<: $c.session.ia_data.name :>"<: } :>/>
+	    </div>
+
+	    <div class="wizard_field">
+	      <div class="ia-new__title tx-clr--dk">Description</div>
+		<p class="field_desc tx-clr--lt">Describe the purpose of your IA. This will appear on the public Instant Answer Page. </p>
+		<textarea cols="100" class="frm__text wizard_field_insert" id="description-input"
+        placeholder="e.g., AlternativeTo lists alternatives to web-based software, desktop computer software, and mobile apps, and sorts the alternatives by various criteria, including the number of registered users who have clicked the Like button for each of them on AlternativeTo."><: if $c.session.ia_data { :><: $c.session.ia_data.description :> <: } :></textarea>
+        </div>
+
+	    <div class="wizard_field">
+	      <div class="ia-new__title tx-clr--dk">Example Query</div>
+		<p class="field_desc tx-clr--lt">List out some example queries that will trigger this Instant Answer.</p>
+		<input class="frm__input wizard_field_insert" id="example_query-input"
+        <: if $c.session.ia_data { :>value="<: $c.session.ia_data.example_query :><: if $c.session.ia_data.other_queries { :>,<: for $c.session.ia_data.other_queries -> $query { :>
+        <:$query :>, <: } } :>"<: } :>
+        placeholder="e.g., Alternative To Notepad, Alternative To Spotify for Windows" />
+	    </div>
+
+	    <div class="wizard_field">
+	      <div class="ia-new__title tx-clr--dk">Data Source</div>
+		<p class="field_desc tx-clr--lt">Link to the data source or API, if any</p>
+		<input class="frm__input wizard_field_insert" id="src_url-input" <: if $c.session.ia_data { :> value="<: $c.session.ia_data.src_url :>"<: } :> placeholder="http://api.alternativeto.net/" />
+	    </div>
+
+	    <div class="wizard_field">
+	      <div class="ia-new__title tx-clr--dk">Type</div>
+		<p class="field_desc tx-clr--lt">Each Instant Answer type specializes in handling certain scenarios - most common Instant Answers are Goodies and Spices</p>
+		<div id="repo-radio" class="radio-repo wizard_field_insert half radio-repo--left">
+			<label class="frm__label">
+			  <input type="radio" name="types" value="goodies" <: if $c.session.ia_data && $c.session.ia_data.repo == 'goodies' { :>checked<: } :>/>
+			  <span class="frm__label__txt">Goodies</span>
+			</label>
+			<p class="tx-clr--lt">IA is self-contained or produces its own data (e.g., <a target="_blank" href="https://duckduckgo.com/?q=35C+to+F&t=ffab&ia=answer">conversions</a>, <a href="https://duckduckgo.com/?q=color+picker&t=ffab&ia=colorpicker" target="_blank">color picker</a>)</p>
+
+			<label class="frm__label">
+			  <input type="radio" name="types" value="fathead" <: if $c.session.ia_data && $c.session.ia_data.repo == 'fathead' { :>checked<: } :>/>
+			  <span class="frm__label__txt">Fathead</span>
+			</label>
+			<p class="tx-clr--lt"> Key-Value lookup in a large database (e.g., <a target="_blank" href="https://duckduckgo.com/?q=javascript+console.log&ia=about">console.log</a>)</p>
+
+			<label class="frm__label">
+			  <input type="radio" name="types" value="goodies" <: if $c.session.ia_data && $c.session.ia_data.repo == 'goodies' { :>checked<: } :>/>
+			  <span class="frm__label__txt">Cheat Sheet</span>
+			</label>
+			<p class="tx-clr--lt">Short lists and cheat sheets (e.g. <a href="https://duckduckgo.com/?q=tennis+help&t=ffab&ia=cheatsheet">tennis help</a>, <a href="https://duckduckgo.com/?q=regex+cheat+sheet&t=ffab&ia=cheatsheet">regex syntax</a>)</a>
+		</div>
+		<div class="wizard_field_insert half radio-repo radio-repo--right">
+		  <label class="frm__label">
+		    <input type="radio" name="types" value="spice" <: if $c.session.ia_data && $c.session.ia_data.repo == 'spice' { :>checked<: } :>/>
+		    <span class="frm__label__txt">Spice</span>
+		  </label>
+		  <p class="tx-clr--lt">Data is provided by an API in real-time (e.g., <a target="_blank" href="https://duckduckgo.com/?q=weather&ia=weather">weather<a/>, <a href="https://duckduckgo.com/?q=bitcoin&ia=currency" target="_blank">bitcoin</a>)</p>
+
+		  <label class="frm__label">
+		    <input type="radio" name="types" value="longtail" <: if $c.session.ia_data && $c.session.ia_data.repo == 'longtail' { :>checked<: } :>/>
+		    <span class="frm__label__txt">Longtail</span>
+		  </label>
+		  <p class="tx-clr--lt">Full-text search (e.g., <a target="_blank" href="https://duckduckgo.com/?q=eye+of+the+tiger+&ia=lyrics">lyrics</a>)</p>
+
+		  <label class="frm__label">
+		    <input type="radio" name="types" value="" <: if !$c.session.ia_data && !$c.session.ia_data.repo { :>checked<: } :>/>
+		    <span class="frm__label__txt">I don't know</span>
+		  </label>
+		</div>
+		<span class="clearfix"></span>
+	    </div>
+
+	    <hr></hr>
+	    <div id="new_ia_wizard_save" class="button btn--primary right"> Create Instant Answer Page </div>
+    </div>
+    <div class="third">
+        <div class="ia-new__title"> Example IA Pages</div>
+        <ul>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/calculator" target="_blank">Calculator</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/dictionary_definition" target="_blank">Dictionary</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/forecast" target="_blank">Forecast</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/photoshop_cheat_sheet" target="_blank">Photoshop Cheatsheet</a></li>
+            <li><span class="ddgsi-right"></span><a href="/ia/view/soundcloud" target="_blank">SoundCloud</a></li>
+        </ul>
+    </div>
 </div>
+<: if $c.session.ia_data { :>
+    <div class="hide" id="session_ia_data"></div>
+<: } :>

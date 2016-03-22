@@ -1138,7 +1138,7 @@ sub add_token_domains {
 					for my $lang (keys %{$data}) {
 						my $tl = $token->search_related('token_languages',{
 							token_domain_language_id => $tcl{$lang}->id,
-						})->first;
+						})->one_row;
 						my @comments = @{$data->{$lang}};
 						$self->add_comments('DDGC::DB::Result::Token::Language', $tl->id, @comments);
 					}
@@ -1149,7 +1149,7 @@ sub add_token_domains {
 						my $lang = shift @trans_or_votes;
 						my $tl = $token->search_related('token_languages',{
 							token_domain_language_id => $tcl{$lang}->id,
-						})->first;
+						})->one_row;
 						my $i = 0;
 						my @votes;
 						my %msgstr;
