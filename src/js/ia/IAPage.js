@@ -26,7 +26,7 @@
 
             var page = this;
             var json_url = "/ia/view/" + DDH_iaid + "/json";
-            var this_username = $.trim($(".header-account-info .user-name a.js-popout-link").text());
+            this.username = $.trim($(".header-account-info .user-name a.js-popout-link").text());
             
             if (DDH_iaid) {
                 //console.log("for ia id '%s'", DDH_iaid);
@@ -153,12 +153,6 @@
 
                     page.updateAll(readonly_templates, ia_data, false);
 
-                    // Only logged in contributors can assign themselves IAs to maintain
-                    if (!this_username) {
-                        $("#maintain-button").remove();
-                    } else {
-                        $("#maintainer--readonly .no-available").remove();
-                    }
 
                     $('body').on("click", "#show-all-issues", function(evt) {
                         $(this).hide();
@@ -885,14 +879,14 @@
 
                     $("body").on('click', ".assign-button.js-autocommit", function(evt) {
                         var $input = $(".team-input");
-                        $input.val(this_username);
+                        $input.val(page.username);
                         $("#producer-input").removeClass("focused");
                          $("#contributors-popup .save-button-popup").removeClass("is-disabled");
-                        usercheck("duck.co", this_username, null, $("#producer-input"));
+                        usercheck("duck.co", page.username, null, $("#producer-input"));
                     });
 
                     $("body").on('click', '#maintain-button', function(evt) {
-                        autocommit('maintainer', this_username, DDH_iaid);
+                        autocommit('maintainer', page.username, DDH_iaid);
                     });
 
                     $("body").on('click', '.js-pre-editable.button', function(evt) {
@@ -1809,7 +1803,7 @@
                         $(".ia-single--left").append(templates.screens);
                     }
                 }
-
+                
                 if ((ia_data.live.dev_milestone === "live") && ia_data.live.hasOwnProperty("traffic") && ia_data.live.traffic.dates.length) {
                     var traffic = $("#ia_traffic").get(0).getContext("2d");
                     //var weekend_labels = this.getWeekends(ia_data.live.traffic.dates);
@@ -1862,6 +1856,14 @@
                     this.appendTopics($(".topic-group.js-autocommit"));
                     this.appendBlockgroup($(".available_blockgroups.js-autocommit"));
                 }
+                
+                // Only logged in contributors can assign themselves IAs to maintain
+                if (!this.username) {
+                    $("#maintain-button").remove();
+                } else {
+                    $("#maintainer--readonly .no-available").remove();
+                }
+
             } else {
                 $("#ia-single-top").attr("id", "ia-single-top--edit");
                 $("#ia-single-top-name, #ia-single-top-details, .ia-single--left, .ia-single--right, .edit-container, #ia-breadcrumbs").hide();

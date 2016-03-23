@@ -1033,7 +1033,15 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
-                return $c->forward($c->view('JSON')) unless $value = format_maintainer($c, $value, $ia, 0);
+                my $result = format_maintainer($c, $value, $ia, 0);
+                
+                if (!$result->{maintainer}) {
+                    $msg = $result->{msg};
+                    $c->stash->{x}->{result}->{msg} = $msg;
+                    return $c->forward($c->view('JSON'));
+                }
+
+                $value = $result->{maintainer};
             } elsif ($field eq "id") {
                 return $c->forward($c->view('JSON')) unless $is_admin;
                 $field = "meta_id";
@@ -1396,6 +1404,8 @@ sub format_maintainer {
     my $user = $c->d->rs('User');
     my $complat_user = $user->find({username => $value}) || $user->find_by_github_login($value);
     my $complat_user_admin = $complat_user? $complat_user->admin : '';
+    my %result;
+    my $msg = '';
 
     
     my %maintainer;
@@ -1413,6 +1423,10 @@ sub format_maintainer {
             $complat_user = $gh_id ? $user->find({github_id => $gh_id}) : '';
             $complat_user_admin = $complat_user? $complat_user->admin : '';
         }
+    } elsif ($complat_user) {
+        $msg = 'User has no GitHub account linked';
+    } elsif (!$complat_user) {
+        $msg = 'Invalid username';
     }
 
     if ($complat_user && $commit && %maintainer) {
@@ -1420,7 +1434,13 @@ sub format_maintainer {
         $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
     }
 
-    return %maintainer ? to_json \%maintainer : 0;
+    %result = (
+        maintainer => %maintainer ? to_json \%maintainer : 0,
+        msg => $msg,
+    );
+
+    return \%result;
+
 }
 
 sub save {
