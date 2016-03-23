@@ -1047,11 +1047,19 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
                 }
-            } elsif ($field eq "dev_milestone" && $value eq "ghosted") {
-                # by changing the meta_id we allow the former one to be used again for
-                # other IA Pages
-                $new_meta_id = $ia->meta_id . "_ghosted_" . $c->d->uuid->create_str;
-                my $meta_id_edit = add_edit($c, $ia, "meta_id", $new_meta_id);
+            } elsif ($field eq "dev_milestone" && $value =~ /ghosted|deprecated|planning/) {
+                if ($ia->production_state eq 'online') {
+                    $msg = 'Value "' . $value . '" not allowed when production_state is "online"';
+                    $c->stash->{x}->{result}->{msg} = $msg;
+                    return $c->forward($c->view('JSON'));
+                }
+
+                if ($value eq "ghosted") {
+                    # by changing the meta_id we allow the former one to be used again for
+                    # other IA Pages
+                    $new_meta_id = $ia->meta_id . "_ghosted_" . $c->d->uuid->create_str;
+                    my $meta_id_edit = add_edit($c, $ia, "meta_id", $new_meta_id);
+                }
             } elsif ($field eq "src_id") {
                 if ($c->d->rs('InstantAnswer')->find({src_id => $value})) {
                     $msg = "ID already in use";
