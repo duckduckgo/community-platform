@@ -16,8 +16,8 @@ column contribution_date        => {data_type => 'timestamp with time zone', is_
 
 unique_constraint [qw( github_event_id github_repo_id)];
 
-has_one 'repo', 'DDGC::DB::Result::GitHub::Repo', 'github_repo_id';
-has_one 'user', 'DDGC::DB::Result::GitHub::User', 'contributor_id';
+belongs_to 'repo', 'DDGC::DB::Result::GitHub::Repo', 'github_repo_id';
+belongs_to 'user', 'DDGC::DB::Result::GitHub::User', 'contributor_id';
 
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );
