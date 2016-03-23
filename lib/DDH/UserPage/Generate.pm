@@ -87,13 +87,9 @@ sub generate {
         my $content = $self->xslate->render(
             'userpage/index.tx',
             {
-                json_data => $self->json->encode(
-                    $contributor_data
-                ),
                 data => $contributor_data
             }
         );
-
 
         open my $fh, '>:encoding(UTF-8)', "$build_dir/index.html" or die();
         print $fh $self->xslate->render(
@@ -105,6 +101,11 @@ sub generate {
             }
         );
         close $fh;
+
+        # JSON dump of user's data
+        open my $jfh, '>:encoding(UTF-8)', "$build_dir/index.json" or die();
+        print $jfh $self->json->encode( $contributor_data );
+        close $jfh;
     }
 }
 
