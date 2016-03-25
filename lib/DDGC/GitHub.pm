@@ -479,6 +479,30 @@ sub update_repo_commit_from_data {
         ->update_or_create(\%columns, { key => 'github_commit_sha_github_repo_id' });
 }
 
+sub update_repo_commit_comments {
+
+}
+
+sub update_repo_commit_comment_from_data {
+    my ($self, $gh_repo, $commit) = @_;
+
+    my %columns;
+    $columns{commit_id}         = $comment->{commit_id};
+    $columns{github_user_id}    = $self->find_or_update_user($comment->{user}->{login})->id;
+    $columns{comment_id}        = $comment->{id};
+    $columns{path}              = $comment->{path};
+    $columns{position}          = $comment->{position};
+    $columns{line}              = $comment->{line};
+    $columns{body}              = $comment->{body};
+    $columns{created_at}        = parse_datetime($comment->{created_at});
+    $columns{updated_at}        = parse_datetime($comment->{updated_at});
+    $columns{gh_data}           = $comment;
+
+    return $gh_repo
+        ->related_resultset('github_commit_comments')
+        ->update_or_create(\%columns, { key => 'github_commit_comment_commit_id_comment_id_repo_id' })
+}
+
 sub update_repo_issues {
     my ($self, $gh_repo) = @_;
 
