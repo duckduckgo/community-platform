@@ -243,6 +243,8 @@ sub update_repo_from_data {
     printf "Updating %s/%s\n", $gh_repo->owner_name, $gh_repo->repo_name;
     print "   commits...\n";
     $self->update_repo_commits($gh_repo);
+    print "   commit comments...\n";
+    $self->update_repo_commit_comments($gh_repo);
     print "   issues...\n";
     $self->update_repo_issues($gh_repo);
     print "   pulls...\n";
@@ -480,7 +482,30 @@ sub update_repo_commit_from_data {
 }
 
 sub update_repo_commit_comments {
+    my ($self, $gh_repo) = @_;
 
+    my $latest_comment = $gh_repo
+        ->related_resultset('github_commit_comments')
+        ->most_recent;
+
+    my %params;
+    $params{owner} = $gh_repo->owner_name;
+    $params{repo}  = $gh_repo->repo_name;
+    $params{since} = datetime_str($latest_comment->updated_at + $self->one_second)
+        if $latest_comment;
+
+    my $comments_data = $self->gh_api->commit_comments(%params);
+
+    my @gh_comments;
+    push @gh_comments, $self->update_commit_comment_from_data($gh_repo, $_)
+        for @$comments_data;
+
+    print "    contributor_activity...\n";
+    my @contributions;
+    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_commit_comment')
+        for @$comments_data;
+
+    return \@gh_comments;
 }
 
 sub update_repo_commit_comment_from_data {
