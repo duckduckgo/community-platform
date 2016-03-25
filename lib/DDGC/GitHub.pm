@@ -291,11 +291,6 @@ sub update_repo_pulls {
     push @gh_pulls, $self->update_repo_pull_from_data($gh_repo, $_)
         for @$pulls_data;
 
-    print "   contributor_activity...\n";
-    my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'github_pull')
-        for @$pulls_data;
-
     return \@gh_pulls;
 }
 
@@ -341,7 +336,7 @@ sub update_repo_review_comments {
     
     print "   contributor_activity...\n";
     my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'github_review_comment')
+    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_pull_comment')
        for @$comments_data;
 
     return \@gh_comments;
@@ -387,7 +382,7 @@ sub update_repo_comments {
 
     print "   contributor_activity...\n";
     my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'github_repo_comment')
+    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_issue_comment')
         for @$comments_data;
 
     return \@gh_comments;
@@ -453,7 +448,7 @@ sub update_repo_commits {
 
     print "   contributor_activity...\n";
     my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'github_commit')
+    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_commit')
        for @$commits_data;
 
     return \@gh_commits;
@@ -504,11 +499,6 @@ sub update_repo_issues {
     my @gh_issues;
     push @gh_issues, $self->update_repo_issue_from_data($gh_repo, $_)
         for @$issues_data;
-
-    print "   contributor_activity...\n";
-    my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'github_issue_update')
-       for @$issues_data;
 
     return \@gh_issues;
 }
