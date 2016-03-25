@@ -7,7 +7,10 @@
 <!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
     : include "includes/head.tx"
-    : include "includes/js.tx"
+    
+    : if !$no_js {
+        : include "includes/js.tx"
+    : }
 </head>
 <body class="<: $vars.page_class :><: if $vars.user { :> loggedin<: if $vars.user.admin || $vars.user.is('forum_manager') { :> loggedin--admin<: } } :>">
     <div id="wrapper">
