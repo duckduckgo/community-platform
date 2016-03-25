@@ -600,7 +600,7 @@ sub update_repo_issue_events {
 
     print "   contributions...\n";
     my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_issue_')
+    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_')
         for @issue_events_data;
         
     return \@gh_issue_events;
@@ -669,7 +669,16 @@ sub update_contributor_activity_from_data {
     my ($self, $gh_repo, $data, $contribution_type) = @_;
     
     my $unique = $data->{sha} || "$data->{id}";
-    my $user = $data->{commit} ? 'committer' : 'user'; 
+    my $user;
+        if ($data->{commit}) {
+          $user = 'committer';
+        } elsif ($data->{event_type}) {
+          $user = 'actor';
+          my $type_substr = $data->{isa_pull_request} ? 'pull_' : 'issue_';
+          $contribution_type = $contribution_type . $type_substr . $data->{event_type};
+        } else {
+          $user = 'user';
+        }
     my $date = $data->{commit} ? parse_datetime($data->{commit}->{$user}->{date}) : parse_datetime($data->{created_at});
 
     my %columns;
