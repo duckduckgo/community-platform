@@ -247,6 +247,8 @@ sub update_repo_from_data {
     $self->update_repo_commit_comments($gh_repo);
     print "   issues...\n";
     $self->update_repo_issues($gh_repo);
+    print "   issue events...\n";
+    $self->update_repo_issue_events($gh_repo);
     print "   pulls...\n";
     $self->update_repo_pulls($gh_repo);
     print "   comments...\n";
@@ -500,7 +502,7 @@ sub update_repo_commit_comments {
     push @gh_comments, $self->update_commit_comment_from_data($gh_repo, $_)
         for @$comments_data;
 
-    print "    contributor_activity...\n";
+    print "   contributor_activity...\n";
     my @contributions;
     push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_commit_comment')
         for @$comments_data;
@@ -575,6 +577,58 @@ sub update_repo_issue_from_data {
     return $gh_repo
         ->related_resultset('github_issues')
         ->update_or_create(\%columns, { key => 'github_issue_github_id' });
+}
+
+sub update_repo_issue_events {
+    my ($self, $gh_repo) = @_;
+    
+    my $latest_issue_event = $gh_repo
+        ->related_resultset('github_issue_events')
+        ->most_recent;
+
+    my %params;
+    $params{owner}  = $gh_repo->owner_name;
+    $params{repo}   = $gh_repo->repo_name;
+    $params{since}  = datetime_str($latest_issue_event->event_date + $self->one_second)
+        if $latest_issue_event;
+
+    my $issue_events_data = $self->gh_api->issue_events(%params);
+
+    my @gh_issue_events;
+    push @gh_issue_events, $self->update_repo_issue_event_from_data($gh_repo, $_)
+        for @issue_events_data;
+
+    print "   contributions...\n";
+    my @contributions;
+    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_issue_')
+        for @issue_events_data;
+        
+    return \@gh_issue_events;
+}
+
+sub update_repo_issue_event_from_data {
+    my ($self, $gh_repo, $event) = @_;
+
+    my %columns;
+    $columns{github_id}      = $event->{id};
+    $columns{github_user_id} = $self->find_or_update_user($event->{actor}->{login})->id;
+    $columns{event_type}     = $event->{event};
+    $columns{event_date}     = parse_datetime($event->{created_at});
+    $columns{issue_id}       = $event->{issue}->{id};
+    $columns{isa_pull_request} $event->{pull_request} ? 1 : 0;
+    
+    $columns{github_user_id_assignee} = $self->find_or_update_user($event->{assignee}->{login})->id
+        if defined $event->{assignee};
+    
+    $columns{github_user_id_assigner} = $self->find_or_update_user($event->{assigner}->{login})->id
+        if defined $event->{assigner};
+
+    $columns{commit_id} = $event{commit_id}
+        if defined $event->{commit_id};
+    
+    return $gh_repo
+        ->related_resultset('github_issue_events')
+        ->upate_or_create(\%columns, { key => 'github_issue_event_github_id_issue_id' });
 }
 
 sub update_repo_forks {
