@@ -5,10 +5,14 @@ use warnings;
 
 use Moo;
 use DDGC;
+use DDGC::Web;
 
 use HTTP::Tiny;
 use Try::Tiny;
 use JSON::MaybeXS;
+use Plack::Builder;
+use Plack::Test;
+use HTTP::Request::Common;
 use List::MoreUtils qw/ uniq /;
 use Carp;
 
@@ -32,6 +36,15 @@ sub _build_ddgc {
     DDGC->new;
 }
 
+has app => ( is => 'lazy' );
+sub _build_app {
+    Plack::Test->create(
+        builder {
+            mount '/' => DDGC::Web->new->psgi_app;
+        }
+    );
+}
+
 sub ia_repo {
     my ( $self ) = @_;
     my $response = $self->http->get( $self->repo_url );
@@ -41,6 +54,17 @@ sub ia_repo {
     }
 
     $self->json->decode( $response->{content} );
+}
+
+sub ia_local {
+    my ( $self ) = @_;
+    my $response = $self->app->request( GET '/ia/repo/all/json?all_milestones=1' );
+
+    if ( !$response->is_success ) {
+        croak sprintf( "%s %s", $response->code, $response->message );
+    }
+
+    $self->json->decode( $response->decoded_content );
 }
 
 sub gh_issues {
@@ -94,19 +118,47 @@ sub transform {
 
         if ( $ia->{$ia_id}->{developer} ) {
 
-            for my $developer ( @{ $ia->{$ia_id}->{developer} } ) {
+            if ( ref $ia->{$ia_id}->{developer} eq 'ARRAY' ) {
 
-                if ( $developer->{type} &&
-                     $developer->{type} eq 'github' ) {
+                for my $developer ( @{ $ia->{$ia_id}->{developer} } ) {
 
-                    ( my $login = $developer->{url} ) =~
-                        s{https://github.com/(.*)/?}{$1};
+                    if ( $developer->{type} &&
+                         $developer->{type} eq 'github' ) {
 
-                    push @contributors, $login;
+                        ( my $login = $developer->{url} ) =~
+                            s{https://github.com/(.*)/?}{$1};
+
+                        push @contributors, $login;
+                    }
                 }
+
+            }
+            else {
+                use DDP;
+                warn sprintf("IA $ia_id - 'developer' is not an array:\n%s\n",
+                    p $ia->{$ia_id}->{developer});
             }
 
         }
+
+        # Issues count for this IA
+        if ( my $issues = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 0 })->count ) {
+
+            $ia->{$ia_id}->{issues_count} = $issues;
+        }
+
+        # PRs count for this IA
+        if ( my $pulls = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 1 })->count ) {
+        
+            $ia->{$ia_id}->{prs_count} = $pulls;
+        }
+
+        # Maintained IAs for each contributor
+        if ( ( my $maintainer = $ia->{$ia_id}->{maintainer} ) && ( $ia->{$ia_id}->{maintainer}->{github} ) ) {
+            
+            push @{ $transform->{$maintainer->{github}}->{maintained} }, $ia->{$ia_id};
+        }
+
 
         if ( $ia->{$ia_id}->{attribution} ) {
 
@@ -156,7 +208,7 @@ sub transform {
 
 sub contributors {
     my ( $self ) = @_;
-    $self->transform( $self->ia_repo );
+    $self->transform( $self->ia_local );
 }
 
 1;
