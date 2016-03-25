@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Moo;
+use DDGC;
 
 use HTTP::Tiny;
 use Try::Tiny;
@@ -26,6 +27,11 @@ sub _build_json {
     JSON::MaybeXS->new(utf8 => 1);
 }
 
+has ddgc => ( is => 'lazy' );
+sub _build_ddgc {
+    DDGC->new;
+}
+
 sub ia_repo {
     my ( $self ) = @_;
     my $response = $self->http->get( $self->repo_url );
@@ -35,6 +41,46 @@ sub ia_repo {
     }
 
     $self->json->decode( $response->{content} );
+}
+
+sub gh_issues {
+    my ( $self, $username ) = @_;
+    my @issues;
+
+    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->find({ login => $username }) ) {
+
+        my $gh_id = $gh_user->id;
+        @issues = $self->ddgc->rs('GitHub::Issue')->search({
+           ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
+                   { 'me.github_user_id' => $gh_id }]
+           ),
+           ( 'me.state' => 'open' ),
+        },
+        {
+            join => [ qw/ github_repo / ],
+            columns => [ qw/ id state github_repo_id title number isa_pull_request github_repo.full_name / ],
+            collapse => 1,
+            group_by => 'me.id',
+            result_class => 'DBIx::Class::ResultClass::HashRefInflator',
+        });
+    }
+
+    return \@issues;
+}
+
+sub find_ia {
+    my ( $self, $issue ) = @_;
+    
+    if ( my $ia_issue = $self->ddgc->rs('InstantAnswer::Issues')->search({ issue_id => $issue->{number} })->first ) {
+        $issue->{ia_id} = $ia_issue->instant_answer_id;
+
+        if ( my $ia = $self->ddgc->rs('InstantAnswer')->find({ meta_id => $ia_issue->instant_answer_id }) ) {
+            $issue->{ia_name} = $ia->name;
+        }
+        
+    }
+
+    return $issue;
 }
 
 sub transform {
@@ -56,7 +102,7 @@ sub transform {
                     ( my $login = $developer->{url} ) =~
                         s{https://github.com/(.*)/?}{$1};
 
-                    push @contributors, lc $login;
+                    push @contributors, $login;
                 }
             }
 
@@ -74,15 +120,32 @@ sub transform {
 
         for my $contributor ( uniq @contributors ) {
             # Some of our github logins contain '/' at the end?
-            $contributor =~ s{/$}{};
+            my $lc_contributor = lc $contributor;
+            $lc_contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
-            push @{ $transform->{$contributor}->{ $milestone } }, $ia->{$ia_id};
+            push @{ $transform->{$lc_contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
+            
+            #Append GitHub issues and pull requests
+            if ( (my $issues = $self->gh_issues( $contributor )) && !($transform->{$lc_contributor}->{pulls}) && !($transform->{$lc_contributor}->{issues}) ) {
+                for my $issue ( uniq @{ $issues } ) {
+                    # Pair the issue to an IA if possible
+                    $issue = $self->find_ia( $issue );
+
+                    if ( $issue->{isa_pull_request} ) {
+                        push @{ $transform->{$lc_contributor}->{pulls} }, $issue;
+                    } else {
+                        push @{ $transform->{$lc_contributor}->{issues} }, $issue;
+                    }
+                }
+            }
+
+            # Append topics
             if ( $ia->{$ia_id}->{topic} && ( $ia->{$ia_id}->{dev_milestone} eq 'live' ) ) {
                 for my $topic ( @{ $ia->{$ia_id}->{topic} } ) {
 
-                    my $topic_count = $transform->{contributor}->{topics}->{$topic};
+                    my $topic_count = $transform->{$lc_contributor}->{topics}->{$topic};
                     $topic_count = $topic_count? $topic_count + 1 : 1;
-                    $transform->{$contributor}->{topics}->{$topic} = $topic_count;
+                    $transform->{$lc_contributor}->{topics}->{$topic} = $topic_count;
                 }
             }
         }

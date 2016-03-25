@@ -142,7 +142,17 @@
                     var temp_id = $temp_el.attr("id");
                     var temp_field = temp_id.replace(/\-[^\-]+$/, "");
                     var temp_type = temp_id.replace(/^.+\-/, "");
-                    var temp_val = (temp_type === "radio")? $.trim($temp_el.find('input[type="radio"]:checked').val()) : $.trim($temp_el.val().replace(/"/g, ""));
+                    var temp_val; 
+                    if (temp_type === "radio") {
+                        temp_val = $.trim($temp_el.find('input[type="radio"]:checked').val());
+                    } else {
+                        temp_val = $.trim($temp_el.val().replace(/"/g, ""));
+                        if ((temp_field === "description") && (temp_val.length > 1000)) {
+                            temp_val = temp_val.substr(0, 1000);
+                            var last_period = temp_val.lastIndexOf(".") + 1;
+                            temp_val = last_period? temp_val.substring(0, last_period) : temp_val;
+                        }
+                    }
 
                     if (temp_field) {
                         temp_field = temp_field.replace(/^.+\-/, "");
