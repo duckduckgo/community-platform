@@ -617,10 +617,11 @@ sub update_repo_issue_event_from_data {
     $columns{created_at}       = parse_datetime($event->{created_at});
     # the original schema has this field but it's unclear where the data is intended to come from
     # $columns{created}          = parse_datetime($event->{created});
-    $columns{isa_pull_request} = $event->{pull_request} ? 1 : 0;
+    # $columns{isa_pull_request} = $event->{pull_request} ? 1 : 0;
     $columns{gh_data}          = $event;
-    $columns{github_commit_id} = $event{commit_id}
-        if defined $event->{commit_id};
+    
+    # $columns{github_commit_id} = $event{commit_id}
+    #    if defined $event->{commit_id};
     
     return $gh_repo
         ->related_resultset('github_issue_events')
