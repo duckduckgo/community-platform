@@ -123,7 +123,7 @@ sub _build_owners_team_id {
     my $teams_data = $self->net_github->org->teams('DuckDuckGo');
 
     for my $team_data (@$teams_data) {
-        next unless $team_data->{name} eq 'Owners';
+        next unless $team_data->{name} eq 'Core';
         return $team_data->{id};
     }
 
