@@ -611,7 +611,7 @@ sub update_repo_issue_event_from_data {
 
     my %columns;
     $columns{github_id}        = $event->{id};
-    $columns{github_id}        = $event->{issue}->{id};
+    $columns{github_issue_id}  = $event->{issue}->{id};
     $columns{github_user_id}   = $self->find_or_update_user($event->{actor}->{login})->id;
     $columns{event}            = $event->{event};
     $columns{created_at}       = parse_datetime($event->{created_at});
