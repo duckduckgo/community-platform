@@ -207,6 +207,10 @@ sub wanted_repos {
         duckduckgo/zeroclickinfo-longtail
         duckduckgo/p5-app-duckpan
         duckduckgo/duckduckhack-docs
+        duckduckgo/community-platfrom
+        duckduckgo/duckduckgo-publisher
+        duckduckgo/duckduckgo-styles
+        duckduckgo/cpp-libface
     |;
 }
 
