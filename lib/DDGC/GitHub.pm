@@ -589,7 +589,7 @@ sub update_repo_issue_events {
     my %params;
     $params{owner}  = $gh_repo->owner_name;
     $params{repo}   = $gh_repo->repo_name;
-    $params{since}  = datetime_str($latest_issue_event->event_date + $self->one_second)
+    $params{since}  = datetime_str($latest_issue_event->created_at + $self->one_second)
         if $latest_issue_event;
 
     my $issue_events_data = $self->gh_api->issue_events(%params);
@@ -610,25 +610,21 @@ sub update_repo_issue_event_from_data {
     my ($self, $gh_repo, $event) = @_;
 
     my %columns;
-    $columns{github_id}      = $event->{id};
-    $columns{github_user_id} = $self->find_or_update_user($event->{actor}->{login})->id;
-    $columns{event_type}     = $event->{event};
-    $columns{event_date}     = parse_datetime($event->{created_at});
-    $columns{issue_id}       = $event->{issue}->{id};
-    $columns{isa_pull_request} $event->{pull_request} ? 1 : 0;
+    $columns{github_id}        = $event->{id};
+    $columns{github_id}        = $event->{issue}->{id};
+    $columns{github_user_id}   = $self->find_or_update_user($event->{actor}->{login})->id;
+    $columns{event}            = $event->{event};
+    $columns{created_at}       = parse_datetime($event->{created_at});
+    # the original schema has this field but it's unclear where the data is intended to come from
+    # $columns{created}          = parse_datetime($event->{created});
+    $columns{isa_pull_request} = $event->{pull_request} ? 1 : 0;
     
-    $columns{github_user_id_assignee} = $self->find_or_update_user($event->{assignee}->{login})->id
-        if defined $event->{assignee};
-    
-    $columns{github_user_id_assigner} = $self->find_or_update_user($event->{assigner}->{login})->id
-        if defined $event->{assigner};
-
-    $columns{commit_id} = $event{commit_id}
+    $columns{github_commit_id} = $event{commit_id}
         if defined $event->{commit_id};
     
     return $gh_repo
         ->related_resultset('github_issue_events')
-        ->upate_or_create(\%columns, { key => 'github_issue_event_github_id_issue_id' });
+        ->upate_or_create(\%columns, { key => 'github_issue_event_github_id' });
 }
 
 sub update_repo_forks {
