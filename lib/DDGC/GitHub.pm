@@ -114,6 +114,14 @@ sub update_user {
     return $self->update_user_from_data($user);
 }
 
+# only called from update_contributor_activity_from_data
+# used to identify issues that are also PRs
+sub is_issue_pr {
+    my ($self, $issue_id) = @_;
+    my $pull = $self->ddgc->rs('GitHub::Pull')->find({ id => $issue_id });
+    return $pull->{isa_pull_request}; 
+}
+
 # these should probably be in the db or cached in redis
 has owners_team_id      => (is => 'lazy'); 
 has owners_team_members => (is => 'lazy');
@@ -674,8 +682,12 @@ sub update_contributor_activity_from_data {
         if ($data->{commit}) {
           $user = 'committer';
         } elsif ($data->{event_type}) {
+          # if the data has an event_type key, we know it's a github_issue_event
           $user = 'actor';
-          my $type_substr = $data->{isa_pull_request} ? 'pull_' : 'issue_';
+          # we need to diffrentiate between pulls and issue events
+          # so we check to see if the FK issue isa_pull_request is 1 : 0 with is_issue_pr
+          my $type_substr = $self->is_issue_pr($data->{id}) ? 'pull_' : 'issue_';
+          # contruct the correct issue event string
           $contribution_type = $contribution_type . $type_substr . $data->{event_type};
         } else {
           $user = 'user';
