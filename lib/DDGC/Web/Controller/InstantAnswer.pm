@@ -1034,14 +1034,15 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
                 my $result = format_maintainer($c, $value, $ia, 0);
-                
+               use Data::Dumper;
+               print Dumper $result;
                 if (!$result->{maintainer}) {
                     $msg = $result->{msg};
                     $c->stash->{x}->{result}->{msg} = $msg;
                     return $c->forward($c->view('JSON'));
                 }
 
-                $value = $result->{maintainer};
+                $value = to_json $result->{maintainer};
             } elsif ($field eq "id") {
                 return $c->forward($c->view('JSON')) unless $is_admin;
                 $field = "meta_id";
@@ -1435,7 +1436,7 @@ sub format_maintainer {
     }
 
     %result = (
-        maintainer => %maintainer ? to_json \%maintainer : 0,
+        maintainer => \%maintainer,
         msg => $msg,
     );
 
