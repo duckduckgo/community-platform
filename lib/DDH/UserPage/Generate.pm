@@ -97,27 +97,9 @@ sub generate {
             warn "$contributor appears to be a URL - skipping";
             next;
         }
+
         my $build_dir = $self->contributor_dir( $contributor );
         my $contributor_data = $self->contributors->{ $contributor };
-
-        my $content = $self->xslate->render(
-            'userpage/index.tx',
-            {
-                data => $contributor_data
-            }
-        );
-
-        open my $fh, '>:encoding(UTF-8)', "$build_dir/index.html" or die();
-        print $fh $self->xslate->render(
-            'layouts/main.tx',
-            {
-                content => $content,
-                settings => $self->settings,
-                hide_login => 1,
-                no_js => 1
-            }
-        );
-        close $fh;
 
         # JSON dump of user's data
         open my $jfh, '>:encoding(UTF-8)', "$build_dir/index.json" or die();
