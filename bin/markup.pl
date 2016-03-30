@@ -25,7 +25,9 @@ my $users = JSON::MaybeXS->new( utf8 => 1 )->decode( json );
 for my $user ( @{ $users } ) {
     my $user_dir = catdir( $build_dir, $user );
     make_path( $user_dir );
-    copy( catfile( $root, 'root/static/pages/ddh_up_index.html' ),
-          catfile( $user_dir, 'index.html' ) );
+    my $target = catfile( $user_dir, 'index.html' );
+    unlink $target;
+    symlink( catfile( $root, 'root/static/pages/ddh_up_index.html' ),
+             catfile( $target ) );
 }
 
