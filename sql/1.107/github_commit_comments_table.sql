@@ -2,7 +2,7 @@ BEGIN;
 
 CREATE TABLE "github_commit_comment" (
     "id" serial NOT NULL,
-    "commit_id" bigint NOT NULL REFERENCES github_commit(id) ON DELETE CASCADE,
+    "sha" bigint NOT NULL REFERENCES github_commit(id) ON DELETE CASCADE,
     "github_repo_id" bigint NOT NULL REFERENCES github_repo(id) ON DELETE CASCADE,
     "github_user_id" bigint NOT NULL REFERENCES github_user(id) ON DELETE CASCADE,
     "position" bigint NOT NULL,

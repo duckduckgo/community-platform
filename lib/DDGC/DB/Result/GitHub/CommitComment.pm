@@ -7,7 +7,7 @@ use namespace::autoclean;
 
 table 'github_commit_comment';
 
-primary_column commit_id => { data_type => 'bigint', is_nullable => 0 };
+primary_column sha       => { data_type => 'bigint', is_nullable => 0 };
 column github_repo_id    => { data_type => 'bigint', is_nullable => 0 };
 column github_user_id    => { data_type => 'bigint', is_nullable => 0 };
 column position          => { data_type => 'bigint', is_nullable => 0 };
@@ -22,9 +22,9 @@ column gh_data           => {
     serializer_options => { convert_blessed => 1, pretty => 1 }, 
 };
 
-unique_constraint [qw( commit_id number)];
+unique_constraint [qw( sha number)];
 
-belongs_to 'commit', 'DDGC::DB::Result::GitHub::Commit', 'commit_id';
+belongs_to 'commit', 'DDGC::DB::Result::GitHub::Commit', 'sha';
 belongs_to 'repo', 'DDGC::DB::Result::GitHub::Repo', 'github_repo_id';
 belongs_to 'user', 'DDGC::DB::Result::GitHub::User', 'contributor_id';
 
