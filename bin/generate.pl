@@ -4,8 +4,6 @@ use strict;
 use warnings;
 
 use FindBin;
-
-use FindBin;
 use lib $FindBin::Dir . "/../lib";
 
 use DDH::UserPage::Gather;
