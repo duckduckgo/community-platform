@@ -15,6 +15,114 @@
     <link rel="stylesheet" href="/static/css/userpages/octicons.css" charset="utf-8">
 </head>
 <body ng-controller="UserPageController">
-  
+  <!-- Toggle between users -->
+<div class="toolbar">
+  <select name="username" id="username" ng-model="username" ng-change="showUser()">
+      <option ng-repeat="user in users | filter: {hasInfo:true}" value="{{user.username}}">{{user.username}}</option>
+      </select>
+</div>
+<!-- Header -->
+<header>
+  <div class="container">
+    <div class="stats">
+      <div class="fourth">
+	<span>All Instant Answers</span>
+	<h2>{{count.maintained_ias + count.developed_only_ias}}</h2>
+	</div>
+      <div class="fourth">
+	<span>Pull Requests Reviews</span>
+	<h2>{{count.reviewed_prs}}</h2>
+	</div>
+      <div class="fourth">
+	<span>Open Pull Requests</span>
+	<h2>{{count.developed_prs}}</h2>
+	</div>
+      <div class="fourth">
+	<span>Closed Pull Requests</span>
+	<h2>{{count.closed_prs}}</h2>
+	</div>
+      </div>
+</div></header>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <aside>
+    <div class="profile card">
+      <img src="{{user.avatar_url || user.gh_data.avatar_url}}" />
+      <div class="content">
+	<h3>{{user.name}}</h3>
+	<div class="gray">
+	  <a href="http://github.com/{{user.login}}">@{{user.login}}</a>
+	  <br />{{user.location}}
+	  </div>
+
+	</div>
+</div>
+    <div class="topic typeC" ng-repeat="t in topics | orderBy:'-amount'">
+      <span class="amt">{{t.amount}}</span>
+      <span> {{t.topic}}</span>
+      <div class="bar" style="width: {{t.amount/count.max_topics*100}}%"></div>
+    </div></aside>
+
+  <!-- Main -->
+  <main>
+    <section>
+      <h3>
+	<div class="tabs">
+	  <a href="#" ng-click="show_ias=ias_maintained">
+	    <span ng-class="{'active': show_ias == ias_maintained}" >
+	      Maintained
+	      <span class="badge">{{count.maintained_ias}}</span>
+	      </span>
+	    </a>
+	  <a href="#" ng-click="show_ias=ias_developed_only">
+	    <span ng-class="{'active': show_ias == ias_developed_only}">
+	      Developed
+	      <span class="badge">{{count.developed_only_ias}}</span>
+	      </span>
+	    </a>
+	  </div>
+	Instant Answers
+	</h3>
+
+      <div class="instantanswer typeC flex-container" ng-repeat="ia in show_ias | orderBy: iaSort" ng-include="'partials/c_instantanswer.html'">
+	</div>
+      </section>
+
+    <section>
+      <div class="flex-container">
+	<!-- PR Reviews -->
+	<h3 ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">Pull Request Reviews</h3>
+	<!-- Open PRs -->
+	<h3 ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">Open Pull Requests</h3>
+	</div>
+
+      <div class="flex-container align-top">
+	<!-- PR Reviews -->
+	<div ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">
+	  <div ng-repeat="issue in prs_open_reviewed | orderBy: '-updated_at'" ng-include="'partials/c_issue.html'" class="issue typeC flex-container">
+	    </div>
+	  </div>
+
+	<!-- Open PRs -->
+	<div ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">
+	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'partials/c_issue.html'" class="issue typeC hideAvatar flex-container">
+	    </div>
+	  </div>
+	</div>
+
+
+      </section>
+
+    <section ng-if="count.open_prs">
+
+
+
+      </section>
+    </main>
+
+
+</div> <!-- /.container -->
 </body>
 </html>
