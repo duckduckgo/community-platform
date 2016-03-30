@@ -1,0 +1,4 @@
+<script src="/static/js/userpages/angular.min.js"></script>
+<script src="/static/js/userpages/angular-sanitize.min.js"></script>
+<script src="/static/js/userpages/moment.min.js"></script>
+<script src="/static/js/userpages/underscore-min.js"></script>
