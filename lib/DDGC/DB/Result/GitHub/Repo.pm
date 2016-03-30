@@ -60,6 +60,10 @@ has_many github_forks => 'DDGC::DB::Result::GitHub::Fork',
     { 'foreign.github_repo_id' => 'self.id' },
     { cascade_delete => 1 };
 
+has_many github_commit_comments => 'DDGC::DB::Result::GitHub::CommitComments',
+    { 'foreign.github_repo_id' => 'self.id' },
+    { cascade_delete => 1 };
+    
 has_many contributor_activity => 'DDGC::DB::Result::ContributorActivity',
     { 'foreign.github_repo_id'=> 'self.id' },
     { cascade_delete => 0 };

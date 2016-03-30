@@ -19,7 +19,7 @@ column gh_data           => {
     data_type => 'text', 
     is_nullable => 0, 
     serializer_class => 'JSON',
-    serializer_options => { convert_blessed => 1, pretty => 1 } 
+    serializer_options => { convert_blessed => 1, pretty => 1 }, 
 };
 
 unique_constraint [qw( commit_id number)];
