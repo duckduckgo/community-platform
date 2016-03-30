@@ -176,7 +176,7 @@ sub transform {
             $lc_contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
             push @{ $transform->{$lc_contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
-            
+
             #Append GitHub issues and pull requests
             if ( (my $issues = $self->gh_issues( $contributor )) && !($transform->{$lc_contributor}->{pulls}) && !($transform->{$lc_contributor}->{issues}) ) {
                 for my $issue ( uniq @{ $issues } ) {
@@ -200,6 +200,10 @@ sub transform {
                     $transform->{$lc_contributor}->{topics}->{$topic} = $topic_count;
                 }
             }
+
+            # Public GH data
+            my $gh_data = $self->ddgc->rs('GitHub::User')->search( \[ 'LOWER(login) = ?', $lc_contributor ] )->one_row;
+            $transform->{$lc_contributor}->{gh_data} = ( $gh_data ) ? $gh_data->gh_data : '{}';
         }
     }
 
