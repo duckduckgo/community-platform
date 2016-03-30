@@ -11,6 +11,7 @@
     <script src="/static/js/userpages/moment.min.js"></script>
     <script src="/static/js/userpages/underscore-min.js"></script>
     <script src="/static/js/userpages/app.js"></script>
+    <script src="/static/js/userpages/UserPage.js"></script>
 
     <link rel="stylesheet" href="/static/css/userpages/octicons.css" charset="utf-8">
     <link rel="stylesheet" href="/static/css/userpages/UserPage.css">
