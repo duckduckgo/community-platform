@@ -2,9 +2,9 @@ BEGIN;
 
 CREATE TABLE "github_commit_comment" (
     "id" serial NOT NULL,
-    "commit_id" bigint NOT NULL,
-    "github_repo_id" bigint NOT NULL NOT NULL REFERENCES github_repo(id) ON DELETE RESTRICT,
-    "github_user_id" bigint NOT NULL NOT NULL REFERENCES github_user(id) ON DELETE RESTRICT,
+    "commit_id" bigint NOT NULL REFERENCES github_commit(id) ON DELETE CASCADE,
+    "github_repo_id" bigint NOT NULL REFERENCES github_repo(id) ON DELETE CASCADE,
+    "github_user_id" bigint NOT NULL REFERENCES github_user(id) ON DELETE CASCADE,
     "position" bigint NOT NULL,
     "line" bigint NOT NULL,
     "number" bigint NOT NULL,
