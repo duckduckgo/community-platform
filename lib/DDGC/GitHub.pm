@@ -521,7 +521,7 @@ sub update_repo_commit_comment_from_data {
     $columns{commit_id}         = $comment->{commit_id};
     $columns{github_user_id}    = $self->find_or_update_user($comment->{user}->{login})->id;
     $columns{comment_id}        = $comment->{id};
-    $columns{path}              = $comment->{path};
+    $columns{number}            = $self->number_from_url($comment->{url});
     $columns{position}          = $comment->{position};
     $columns{line}              = $comment->{line};
     $columns{body}              = $comment->{body};
