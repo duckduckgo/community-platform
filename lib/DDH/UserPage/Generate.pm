@@ -56,7 +56,7 @@ sub _build_xslate {
 
 has json => ( is => 'lazy' );
 sub _build_json {
-    JSON::MaybeXS->new( utf8 => 1, pretty => 1 );
+    JSON::MaybeXS->new( utf8 => 1, pretty => 0 );
 }
 
 has ddgc => ( is => 'lazy' );
@@ -87,6 +87,7 @@ sub contributor_dir {
 
 sub generate {
     my ( $self ) = @_;
+    my $valid_contributors;
 
     open my $fh, '>:encoding(UTF-8)', $self->build_dir . "/index.json" or die();
     print $fh $self->json->encode( $self->contributors );
@@ -97,6 +98,7 @@ sub generate {
             warn "$contributor appears to be a URL - skipping";
             next;
         }
+
         my $build_dir = $self->contributor_dir( $contributor );
         my $contributor_data = $self->contributors->{ $contributor };
 
@@ -124,7 +126,13 @@ sub generate {
         open my $jfh, '>:encoding(UTF-8)', "$build_dir/index.json" or die();
         print $jfh $self->json->encode( $contributor_data );
         close $jfh;
+
+        push @{ $valid_contributors }, $contributor;
     }
+
+    open my $jfh, '>:encoding(UTF-8)', $self->build_dir. "/users.json" or die();
+    print $jfh $self->json->encode( $valid_contributors );
+    close $jfh;
 }
 
 1;
