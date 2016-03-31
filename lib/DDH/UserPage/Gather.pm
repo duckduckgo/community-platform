@@ -182,6 +182,7 @@ sub transform {
             #Append GitHub issues and pull requests
             my $gh_id = $self->gh_user_id( $contributor );
             if ( $gh_id && ( my $issues = $self->gh_issues( $gh_id ) ) && !( $transform->{$lc_contributor}->{pulls}) && !($transform->{$lc_contributor}->{issues}) ) {
+                
                 for my $issue ( uniq @{ $issues } ) {
                     # Pair the issue to an IA if possible
                     $issue = $self->find_ia( $issue );
@@ -189,10 +190,11 @@ sub transform {
                     my $suffix_key = ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) ? 'assigned' : 'created';
                     
                     if ( $issue->{isa_pull_request} ) {
-                        my $pull_key = 'pulls_' . $issue->{state} . '_' . $suffix_key;
+                        my $pull_key = 'pulls_' . $suffix_key;
                         push @{ $transform->{$lc_contributor}->{$pull_key} }, $issue;
+                        #$transform->{lc_contributor}->{'pulls_ ' . $issue->{state}} 
                     } else {
-                        my $issue_key = 'issues_' . $issue->{state} . '_' . $suffix_key;
+                        my $issue_key = 'issues_' . $suffix_key;
                         push @{ $transform->{$lc_contributor}->{$issue_key} }, $issue;
                     }
                 }
