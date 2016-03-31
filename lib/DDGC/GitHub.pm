@@ -523,13 +523,12 @@ sub update_repo_commit_comments {
 }
 
 sub update_repo_commit_comment_from_data {
-    my ($self, $gh_repo, $commit) = @_;
+    my ($self, $gh_repo, $comment) = @_;
 
     my %columns;
-    $columns{commit_id}         = $comment->{commit_id};
+    $columns{sha}               = $comment->{commit_id};
     $columns{github_user_id}    = $self->find_or_update_user($comment->{user}->{login})->id;
     $columns{comment_id}        = $comment->{id};
-    $columns{number}            = $self->number_from_url($comment->{url});
     $columns{position}          = $comment->{position};
     $columns{line}              = $comment->{line};
     $columns{body}              = $comment->{body};
@@ -539,7 +538,7 @@ sub update_repo_commit_comment_from_data {
 
     return $gh_repo
         ->related_resultset('github_commit_comments')
-        ->update_or_create(\%columns, { key => 'github_commit_comment_commit_id_comment_id_repo_id' })
+        ->update_or_create(\%columns, { key => 'github_commit_comment_sha_comment_id' })
 }
 
 sub update_repo_issues {
@@ -627,13 +626,7 @@ sub update_repo_issue_event_from_data {
     $columns{github_user_id}   = $self->find_or_update_user($event->{actor}->{login})->id;
     $columns{event}            = $event->{event};
     $columns{created_at}       = parse_datetime($event->{created_at});
-    # the original schema has this field but it's unclear where the data is intended to come from
-    # $columns{created}          = parse_datetime($event->{created});
-    # $columns{isa_pull_request} = $event->{pull_request} ? 1 : 0;
     $columns{gh_data}          = $event;
-    
-    # $columns{github_commit_id} = $event{commit_id}
-    #    if defined $event->{commit_id};
     
     return $gh_repo
         ->related_resultset('github_issue_events')
