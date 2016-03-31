@@ -156,7 +156,7 @@ sub transform {
         # Maintained IAs for each contributor
         if ( ( my $maintainer = $ia->{$ia_id}->{maintainer} ) && ( $ia->{$ia_id}->{maintainer}->{github} ) ) {
             
-            push @{ $transform->{$maintainer->{github}}->{maintained} }, $ia->{$ia_id};
+            push @{ $transform->{lc($maintainer->{github})}->{maintained} }, $ia->{$ia_id};
         }
 
 
