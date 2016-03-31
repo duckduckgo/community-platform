@@ -1,5 +1,9 @@
-app.controller('UserPageController', function($scope, fn) {
+app.controller('UserPageController', function($scope, $http, fn) {
     $scope.fn = fn;
+
+    $http.get(window.location.pathname + "/index.json").success(function(response) {
+	console.log(response);
+    });
 
     // list of available users
     $scope.users = [
