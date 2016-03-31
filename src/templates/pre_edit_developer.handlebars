@@ -13,7 +13,7 @@
                     {{#each live.developer}}
                         <li class="editpage">
                             <span name="developer" class="pre_edit other-examples">
-                                <a href="{{url}}">
+                                <a href="{{#eq type 'github'}}https://duckduckhack.com/u/{{slug name}}{{else}}{{url}}{{/eq}}">
                                     {{name}}
                                 </a>
                             </span>
@@ -32,7 +32,7 @@
                     {{#each edited.developer}}
                         <li class="editpage">
                             <span name="developer" class="pre_edit other-examples">
-                                <a href="{{url}}">
+                                <a href="{{#eq type 'github'}}https://duckduckhack.com/u/{{slug name}}{{else}}{{url}}{{/eq}}">
                                     {{name}}
                                 </a>
                             </span>
