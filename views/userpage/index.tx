@@ -82,7 +82,7 @@
 	Instant Answers
 	</h3>
 
-      <div class="instantanswer typeC flex-container" ng-repeat="ia in show_ias" ng-include="'partials/c_instantanswer.html'">
+      <div class="instantanswer typeC flex-container" ng-repeat="ia in show_ias" ng-include="'/static/partials/c_instantanswer.html'">
 	</div>
       </section>
 
