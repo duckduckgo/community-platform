@@ -2,10 +2,8 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.fn = fn;
 
     $http.get(window.location.pathname + "/index.json").success(function(response) {
-	$scope.data = response;
+	$scope.showUser(response);
     });
-
-    
 
     // for sorting instant answers (live should be first)
     $scope.iaSort = function(ia) {
@@ -22,116 +20,32 @@ app.controller('UserPageController', function($scope, $http, fn) {
     var initial = false;
 
     // given a username, fill out the $scope variables appropriately, like IAs, etc.
-    $scope.showUser = function() {
+    $scope.showUser = function(response) {
+	$scope.response = response;
 	$scope.count = {};
 	$scope.topics = [];
 
-	// developed & maintained IAs, all in one array
-	$scope.ias = _.filter(ias, function(ia) {
-	    return (_.some(ia.developer, function(d) { return d.name == $scope.username}) || (ia.maintainer && ia.maintainer.github == $scope.username));
+	$scope.ias_developed_only = _.filter(response.ia.live, function(ia) {
+	    return _.find(ia.developer, function(dev) {
+		return dev.name === response.gh_data.login && dev.type === "github";
+	    });
 	});
 
-	// developed IAs -- using http://underscorejs.org/
-	$scope.ias_developed = _.filter(ias, function(ia) {
-	    return _.some(ia.developer, function(d) { return d.name == $scope.username});
-	});
-
-	// maintained IAs (no ghosted or deprecated)
-	$scope.ias_maintained = _.filter(ias, function(ia) {
-	    return (ia.maintainer && ia.maintainer.github == $scope.username) && !(ia.dev_milestone=='ghosted' || ia.dev_milestone=='deprecated');
-	});
-
-	// developed IAs but NOT maintained (no ghosted or deprecated)
-	$scope.ias_developed_only = _.filter(ias, function(ia) {
-	    return (_.some(ia.developer, function(d) { return d.name == $scope.username}) && !(ia.maintainer && ia.maintainer.github == $scope.username) && !(ia.dev_milestone=='ghosted' || ia.dev_milestone=='deprecated'));
-	});
-
-	// opened issues
-	$scope.issues_open = _.filter($scope.user.issues, function(issue) {
-	    return issue.state === 'open' && issue.body.match(/https:\/\/duck\.co\/ia\/view\/(.*?)/);
-	});
-
-	// all pull requests (from issues list)
-	$scope.prs = _.filter($scope.user.issues, function(issue) {
-	    return issue.pull_request != null;
-	});
-
-	// opened pull requests
-	$scope.prs_open = _.filter($scope.prs, function(pr) {
-	    return pr.state == 'open';
-	});
-
-	// opened pull requests & being reviewed by user
-	$scope.prs_open_reviewed = _.filter($scope.prs, function(pr) {
-	    return (pr.state == 'open' && (pr.assignee && pr.assignee.login == $scope.username));
-	});
-
-	var getIA = function(issue) {
-	    var ia = issue.body.match(/https:\/\/duck\.co\/ia\/view\/([_a-zA-Z]+)/);
-
-	    if(ia) {
-		return _.extend(issue, { ia_page: ia[1].replace(/_/g, " ").replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}) });
-	    }
-
-	    return issue;
-	};
-
-	$scope.prs_open_reviewed_2 = _.map(_.filter($scope.prs, function(pr) {
-	    return /https:\/\/duck\.co\/ia\/view\//.test(pr.body) && (pr.state == 'open' && (pr.assignee && pr.assignee.login == $scope.username));
-	}), getIA);
-
-	// opened pull requests & developed by user
-	$scope.prs_open_developed = _.filter($scope.prs, function(pr) {
-	    return (pr.state == 'open' && (pr.user && pr.user.login == $scope.username));
-	});
-
-	// opened pull requests & developed by user
-	$scope.prs_open_developed_2 = _.map(_.filter($scope.prs, function(pr) {
-	    return /https:\/\/duck\.co\/ia\/view\//.test(pr.body) && (pr.state == 'open' && (pr.user && pr.user.login == $scope.username));
-	}), getIA);
-
-	// topic list
-	var topics = {};
-	_.each($scope.ias, function(ia) {
-	    if (ia.topic) {
-		_.each(ia.topic, function(t) {
-		    if (topics[t]) ++topics[t];
-		    else topics[t] = 1;
-		});
-	    }
-	});
-
-	_.each(topics, function(value, key) {
-	    var obj = {topic: '', amount: 0}
-	    obj.topic = key;
-	    obj.amount = value;
-	    $scope.topics.push(obj);
-	});
-
-	$scope.count.all_ias = _.size($scope.ias);
-	$scope.count.maintained_ias = _.size($scope.ias_maintained);
+	$scope.count.maintained_ias = _.size(response.maintained);
 	$scope.count.developed_only_ias = _.size($scope.ias_developed_only);
-	$scope.count.open_issues = _.size($scope.issues_open);
-	$scope.count.closed_issues = _.size($scope.user.issues) - $scope.count.open_issues;
-	$scope.count.open_prs = _.size($scope.prs_open);
-	$scope.count.reviewed_prs = _.size($scope.prs_open_reviewed);
-	$scope.count.developed_prs = _.size($scope.prs_open_developed);
-	$scope.count.closed_prs = _.size($scope.prs) - $scope.count.open_prs;
+	// $scope.count.open_issues = _.size($scope.issues_open);
+	// $scope.count.closed_issues = _.size($scope.user.issues) - $scope.count.open_issues;
+	// $scope.count.open_prs = _.size($scope.prs_open);
+	// $scope.count.reviewed_prs = _.size($scope.prs_open_reviewed);
+	// $scope.count.developed_prs = _.size($scope.prs_open_developed);
+	// $scope.count.closed_prs = _.size($scope.prs) - $scope.count.open_prs;
 
 	var maxtopic = _.max($scope.topics, function(topic){ return topic.amount; });
 	$scope.count.max_topics = maxtopic.amount;
 
 	// by default. for 'filterable'
-	$scope.show_ias = ($scope.count.maintained_ias) ? $scope.ias_maintained : $scope.ias_developed_only;
-
+	$scope.show_ias = ($scope.count.maintained_ias) ? response.maintained : $scope.ias_developed_only;
     }
-
-    // initializing a default user
-    $scope.showUser();
-
-    // initializing show_issues
-    $scope.show_issues = '';
-
 });
 
 // helper functions
