@@ -162,7 +162,6 @@ sub transform {
             push @{ $transform->{$maintainer->{github}}->{maintained} }, $ia->{$ia_id};
         }
 
-
         if ( $ia->{$ia_id}->{attribution} ) {
 
             for my $attribution ( keys $ia->{$ia_id}->{attribution} ) {
@@ -187,20 +186,20 @@ sub transform {
                     # Pair the issue to an IA if possible
                     $issue = $self->find_ia( $issue );
                     my $issue_assignee = $issue->{github_user_id_assignee};
-                    my $suffix_key = ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) ? 'assigned' : 'opened';
+                    my $suffix_key = ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) ? 'assigned' : 'created';
                     
                     if ( $issue->{isa_pull_request} ) {
-                        my $pull_key = 'pulls_' . $suffix_key;
+                        my $pull_key = 'pulls_' . $issue->{state} . '_' . $suffix_key;
                         push @{ $transform->{$lc_contributor}->{$pull_key} }, $issue;
                     } else {
-                        my $issue_key = 'issues_' . $suffix_key;
+                        my $issue_key = 'issues_' . $issue->{state} . '_' . $suffix_key;
                         push @{ $transform->{$lc_contributor}->{$issue_key} }, $issue;
                     }
                 }
             }
 
             # Append topics
-            if ( $ia->{$ia_id}->{topic} && ( $ia->{$ia_id}->{dev_milestone} eq 'live' ) ) {
+            if ( $ia->{$ia_id}->{topic} ) {
                 for my $topic ( @{ $ia->{$ia_id}->{topic} } ) {
 
                     my $topic_count = $transform->{$lc_contributor}->{topics}->{$topic};
