@@ -18,11 +18,11 @@
 </head>
 <body ng-controller="UserPageController">
   <!-- Toggle between users -->
-<div class="toolbar">
-  <select name="username" id="username" ng-model="username" ng-change="showUser()">
-      <option ng-repeat="user in users | filter: {hasInfo:true}" value="{{user.username}}">{{user.username}}</option>
-      </select>
-</div>
+<!-- <div class="toolbar"> -->
+<!--   <select name="username" id="username" ng-model="username" ng-change="showUser()"> -->
+<!--       <option ng-repeat="user in users | filter: {hasInfo:true}" value="{{user.username}}">{{user.username}}</option> -->
+<!--       </select> -->
+<!-- </div> -->
 <!-- Header -->
 <header>
   <div class="container">

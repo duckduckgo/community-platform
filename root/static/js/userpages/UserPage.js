@@ -2,21 +2,10 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.fn = fn;
 
     $http.get(window.location.pathname + "/index.json").success(function(response) {
-	console.log(response);
+	$scope.data = response;
     });
 
-    // list of available users
-    $scope.users = [
-	{username: 'GuiltyDolphin', hasInfo: true, avatar: "guiltydolphin.png"},
-	{username: 'AnthonyNeace', hasInfo: true, avatar: "anthonyneace.jpg"},
-	{username: 'riqpe', hasInfo: true, avatar: "riqpe.png"},
-	{username: 'pjhampton', hasInfo: true, avatar: "pjhampton.jpg"},
-	{username: 'mintsoft', hasInfo: true, avatar: "mintsoft.png"},
-	{username: 'jagtalon', hasInfo: true, avatar: "jagtalon.jpeg"},
-	{username: 'moollaza', hasInfo: true, avatar: "moollaza.jpeg"},
-	{username: 'mattr555', hasInfo: true, avatar: "mattr555.jpeg"},
-	{username: 'MrChrisW', hasInfo: true, avatar: "MrChrisW.jpeg"}
-    ];
+    
 
     // for sorting instant answers (live should be first)
     $scope.iaSort = function(ia) {
@@ -36,15 +25,6 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.showUser = function() {
 	$scope.count = {};
 	$scope.topics = [];
-
-	if(!initial && window.location.hash) {
-	    $scope.username = window.location.hash.replace(/#\//, "");
-	}
-	initial = true;
-
-	window.location.hash = "#/" + $scope.username;
-
-	$scope.user = eval($scope.username);
 
 	// developed & maintained IAs, all in one array
 	$scope.ias = _.filter(ias, function(ia) {
@@ -147,7 +127,6 @@ app.controller('UserPageController', function($scope, $http, fn) {
     }
 
     // initializing a default user
-    $scope.username = $scope.users[0].username;
     $scope.showUser();
 
     // initializing show_issues
