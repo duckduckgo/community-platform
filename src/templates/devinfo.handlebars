@@ -132,7 +132,7 @@
     <p  class="readonly--info {{#exists staged 'maintainer'}}hide{{/exists}}" id="maintainer--readonly">
         {{#if maintainer}}
             {{#if maintainer.github}}
-                <a href="https://github.com/{{maintainer.github}}"> {{maintainer.github}}</a>
+                <a href="https://duckduckhack.com/u/{{slug maintainer.github}}"> {{maintainer.github}}</a>
             {{else}}
                 <span class="no-available">No maintainer yet.</span>
             {{/if}}
