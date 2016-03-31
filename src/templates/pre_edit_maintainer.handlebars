@@ -11,7 +11,7 @@
             <p class="column-center-live__child__p">
                 {{#if live.maintainer}}
                     {{#if live.maintainer.github}}
-                        <a href="https://github.com/{{live.maintainer.github}}">{{live.maintainer.github}}</a>
+                        <a href="https://duckduckhack.com/{{slug live.maintainer.github}}">{{live.maintainer.github}}</a>
                     {{else}}
                         —
                     {{/if}}
@@ -26,7 +26,7 @@
             <p class="column-right-edits__child__p">
                 {{#if edited.maintainer}}
                     {{#if edited.maintainer.github}}
-                        <a href="https://github.com/{{edited.maintainer.github}}">{{edited.maintainer.github}}</a>
+                        <a href="https://duckduckhack.com/{{slug edited.maintainer.github}}">{{edited.maintainer.github}}</a>
                     {{/if}}
                 {{/if}}
             </p>
