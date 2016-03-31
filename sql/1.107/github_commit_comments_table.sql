@@ -12,7 +12,7 @@ CREATE TABLE "github_commit_comment" (
     "created_at" timestamp with time zone NOT NULL,
     "gh_data" text NOT NULL,
     
-    PRIMARY KEY (commit_id, number)
+    PRIMARY KEY (sha, number)
 );
 
 COMMIT;
