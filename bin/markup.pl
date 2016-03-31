@@ -26,7 +26,7 @@ for my $user ( @{ $users } ) {
     my $user_dir = catdir( $build_dir, $user );
     make_path( $user_dir );
     my $target = catfile( $user_dir, 'index.html' );
-    unlink $target;
+    unlink $target if ( -f $target );
     symlink( catfile( $root, 'root/static/pages/ddh_up_index.html' ),
              catfile( $target ) );
 }
