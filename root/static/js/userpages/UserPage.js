@@ -35,17 +35,25 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	    return pull.state === "open";
 	});
 
+	$scope.prs_open_developed = response.pulls;
+	$scope.prs_open_reviewed = response.pulls;
+
 	$scope.count.maintained_ias = _.size(response.maintained);
 	$scope.count.developed_only_ias = _.size($scope.ias_developed_only);
 	$scope.count.open_issues = _.size(response.issues);
-	// $scope.count.closed_issues = _.size($scope.user.issues) - $scope.count.open_issues;
+	$scope.count.closed_issues = _.size(response.issues) - $scope.count.open_issues;
 	$scope.count.open_prs = _.size($scope.prs_open);
-	// $scope.count.reviewed_prs = _.size($scope.prs_open_reviewed);
-	// $scope.count.developed_prs = _.size($scope.prs_open_developed);
+	$scope.count.reviewed_prs = _.size(response.pulls);
+	$scope.count.developed_prs = _.size(response.pulls);
 	$scope.count.closed_prs = _.size(response.pulls) - $scope.count.open_prs;
 
-	var maxtopic = _.max($scope.topics, function(topic){ return topic.amount; });
-	$scope.count.max_topics = maxtopic.amount;
+	var maxtopic = _.max(_.map(response.topics, function(num, key) {
+	    return [num, key];
+	}), function(topic) { 
+	    return topic[1]; 
+	});
+
+	$scope.count.max_topics = maxtopic[1];
 
 	// by default. for 'filterable'
 	$scope.show_ias = ($scope.count.maintained_ias) ? response.maintained : $scope.ias_developed_only;

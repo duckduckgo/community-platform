@@ -13,9 +13,9 @@
     <script src="/static/js/userpages/app.js"></script>
     <script src="/static/js/userpages/UserPage.js"></script>
 
+    <link rel="stylesheet" href="/static/css/userpages/main.css">
     <link rel="stylesheet" href="/static/css/userpages/octicons.css" charset="utf-8">
     <link rel="stylesheet" href="/static/css/userpages/UserPage.css">
-    <link rel="stylesheet" href="/static/css/userpages/main.css">
 </head>
 <body ng-controller="UserPageController">
 <!-- Header -->
@@ -46,20 +46,20 @@
   <!-- Sidebar -->
   <aside>
     <div class="profile card">
-      <img src="{{user.avatar_url || user.gh_data.avatar_url}}" />
+      <img src="{{response.gh_data.avatar_url}}" />
       <div class="content">
 	<h3>{{user.name}}</h3>
 	<div class="gray">
-	  <a href="http://github.com/{{user.login}}">@{{user.login}}</a>
-	  <br />{{user.location}}
+	  <a href="http://github.com/{{response.gh_data.login}}">@{{response.gh_data.login}}</a>
+	  <br />{{response.gh_data.location}}
 	  </div>
 
 	</div>
 </div>
-    <div class="topic typeC" ng-repeat="t in topics | orderBy:'-amount'">
-      <span class="amt">{{t.amount}}</span>
-      <span> {{t.topic}}</span>
-      <div class="bar" style="width: {{t.amount/count.max_topics*100}}%"></div>
+    <div class="topic typeC" ng-repeat="(key, value) in response.topics | orderBy:'-value'">
+      <span class="amt">{{value}}</span>
+      <span> {{key}}</span>
+      <div class="bar" style="width: {{t.value/count.max_topics*100}}%"></div>
     </div></aside>
 
   <!-- Main -->
@@ -98,13 +98,13 @@
       <div class="flex-container align-top">
 	<!-- PR Reviews -->
 	<div ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">
-	  <div ng-repeat="issue in prs_open_reviewed | orderBy: '-updated_at'" ng-include="'partials/c_issue.html'" class="issue typeC flex-container">
+	  <div ng-repeat="issue in prs_open_reviewed | orderBy: '-updated_at'" ng-include="'/static/partials/c_issue.html'" class="issue typeC flex-container">
 	    </div>
 	  </div>
 
 	<!-- Open PRs -->
 	<div ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">
-	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'partials/c_issue.html'" class="issue typeC hideAvatar flex-container">
+	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'/static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container">
 	    </div>
 	  </div>
 	</div>
