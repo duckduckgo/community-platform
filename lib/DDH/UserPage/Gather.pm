@@ -192,7 +192,6 @@ sub transform {
                     if ( $issue->{isa_pull_request} ) {
                         my $pull_key = 'pulls_' . $suffix_key;
                         push @{ $transform->{$lc_contributor}->{$pull_key} }, $issue;
-                        #$transform->{lc_contributor}->{'pulls_ ' . $issue->{state}} 
                     } else {
                         my $issue_key = 'issues_' . $suffix_key;
                         push @{ $transform->{$lc_contributor}->{$issue_key} }, $issue;
