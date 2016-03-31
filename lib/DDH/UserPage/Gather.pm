@@ -72,10 +72,9 @@ sub gh_issues {
     my @issues;
 
     @issues = $self->ddgc->rs('GitHub::Issue')->search({
-       ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
-               { 'me.github_user_id' => $gh_id }]
-       ),
-       ( 'me.state' => 'open' ),
+      ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
+              { 'me.github_user_id' => $gh_id }]
+      ),
     },
     {
         join => [ qw/ github_repo / ],
