@@ -31,14 +31,18 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	    });
 	});
 
+	$scope.prs_open = _.filter(response.pulls, function(pull) {
+	    return pull.state === "open";
+	});
+
 	$scope.count.maintained_ias = _.size(response.maintained);
 	$scope.count.developed_only_ias = _.size($scope.ias_developed_only);
-	// $scope.count.open_issues = _.size($scope.issues_open);
+	$scope.count.open_issues = _.size(response.issues);
 	// $scope.count.closed_issues = _.size($scope.user.issues) - $scope.count.open_issues;
-	// $scope.count.open_prs = _.size($scope.prs_open);
+	$scope.count.open_prs = _.size($scope.prs_open);
 	// $scope.count.reviewed_prs = _.size($scope.prs_open_reviewed);
 	// $scope.count.developed_prs = _.size($scope.prs_open_developed);
-	// $scope.count.closed_prs = _.size($scope.prs) - $scope.count.open_prs;
+	$scope.count.closed_prs = _.size(response.pulls) - $scope.count.open_prs;
 
 	var maxtopic = _.max($scope.topics, function(topic){ return topic.amount; });
 	$scope.count.max_topics = maxtopic.amount;
