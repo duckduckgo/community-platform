@@ -134,7 +134,7 @@ sub find_ia {
 sub get_avatar {
     my ( $self, $developer ) = @_;
 
-    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->search({login => $developer})->one_row ) {
+    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->search( \[ 'LOWER(login) = ?', lc( $developer ) ] )->one_row ) {
         my $gh_data = $gh_user->gh_data;
         return $gh_data->{avatar_url} if $gh_data;
     }
