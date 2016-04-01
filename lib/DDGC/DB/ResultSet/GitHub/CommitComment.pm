@@ -1,4 +1,4 @@
-package DDGC::DB::ResultSet::Github::CommitComment;
+package DDGC::DB::ResultSet::GitHub::CommitComment;
 
 use Moose;
 extends 'DDGC::DB::Base::ResultSet';
