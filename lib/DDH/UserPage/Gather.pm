@@ -132,6 +132,16 @@ sub find_ia {
     return $issue;
 }
 
+sub get_avatar {
+    my ( $self, $developer ) = @_;
+
+    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->search({login => $developer})->one_row ) {
+        
+        my $gh_data = $gh_user->{gh_data};
+        return $gh_data->{avatar_url} if $gh_data;
+    }
+}
+
 sub transform {
     my ( $self, $ia ) = @_;
     my $transform = {};
@@ -145,7 +155,10 @@ sub transform {
 
             if ( ref $ia->{$ia_id}->{developer} eq 'ARRAY' ) {
 
+                $ia->{$ia_id}->{contributors} = {};
+                
                 for my $developer ( @{ $ia->{$ia_id}->{developer} } ) {
+
 
                     if ( $developer->{type} &&
                          $developer->{type} eq 'github' ) {
@@ -153,6 +166,7 @@ sub transform {
                         ( my $login = $developer->{url} ) =~
                             s{https://github.com/(.*)/?}{$1};
 
+                        $ia->{$ia_id}->{contributors}->{$login} = $self->get_avatar($login);
                         push @contributors, $login;
                     }
                 }
