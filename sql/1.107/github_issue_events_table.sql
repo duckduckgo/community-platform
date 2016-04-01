@@ -1,5 +1,5 @@
 BEGIN;
     
-    ALTER TABLE github_event_issue DROP COLUMN created;
+    ALTER TABLE github_issue_event DROP COLUMN created;
 
 COMMIT;
