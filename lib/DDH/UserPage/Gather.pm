@@ -208,7 +208,12 @@ sub transform {
                 $transform->{$lc_contributor}->{closed_pulls} = $issues->{closed_pulls};
                 $transform->{$lc_contributor}->{closed_issues} = $issues->{closed_issues};
 
-                for my $issue ( uniq @{ $issues->{issues} } ) {
+                $transform->{$lc_contributor}->{pulls_assigned} = {};
+                $transform->{$lc_contributor}->{pulls_created} = {};
+                $transform->{$lc_contributor}->{issues_assigned} = {};
+                $transform->{$lc_contributor}->{issues_assigned} = {};
+
+                for my $issue ( @{ $issues->{issues} } ) {
                     # Pair the issue to an IA if possible
                     $issue = $self->find_ia( $issue );
                     my $issue_assignee = $issue->{github_user_id_assignee};
@@ -216,10 +221,10 @@ sub transform {
                     
                     if ( $issue->{isa_pull_request} ) {
                         my $pull_key = 'pulls_' . $suffix_key;
-                        push @{ $transform->{$lc_contributor}->{$pull_key} }, $issue;
+                        $transform->{$lc_contributor}->{$pull_key}->{$issue->{id}} = $issue;
                     } else {
                         my $issue_key = 'issues_' . $suffix_key;
-                        push @{ $transform->{$lc_contributor}->{$issue_key} }, $issue;
+                        $transform->{$lc_contributor}->{$issue_key}->{$issue->{id}} = $issue;
                     }
                 }
             }
