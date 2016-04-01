@@ -69,22 +69,44 @@ sub ia_local {
 
 sub gh_issues {
     my ( $self, $gh_id ) = @_;
-    my @issues;
-
-    @issues = $self->ddgc->rs('GitHub::Issue')->search({
+    
+    my @issues = $self->ddgc->rs('GitHub::Issue')->search({
       ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
               { 'me.github_user_id' => $gh_id }]
       ),
+      ( state => 'open' ),
     },
     {
         join => [ qw/ github_repo / ],
-        columns => [ qw/ id state github_repo_id title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee / ],
+        columns => [ qw/ id state github_repo_id title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at / ],
         collapse => 1,
         group_by => 'me.id',
         result_class => 'DBIx::Class::ResultClass::HashRefInflator',
     });
 
-    return \@issues;
+    my $closed_pulls = $self->ddgc->rs('GitHub::Issue')->search({
+      ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
+              { 'me.github_user_id' => $gh_id }]
+      ),
+      ( state => 'closed' ),
+      ( isa_pull_request => 1 ),
+    })->count;
+
+    my $closed_issues = $self->ddgc->rs('GitHub::Issue')->search({
+      ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
+              { 'me.github_user_id' => $gh_id }]
+      ),
+      ( state => 'closed' ),
+      ( isa_pull_request => 0 ),
+    })->count;
+
+    my %gh_issues = (
+        issues => \@issues,
+        closed_pulls => $closed_pulls,
+        closed_issues => $closed_issues
+    );
+
+    return \%gh_issues;
 }
 
 sub gh_user_id {
@@ -183,7 +205,10 @@ sub transform {
             my $gh_id = $self->gh_user_id( $contributor );
             if ( $gh_id && ( my $issues = $self->gh_issues( $gh_id ) ) && !( $transform->{$lc_contributor}->{pulls}) && !($transform->{$lc_contributor}->{issues}) ) {
                 
-                for my $issue ( uniq @{ $issues } ) {
+                $transform->{$lc_contributor}->{closed_pulls} = $issues->{closed_pulls};
+                $transform->{$lc_contributor}->{closed_issues} = $issues->{closed_issues};
+
+                for my $issue ( uniq @{ $issues->{issues} } ) {
                     # Pair the issue to an IA if possible
                     $issue = $self->find_ia( $issue );
                     my $issue_assignee = $issue->{github_user_id_assignee};
