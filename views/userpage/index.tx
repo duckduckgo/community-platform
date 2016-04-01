@@ -56,10 +56,10 @@
 
 	</div>
 </div>
-    <div class="topic typeC" ng-repeat="(key, value) in response.topics | orderBy:'-value'">
-      <span class="amt">{{value}}</span>
-      <span> {{key}}</span>
-      <div class="bar" style="width: {{t.value/count.max_topics*100}}%"></div>
+    <div class="topic typeC" ng-repeat="topic in topics | orderBy:'-count'">
+      <span class="amt">{{topic.topic}}</span>
+      <span>{{topic.count}}</span>
+      <div class="bar" style="width: {{topic.count/count.max_topics*100}}%"></div>
     </div></aside>
 
   <!-- Main -->

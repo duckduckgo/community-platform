@@ -53,13 +53,16 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
 	$scope.ias_maintained = response.maintained;
 
-	var maxtopic = _.max(_.map(response.topics, function(num, key) {
-	    return [num, key];
-	}), function(topic) { 
-	    return topic[1]; 
+
+	$scope.topics = _.map(response.topics, function(num, key) {
+	    return {topic: num, count: key};
 	});
 
-	$scope.count.max_topics = maxtopic[1];
+	var maxtopic = _.max($scope.topics, function(topic) { 
+	    return topic.count; 
+	});
+
+	$scope.count.max_topics = maxtopic.count;
 
 	// by default. for 'filterable'
 	$scope.show_ias = ($scope.count.maintained_ias) ? response.maintained : $scope.ias_developed_only;
