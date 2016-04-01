@@ -54,9 +54,11 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.ias_maintained = response.maintained;
 
 
-	$scope.topics = _.map(response.topics, function(num, key) {
-	    return {topic: num, count: key};
+	$scope.topics = _.map(response.topics, function(key, num) {
+	    return {topic: key, count: num};
 	});
+
+	console.log($scope.topics);
 
 	var maxtopic = _.max($scope.topics, function(topic) { 
 	    return topic.count; 
