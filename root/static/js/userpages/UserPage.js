@@ -55,10 +55,8 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
 
 	$scope.topics = _.map(response.topics, function(key, num) {
-	    return {topic: key, count: num};
+	    return {count: key, topic: num};
 	});
-
-	console.log($scope.topics);
 
 	var maxtopic = _.max($scope.topics, function(topic) { 
 	    return topic.count; 

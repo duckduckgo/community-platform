@@ -56,7 +56,7 @@
 
 	</div>
 </div>
-    <div class="topic typeC" ng-repeat="topic in topics | orderBy:'-topic'">
+    <div class="topic typeC" ng-repeat="topic in topics | orderBy:'-count'">
       <span class="amt"> {{topic.topic}}</span>
       <span> {{topic.count}}</span>
       <div class="bar" style="width: {{topic.count/count.max_topics*100}}%"></div>
@@ -83,7 +83,7 @@
 	Instant Answers
 	</h3>
 
-      <div class="instantanswer typeC flex-container" ng-repeat="ia in show_ias" ng-include="'/static/partials/c_instantanswer.html'">
+      <div class="instantanswer typeC flex-container" ng-repeat="ia in show_ias | orderBy: iaSort" ng-include="'/static/partials/c_instantanswer.html'">
 	</div>
       </section>
 
