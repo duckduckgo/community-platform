@@ -153,7 +153,7 @@ sub transform {
 
             if ( ref $ia->{$ia_id}->{developer} eq 'ARRAY' ) {
 
-                $ia->{$ia_id}->{contributors} = {};
+                $ia->{$ia_id}->{contributors} = [];
                 
                 for my $developer ( @{ $ia->{$ia_id}->{developer} } ) {
 
@@ -164,7 +164,12 @@ sub transform {
                         ( my $login = $developer->{url} ) =~
                             s{https://github.com/(.*)/?}{$1};
 
-                        $ia->{$ia_id}->{contributors}->{$login} = $self->get_avatar($login);
+                        my %contributor = (
+                            username => $login,
+                            avatar_url => $self->get_avatar($login)
+                        );
+
+                        push @{ $ia->{$ia_id}->{contributors} }, \%contributor;
                         push @contributors, $login;
                     }
                 }
