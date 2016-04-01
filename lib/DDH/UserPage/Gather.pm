@@ -200,7 +200,7 @@ sub transform {
             $lc_contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
             push @{ $transform->{$lc_contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
-            $transform->{ $lc_contributor }->{ original_login } = $contributor if !$transform->{ $lc_contributor }->{ original_login };
+            $transform->{ $lc_contributor }->{ original_login } ||= $contributor;
 
             #Append GitHub issues and pull requests
             my $gh_id = $self->gh_user_id( $contributor );
