@@ -36,4 +36,4 @@ sub most_recent {
 }
 
 no Moose;
-__PACKAGE__->meta-make_immutable( inline_constructor => 0 );
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
