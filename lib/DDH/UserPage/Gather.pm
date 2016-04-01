@@ -199,7 +199,7 @@ sub transform {
         if ( $ia->{$ia_id}->{attribution} ) {
 
             for my $attribution ( keys $ia->{$ia_id}->{attribution} ) {
-                push @contributors, map { lc $_->{loc} }
+                push @contributors, map { $_->{loc} }
                   grep { $_->{type} && $_->{type} eq 'github' }
                       @{ $ia->{$ia_id}->{attribution}->{ $attribution } };
             }
@@ -212,6 +212,7 @@ sub transform {
             $lc_contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
             push @{ $transform->{$lc_contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
+            $transform->{ $lc_contributor }->{ original_login } ||= $contributor;
 
             #Append GitHub issues and pull requests
             my $gh_id = $self->gh_user_id( $contributor );
