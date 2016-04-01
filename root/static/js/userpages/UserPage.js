@@ -35,16 +35,20 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	    return pull.state === "open";
 	});
 
-	$scope.prs_open_developed = response.pulls;
-	$scope.prs_open_reviewed = response.pulls;
+	$scope.prs_open_developed = _.filter(response.pulls_created, function(pull) {
+	    return pull.state === "open";
+	});
+	$scope.prs_open_reviewed = _.filter(response.pulls_assigned, function(pull) {
+	    return pull.state === "open";
+	});
 
 	$scope.count.maintained_ias = _.size(response.maintained);
 	$scope.count.developed_only_ias = _.size($scope.ias_developed_only);
 	$scope.count.open_issues = _.size(response.issues);
 	$scope.count.closed_issues = _.size(response.issues) - $scope.count.open_issues;
 	$scope.count.open_prs = _.size($scope.prs_open);
-	$scope.count.reviewed_prs = _.size(response.pulls);
-	$scope.count.developed_prs = _.size(response.pulls);
+	$scope.count.reviewed_prs = _.size(response.pulls_assigned);
+	$scope.count.developed_prs = _.size(response.pulls_created);
 	$scope.count.closed_prs = _.size(response.pulls) - $scope.count.open_prs;
 
 	var maxtopic = _.max(_.map(response.topics, function(num, key) {
