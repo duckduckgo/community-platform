@@ -187,7 +187,7 @@ sub transform {
         if ( $ia->{$ia_id}->{attribution} ) {
 
             for my $attribution ( keys $ia->{$ia_id}->{attribution} ) {
-                push @contributors, map { lc $_->{loc} }
+                push @contributors, map { $_->{loc} }
                   grep { $_->{type} && $_->{type} eq 'github' }
                       @{ $ia->{$ia_id}->{attribution}->{ $attribution } };
             }
