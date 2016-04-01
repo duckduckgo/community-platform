@@ -20,7 +20,7 @@ sub with_github_user_id {
 sub  ignore_staff_comments {
     my ($self) = @_;
     $self->search(
-        { 'me.github_user.isa_owners_team_member' => 0 }
+        { 'me.github_user.isa_owners_team_member' => 0 },
         { prefetch => 'github_user' }
     );
 }
