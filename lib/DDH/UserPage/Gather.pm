@@ -126,10 +126,18 @@ sub find_ia {
         if ( my $ia = $self->ddgc->rs('InstantAnswer')->find({ meta_id => $ia_issue->instant_answer_id }) ) {
             $issue->{ia_name} = $ia->name;
         }
-        
     }
 
     return $issue;
+}
+
+sub get_avatar {
+    my ( $self, $developer ) = @_;
+
+    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->search( \[ 'LOWER(login) = ?', lc( $developer ) ] )->one_row ) {
+        my $gh_data = $gh_user->gh_data;
+        return $gh_data->{avatar_url} if $gh_data;
+    }
 }
 
 sub transform {
@@ -145,7 +153,10 @@ sub transform {
 
             if ( ref $ia->{$ia_id}->{developer} eq 'ARRAY' ) {
 
+                $ia->{$ia_id}->{contributors} = [];
+                
                 for my $developer ( @{ $ia->{$ia_id}->{developer} } ) {
+
 
                     if ( $developer->{type} &&
                          $developer->{type} eq 'github' ) {
@@ -153,6 +164,12 @@ sub transform {
                         ( my $login = $developer->{url} ) =~
                             s{https://github.com/(.*)/?}{$1};
 
+                        my %contributor = (
+                            username => $login,
+                            avatar_url => $self->get_avatar($login)
+                        );
+
+                        push @{ $ia->{$ia_id}->{contributors} }, \%contributor;
                         push @contributors, $login;
                     }
                 }
@@ -187,7 +204,7 @@ sub transform {
         if ( $ia->{$ia_id}->{attribution} ) {
 
             for my $attribution ( keys $ia->{$ia_id}->{attribution} ) {
-                push @contributors, map { lc $_->{loc} }
+                push @contributors, map { $_->{loc} }
                   grep { $_->{type} && $_->{type} eq 'github' }
                       @{ $ia->{$ia_id}->{attribution}->{ $attribution } };
             }
@@ -200,6 +217,7 @@ sub transform {
             $lc_contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
             push @{ $transform->{$lc_contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
+            $transform->{ $lc_contributor }->{ original_login } ||= $contributor;
 
             #Append GitHub issues and pull requests
             my $gh_id = $self->gh_user_id( $contributor );
