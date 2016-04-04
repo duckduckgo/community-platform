@@ -29,4 +29,4 @@ belongs_to 'repo', 'DDGC::DB::Result::GitHub::Repo', 'github_repo_id';
 belongs_to 'user', 'DDGC::DB::Result::GitHub::User', 'github_user_id';
 
 no Moose;
-__PACKAGE__->meta->make_immutable( inline_contrustor => 0 );
+__PACKAGE__->meta->make_immutable( inline_constructor => 0 );
