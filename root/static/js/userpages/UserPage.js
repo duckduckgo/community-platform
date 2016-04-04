@@ -31,6 +31,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	});
 
 	$scope.ias_developed_only = _.filter($scope.ias, function(ia) {
+	    console.log(ia);
 	    return _.find(ia.developer, function(dev) {
 		return (dev.name === response.gh_data.login || dev.name === response.gh_data.name) && dev.type === "github";
 	    }) && ia.dev_milestone !== "ghosted";
@@ -67,6 +68,15 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.topics = _.map(response.topics, function(key, num) {
 	    return {count: key, topic: num};
 	});
+
+	$scope.count.total_ias = (function() {
+	    var all = {};
+	    _.each($scope.maintained.concat($scope.ias_developed_only), function(ia) {
+		all[ia.id] = true;
+	    });
+
+	    return _.size(all);
+	}());
 
 	var maxtopic = _.max($scope.topics, function(topic) { 
 	    return topic.count; 

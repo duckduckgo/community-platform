@@ -24,7 +24,7 @@
     <div class="stats">
       <div class="fourth">
 	<span>All Instant Answers</span>
-	<h2>{{count.ias}}</h2>
+	<h2>{{count.total_ias}}</h2>
 	</div>
       <div class="fourth">
 	<span>Pull Requests Reviews</span>
@@ -67,8 +67,8 @@
     <section>
       <h3>
 	<div class="tabs">
-	  <a href="#" ng-click="show_ias=ias_maintained">
-	    <span ng-class="{'active': show_ias == ias_maintained}" >
+	  <a href="#" ng-click="show_ias=maintained">
+	    <span ng-class="{'active': show_ias == maintained}" >
 	      Maintained
 	      <span class="badge">{{count.maintained_ias}}</span>
 	      </span>
