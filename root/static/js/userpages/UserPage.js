@@ -33,7 +33,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.ias_developed_only = _.filter($scope.ias, function(ia) {
 	    return _.find(ia.developer, function(dev) {
 		return (dev.name === response.gh_data.login || dev.name === response.gh_data.name) && dev.type === "github";
-	    });
+	    }) && ia.dev_milestone !== "ghosted";
 	});
 
 	$scope.prs_open = _.filter(response.pulls, function(pull) {
@@ -47,7 +47,12 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	    return pull.state === "open";
 	});
 
-	$scope.count.maintained_ias = _.size(response.maintained);
+
+	$scope.maintained = _.filter(response.maintained, function(ia) {
+	    return ia.dev_milestone !== "ghosted";
+	});
+
+	$scope.count.maintained_ias = _.size($scope.maintained);
 	$scope.count.developed_only_ias = _.size($scope.ias_developed_only);
 	$scope.count.open_issues = _.size(response.issues);
 	$scope.count.closed_issues = _.size(response.issues) - $scope.count.open_issues;
@@ -70,7 +75,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.count.max_topics = maxtopic.count;
 
 	// by default. for 'filterable'
-	$scope.show_ias = ($scope.count.maintained_ias) ? response.maintained : $scope.ias_developed_only;
+	$scope.show_ias = ($scope.count.maintained_ias) ? $scope.maintained : $scope.ias_developed_only;
     }
 });
 
