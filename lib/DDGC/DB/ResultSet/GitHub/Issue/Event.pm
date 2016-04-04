@@ -1,4 +1,4 @@
-package DDGC::DB::ResultSte::GitHub::Issue::Event;
+package DDGC::DB::ResultSet::GitHub::Issue::Event;
 
 use Moose;
 extends 'DDGC::DB::Base::ResultSet';
