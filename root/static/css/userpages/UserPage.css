@@ -153,6 +153,9 @@ section {
 .pad-right-30 {
   padding-right: 30px; }
 
+.hide {
+    display: none; }
+
 .status {
   display: block;
   float: right;

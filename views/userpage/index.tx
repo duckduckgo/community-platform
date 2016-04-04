@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="/static/css/userpages/UserPage.css">
 </head>
 <body ng-controller="UserPageController">
+
+<img src="https://duckduckgo.com/t/userpage?{{fn.random()}}" class="hide" />
+
 <!-- Header -->
 <header>
   <div class="container">

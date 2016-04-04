@@ -129,7 +129,11 @@ app.factory('fn', function() {
 	// get "time ago" from date
 	getFromNow: function(datetimestr) {
             return moment(datetimestr).fromNow();
-        }
+    },
+    // generate a random number
+    random: function() {
+        return Math.ceil(Math.random() * 1e7);
+    }
 
     };
 });
