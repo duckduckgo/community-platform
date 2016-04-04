@@ -127,6 +127,11 @@ sub generate {
         print $jfh $self->json->encode( $contributor_data );
         close $jfh;
 
+        my $original_login = $contributor_data->{ original_login };
+        my $original_login_path = sprintf( '%s/%s', $self->build_dir, $original_login ) if $original_login;
+        if ( $original_login && $original_login ne $contributor && !-e $original_login_path ) {
+            symlink $build_dir, $original_login_path;
+        }
         push @{ $valid_contributors }, $contributor;
     }
 
