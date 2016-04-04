@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>User Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
     <script src="/static/js/userpages/angular.min.js"></script>
@@ -19,8 +18,9 @@
 </head>
 <body ng-controller="UserPageController">
 
-<img src="https://duckduckgo.com/t/userpage?{{fn.random()}}" class="hide" />
+  <img src="https://duckduckgo.com/t/userpage?{{fn.random()}}" class="hide" />
 
+  <title>{{response.gh_data.name || response.gh_data.login}}</title>
 <!-- Header -->
 <header>
   <div class="container">
