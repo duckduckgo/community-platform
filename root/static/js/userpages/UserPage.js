@@ -84,15 +84,12 @@ app.factory('fn', function() {
 	    });
 	},
 	// get avatar image. If not found, uses first letter from devname
-	getAvatar: function(users, username, align) {
+	getAvatar: function(dev) {
 	    var html = '';
-	    if (username) {
-		html = '<div class="avatar ' + align + '" title="' + username + '"';
-		var user = this.findByAttr(users, 'username', username);
+	    html = '<div class="avatar" title="' + dev.username + '"';
 
-		if (user && user.avatar) html += '><img src="avatars/' + user.avatar + '" /></div>';
-		else html += "><span>" + username.charAt(0) + '</span></div>';
-	    }
+	    if (dev.avatar_url) html += '><img src="' + dev.avatar_url + '" /></div>';
+	    else html += "><span>" + dev.username.charAt(0) + '</span></div>';
 
 	    return html;
 	},
@@ -105,12 +102,12 @@ app.factory('fn', function() {
 	    return html;
 	},
 	// get developers based on an instant answer; returns avatars
-	getDevsAvatars: function(ia, users, skipname) {
+	getDevsAvatars: function(ia, skipname) {
 	    var html = '';
-	    _.each(ia.developer, function(dev) {
-		// console.log(skipname + ' | ' + dev.name);
-		if (skipname != dev.name) html += this.getAvatar(users, dev.name, '');
+	    _.each(ia.contributors, function(dev) {
+		html += this.getAvatar(dev);
 	    }, this);
+
 	    return html;
 	},
 	// get topics based on an instant answer; returns html
