@@ -7,12 +7,13 @@ use namespace::autoclean;
 
 table 'github_commit_comment';
 
-primary_column sha        => { data_type => 'bigint', is_nullable => 0 };
+primary_column id         => { data_type => 'bigint', is_nullable => 0 };
+column sha                => { data_type => 'bigint', is_nullable => 0 };
 column github_repo_id     => { data_type => 'bigint', is_nullable => 0 };
 column github_user_id     => { data_type => 'bigint', is_nullable => 0 };
 column position           => { data_type => 'bigint', is_nullable => 0 };
 column line               => { data_type => 'bigint', is_nullable => 0 };
-primary_column comment_id => { data_type => 'bigint', is_nullable => 0 };
+column comment_id         => { data_type => 'bigint', is_nullable => 0 };
 column body               => { data_type => 'text', is_nullable => 0 };
 column created_at         => { data_type => 'timestamp with time zone', is_nullable => 0 };
 column gh_data            => { 
