@@ -607,12 +607,12 @@ sub update_repo_issue_events {
 
     my @gh_issue_events;
     push @gh_issue_events, $self->update_repo_issue_event_from_data($gh_repo, $_)
-        for @issue_events_data;
+        for @$issue_events_data;
 
     print "   contributions...\n";
     my @contributions;
     push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_')
-        for @issue_events_data;
+        for @$issue_events_data;
         
     return \@gh_issue_events;
 }
