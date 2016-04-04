@@ -24,7 +24,7 @@
     <div class="stats">
       <div class="fourth">
 	<span>All Instant Answers</span>
-	<h2>{{count.maintained_ias + count.developed_only_ias}}</h2>
+	<h2>{{count.ias}}</h2>
 	</div>
       <div class="fourth">
 	<span>Pull Requests Reviews</span>

@@ -25,9 +25,14 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.count = {};
 	$scope.topics = [];
 
-	$scope.ias_developed_only = _.filter(response.ia.live, function(ia) {
+	$scope.ias = [];
+	_.each(response.ia, function(element, index) {
+	    $scope.ias = $scope.ias.concat(element);
+	});
+
+	$scope.ias_developed_only = _.filter($scope.ias, function(ia) {
 	    return _.find(ia.developer, function(dev) {
-		return dev.name === response.gh_data.login && dev.type === "github";
+		return (dev.name === response.gh_data.login || dev.name === response.gh_data.name) && dev.type === "github";
 	    });
 	});
 
@@ -50,9 +55,9 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.count.reviewed_prs = _.size(response.pulls_assigned);
 	$scope.count.developed_prs = _.size($scope.prs_open_developed);
 	$scope.count.closed_prs = response.closed_pulls;
+	$scope.count.ias = _.size($scope.ias);
 
 	$scope.ias_maintained = response.maintained;
-
 
 	$scope.topics = _.map(response.topics, function(key, num) {
 	    return {count: key, topic: num};
