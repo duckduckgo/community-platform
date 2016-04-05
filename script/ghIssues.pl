@@ -42,16 +42,15 @@ my @repos = (
 my $token;
 if($d->is_live){
     $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
-}
-else{
-    $token = $ARGV[0] || die "missing api token \nusage: ./ghIssues <github api token>";
+}else{
+    $token = $ARGV[0] || die "Missing API token\tusage: ./ghIssues.pl <GitHub token>";
 }
 
 my $gh = Net::GitHub->new(access_token => $token);
 
 
 my $today = localtime;
-# get last 6 hours worth of issues
+# get last 6 hours of issues
 my $since = $today - (6 * ONE_HOUR);
 
 # get the GH issues
@@ -206,7 +205,7 @@ sub getIssues{
                 } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated')) {
                     if ($state eq 'merged') {
                         $dev_milestone = 'complete';
-                    } elsif ($state eq 'closed') {
+                    } elsif (($state eq 'closed') && ($ia->{production_state} eq 'offline')) {
                         $dev_milestone = 'planning';
                     }
                 } 
@@ -493,13 +492,20 @@ sub update_pr_template {
         }
     }
 
-
     my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$data->{example_query})" || ' ';
 
     if(defined $ia->{other_queries}){
-        $ia->{other_queries} =~ s/"|\[|\]//g;
-        $ia->{other_queries} =~ s/,/, /g;
-        $examples .=", ". "[$ia->{other_queries}](https://beta.duckduckgo.com/?q=$ia->{other_queries})";
+        my $q = qq({"examples": $ia->{other_queries} });
+        try{
+            $q = from_json($q);
+        }
+        catch{
+            return;
+        };
+
+        foreach my $query (@{$q->{examples}}){
+            $examples .=", ". "[$query](https://beta.duckduckgo.com/?q=$query)";
+        }
     }
 
     map{ $data->{$_} = ' ' unless $data->{$_} } qw(src_url description tab);
@@ -535,15 +541,12 @@ sub update_pr_template {
         $_ =~ s/\*\*Testing\*\*.*$//g;
     }
     return if $tmp_message eq $old_comment;
-    warn $tmp_message;
-    warn $old_comment;
 
     my $dax = $ENV{DAX_TOKEN};
     return unless $dax;
 
     warn "Posting comment: $data->{name}";
     my $dax_comment = Net::GitHub->new(access_token => $dax);
-    return;
 
     try{
         if(!$comment_number){
