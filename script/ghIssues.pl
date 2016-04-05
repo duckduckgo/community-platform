@@ -39,13 +39,19 @@ my @repos = (
     'zeroclickinfo-fathead'
 );
 
-my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+my $token;
+if($d->is_live){
+    $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+}else{
+    $token = $ARGV[0] || $ENV{GITHUB_ISSUES_TOKEN} || die "Missing API token\tusage: ./ghIssues.pl <GitHub token>\nhttps://github.com/settings/tokens";
+}
+
 my $gh = Net::GitHub->new(access_token => $token);
 
 
 my $today = localtime;
-# get last days worth of issues
-my $since = $today - (1 * ONE_DAY);
+# get last 6 hours of issues
+my $since = $today - (6 * ONE_HOUR);
 
 # get the GH issues
 sub getIssues{
@@ -478,6 +484,7 @@ sub update_pr_template {
                 $comment = $comments[1];
                 return unless $comment->{user}->{login} eq 'daxtheduck';
                 $comment_number = $comment->{id};
+                $old_comment = $comment->{body};
             }
         }else{
             $comment_number = $comment->{id};
