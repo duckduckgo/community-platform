@@ -19,6 +19,6 @@ DDH::UserPage::Generate->new(
 
 builder {
     mount '/' => Plack::App::Directory::WithIndex->new( root => "/home/ddgc/ddgc/ddh-userpages" )->to_app;
-    mount "/static" => Plack::App::File->new(root => $FindBin::Dir . '/../root/static')->to_app;
+    mount "/ddh-static" => Plack::App::File->new(root => $FindBin::Dir . '/../root/static')->to_app;
 };
 

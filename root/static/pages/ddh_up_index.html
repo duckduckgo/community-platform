@@ -10,12 +10,12 @@
 
 <title></title>
 
-<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/content.css" />
-<link rel="stylesheet" media="screen, projection, handheld" href="/static/css/ddgc.css" />
+<link rel="stylesheet" media="screen, projection, handheld" href="/ddh-static/css/content.css" />
+<link rel="stylesheet" media="screen, projection, handheld" href="/ddh-static/css/ddgc.css" />
 
 
 <!--[if lt IE 9]>
-<script src="/static/js/html5shiv.js"></script>
+<script src="/ddh-static/js/html5shiv.js"></script>
 <![endif]-->
 
 <meta name="twitter:site" value="@duckco" />
@@ -32,7 +32,7 @@
 	<div class="content-wrap">
 		
 			<div class="header-logo">
-				<div class="header-logo__logo"><a href="https://duck.co/"><img src="/static/images/logo.svg" alt="DuckDuckGo Community Platform" /></a></div>
+				<div class="header-logo__logo"><a href="https://duck.co/"><img src="/ddh-static/images/logo.svg" alt="DuckDuckGo Community Platform" /></a></div>
 			</div>	
 		
 <div class="header-nav">
@@ -54,7 +54,7 @@
     <div class="flex-container">
 
       <div class="header-logo">
-	<div class="header-logo__logo"><a href="/"><img src="/static/images/logo.svg" /></a></div>
+	<div class="header-logo__logo"><a href="/"><img src="/ddh-static/images/logo.svg" /></a></div>
       </div>
 
       <div class="nav-menu">
@@ -83,16 +83,16 @@
         <div class="site-main">
             <div class="">
 
-<script src="/static/js/userpages/angular.min.js"></script>
-<script src="/static/js/userpages/angular-sanitize.min.js"></script>
-<script src="/static/js/userpages/moment.min.js"></script>
-<script src="/static/js/userpages/underscore-min.js"></script>
-<script src="/static/js/userpages/app.js"></script>
-<script src="/static/js/userpages/UserPage.js"></script>
+<script src="/ddh-static/js/userpages/angular.min.js"></script>
+<script src="/ddh-static/js/userpages/angular-sanitize.min.js"></script>
+<script src="/ddh-static/js/userpages/moment.min.js"></script>
+<script src="/ddh-static/js/userpages/underscore-min.js"></script>
+<script src="/ddh-static/js/userpages/app.js"></script>
+<script src="/ddh-static/js/userpages/UserPage.js"></script>
 
-<link rel="stylesheet" href="/static/css/userpages/main.css">
-<link rel="stylesheet" href="/static/css/userpages/octicons.css" charset="utf-8">
-<link rel="stylesheet" href="/static/css/userpages/UserPage.css">
+<link rel="stylesheet" href="/ddh-static/css/userpages/main.css">
+<link rel="stylesheet" href="/ddh-static/css/userpages/octicons.css" charset="utf-8">
+<link rel="stylesheet" href="/ddh-static/css/userpages/UserPage.css">
 
 <img src="https://duckduckgo.com/t/userpage?{{fn.random()}}" class="hide" />
 
@@ -162,7 +162,7 @@
 	Instant Answers
 	</h3>
 
-      <div class="instantanswer typeC flex-container" ng-repeat="ia in show_ias | orderBy: iaSort" ng-include="'/static/partials/c_instantanswer.html'">
+      <div class="instantanswer typeC flex-container" ng-repeat="ia in show_ias | orderBy: iaSort" ng-include="'/ddh-static/partials/c_instantanswer.html'">
 	</div>
       </section>
 
@@ -177,13 +177,13 @@
       <div class="flex-container align-top">
 	<!-- PR Reviews -->
 	<div ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">
-	  <div ng-repeat="issue in prs_open_reviewed | orderBy: '-updated_at'" ng-include="'/static/partials/c_issue.html'" class="issue typeC flex-container">
+	  <div ng-repeat="issue in prs_open_reviewed | orderBy: '-updated_at'" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC flex-container">
 	    </div>
 	  </div>
 
 	<!-- Open PRs -->
 	<div ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">
-	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'/static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container">
+	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container">
 	    </div>
 	  </div>
 	</div>
