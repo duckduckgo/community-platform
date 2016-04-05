@@ -125,6 +125,7 @@ html, body, p, div {
 
 .container {
     @include outer-container;
+    min-width: 68em;
     max-width: 68em;
 }
 
@@ -171,17 +172,17 @@ section {
 }
 
 .flex-container {
-    display: flex;
+    @include display(flex);
     align-items: center;
     // justify-content: space-between;
 
-    &.align-top { align-items: flex-start; }
+    &.align-top { @include align-items(flex-start); }
 
-    .grid-1 { flex: 1; }
-    .grid-2 { flex: 2; }
-    .grid-4 { flex: 4; }
-    .grid-6 { flex: 6; }
-    .grid-8 { flex: 8; }
+    .grid-1 { @include flex(1); }
+    .grid-2 { @include flex(2); }
+    .grid-4 { @include flex(4); }
+    .grid-6 { @include flex(6); }
+    .grid-8 { @include flex(8); }
 }
 
 .margin-left { padding-left: 30px; }
@@ -502,7 +503,7 @@ overflow: hidden;
 }
 
 .content-wrap {
-    max-width: 68em;
+    min-width: 68em;
 }
 
 .stats h2 {
