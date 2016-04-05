@@ -196,8 +196,8 @@ sub transform {
 
         for my $contributor ( uniq @contributors ) {
             # Some of our github logins contain '/' at the end?
+            $contributor =~ s{/$}{};
             my $lc_contributor = lc $contributor;
-            $lc_contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
             push @{ $transform->{$lc_contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
 
