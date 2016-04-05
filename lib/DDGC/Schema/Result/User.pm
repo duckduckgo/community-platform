@@ -133,6 +133,10 @@ sub unread_notifications {
     0;
 }
 
+sub undone_notifications_count {
+    0;
+}
+
 sub add_role {
     my ( $self, $role ) = @_;
     $role = normalise_role( $role );
