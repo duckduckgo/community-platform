@@ -43,7 +43,7 @@ my $token;
 if($d->is_live){
     $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
 }else{
-    $token = $ARGV[0] || die "Missing API token\tusage: ./ghIssues.pl <GitHub token>";
+    $token = $ARGV[0] || $ENV{GITHUB_ISSUES_TOKEN} || die "Missing API token\tusage: ./ghIssues.pl <GitHub token>";
 }
 
 my $gh = Net::GitHub->new(access_token => $token);
