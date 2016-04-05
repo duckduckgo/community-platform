@@ -110,16 +110,17 @@ sub generate {
         );
 
         open my $fh, '>:encoding(UTF-8)', "$build_dir/index.html" or die();
-        # print $fh $self->xslate->render(
-        #     'layouts/main.tx',
-        #     {
-        #         content => $content,
-        #         settings => $self->settings,
-        #         hide_login => 1,
-        #         no_js => 1
-        #     }
-        # );
-	print $fh $content;
+        print $fh $self->xslate->render(
+            'layouts/main.tx',
+            {
+                content => $content,
+                settings => $self->settings,
+                hide_login => 1,
+                no_js => 1,
+		no_wrap => 1
+            }
+        );
+#	print $fh $content;
         close $fh;
 
         # JSON dump of user's data

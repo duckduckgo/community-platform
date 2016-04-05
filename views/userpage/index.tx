@@ -18,7 +18,7 @@
 </head>
 <body ng-controller="UserPageController">
 
-  <img src="https://duckduckgo.com/t/userpage?{{fn.random()}}" class="hide" />
+<img src="https://duckduckgo.com/t/userpage?{{fn.random()}}" class="hide" />
 
   <title>{{response.gh_data.name || response.gh_data.login}}</title>
 <!-- Header -->

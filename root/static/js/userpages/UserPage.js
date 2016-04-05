@@ -145,10 +145,13 @@ app.factory('fn', function() {
 	getFromNow: function(datetimestr) {
             return moment(datetimestr).fromNow();
     },
-    // generate a random number
-    random: function() {
-        return Math.ceil(Math.random() * 1e7);
-    }
+	// generate a random number
+	random: (function() {
+            var result = Math.ceil(Math.random() * 1e7);
+	    return function() {
+		return result;
+	    };
+	}())
 
     };
 });
