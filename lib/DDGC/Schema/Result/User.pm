@@ -124,6 +124,11 @@ sub is {
     return 0;
 }
 
+sub admin {
+    my ( $self ) = @_;
+    $self->is('admin');
+}
+
 sub unread_notifications {
     0;
 }
