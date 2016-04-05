@@ -22,6 +22,10 @@ sub all_ref {
   [ $_[0]->all ];
 }
 
+sub rs {
+    shift->result_source->schema->resultset(@_);
+}
+
 sub having { shift->search_rs( undef, { having => shift } ) }
 
 __PACKAGE__->load_components(qw/
