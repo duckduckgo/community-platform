@@ -240,8 +240,17 @@ sub transform {
             }
 
             # Public GH data
-            my $gh_data = $self->ddgc->rs('GitHub::User')->search( \[ 'LOWER(login) = ?', $lc_contributor ] )->one_row;
-            $transform->{$lc_contributor}->{gh_data} = ( $gh_data ) ? $gh_data->gh_data : '{}';
+            my $gh_data;
+            try {
+                $gh_data = $self->ddgc->github->find_or_update_user( $contributor );
+            } catch {
+                warn "Unable to get gh_data for $contributor";
+            };
+            if ( !$gh_data ) {
+                delete $transform->{$lc_contributor};
+                next;
+            }
+            $transform->{$lc_contributor}->{gh_data} = $gh_data->gh_data;
         }
     }
 
