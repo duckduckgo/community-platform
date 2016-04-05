@@ -81,7 +81,8 @@ sub single_page_ref {
 
 sub single_post_rs {
     $_[0]->company_blog
-         ->prefetch( [ 'user', { comments => 'user' } ] );
+         ->prefetch( { user => 'roles'} )
+         ;
 }
 
 sub post_to_ref {
