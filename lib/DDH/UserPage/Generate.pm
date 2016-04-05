@@ -119,6 +119,7 @@ sub generate {
                 no_js => 1,
 		no_wrap => 1,
 		app => 1,
+		no_responsive => 1,
             }
         );
 #	print $fh $content;

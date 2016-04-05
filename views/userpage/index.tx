@@ -44,7 +44,7 @@
       <div class="content">
 	<h3>{{response.gh_data.name}}</h3>
 	<div class="gray">
-	  <a href="http://github.com/{{response.gh_data.login}}">@{{response.gh_data.login}}</a>
+	  <a href="https://github.com/{{response.gh_data.login}}">@{{response.gh_data.login}}</a>
 	  <br />{{response.gh_data.location}}
 	  </div>
 
