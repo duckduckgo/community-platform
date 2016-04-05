@@ -109,22 +109,6 @@ sub generate {
             }
         );
 
-        # open my $fh, '>:encoding(UTF-8)', "$build_dir/index.html" or die();
-        # print $fh $self->xslate->render(
-        #     'layouts/main.tx',
-        #     {
-        #         content => $content,
-        #         settings => $self->settings,
-        #         hide_login => 1,
-        #         no_js => 1,
-	# 	no_wrap => 1,
-	# 	app => 1,
-	# 	no_responsive => 1,
-        #     }
-        # );
-	# print $fh $content;
-        # close $fh;
-
         # JSON dump of user's data
         open my $jfh, '>:encoding(UTF-8)', "$build_dir/index.json" or die();
         print $jfh $self->json->encode( $contributor_data );
