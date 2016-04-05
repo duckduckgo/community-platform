@@ -66,7 +66,8 @@ html, body, p, div {
 .container {
   max-width: 1200px;
   margin-left: auto;
-  margin-right: auto; }
+  margin-right: auto;
+  max-width: 68em; }
   .container::after {
     clear: both;
     content: "";
@@ -102,11 +103,11 @@ section {
   .half:nth-child(even) {
     margin-left: 25px; }
 
-.third {
+.container .third {
   float: left;
   width: 236.66667px;
   margin-left: 25px; }
-  .third:nth-child(3n+1) {
+  .container .third:nth-child(3n+1) {
     margin-left: 0; }
 
 .fourth {
@@ -152,9 +153,6 @@ section {
 
 .pad-right-30 {
   padding-right: 30px; }
-
-.hide {
-    display: none; }
 
 .status {
   display: block;
@@ -367,5 +365,27 @@ main {
 
 .h3-small {
   margin-bottom: 20px; }
+
+.header-nav ul {
+  font-size: 14px; }
+
+.header-logo__logo {
+  width: 57px; }
+
+.site-main {
+  padding: 0;
+  margin-bottom: 15em; }
+
+.content-wrap {
+  max-width: 68em; }
+
+.stats h2 {
+  font-weight: 500; }
+
+.site-bottom a {
+  color: #E1E5E8; }
+
+body {
+  padding-bottom: 0; }
 
 /*# sourceMappingURL=UserPage.css.map */

@@ -1,26 +1,17 @@
-<!DOCTYPE html>
-<html ng-app="app">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-    <script src="/static/js/userpages/angular.min.js"></script>
-    <script src="/static/js/userpages/angular-sanitize.min.js"></script>
-    <script src="/static/js/userpages/moment.min.js"></script>
-    <script src="/static/js/userpages/underscore-min.js"></script>
-    <script src="/static/js/userpages/app.js"></script>
-    <script src="/static/js/userpages/UserPage.js"></script>
+<script src="/static/js/userpages/angular.min.js"></script>
+<script src="/static/js/userpages/angular-sanitize.min.js"></script>
+<script src="/static/js/userpages/moment.min.js"></script>
+<script src="/static/js/userpages/underscore-min.js"></script>
+<script src="/static/js/userpages/app.js"></script>
+<script src="/static/js/userpages/UserPage.js"></script>
 
-    <link rel="stylesheet" href="/static/css/userpages/main.css">
-    <link rel="stylesheet" href="/static/css/userpages/octicons.css" charset="utf-8">
-    <link rel="stylesheet" href="/static/css/userpages/UserPage.css">
-</head>
-<body ng-controller="UserPageController">
+<link rel="stylesheet" href="/static/css/userpages/main.css">
+<link rel="stylesheet" href="/static/css/userpages/octicons.css" charset="utf-8">
+<link rel="stylesheet" href="/static/css/userpages/UserPage.css">
 
 <img src="https://duckduckgo.com/t/userpage?{{fn.random()}}" class="hide" />
 
-  <title>{{response.gh_data.name || response.gh_data.login}}</title>
+<title>{{response.gh_data.name || response.gh_data.login}}</title>
 <!-- Header -->
 <header>
   <div class="container">
@@ -51,7 +42,7 @@
     <div class="profile card">
       <img src="{{response.gh_data.avatar_url}}" />
       <div class="content">
-	<h3>{{user.name}}</h3>
+	<h3>{{response.gh_data.name}}</h3>
 	<div class="gray">
 	  <a href="http://github.com/{{response.gh_data.login}}">@{{response.gh_data.login}}</a>
 	  <br />{{response.gh_data.location}}
@@ -124,5 +115,3 @@
 
 
 </div> <!-- /.container -->
-</body>
-</html>

@@ -117,7 +117,8 @@ sub generate {
                 settings => $self->settings,
                 hide_login => 1,
                 no_js => 1,
-		no_wrap => 1
+		no_wrap => 1,
+		app => 1,
             }
         );
 #	print $fh $content;

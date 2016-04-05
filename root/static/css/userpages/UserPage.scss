@@ -125,6 +125,7 @@ html, body, p, div {
 
 .container {
     @include outer-container;
+    max-width: 68em;
 }
 
 section {
@@ -154,7 +155,7 @@ section {
 
     &:nth-child(even) { margin-left: $pad-xs; }
 }
-.third {
+.container .third {
     float: left;
     width: ($main - 2*$pad-xs)/3;
     margin-left: $pad-xs;
@@ -483,4 +484,35 @@ overflow: hidden;
 
 .h3-small {
     margin-bottom: 20px;
+}
+
+//// NAV
+
+.header-nav ul {
+    font-size: 14px;
+}
+
+.header-logo__logo {
+    width: 57px;
+}
+
+.site-main {
+    padding: 0;
+    margin-bottom: 15em;
+}
+
+.content-wrap {
+    max-width: 68em;
+}
+
+.stats h2 {
+    font-weight: 500;
+}
+
+.site-bottom a {
+    color: #E1E5E8;
+}
+
+body {
+    padding-bottom: 0;
 }
