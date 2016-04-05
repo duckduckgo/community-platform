@@ -39,13 +39,20 @@ my @repos = (
     'zeroclickinfo-fathead'
 );
 
-my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+my $token;
+if($d->is_live){
+    $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+}
+else{
+    $token = $ARGV[0] || die "missing api token \nusage: ./ghIssues <github api token>";
+}
+
 my $gh = Net::GitHub->new(access_token => $token);
 
 
 my $today = localtime;
-# get last days worth of issues
-my $since = $today - (1 * ONE_DAY);
+# get last 6 hours worth of issues
+my $since = $today - (6 * ONE_HOUR);
 
 # get the GH issues
 sub getIssues{
@@ -199,7 +206,7 @@ sub getIssues{
                 } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated')) {
                     if ($state eq 'merged') {
                         $dev_milestone = 'complete';
-                    } elsif (($state eq 'closed') && ($ia->{production_state} eq 'offline')) {
+                    } elsif ($state eq 'closed') {
                         $dev_milestone = 'planning';
                     }
                 } 
@@ -478,6 +485,7 @@ sub update_pr_template {
                 $comment = $comments[1];
                 return unless $comment->{user}->{login} eq 'daxtheduck';
                 $comment_number = $comment->{id};
+                $old_comment = $comment->{body};
             }
         }else{
             $comment_number = $comment->{id};
@@ -485,20 +493,13 @@ sub update_pr_template {
         }
     }
 
+
     my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$data->{example_query})" || ' ';
 
     if(defined $ia->{other_queries}){
-        my $q = qq({"examples": $ia->{other_queries} });
-        try{
-            $q = from_json($q);
-        }
-        catch{
-            return;
-        };
-
-        foreach my $query (@{$q->{examples}}){
-            $examples .=", ". "[$query](https://beta.duckduckgo.com/?q=$query)";
-        }
+        $ia->{other_queries} =~ s/"|\[|\]//g;
+        $ia->{other_queries} =~ s/,/, /g;
+        $examples .=", ". "[$ia->{other_queries}](https://beta.duckduckgo.com/?q=$ia->{other_queries})";
     }
 
     map{ $data->{$_} = ' ' unless $data->{$_} } qw(src_url description tab);
@@ -534,12 +535,15 @@ sub update_pr_template {
         $_ =~ s/\*\*Testing\*\*.*$//g;
     }
     return if $tmp_message eq $old_comment;
+    warn $tmp_message;
+    warn $old_comment;
 
     my $dax = $ENV{DAX_TOKEN};
     return unless $dax;
 
     warn "Posting comment: $data->{name}";
     my $dax_comment = Net::GitHub->new(access_token => $dax);
+    return;
 
     try{
         if(!$comment_number){
