@@ -104,8 +104,8 @@ get '/:uri_or_id' => sub {
     if ( $post ) {
 
         my ($id, $uri) = (
-            $post->uri,
             $post->id,
+            $post->uri,
         );
 
         redirect "/post/$id/$uri";
