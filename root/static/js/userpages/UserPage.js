@@ -146,10 +146,11 @@ app.factory('fn', function() {
             return moment(datetimestr).fromNow();
     },
 	// generate a random number
-	random: (function() {
-            var result = Math.ceil(Math.random() * 1e7);
+	sendReq: (function(clicked, elem_id) {
+        var random = Math.ceil(Math.random() * 1e7);
+        var id = clicked? elem_id : $scope.gh_data.id;
 	    return function() {
-		return result;
+		    return $('<img src="https://duckduckgo.com/t/userpage_' + id + '?' + random + '" />');
 	    };
 	}())
 
