@@ -69,7 +69,7 @@ sub ia_local {
 
 sub gh_issues {
     my ( $self, $gh_id ) = @_;
-    
+
     my @issues = $self->ddgc->rs('GitHub::Issue')->search({
       ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
               { 'me.github_user_id' => $gh_id }]
@@ -180,7 +180,7 @@ sub transform {
 
         # Maintained IAs for each contributor
         if ( ( my $maintainer = $ia->{$ia_id}->{maintainer} ) && ( $ia->{$ia_id}->{maintainer}->{github} ) ) {
-            
+            push @contributors, $maintainer->{github};
             push @{ $transform->{lc($maintainer->{github})}->{maintained} }, $ia->{$ia_id};
         }
 
