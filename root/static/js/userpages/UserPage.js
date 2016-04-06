@@ -31,7 +31,6 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	});
 
 	$scope.ias_developed_only = _.filter($scope.ias, function(ia) {
-	    console.log(ia);
 	    return _.find(ia.developer, function(dev) {
 		return (dev.name === response.gh_data.login || dev.name === response.gh_data.name) && dev.type === "github";
 	    }) && ia.dev_milestone !== "ghosted";
