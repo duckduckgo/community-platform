@@ -69,7 +69,7 @@ sub ia_local {
 
 sub gh_issues {
     my ( $self, $gh_id ) = @_;
-    
+
     my @issues = $self->ddgc->rs('GitHub::Issue')->search({
       ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
               { 'me.github_user_id' => $gh_id }]
@@ -197,7 +197,7 @@ sub transform {
 
         # Maintained IAs for each contributor
         if ( ( my $maintainer = $ia->{$ia_id}->{maintainer} ) && ( $ia->{$ia_id}->{maintainer}->{github} ) ) {
-            
+            push @contributors, $maintainer->{github};
             push @{ $transform->{lc($maintainer->{github})}->{maintained} }, $ia->{$ia_id};
         }
 
@@ -213,8 +213,8 @@ sub transform {
 
         for my $contributor ( uniq @contributors ) {
             # Some of our github logins contain '/' at the end?
+            $contributor =~ s{/$}{};
             my $lc_contributor = lc $contributor;
-            $lc_contributor =~ s{/$}{};
             my $milestone = $ia->{$ia_id}->{dev_milestone} || 'planning';
             push @{ $transform->{$lc_contributor}->{ia}->{ $milestone } }, $ia->{$ia_id};
             $transform->{ $lc_contributor }->{ original_login } ||= $contributor;
@@ -258,8 +258,17 @@ sub transform {
             }
 
             # Public GH data
-            my $gh_data = $self->ddgc->rs('GitHub::User')->search( \[ 'LOWER(login) = ?', $lc_contributor ] )->one_row;
-            $transform->{$lc_contributor}->{gh_data} = ( $gh_data ) ? $gh_data->gh_data : '{}';
+            my $gh_data;
+            try {
+                $gh_data = $self->ddgc->github->find_or_update_user( $contributor );
+            } catch {
+                warn "Unable to get gh_data for $contributor";
+            };
+            if ( !$gh_data ) {
+                delete $transform->{$lc_contributor};
+                next;
+            }
+            $transform->{$lc_contributor}->{gh_data} = $gh_data->gh_data;
         }
     }
 
