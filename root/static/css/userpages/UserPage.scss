@@ -127,6 +127,7 @@ html, body, p, div {
     @include outer-container;
     min-width: 68em;
     max-width: 68em;
+    min-height: 55em;
 }
 
 section {
@@ -517,3 +518,4 @@ overflow: hidden;
 body {
     padding-bottom: 0;
 }
+

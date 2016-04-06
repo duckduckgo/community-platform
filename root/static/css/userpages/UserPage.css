@@ -68,7 +68,8 @@ html, body, p, div {
   margin-left: auto;
   margin-right: auto;
   min-width: 68em;
-  max-width: 68em; }
+  max-width: 68em;
+  min-height: 55em; }
   .container::after {
     clear: both;
     content: "";
