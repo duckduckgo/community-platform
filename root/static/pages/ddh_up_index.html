@@ -94,8 +94,6 @@
 <link rel="stylesheet" href="/ddh-static/css/userpages/octicons.css" charset="utf-8">
 <link rel="stylesheet" href="/ddh-static/css/userpages/UserPage.css">
 
-<img src="https://duckduckgo.com/t/userpage_{{response.gh_data.id}}?{{fn.random()}}" class="hide" />
-
 <title>{{response.gh_data.name || response.gh_data.login}}</title>
 <!-- Header -->
 <header>
@@ -122,6 +120,7 @@
 
 <div class="container">
 
+<div>{{fn.sendReq(0)}}</div>
   <!-- Sidebar -->
   <aside>
     <div class="profile card">
