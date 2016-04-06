@@ -33,10 +33,10 @@ my @results;
 
 # the repos we care about
 my @repos = (
-     'zeroclickinfo-spice',
-#    'zeroclickinfo-goodies',
-#    'zeroclickinfo-longtail',
-#    'zeroclickinfo-fathead'
+    'zeroclickinfo-spice',
+    'zeroclickinfo-goodies',
+    'zeroclickinfo-longtail',
+    'zeroclickinfo-fathead'
 );
 
 my $token;
