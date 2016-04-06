@@ -33,10 +33,10 @@ my @results;
 
 # the repos we care about
 my @repos = (
-    'zeroclickinfo-spice',
-    'zeroclickinfo-goodies',
-    'zeroclickinfo-longtail',
-    'zeroclickinfo-fathead'
+     'zeroclickinfo-spice',
+#    'zeroclickinfo-goodies',
+#    'zeroclickinfo-longtail',
+#    'zeroclickinfo-fathead'
 );
 
 my $token;
@@ -360,12 +360,27 @@ sub merge_files {
         return unless $pr->{merged_at};
         
         my @files_changed = $gh->pull_request->files($issue_id);
-
-        my @files;
-        map{ push(@files, $_->{filename}) } @files_changed;
-
-        #update code in db
         my $result = $d->rs('InstantAnswer')->find({id => $data->id});
+        my $files;
+
+        # turn code from db into hash
+        if($result->code){
+            my $code = from_json($result->code);
+            foreach (@{$code}){
+                $files->{$_} = 1;
+            }
+        }
+        # add any new files to files hash or delete files that were removed in the PR
+        for (@files_changed){
+            if($_->{status} eq 'removed'){
+                delete $files->{$_->{filename}};
+            }
+            else{
+                $files->{$_->{filename}} = 1;
+            }
+        }
+        my @files = keys $files;
+
         $result->update({code => JSON->new->ascii(1)->encode(\@files)}) if $result;
 }
 
