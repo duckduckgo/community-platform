@@ -519,3 +519,21 @@ body {
     padding-bottom: 0;
 }
 
+.issue-name {
+    width: 260px;
+}
+
+.sep--after {
+    &:after {
+	content: "";
+	border-left: 1px solid #d0d0d0;
+	margin: 0 1em;
+	display: inline-block;
+	vertical-align: baseline;
+	position: relative;
+	top: 0.15em;
+	float: none;
+	height: 1em;
+	width: 0;
+    }
+}
