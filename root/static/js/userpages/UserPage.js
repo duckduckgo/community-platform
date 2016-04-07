@@ -153,8 +153,8 @@ app.factory('fn', function() {
 	},
 	// get "time ago" from date
 	getFromNow: function(datetimestr) {
-            return moment(datetimestr).fromNow();
-    }
+            return moment().diff(moment(datetimestr), 'days') + "d";
+	}
 
     };
 });
