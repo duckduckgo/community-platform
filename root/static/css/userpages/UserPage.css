@@ -46,6 +46,9 @@ html, body, p, div {
   font-size: 13px;
   color: #aaa; }
 
+a.subtitle:visited {
+  color: #aaa; }
+
 .label, .label div {
   font-size: 13px;
   text-transform: uppercase;

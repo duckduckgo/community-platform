@@ -108,6 +108,12 @@ html, body, p, div {
     color: $gray;
 }
 
+a.subtitle {
+    &:visited {
+	color: $gray;
+    }
+}
+
 .label, .label div {
     font-size: $tx-sm;
     text-transform: uppercase;
