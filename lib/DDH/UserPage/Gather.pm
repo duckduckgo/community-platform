@@ -16,6 +16,9 @@ use HTTP::Request::Common;
 use List::MoreUtils qw/ uniq /;
 use Carp;
 
+binmode STDOUT, ':encoding(UTF-8)';
+binmode STDERR, ':encoding(UTF-8)';
+
 has repo_url => (
     is => 'ro',
     default => 'https://duck.co/ia/repo/all/json?all_milestones=1',
