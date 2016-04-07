@@ -142,8 +142,8 @@ app.factory('fn', function() {
 	},
 	// get "time ago" from date
 	getFromNow: function(datetimestr) {
-            return moment(datetimestr).fromNow();
-    },
+            return moment().diff(moment(datetimestr), 'days') + "d";
+	},
 	// generate a random number
 	random: (function() {
             var result = Math.ceil(Math.random() * 1e7);

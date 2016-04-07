@@ -543,3 +543,18 @@ body {
 	width: 0;
     }
 }
+
+.site-header {
+    min-height: 69px;
+}
+
+.issue-link {
+    max-width: 200px;
+    display: inline-flex;
+}
+
+.issue-ellipsis {
+    overflow: hidden;
+    font-size: 13px;
+    text-overflow: ellipsis
+}
