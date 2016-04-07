@@ -5,6 +5,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.showUser(response);
     });
 
+
     // for sorting instant answers (live should be first)
     $scope.iaSort = function(ia) {
 	switch (ia.dev_milestone) {
@@ -24,6 +25,15 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.response = response;
 	$scope.count = {};
 	$scope.topics = [];
+
+    $scope.imgUrl = 'https://duckduckgo.com/t/userpage_' + $scope.response.gh_data.id;
+    $scope.randomNum = Math.ceil(Math.random() * 1e7);
+    $scope.imgUrlSuffix = '?' + Math.ceil(Math.random() * 1e7);
+
+    $scope.appendToUrl = function(element_id) {
+        $scope.randomNum = Math.ceil(Math.random() * 1e7);
+        $scope.imgUrlSuffix = '_' + element_id + '?' + random;
+	};
 
 	$scope.ias = [];
 	_.each(response.ia, function(element, index) {
@@ -98,8 +108,8 @@ app.factory('fn', function() {
 		return obj[attr] == name;
 	    });
 	},
-	// get avatar image. If not found, uses first letter from devname
-	getAvatar: function(dev) {
+	
+    getAvatar: function(dev) {
 	    var html = '';
 	    html = '<div class="avatar" title="' + dev.username + '"';
 
@@ -108,8 +118,8 @@ app.factory('fn', function() {
 
 	    return html;
 	},
-	// get developers based on an instant answer; returns html
-	getDevs: function(ia) {
+	
+    getDevs: function(ia) {
 	    var html = '';
 	    _.each(ia.developer, function(dev) {
 		html += '<span>' + dev.name + ' </span>';
@@ -144,15 +154,8 @@ app.factory('fn', function() {
 	// get "time ago" from date
 	getFromNow: function(datetimestr) {
             return moment(datetimestr).fromNow();
-    },
+    }
 	// generate a random number
-	sendReq: function(clicked, elem_id) {
-        var random = Math.ceil(Math.random() * 1e7);
-        var id = clicked? elem_id : $scope.gh_data.id;
-	    return function() {
-		    return '<img src="https://duckduckgo.com/t/userpage_' + id + '?' + random + '" />';
-	    };
-	};
 
     };
 });
