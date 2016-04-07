@@ -30,9 +30,16 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.randomNum = Math.ceil(Math.random() * 1e7);
     $scope.imgUrlSuffix = '?' + Math.ceil(Math.random() * 1e7);
 
-    $scope.appendToUrl = function(element_id) {
+    $scope.newImg = new Image();
+    $scope.newImg.src = $scope.imgUrl + $scope.imgUrlSuffix;
+
+    $scope.addImg = function(element_id) {
         $scope.randomNum = Math.ceil(Math.random() * 1e7);
-        $scope.imgUrlSuffix = '_' + element_id + '?' + $scope.randomNum;
+        element_id = element_id? '_' + element_id : '';
+        $scope.imgUrlSuffix = element_id + '?' + $scope.randomNum;
+
+        $scope.newImg = new Image();
+        $scope.newImg.src = $scope.imgUrl + $scope.imgUrlSuffix;
 	};
 
 	$scope.ias = [];
@@ -96,6 +103,16 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
 	// by default. for 'filterable'
 	$scope.show_ias = ($scope.count.maintained_ias) ? $scope.maintained : $scope.ias_developed_only;
+
+    $scope.changeShownIAs = function(which) {
+        $scope.show_ias = which;
+
+        var objKey = _.findKey($scope, which);
+        console.log(objKey);
+        console.log($scope);
+        $scope.addImg(objKey);
+    };
+
     }
 });
 
