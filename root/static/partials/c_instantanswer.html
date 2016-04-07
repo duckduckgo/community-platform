@@ -7,7 +7,18 @@
 </div>
 
 <!-- developers -->
-<div class="avatars grid-2 pad-right-20" ng-bind-html="fn.getDevsAvatars(ia)"></div>
+<div class="avatars grid-2 pad-right-20">
+    <div class="avatar" ng-repeat="dev in ia.contributors" title="{{dev.username}}">
+        <a href="/{{dev.username.toLowerCase()}}" ng-click="appendToUrl('avatar_' + dev.username.toLowerCase())">
+            <span ng-if="dev.avatar_url">
+                <img src="{{dev.avatar_url}}" />
+            </span>
+            <span ng-if="! dev.avatar_url">
+                {{fn.firstUsernameChar(dev.username)}}
+            </span>
+        </a>
+    </div>
+</div>
 
 <!-- status -->
 <div class="status full {{ia.dev_milestone}} grid-1">{{ia.dev_milestone}}</div>

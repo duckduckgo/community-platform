@@ -108,31 +108,16 @@ app.factory('fn', function() {
 		return obj[attr] == name;
 	    });
 	},
-	
-    getAvatar: function(dev) {
-	    var html = '';
-	    html = '<div class="avatar" title="' + dev.username + '"';
 
-	    if (dev.avatar_url) html += '><a href="/' + dev.username.toLowerCase() + '"><img src="' + dev.avatar_url + '" /></a></div>';
-	    else html += "><a href='/" + dev.username.toLowerCase() + "'><span>" + dev.username.charAt(0) + '</span></a></div>';
-
-	    return html;
-	},
-	
+    // return the first char in a dev's username (for when avatar is not available)
+    firstUsernameChar: function(username) {
+        username = username? username.charAt(0) : '';
+    },
     getDevs: function(ia) {
 	    var html = '';
 	    _.each(ia.developer, function(dev) {
 		html += '<span>' + dev.name + ' </span>';
 	    });
-	    return html;
-	},
-	// get developers based on an instant answer; returns avatars
-	getDevsAvatars: function(ia, skipname) {
-	    var html = '';
-	    _.each(ia.contributors, function(dev) {
-		html += this.getAvatar(dev);
-	    }, this);
-
 	    return html;
 	},
 	// get topics based on an instant answer; returns html
@@ -155,7 +140,6 @@ app.factory('fn', function() {
 	getFromNow: function(datetimestr) {
             return moment(datetimestr).fromNow();
     }
-	// generate a random number
 
     };
 });
