@@ -112,6 +112,7 @@ app.factory('fn', function() {
     // return the first char in a dev's username (for when avatar is not available)
     firstUsernameChar: function(username) {
         username = username? username.charAt(0) : '';
+        return username;
     },
     getDevs: function(ia) {
 	    var html = '';
