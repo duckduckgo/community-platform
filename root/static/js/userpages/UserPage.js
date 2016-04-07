@@ -32,7 +32,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
     $scope.appendToUrl = function(element_id) {
         $scope.randomNum = Math.ceil(Math.random() * 1e7);
-        $scope.imgUrlSuffix = '_' + element_id + '?' + random;
+        $scope.imgUrlSuffix = '_' + element_id + '?' + $scope.randomNum;
 	};
 
 	$scope.ias = [];
