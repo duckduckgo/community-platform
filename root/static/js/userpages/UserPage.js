@@ -108,8 +108,6 @@ app.controller('UserPageController', function($scope, $http, fn) {
         $scope.show_ias = which;
 
         var objKey = _.findKey($scope, which);
-        console.log(objKey);
-        console.log($scope);
         $scope.addImg(objKey);
     };
 
