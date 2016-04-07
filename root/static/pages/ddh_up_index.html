@@ -104,11 +104,11 @@
 	<h2>{{count.total_ias}}</h2>
 	</div>
       <div class="fourth">
-	<span>Pull Requests Reviews</span>
+	<span>Reviewing Pull Requests</span>
 	<h2>{{count.reviewed_prs}}</h2>
 	</div>
       <div class="fourth">
-	<span>Open Pull Requests</span>
+	<span>Assigned Pull Requests</span>
 	<h2>{{count.developed_prs}}</h2>
 	</div>
       <div class="fourth">
@@ -146,7 +146,7 @@
 	<div class="tabs">
 	  <a href="#" ng-click="changeShownIAs(maintained)">
 	    <span ng-class="{'active': show_ias == maintained}" >
-	      Maintained
+	      Maintaining
 	      <span class="badge">{{count.maintained_ias}}</span>
 	      </span>
 	    </a>
@@ -167,9 +167,9 @@
     <section>
       <div class="flex-container">
 	<!-- PR Reviews -->
-	<h3 ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">Pull Request Reviews</h3>
+	<h3 ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">Reviewing Pull Requests</h3>
 	<!-- Open PRs -->
-	<h3 ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">Open Pull Requests</h3>
+	<h3 ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">Assigned Pull Requests</h3>
 	</div>
 
       <div class="flex-container align-top">

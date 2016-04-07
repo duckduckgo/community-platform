@@ -12,6 +12,9 @@ use Carp;
 use DDGC;
 use DDH::UserPage::Gather;
 
+binmode STDOUT, ':encoding(UTF-8)';
+binmode STDERR, ':encoding(UTF-8)';
+
 has view_dir => (
     is       => 'ro',
     required => 1,
@@ -56,7 +59,7 @@ sub _build_xslate {
 
 has json => ( is => 'lazy' );
 sub _build_json {
-    JSON::MaybeXS->new( utf8 => 1, pretty => 0 );
+    JSON::MaybeXS->new( pretty => 0 );
 }
 
 has ddgc => ( is => 'lazy' );
