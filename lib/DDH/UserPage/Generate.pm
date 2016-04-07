@@ -59,7 +59,7 @@ sub _build_xslate {
 
 has json => ( is => 'lazy' );
 sub _build_json {
-    JSON::MaybeXS->new( utf8 => 1, pretty => 0 );
+    JSON::MaybeXS->new( pretty => 0 );
 }
 
 has ddgc => ( is => 'lazy' );
