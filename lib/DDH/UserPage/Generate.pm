@@ -12,6 +12,9 @@ use Carp;
 use DDGC;
 use DDH::UserPage::Gather;
 
+binmode STDOUT, ':encoding(UTF-8)';
+binmode STDERR, ':encoding(UTF-8)';
+
 has view_dir => (
     is       => 'ro',
     required => 1,
