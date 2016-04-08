@@ -113,7 +113,7 @@ section {
   width: 236.66667px;
   margin-left: 25px; }
   .container .third:nth-child(3n+1) {
-    margin-left: 0; }
+    margin-left: 22px; }
 
 .fourth {
   float: left;
@@ -249,7 +249,7 @@ section {
   float: right; }
   .tabs a {
     display: inline-block;
-    padding: 8px 0 0 20px;
+    padding: 4px 0 0 20px;
     margin-left: 20px;
     color: #aaa;
     outline: 0; }
@@ -336,7 +336,7 @@ aside {
     font-size: 15px; }
 
 main {
-  margin-left: 259px;
+  margin-left: 280px;
   padding-top: 60px; }
 
 .issue {
@@ -423,7 +423,7 @@ main {
 
 .site-main {
   padding: 0;
-  margin-bottom: 15em; }
+  margin-bottom: calc(12.5em + 65px); }
 
 .content-wrap {
   min-width: 68em; }

@@ -168,7 +168,7 @@ section {
     width: ($main - 2*$pad-xs)/3;
     margin-left: $pad-xs;
 
-    &:nth-child(3n+1) { margin-left: 0; }
+    &:nth-child(3n+1) { margin-left: 22px; }
 }
 .fourth {
     float: left;
@@ -263,7 +263,7 @@ section {
 
     a {
 	display: inline-block;
-	padding: 8px 0 0 $pad-xxs;
+	padding: 4px 0 0 $pad-xxs;
 	margin-left: $pad-xxs;
 	color: $gray;
 	outline: 0;
@@ -396,7 +396,7 @@ aside {
 // ----------------------------------------------------------------------------
 
 main {
-    margin-left: $sidebar + $pad;
+    margin-left: 280px;
     padding-top: $pad-lg;
 }
 
@@ -506,7 +506,7 @@ overflow: hidden;
 
 .site-main {
     padding: 0;
-    margin-bottom: 15em;
+    margin-bottom: calc(12.5em + 65px);
 }
 
 .content-wrap {
