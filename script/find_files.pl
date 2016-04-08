@@ -74,7 +74,6 @@ sub process {
     if($repo =~ /fathead|longtail/){
 
         push(@matches, File::Find::Rule
-            ->name('fetch*', 'parse*')
             ->file
             ->in("/usr/local/ddh/$zci/lib/$repo/$data->{id}/")
         );
