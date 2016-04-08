@@ -13,7 +13,7 @@ use IO::All;
 
 my $rule = File::Find::Rule->new;
 my $meta = DDG::Meta::Data->by_id;
-my $results;
+my @results;
 
 $rule->or(
     $rule->new
@@ -81,7 +81,7 @@ sub process {
     }
 
     @matches = clean_and_normalize(@matches);
-    $results->{$data->{id}} = to_json(\@matches);
+    push @results, [$data->{id}, to_json(\@matches)];
 }
 
 sub clean_and_normalize {
@@ -138,13 +138,11 @@ while(my($id, $data) = each $meta){
 }
 
 # write sql 
-my $sql = "BEGIN;\n";
-$sql .= "update instant_answer as ia set code = a.code from (values\n";
-while(my($id, $files) = each $results){
-    $sql = $sql . qq(('$id','$files'),\n);
-}
-$sql .= ")as a(meta_id, code) where ia.meta_id = a.meta_id;";
-$sql = $sql . "COMMIT;";
+my $sql = "BEGIN;\n" .
+    "update instant_answer as ia set code = a.code from (values\n" .
+    join(",\n", map { qq(('$_->[0]','$_->[1]')) } @results) .
+    ')as a(meta_id, code) where ia.meta_id = a.meta_id;' .
+    'COMMIT;';
 
 $sql > io("files.sql");
 
