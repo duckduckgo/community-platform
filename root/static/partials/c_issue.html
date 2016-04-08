@@ -1,12 +1,12 @@
 <span class="grid-6 content">
   <div ng-if="issue.ia_name">
-      <div class="one-line issue-name"><strong><a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}"ng-click="addImg('issueianame', issue.github_repo.full_name + issue.number)">{{issue.title}}</a></strong></div>
-      <div><span class="subtitle sep--after" ng-if="issue.ia_name"><a href="https://duck.co/ia/view/{{issue.ia_id}}" class="subtitle">{{issue.ia_name}}</a></span><span class="subtitle comment">{{issue.comments}} <span class="octicon octicon-comment"></span></span></div>
-      <span class="subtitle comment" ng-if="issue.comments">{{issue.comments}} <span class="octicon octicon-comment"></span></span>
+    <div class="one-line issue-name"><strong><a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}" ng-click="addImg('issueianame', issue.github_repo.full_name + issue.number)">{{issue.title}}</a></strong></div>
+    <span class="subtitle sep--after" ng-if="issue.ia_name"><a href="https://duck.co/ia/view/{{issue.ia_id}}" ng-click="addImg('iapageinpr', issue.ia_id)" class="subtitle">{{issue.ia_name}}</a></span>
+    <span class="subtitle comment" ng-if="issue.comments">{{issue.comments}} <span class="octicon octicon-comment"></span></span>
   </div>
 
   <div ng-if="!issue.ia_name" style="width: 200px;">
-    <span style="width: initial;" class="one-line issue-name"><strong><a class="issue-link one-line" href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}"ng-click="addImg('issue', issue.github_repo.full_name + issue.number)" ><div class="issue-ellipsis">{{issue.title}}</div></a>
+    <span style="width: initial;" class="one-line issue-name"><strong><a class="issue-link one-line" href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}" ng-click="addImg('issue', issue.github_repo.full_name + issue.number)" ><div class="issue-ellipsis">{{issue.title}}</div></a>
       </strong>
     <span class="subtitle comment" ng-if="issue.comments">{{issue.comments}} <span class="octicon octicon-comment"></span></span>
     </span>
