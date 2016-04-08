@@ -140,8 +140,8 @@ while(my($id, $data) = each $meta){
 # write sql 
 my $sql = "BEGIN;\n" .
     "update instant_answer as ia set code = a.code from (values\n" .
-    join(",\n", map { qq(('$_->[0]','$_->[1]')) } @results) .
-    ')as a(meta_id, code) where ia.meta_id = a.meta_id;' .
+    join(",\n", map { qq(('$_->[0]','$_->[1]')) } @results) . "\n" .
+    ')as a(meta_id, code) where ia.meta_id = a.meta_id;' . "\n" .
     'COMMIT;';
 
 $sql > io("files.sql");
