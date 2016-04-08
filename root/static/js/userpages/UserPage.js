@@ -47,6 +47,12 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	    $scope.ias = $scope.ias.concat(element);
 	});
 
+	_.each($scope.ias, function(ia) {
+	    if(ia.dev_milestone === "development") {
+		ia.dev_milestone = "dev";
+	    }
+	});
+
 	$scope.ias_developed_only = _.filter($scope.ias, function(ia) {
 	    return _.find(ia.developer, function(dev) {
 		return (dev.name === response.gh_data.login || dev.name === response.gh_data.name) && dev.type === "github";

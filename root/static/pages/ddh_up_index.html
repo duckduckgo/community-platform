@@ -8,8 +8,6 @@
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-<title></title>
-
 <link rel="stylesheet" media="screen, projection, handheld" href="/ddh-static/css/content.css" />
 <link rel="stylesheet" media="screen, projection, handheld" href="/ddh-static/css/ddgc.css" />
 
@@ -94,20 +92,23 @@
 <link rel="stylesheet" href="/ddh-static/css/userpages/octicons.css" charset="utf-8">
 <link rel="stylesheet" href="/ddh-static/css/userpages/UserPage.css">
 
-<title>{{response.gh_data.name || response.gh_data.login}}</title>
+<title>{{response.gh_data.login}} | DuckDuckHack</title>
+
 <!-- Header -->
 <header>
   <div class="container">
     <div class="stats">
-      <div class="fourth">
+      <div class="third">
 	<span>All Instant Answers</span>
 	<h2>{{count.total_ias}}</h2>
 	</div>
+      <!--
       <div class="fourth">
 	<span>Assigned Pull Requests</span>
 	<h2>{{count.reviewed_prs}}</h2>
 	</div>
-      <div class="fourth">
+      -->
+      <div class="third">
 	<span>Open Pull Requests</span>
 	<h2>{{count.developed_prs}}</h2>
 	</div>
