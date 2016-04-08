@@ -72,10 +72,11 @@ sub process {
         );
 
     if($repo =~ /fathead|longtail/){
+
         push(@matches, File::Find::Rule
             ->name('fetch*', 'parse*')
             ->file
-            ->in("/usr/local/ddh/$zci/share/$repo/$data->{id}/")
+            ->in("/usr/local/ddh/$zci/lib/$repo/$data->{id}/")
         );
     }
 
@@ -138,10 +139,11 @@ while(my($id, $data) = each $meta){
 
 # write sql 
 my $sql = "BEGIN;\n";
+$sql .= "update instant_answer as ia set code = a.code from (values\n";
 while(my($id, $files) = each $results){
-    $sql = $sql . qq(update instant_answer set code = '$files' where meta_id = '$id';\n);
+    $sql = $sql . qq(('$id','$files'),\n);
 }
-
+$sql .= ")as a(meta_id, code) where ia.meta_id = a.meta_id;";
 $sql = $sql . "COMMIT;";
 
 $sql > io("files.sql");
