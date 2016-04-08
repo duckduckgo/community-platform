@@ -72,16 +72,18 @@
                     ia_data.live.back_end = [];
                     ia_data.live.front_end = [];
                     if (ia_data.live.code) {
-                        front_end = ["handlebars", "js", "css", "json"];
-                        back_end = ["pm", "t"];
+                        front_end = ["handlebars", "css", "json"];
+                        back_end = ["pm", "t", "py", "sh", "rb", "pl"];
                         $.each(ia_data.live.code, function(idx) {
                             var file = ia_data.live.code[idx];
                             var type = file.replace(/.*\.([^\.]*)$/,'$1');
 
                             if ($.inArray(type, front_end) !== -1) {
                                 ia_data.live.front_end.push(file);
-                            } else if ($.inArray(type, back_end) !== -1) {
+                            } else if (($.inArray(type, back_end) !== -1) || (type === "js" && file.match(/\/lib\//))) {
                                 ia_data.live.back_end.push(file);
+                            } else if (type === "js") {
+                                ia_data.live.front_end.push(file);
                             }
                         });
                     }
