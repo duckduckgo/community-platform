@@ -13,7 +13,7 @@ use IO::All;
 
 my $rule = File::Find::Rule->new;
 my $meta = DDG::Meta::Data->by_id;
-my $results;
+my @results;
 
 $rule->or(
     $rule->new
@@ -72,15 +72,15 @@ sub process {
         );
 
     if($repo =~ /fathead|longtail/){
+
         push(@matches, File::Find::Rule
-            ->name('fetch*', 'parse*')
             ->file
-            ->in("/usr/local/ddh/$zci/share/$repo/$data->{id}/")
+            ->in("/usr/local/ddh/$zci/lib/$repo/$data->{id}/")
         );
     }
 
     @matches = clean_and_normalize(@matches);
-    $results->{$data->{id}} = to_json(\@matches);
+    push @results, [$data->{id}, to_json(\@matches)];
 }
 
 sub clean_and_normalize {
@@ -137,12 +137,11 @@ while(my($id, $data) = each $meta){
 }
 
 # write sql 
-my $sql = "BEGIN;\n";
-while(my($id, $files) = each $results){
-    $sql = $sql . qq(update instant_answer set code = '$files' where meta_id = '$id';\n);
-}
-
-$sql = $sql . "COMMIT;";
+my $sql = "BEGIN;\n" .
+    "update instant_answer as ia set code = a.code from (values\n" .
+    join(",\n", map { qq(('$_->[0]','$_->[1]')) } @results) . "\n" .
+    ')as a(meta_id, code) where ia.meta_id = a.meta_id;' . "\n" .
+    'COMMIT;';
 
 $sql > io("files.sql");
 
