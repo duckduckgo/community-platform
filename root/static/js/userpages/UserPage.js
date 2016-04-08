@@ -134,7 +134,8 @@ app.factory('fn', function() {
         username = username? username.charAt(0) : '';
         return username;
     },
-    getDevs: function(ia) {
+	// get developers based on an instant answer; returns html
+	getDevs: function(ia) {
 	    var html = '';
 	    _.each(ia.developer, function(dev) {
 		html += '<span>' + dev.name + ' </span>';
