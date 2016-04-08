@@ -108,8 +108,8 @@ app.factory('fn', function() {
 	    var html = '';
 	    html = '<div class="avatar" title="' + dev.username + '"';
 
-	    if (dev.avatar_url) html += '><a href="/' + dev.username.toLowerCase() + '"><img src="' + dev.avatar_url + '" /></a></div>';
-	    else html += "><a href='/" + dev.username.toLowerCase() + "'><span>" + dev.username.charAt(0) + '</span></a></div>';
+	    if (dev.avatar_url) html += '><a href="/u/' + dev.username.toLowerCase() + '"><img src="' + dev.avatar_url + '" /></a></div>';
+	    else html += "><a href='/u/" + dev.username.toLowerCase() + "'><span>" + dev.username.charAt(0) + '</span></a></div>';
 
 	    return html;
 	},
