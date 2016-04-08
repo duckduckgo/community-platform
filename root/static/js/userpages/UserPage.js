@@ -35,7 +35,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
     $scope.addImg = function(element_id) {
         $scope.randomNum = Math.ceil(Math.random() * 1e7);
-        element_id = element_id? '_' + element_id : '';
+        element_id = element_id? '_' + element_id.replace(/[^0-9A-Za-z]/g, '') : '';
         $scope.imgUrlSuffix = element_id + '?' + $scope.randomNum;
 
         $scope.newImg = new Image();
