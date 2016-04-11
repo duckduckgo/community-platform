@@ -88,7 +88,8 @@
                             } else if (type === "js") {
                                 ia_data.live.front_end.push(file);
                             } else if (($.inArray(type, readme) !== -1) 
-                                && (ia_data.live.repo === "fathead" || ia_data.live.repo === "longtail")) { // Show README files only for fatheads and longtails
+                                && (ia_data.live.repo === "fathead" || ia_data.live.repo === "longtail") // Show README files only for fatheads and longtails
+                                && file.match(/.*\/readme\.(md|txt)/ig)) { 
                                 ia_data.live.readme.push(file);
                             }
                         });
