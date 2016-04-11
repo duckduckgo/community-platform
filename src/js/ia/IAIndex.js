@@ -292,7 +292,7 @@
 
             if (query) {
                 query = query.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-                regex = new RegExp(query, "gi");
+                regex = new RegExp(query, "i");
                 url += "&q=" + encodeURIComponent(query.replace(/\x5c/g, "")).replace(/%20/g, "+");
             }
 
