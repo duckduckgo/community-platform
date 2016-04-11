@@ -5,6 +5,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.showUser(response);
     });
 
+
     // for sorting instant answers (live should be first)
     $scope.iaSort = function(ia) {
 	switch (ia.dev_milestone) {
@@ -24,6 +25,21 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.response = response;
 	$scope.count = {};
 	$scope.topics = [];
+
+    $scope.imgUrl = 'https://duckduckgo.com/t/userpage_' + $scope.response.gh_data.id;
+
+    $scope.newImg = new Image();
+    $scope.newImg.src = $scope.imgUrl + '?' + Math.ceil(Math.random() * 1e7);
+
+    $scope.addImg = function(pre_id, element_id) {
+        var randomNum = Math.ceil(Math.random() * 1e7);
+        pre_id = pre_id? '_' + pre_id : '';
+        element_id = element_id? '_' + element_id.replace(/[^0-9A-Za-z]/g, '') : '';
+        var imgUrlSuffix = pre_id + element_id + '?' + randomNum;
+
+        $scope.newImg = new Image();
+        $scope.newImg.src = $scope.imgUrl + imgUrlSuffix;
+	};
 
 	$scope.ias = [];
 	_.each(response.ia, function(element, index) {
@@ -91,6 +107,14 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
 	// by default. for 'filterable'
 	$scope.show_ias = ($scope.count.maintained_ias) ? $scope.maintained : $scope.ias_developed_only;
+
+    $scope.changeShownIAs = function(which) {
+        $scope.show_ias = which;
+
+        var objKey = _.findKey($scope, which);
+        $scope.addImg(objKey);
+    };
+
     }
 });
 
@@ -103,31 +127,18 @@ app.factory('fn', function() {
 		return obj[attr] == name;
 	    });
 	},
-	// get avatar image. If not found, uses first letter from devname
-	getAvatar: function(dev) {
-	    var html = '';
-	    html = '<div class="avatar" title="' + dev.username + '"';
 
-	    if (dev.avatar_url) html += '><a href="/u/' + dev.username.toLowerCase() + '"><img src="' + dev.avatar_url + '" /></a></div>';
-	    else html += "><a href='/u/" + dev.username.toLowerCase() + "'><span>" + dev.username.charAt(0) + '</span></a></div>';
-
-	    return html;
-	},
+    // return the first char in a dev's username (for when avatar is not available)
+    firstUsernameChar: function(username) {
+        username = username? username.charAt(0) : '';
+        return username;
+    },
 	// get developers based on an instant answer; returns html
 	getDevs: function(ia) {
 	    var html = '';
 	    _.each(ia.developer, function(dev) {
 		html += '<span>' + dev.name + ' </span>';
 	    });
-	    return html;
-	},
-	// get developers based on an instant answer; returns avatars
-	getDevsAvatars: function(ia, skipname) {
-	    var html = '';
-	    _.each(ia.contributors, function(dev) {
-		html += this.getAvatar(dev);
-	    }, this);
-
 	    return html;
 	},
 	// get topics based on an instant answer; returns html
@@ -149,14 +160,7 @@ app.factory('fn', function() {
 	// get "time ago" from date
 	getFromNow: function(datetimestr) {
             return moment().diff(moment(datetimestr), 'days') + "d";
-	},
-	// generate a random number
-	random: (function() {
-            var result = Math.ceil(Math.random() * 1e7);
-	    return function() {
-		return result;
-	    };
-	}())
+	}
 
     };
 });

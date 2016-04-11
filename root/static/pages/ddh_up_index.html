@@ -92,9 +92,8 @@
 <link rel="stylesheet" href="/ddh-static/css/userpages/octicons.css" charset="utf-8">
 <link rel="stylesheet" href="/ddh-static/css/userpages/UserPage.css">
 
-<img src="https://duckduckgo.com/t/userpage?{{fn.random()}}" class="hide" />
-
 <title>{{response.gh_data.login}} | DuckDuckHack</title>
+
 <!-- Header -->
 <header>
   <div class="container">
@@ -146,13 +145,13 @@
     <section>
       <h3>
 	<div class="tabs">
-	  <a href="#" ng-click="show_ias=maintained">
+	  <a href="#" ng-click="changeShownIAs(maintained)">
 	    <span ng-class="{'active': show_ias == maintained}" >
 	      Maintaining
 	      <span class="badge">{{count.maintained_ias}}</span>
 	      </span>
 	    </a>
-	  <a href="#" ng-click="show_ias=ias_developed_only">
+	  <a href="#" ng-click="changeShownIAs(ias_developed_only)">
 	    <span ng-class="{'active': show_ias == ias_developed_only}">
 	      Developed
 	      <span class="badge">{{count.developed_only_ias}}</span>
