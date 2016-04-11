@@ -71,9 +71,11 @@
                     // Separate back-end files from front-end ones
                     ia_data.live.back_end = [];
                     ia_data.live.front_end = [];
+                    ia_data.live.readme = [];
                     if (ia_data.live.code) {
-                        front_end = ["handlebars", "css", "json"];
-                        back_end = ["pm", "t", "py", "sh", "rb", "pl"];
+                        var front_end = ["handlebars", "css", "json"];
+                        var back_end = ["pm", "t", "py", "sh", "rb", "pl"];
+                        var readme = ["md", "txt"];
                         $.each(ia_data.live.code, function(idx) {
                             var file = ia_data.live.code[idx];
                             var type = file.replace(/.*\.([^\.]*)$/,'$1');
@@ -85,6 +87,9 @@
                                 ia_data.live.back_end.push(file);
                             } else if (type === "js") {
                                 ia_data.live.front_end.push(file);
+                            } else if (($.inArray(type, readme) !== -1) 
+                                && (ia_data.live.repo === "fathead" || ia_data.live.repo === "longtail")) { // Show README files only for fatheads and longtails
+                                ia_data.live.readme.push(file);
                             }
                         });
                     }
