@@ -80,7 +80,8 @@
 
                             if ($.inArray(type, front_end) !== -1) {
                                 ia_data.live.front_end.push(file);
-                            } else if (($.inArray(type, back_end) !== -1) || (type === "js" && file.match(/\/lib\//))) {
+                            } else if (($.inArray(type, back_end) !== -1) 
+                                || (type === "js" && file.match(/\/lib\//))) { // In this case it's a fathead or longtail file
                                 ia_data.live.back_end.push(file);
                             } else if (type === "js") {
                                 ia_data.live.front_end.push(file);
