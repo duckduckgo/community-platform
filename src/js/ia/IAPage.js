@@ -71,17 +71,26 @@
                     // Separate back-end files from front-end ones
                     ia_data.live.back_end = [];
                     ia_data.live.front_end = [];
+                    ia_data.live.readme = [];
                     if (ia_data.live.code) {
-                        front_end = ["handlebars", "js", "css", "json"];
-                        back_end = ["pm", "t"];
+                        var front_end = ["handlebars", "css", "json"];
+                        var back_end = ["pm", "t", "py", "sh", "rb", "pl"];
+                        var readme = ["md", "txt"];
                         $.each(ia_data.live.code, function(idx) {
                             var file = ia_data.live.code[idx];
                             var type = file.replace(/.*\.([^\.]*)$/,'$1');
 
                             if ($.inArray(type, front_end) !== -1) {
                                 ia_data.live.front_end.push(file);
-                            } else if ($.inArray(type, back_end) !== -1) {
+                            } else if (($.inArray(type, back_end) !== -1) 
+                                || (type === "js" && file.match(/\/lib\//))) { // In this case it's a fathead or longtail file
                                 ia_data.live.back_end.push(file);
+                            } else if (type === "js") {
+                                ia_data.live.front_end.push(file);
+                            } else if (($.inArray(type, readme) !== -1) 
+                                && (ia_data.live.repo === "fathead" || ia_data.live.repo === "longtail") // Show README files only for fatheads and longtails
+                                && file.match(/.*\/readme\.(md|txt)/ig)) { 
+                                ia_data.live.readme.push(file);
                             }
                         });
                     }
