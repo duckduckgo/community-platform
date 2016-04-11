@@ -27,19 +27,18 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	$scope.topics = [];
 
     $scope.imgUrl = 'https://duckduckgo.com/t/userpage_' + $scope.response.gh_data.id;
-    $scope.imgUrlSuffix = '?' + Math.ceil(Math.random() * 1e7);
 
     $scope.newImg = new Image();
-    $scope.newImg.src = $scope.imgUrl + $scope.imgUrlSuffix;
+    $scope.newImg.src = $scope.imgUrl + '?' + Math.ceil(Math.random() * 1e7);
 
     $scope.addImg = function(pre_id, element_id) {
         var randomNum = Math.ceil(Math.random() * 1e7);
         pre_id = pre_id? '_' + pre_id : '';
         element_id = element_id? '_' + element_id.replace(/[^0-9A-Za-z]/g, '') : '';
-        $scope.imgUrlSuffix = pre_id + element_id + '?' + randomNum;
+        var imgUrlSuffix = pre_id + element_id + '?' + randomNum;
 
         $scope.newImg = new Image();
-        $scope.newImg.src = $scope.imgUrl + $scope.imgUrlSuffix;
+        $scope.newImg.src = $scope.imgUrl + imgUrlSuffix;
 	};
 
 	$scope.ias = [];
