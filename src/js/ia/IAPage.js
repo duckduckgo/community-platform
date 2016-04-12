@@ -1538,8 +1538,6 @@
 
                         $obj.append(img);
                         img.src = "https://duckduckgo.com/t/iaptu_" + id + username + url_suffix;
-
-                        //$(img).load();
                     }
 
                     // Saves values for editable fields on the dev page
