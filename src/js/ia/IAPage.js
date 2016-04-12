@@ -86,6 +86,7 @@
                         });
                     }
 
+
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
                     if (ia_data.edited || (ia_data.live.dev_milestone !== "live" && ia_data.live.dev_milestone !== "deprecated")) {
@@ -358,6 +359,10 @@
                         if (ia_data.permissions.admin && ia_data.edit_count) {
                             $("#view_commits").removeClass("hide");
                         }
+                    });
+
+                    $("body").on('click', ".userpage-link a", function(evt) {
+                        sendReq($(this).parent());
                     });
 
                     $('body').on('click', '.switch.js-switch', function(evt) {
@@ -1520,6 +1525,21 @@
                                 
                             ia_data.staged.beta = 1;
                         });
+                    }
+
+                    // Called on userpages links click
+                    function sendReq($obj) {
+                        var username = $.trim($obj.text());
+                        var id = $obj.attr("id").match(/maintainer/)? "maintainer" : "contributor";
+                        var url_suffix = "?" + Math.ceil(Math.random() * 1e7);
+                        var img = new Image();
+
+                        username = username? "_" + username : "";
+
+                        $obj.append(img);
+                        img.src = "https://duckduckgo.com/t/iaptu_" + id + username + url_suffix;
+
+                        //$(img).load();
                     }
 
                     // Saves values for editable fields on the dev page
