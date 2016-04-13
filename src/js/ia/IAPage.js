@@ -1536,7 +1536,6 @@
 
                         username = username? "_" + username : "";
 
-                        $obj.append(img);
                         img.src = "https://duckduckgo.com/t/iaptu_" + id + username + url_suffix;
                     }
 
