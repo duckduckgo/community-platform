@@ -362,7 +362,7 @@
                     });
 
                     $("body").on('click', ".userpage-link", function(evt) {
-                        sendReq($(this).parent());
+                        Utils.sendReq($(this).parent());
                     });
 
                     $('body').on('click', '.switch.js-switch', function(evt) {
@@ -1525,18 +1525,6 @@
                                 
                             ia_data.staged.beta = 1;
                         });
-                    }
-
-                    // Called on userpages links click
-                    function sendReq($obj) {
-                        var username = $.trim($obj.text());
-                        var id = $obj.attr("id").match(/maintainer/)? "maintainer" : "contributor";
-                        var url_suffix = "?" + Math.ceil(Math.random() * 1e7);
-                        var img = new Image();
-
-                        username = username? "_" + username.replace(/[^0-9a-zA-Z]/g, "") : "";
-
-                        img.src = "https://duckduckgo.com/t/iaptu_" + id + username + url_suffix;
                     }
 
                     // Saves values for editable fields on the dev page

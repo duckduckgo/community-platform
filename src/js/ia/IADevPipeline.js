@@ -110,9 +110,15 @@
                 }
             });
 
+            $("body").on("click", ".userpage-link", function(evt) {
+                Utils.sendReq($(this).parent().parent());
+            });
+
             $("body").on("click", "#sidebar-maintainer", function(evt) {
-                $(this).find("input").removeClass("hide");
-                $(this).find(".readonly").addClass("hide");
+                if (dev_p.data.permissions && dev_p.data.permissions.admin) {
+                    $(this).find("input").removeClass("hide");
+                    $(this).find(".readonly").addClass("hide");
+                }
             });
 
             $("body").on("click", "#pipeline_toggle-dev", function(evt) {

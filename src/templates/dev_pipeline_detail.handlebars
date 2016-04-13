@@ -71,13 +71,13 @@
     
     <div id="sidebar-maintainer" class="sidebar-field">
         <div class="field-label primary-label"> Maintainer </div>
-        {{#if maintainer}} <span class="readonly"> {{#if maintainer.github}} <a href="https://duckduckhack.com/u/{{slug maintainer.github}}">{{maintainer.github}}</a> {{/if}} </span> {{/if}}
+        {{#if maintainer}} <span class="readonly"> {{#if maintainer.github}} <a href="http://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link">{{maintainer.github}}</a> {{/if}} </span> {{/if}}
         <input class="edit-sidebar {{#if maintainer}}hide{{/if}}" data-focus-class="frm__input" id="edit-sidebar-maintainer" value="{{#if maintainer.github}}{{maintainer.github}}{{/if}}" />
     </div>
 
-    <div  class="sidebar-field">
+    <div id="sidebar-contributors" class="sidebar-field">
         <div class="field-label primary-label"> Contributors </div>
-        <span class="readonly"> {{#each developer}} <a href="{{#eq type 'github'}}https://duckduckhack.com/u/{{slug name}}{{else}}{{url}}{{/eq}}">{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
+        <span class="readonly"> {{#each developer}} <a href="{{#eq type 'github'}}http://duckduckhack.com/u/{{slug name}}{{else}}{{url}}{{/eq}}" {{#eq type 'github'}}class="userpage-link"{{/eq}}>{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
     </div>
 
     <div class="sidebar-field">
@@ -156,14 +156,14 @@
     {{#if maintainer}}
         <div id="sidebar-maintainer" class="sidebar-field">
             <div class="field-label primary-label"> Maintainer </div>
-            <span class="readonly"> {{#if maintainer.github}} <a href="https://duckduckhack.com/{{slug maintainer.github}}"">{{maintainer.github}}</a>{{/if}}</span>
+            <span class="readonly"> {{#if maintainer.github}} <a href="http://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link">{{maintainer.github}}</a>{{/if}}</span>
         </div>
     {{/if}}
 
     {{#is_true (length developer)}}
-        <div id="sidebar-perl_module" class="sidebar-field">
+        <div id="sidebar-contributors" class="sidebar-field">
             <div class="field-label primary-label"> Contributors </div>
-            <span class="readonly"> {{#each developer}} <a href="{{#eq type 'github'}}https://duckduckhack.com/u/{{slug name}}{{else}}{{url}}{{/eq}}">{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
+            <span class="readonly"> {{#each developer}} <a href="{{#eq type 'github'}}http://duckduckhack.com/u/{{slug name}}{{else}}{{url}}{{/eq}}" {{#eq type 'github'}}class="userpage-link"{{/eq}}>{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
         </div>
     {{/is_true}}
 
