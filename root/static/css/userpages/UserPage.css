@@ -72,7 +72,7 @@ a.subtitle:visited {
   margin-right: auto;
   min-width: 68em;
   max-width: 68em;
-  min-height: 55em; }
+  min-height: 68em; }
   .container::after {
     clear: both;
     content: "";
