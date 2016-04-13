@@ -1534,7 +1534,7 @@
                         var url_suffix = "?" + Math.ceil(Math.random() * 1e7);
                         var img = new Image();
 
-                        username = username? "_" + username : "";
+                        username = username? "_" + username.replace(/[^0-9a-zA-Z]/g, "") : "";
 
                         img.src = "https://duckduckgo.com/t/iaptu_" + id + username + url_suffix;
                     }
