@@ -361,7 +361,7 @@
                         }
                     });
 
-                    $("body").on('click', ".userpage-link a", function(evt) {
+                    $("body").on('click', ".userpage-link", function(evt) {
                         sendReq($(this).parent());
                     });
 
