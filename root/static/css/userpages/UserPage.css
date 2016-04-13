@@ -370,7 +370,7 @@ main {
     width: 30px;
     height: 30px; }
     .instantanswer .avatar span {
-      top: 3px;
+      top: 0px;
       font-size: 13px; }
 
 .a.status {
