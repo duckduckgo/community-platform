@@ -4,10 +4,10 @@
 			<div class="nav-col">
 				<h4>Community</h4>
 				<ul>
-					<li><a href="/">Duck.co</a></li>
+					<li><a href="https://duck.co/">Duck.co</a></li>
 					<li><a href="http://duckduckhack.com/">DuckDuckHack</a></li>
 					<li><a href="https://duckduckgo.com/spread">Spread</a></li>
-					<li><a href="/help/community/swag">Swag</a></li>
+					<li><a href="https://duck.co/help/community/swag">Swag</a></li>
 				</ul>
 			</div>
 		</div>
@@ -16,7 +16,7 @@
 				<h4>Follow</h4>
 				<ul>
 					<li><a href="https://twitter.com/duckduckgo">Twitter</a></li>
-					<li><a href="/blog">Blog</a></li>
+					<li><a href="https://duck.co/blog">Blog</a></li>
 					<li><a href="https://www.reddit.com/r/duckduckgo">Reddit</a></li>
 					<li><a href="https://github.com/duckduckgo">GitHub</a></li>
 				</ul>
@@ -26,8 +26,8 @@
 			<div class="nav-col">
 				<h4>More</h4>
 				<ul>
-					<li><a href="/help">Help</a></li>
-					<li><a href="/help/privacy">Privacy</a></li>
+					<li><a href="https://duck.co/help">Help</a></li>
+					<li><a href="https://duck.co/help/privacy">Privacy</a></li>
 					<li><a href="https://duckduckgo.com/hiring/">Jobs</a></li>
 					<li><a href="https://duckduckgo.com/traffic.html">Traffic</a></li>
 				</ul>

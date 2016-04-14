@@ -1,103 +1,117 @@
-<!doctype html>
-<head>
-    <link rel="stylesheet" href="/static/css/index.css">
-</head>
-<body>
-    <div id="userpage-wrap">
-        <div class="left userpage-wrap__child" id="userpage-keywords">
-            <div id="userpage-keywords-title">Keywords</div>
-            
-            <ul id="userpage-keywords-list">
-                : if $data.topics {
-                    : for $data.topics.keys() -> $topic {
-                        <li class="userpage-keywords-list__item">
-                            <div class="left topic_name">
-                                : $topic
-                            </div>
-                            <div class="right topic_count">
-                                : $data.topics[$topic]
-                            </div>
-                            <span class="clear"></span>
-                        </li>
-                    : }
-                : }
-            </ul>
-        </div>
+<script src="/static/js/userpages/angular.min.js"></script>
+<script src="/static/js/userpages/angular-sanitize.min.js"></script>
+<script src="/static/js/userpages/moment.min.js"></script>
+<script src="/static/js/userpages/underscore-min.js"></script>
+<script src="/static/js/userpages/app.js"></script>
+<script src="/static/js/userpages/UserPage.js"></script>
 
-        <div class="left userpage-wrap__child" id="userpage-main">
-            <h2 id="userpage-main-maintained-title">Maintained Instant Answers</h2>
+<link rel="stylesheet" href="/static/css/userpages/main.css">
+<link rel="stylesheet" href="/static/css/userpages/octicons.css" charset="utf-8">
+<link rel="stylesheet" href="/static/css/userpages/UserPage.css">
 
-            <ul id="userpage-main-maintained-ias">
-                : if $data.maintained {
-                    : for $data.maintained -> $m_ia {
-                        <li class="userpage-main-maintained-ias__item">
-                            <a href="https://duck.co/ia/view/<:$m_ia.id:>">
-                                : $m_ia.name
-                            </a>
-                        </li>
-                    : }
-                : }
-            </ul>
-            
-            <h2 id="userpage-main-title">Contributed Instant Answers</h2>
+<img src="https://duckduckgo.com/t/userpage?{{fn.random()}}" class="hide" />
 
-            <ul id="userpage-main-ias">
-                : if $data.ia && $data.ia.live {
-                    : for $data.ia.live -> $ia {
-                        <li class="userpage-main-ias__item">
-                            <a href="https://duck.co/ia/view/<:$ia.id:>">
-                                : $ia.name
-                            </a>
-                        </li>
-                    : }
-                : }
-            </ul>
-            
-            <h2 id="userpage-main-issues-title">Pull Requests</h2>
+<title>{{response.gh_data.name || response.gh_data.login}}</title>
+<!-- Header -->
+<header>
+  <div class="container">
+    <div class="stats">
+      <div class="fourth">
+	<span>All Instant Answers</span>
+	<h2>{{count.total_ias}}</h2>
+	</div>
+      <div class="fourth">
+	<span>Pull Requests Reviews</span>
+	<h2>{{count.reviewed_prs}}</h2>
+	</div>
+      <div class="fourth">
+	<span>Open Pull Requests</span>
+	<h2>{{count.developed_prs}}</h2>
+	</div>
+      <div class="fourth">
+	<span>Closed Pull Requests</span>
+	<h2>{{count.closed_prs}}</h2>
+	</div>
+      </div>
+</div></header>
 
-            <ul id="userpage-main-issues">
-                : if $data.pulls {
-                    : for $data.pulls -> $pull {
-                        <li class="userpage-main-pulls__item">
-                            <div class="left pull_title">
-                                <a href="https://github.com/<:$pull.github_repo.full_name:>/pull/<:$pull.number:>">
-                                    : $pull.title
-                                </a>
-                            </div>
-                            <div class="right pull_ia">
-                                <a href="/ia/view/<:$pull.ia_id:>">
-                                    : $pull.ia_name
-                                </a>
-                            </div>
-                            <div class="clear"></div>
-                        </li>
-                    : }
-                 : }
-            </ul>
-            
-            <h2 id="userpage-main-issues-title">Issues</h2>
+<div class="container">
 
-            <ul id="userpage-main-issues">
-                : if $data.issues {
-                    : for $data.issues -> $issue {
-                        <li class="userpage-main-issues__item">
-                            <div class="left issue_title">
-                                <a href="https://github.com/<:$issue.github_repo.full_name:>/issues/<:$issue.number:>">
-                                    : $issue.title
-                                </a>
-                            </div>
-                            <div class="right issue_ia">
-                                <a href="/ia/view/<:$issue.ia_id:>">
-                                    : $issue.ia_name
-                                </a>
-                            </div>
-                            <div class="clear"></div>
-                        </li>
-                    : }
-                 : }
-            </ul>
-        </div>
-        <span class="clear"></span>
-    </div>
-</body>
-</html>
+  <!-- Sidebar -->
+  <aside>
+    <div class="profile card">
+      <img src="{{response.gh_data.avatar_url}}" />
+      <div class="content">
+	<h3>{{response.gh_data.name}}</h3>
+	<div class="gray">
+	  <a href="https://github.com/{{response.gh_data.login}}">@{{response.gh_data.login}}</a>
+	  <br />{{response.gh_data.location}}
+	  </div>
+
+	</div>
+</div>
+    <div class="topic typeC" ng-repeat="topic in topics | orderBy:'-count'">
+      <span class="amt"> {{topic.count}}</span>
+      <span> {{topic.topic}}</span>
+      <div class="bar" style="width: {{topic.count/count.max_topics*100}}%"></div>
+    </div></aside>
+
+  <!-- Main -->
+  <main>
+    <section>
+      <h3>
+	<div class="tabs">
+	  <a href="#" ng-click="show_ias=maintained">
+	    <span ng-class="{'active': show_ias == maintained}" >
+	      Maintained
+	      <span class="badge">{{count.maintained_ias}}</span>
+	      </span>
+	    </a>
+	  <a href="#" ng-click="show_ias=ias_developed_only">
+	    <span ng-class="{'active': show_ias == ias_developed_only}">
+	      Developed
+	      <span class="badge">{{count.developed_only_ias}}</span>
+	      </span>
+	    </a>
+	  </div>
+	Instant Answers
+	</h3>
+
+      <div class="instantanswer typeC flex-container" ng-repeat="ia in show_ias | orderBy: iaSort" ng-include="'/static/partials/c_instantanswer.html'">
+	</div>
+      </section>
+
+    <section>
+      <div class="flex-container">
+	<!-- PR Reviews -->
+	<h3 ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">Pull Request Reviews</h3>
+	<!-- Open PRs -->
+	<h3 ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">Open Pull Requests</h3>
+	</div>
+
+      <div class="flex-container align-top">
+	<!-- PR Reviews -->
+	<div ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">
+	  <div ng-repeat="issue in prs_open_reviewed | orderBy: '-updated_at'" ng-include="'/static/partials/c_issue.html'" class="issue typeC flex-container">
+	    </div>
+	  </div>
+
+	<!-- Open PRs -->
+	<div ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">
+	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'/static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container">
+	    </div>
+	  </div>
+	</div>
+
+
+      </section>
+
+    <section ng-if="count.open_prs">
+
+
+
+      </section>
+    </main>
+
+
+</div> <!-- /.container -->
