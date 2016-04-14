@@ -26,6 +26,8 @@
 
     // Return elapsed time expressed as days from now (e.g. 5 days, 1 day, today)
     Handlebars.registerHelper("timeago", function(date, full, from_beta) {
+        // Dates coming from the beta server are formatted differently than the ones coming from GitHub
+        // So we parse them accordingly
         var format = from_beta? "ddd MMM D HH:mm:ss YYYY" : "YYYY-MM-DD";
         var timestring = full? " days ago" : "d";
         if (date) {
