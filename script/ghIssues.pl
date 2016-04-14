@@ -210,7 +210,7 @@ sub getIssues{
                     }
                 } 
 
-                if($ia->{developer} && $data->{state} eq 'merged'){
+                if($data->{state} eq 'merged'){
                     $ia->{developer} = add_developer($ia->{developer}, $data->{author}, $ia);
                 }
 
@@ -604,7 +604,7 @@ sub add_developer {
             return $dev_json if $dev_json =~ /duck.co\/user\/$ddgc_name/g;
         }
 
-        $data = from_json($dev_json);
+        $data = $dev_json? from_json($dev_json) : [];
 
         my $new_dev = {
             name => $author,
