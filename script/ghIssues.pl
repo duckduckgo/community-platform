@@ -75,7 +75,7 @@ sub getIssues{
 		
         # add all the data we care about to an array
 		for my $issue (@issues){
-#            $progress->update($line) unless $d->is_live;
+            $progress->update($line) unless $d->is_live;
             $line++;
 
             # get the IA name from the link in the first comment
