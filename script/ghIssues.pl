@@ -51,7 +51,7 @@ my $gh = Net::GitHub->new(access_token => $token);
 
 my $today = localtime;
 # get last 6 hours of issues
-my $since = $today - (6 * ONE_HOUR);
+my $since = $today - (100 * ONE_HOUR);
 
 # get the GH issues
 sub getIssues{
@@ -243,7 +243,7 @@ sub getIssues{
 
                 #return 1 if !$is_new_ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
-
+                warn $new_data{id};
 
             };
 
@@ -585,7 +585,7 @@ sub update_pr_template {
 sub add_developer {
     my ($dev_json, $author, $ia_hash) = @_;
     # don't add duplicates
-    return $dev_json if $dev_json =~ /$author/ig;
+    return $dev_json if $dev_json && $dev_json =~ /$author/ig;
 
     my $user = $d->rs('User')->find_by_github_login($author);
     my $data;
@@ -601,10 +601,10 @@ sub add_developer {
                 $ia->add_to_users($user) unless ($ia->users->find($user->id) || $user->admin);
             }
 
-            return $dev_json if $dev_json =~ /duck.co\/user\/$ddgc_name/g;
+            return $dev_json if $dev_json && $dev_json =~ /duck.co\/user\/$ddgc_name/g;
         }
 
-        $data = $dev_json? from_json($dev_json) : [];
+        $data = from_json($dev_json) if $dev_json;
 
         my $new_dev = {
             name => $author,
