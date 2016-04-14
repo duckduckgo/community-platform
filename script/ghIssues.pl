@@ -39,13 +39,19 @@ my @repos = (
     'zeroclickinfo-fathead'
 );
 
-my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+my $token;
+if($d->is_live){
+    $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+}else{
+    $token = $ARGV[0] || $ENV{GITHUB_ISSUES_TOKEN} || die "Missing API token\tusage: ./ghIssues.pl <GitHub token>\nhttps://github.com/settings/tokens";
+}
+
 my $gh = Net::GitHub->new(access_token => $token);
 
 
 my $today = localtime;
-# get last days worth of issues
-my $since = $today - (1 * ONE_DAY);
+# get last 6 hours of issues
+my $since = $today - (6 * ONE_HOUR);
 
 # get the GH issues
 sub getIssues{
@@ -196,7 +202,7 @@ sub getIssues{
                 my $dev_milestone;
                 if (($ia->{dev_milestone} eq 'planning') && ($state eq 'open')){
                     $dev_milestone = 'development';
-                } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated')) {
+                } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated') && ($ia->{dev_milestone} ne 'ghosted')) {
                     if ($state eq 'merged') {
                         $dev_milestone = 'complete';
                     } elsif (($state eq 'closed') && ($ia->{production_state} eq 'offline')) {
@@ -354,12 +360,27 @@ sub merge_files {
         return unless $pr->{merged_at};
         
         my @files_changed = $gh->pull_request->files($issue_id);
-
-        my @files;
-        map{ push(@files, $_->{filename}) } @files_changed;
-
-        #update code in db
         my $result = $d->rs('InstantAnswer')->find({id => $data->id});
+        my $files;
+
+        # turn code from db into hash
+        if($result->code){
+            my $code = from_json($result->code);
+            foreach (@{$code}){
+                $files->{$_} = 1;
+            }
+        }
+        # add any new files to files hash or delete files that were removed in the PR
+        for (@files_changed){
+            if($_->{status} eq 'removed'){
+                delete $files->{$_->{filename}};
+            }
+            else{
+                $files->{$_->{filename}} = 1;
+            }
+        }
+        my @files = keys $files;
+
         $result->update({code => JSON->new->ascii(1)->encode(\@files)}) if $result;
 }
 
@@ -478,6 +499,7 @@ sub update_pr_template {
                 $comment = $comments[1];
                 return unless $comment->{user}->{login} eq 'daxtheduck';
                 $comment_number = $comment->{id};
+                $old_comment = $comment->{body};
             }
         }else{
             $comment_number = $comment->{id};
