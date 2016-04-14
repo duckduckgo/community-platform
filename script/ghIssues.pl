@@ -51,7 +51,7 @@ my $gh = Net::GitHub->new(access_token => $token);
 
 my $today = localtime;
 # get last 6 hours of issues
-my $since = $today - (100 * ONE_HOUR);
+my $since = $today - (6 * ONE_HOUR);
 
 # get the GH issues
 sub getIssues{
@@ -75,7 +75,7 @@ sub getIssues{
 		
         # add all the data we care about to an array
 		for my $issue (@issues){
-            $progress->update($line) unless $d->is_live;
+#            $progress->update($line) unless $d->is_live;
             $line++;
 
             # get the IA name from the link in the first comment
@@ -243,7 +243,8 @@ sub getIssues{
 
                 #return 1 if !$is_new_ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
-                warn $new_data{id};
+                
+                #print "ia/view/$new_data{id}\n";
 
             };
 
