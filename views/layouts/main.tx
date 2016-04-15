@@ -4,7 +4,7 @@
 <!--[if IE 7]>    <html class="no-js lt-ie10 lt-ie9 lt-ie8" lang="en"> <![endif]-->
 <!--[if IE 8]>    <html class="no-js lt-ie10 lt-ie9" lang="en"> <![endif]-->
 <!--[if IE 9]>    <html class="no-js lt-ie10" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en" <:if $app { :>ng-app="app"<: } :>><!--<![endif]-->
 <head>
     : include "includes/head.tx"
     
@@ -12,7 +12,7 @@
         : include "includes/js.tx"
     : }
 </head>
-<body class="<: $vars.page_class :><: if $vars.user { :> loggedin<: if $vars.user.admin || $vars.user.is('forum_manager') { :> loggedin--admin<: } } :>">
+<body class="<: $vars.page_class :><: if $vars.user { :> loggedin<: if $vars.user.admin || $vars.user.is('forum_manager') { :> loggedin--admin<: } } :>" <: if $app { :>ng-controller="UserPageController"<: } :>>
     <div id="wrapper">
         : include "includes/header/index.tx"
         <div class="site-main">
