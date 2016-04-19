@@ -119,7 +119,7 @@ test_psgi $app => sub {
 
     # Check all_milestones JSON (should have everything)
     my $ia_repo = $get_repo_json->({ repo => 'longtail', all_milestones => 1 });
-    is( ref $ia_repo->{test_ia}, 'HASH', 'Test IA approved - is in all milestone repo JSON' );
+    is( ref $ia_repo->{test_ia}, 'HASH', 'Test IA is in all milestone repo JSON' );
 
     # "Approve" IA
     my $ia_approve_result = $set_ia_value->({ cookie => $cookie, public => 1 });
