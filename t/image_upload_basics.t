@@ -69,7 +69,7 @@ test_psgi $app => sub {
     my $upload_file_request = sub {
         my $opts = shift;
         my $file = $opts->{file} || $image;
-        my $filename = $file =~ s/.*\///r;
+        my $filename = $opts->{filename} || $file =~ s/.*\///r;
 
         $cb->(
             POST '/admin/upload',
@@ -100,6 +100,9 @@ test_psgi $app => sub {
 
     $admin_request = $upload_file_request->({ cookie => $admin_cookie, file => $non_image });
     is( $admin_request->code, 500, 'Cannot upload non-image files' );
+
+    $admin_request = $upload_file_request->({ cookie => $admin_cookie, file => $non_image, filename => 'image.jpg' });
+    is( $admin_request->code, 500, 'Image file content is verified' );
 };
 
 done_testing;
