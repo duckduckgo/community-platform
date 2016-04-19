@@ -115,7 +115,7 @@ test_psgi $app => sub {
     # Find IA
     my $ia = $d->rs('InstantAnswer')->find('test_ia');
     ok( $ia, 'Query returns something' );
-    is( ref $ia, 'DDGC::DB::Result::InstantAnswer' ,'IA is a Result::InstantAnswer' );
+    isa_ok( $ia, 'DDGC::DB::Result::InstantAnswer' );
 
     # Check all_milestones JSON (should have everything)
     my $ia_repo = $get_repo_json->({ repo => 'longtail', all_milestones => 1 });
