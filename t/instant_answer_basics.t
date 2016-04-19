@@ -79,7 +79,7 @@ test_psgi $app => sub {
     # Find IA
     my $ia = $d->rs('InstantAnswer')->find('test_ia');
     ok( $ia, 'Query returns something' );
-    is( ref $ia, 'DDGC::DB::Result::InstantAnswer' ,'IA is a Result' );
+    is( ref $ia, 'DDGC::DB::Result::InstantAnswer' ,'IA is a Result::InstantAnswer' );
 
     # "Approve" IA
     my $ia_approve_request = $cb->(
