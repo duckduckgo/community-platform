@@ -78,7 +78,6 @@ test_psgi $app => sub {
                 action_token => $get_action_token->( $cookie ),
             ],
         );
-        use DDP; p $ia_update_request;
         ok( $ia_update_request->is_success, 'IA update request returns 200' );
         return decode_json( $ia_update_request->decoded_content )->{result};
     };
@@ -122,13 +121,13 @@ test_psgi $app => sub {
     my $ia_repo = $get_repo_json->({ repo => 'longtail', all_milestones => 1 });
     is( ref $ia_repo->{test_ia}, 'HASH', 'Test IA approved - is in all milestone repo JSON' );
 
-    is( $ia->public, 0, 'IA cannot be approved by non-admin' );
+    # "Approve" IA
+    my $ia_approve_result = $set_ia_value->({ cookie => $cookie, public => 1 });
+    is( $ia_approve_result->{saved}, 1, 'IA "Approve" was successful' );
 
-    # IA should be in repo JSON
-    my $ia_repo_json_request = $cb->( GET '/ia/repo/all/json?all_milestones=1' );
-    ok( $ia_repo_json_request->is_success, 'Can retrieve longtail JSON' );
-    my $ia_repo = decode_json( $ia_repo_json_request->decoded_content );
-    is( ref $ia_repo->{test_ia}, 'HASH', 'Test IA approved - is in repo JSON' );
+    # This forces a re-select from the db - see: https://metacpan.org/pod/DBIx::Class::Row#discard_changes
+    $ia->discard_changes;
+    is( $ia->public, 1, 'IA Result is now public' );
 
     # Use this when you need to see session data
     # $cb->( GET '/testutils/debug_session' );
