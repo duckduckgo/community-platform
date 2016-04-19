@@ -118,18 +118,9 @@ test_psgi $app => sub {
     ok( $ia, 'Query returns something' );
     is( ref $ia, 'DDGC::DB::Result::InstantAnswer' ,'IA is a Result::InstantAnswer' );
 
-    # "Approve" IA
-    my $ia_approve_request = $cb->(
-        POST '/ia/save',
-        Cookie  => $cookie,
-        Content => [
-            id           => 'test_ia',
-            field        => 'public',
-            value        => 1,
-            action_token => $action_token,
-        ],
-    );
-    ok( $ia_approve_request->is_success, 'IA "Approve" request succeeds' );
+    # Check all_milestones JSON (should have everything)
+    my $ia_repo = $get_repo_json->({ repo => 'longtail', all_milestones => 1 });
+    is( ref $ia_repo->{test_ia}, 'HASH', 'Test IA approved - is in all milestone repo JSON' );
 
     is( $ia->public, 0, 'IA cannot be approved by non-admin' );
 
