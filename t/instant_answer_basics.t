@@ -94,6 +94,8 @@ test_psgi $app => sub {
     );
     ok( $ia_approve_request->is_success, 'IA "Approve" request succeeds' );
 
+    is( $ia->public, 0, 'IA cannot be approved by non-admin' );
+
     # IA should be in repo JSON
     my $ia_repo_json_request = $cb->( GET '/ia/repo/all/json?all_milestones=1' );
     ok( $ia_repo_json_request->is_success, 'Can retrieve longtail JSON' );
