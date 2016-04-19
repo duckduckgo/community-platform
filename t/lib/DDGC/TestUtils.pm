@@ -99,4 +99,8 @@ get '/debug_session' => sub {
     return 1;
 };
 
+get '/action_token' => sub {
+    return session('action_token');
+};
+
 1;
