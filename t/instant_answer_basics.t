@@ -15,6 +15,7 @@ use Plack::Session::State::Cookie;
 use Plack::Session::Store::File;
 use File::Temp qw/ tempdir /;
 use JSON::MaybeXS qw/:all/;
+use URI;
 
 use DDGC;
 use DDGC::Web;
@@ -41,6 +42,17 @@ my $app = builder {
 # Tests - assert things here
 test_psgi $app => sub {
     my ( $cb ) = @_;
+
+    my $get_repo_json = sub {
+        my $opts = shift;
+        my $repo = $opts->{repo} || 'all';
+        my $u = URI->new("/ia/repo/$repo/json");
+        $u->query_form( all_milestones => $opts->{all_milestones} || 0 );
+
+        my $ia_repo_json_request = $cb->( GET $u->canonical );
+        ok( $ia_repo_json_request->is_success, "Can retrieve $repo JSON" );
+        return decode_json( $ia_repo_json_request->decoded_content );
+    };
 
     # Create user
     my $user_request = $cb->(
