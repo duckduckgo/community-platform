@@ -17,9 +17,11 @@ sub deploy {
                     add_drop_table => $opts->{drop} || 0
                 });
             }
-            DDGC::Schema->connect($ENV{DDGC_DB_DSN})->deploy({
-                add_drop_table => $opts->{drop} || 0
-            });
+            else {
+                DDGC::Schema->connect($ENV{DDGC_DB_DSN})->deploy({
+                    add_drop_table => $opts->{drop} || 0
+                });
+            }
         }
     }
     catch {
