@@ -54,6 +54,35 @@ test_psgi $app => sub {
         return decode_json( $ia_repo_json_request->decoded_content );
     };
 
+    my $get_action_token = sub {
+        my $action_token = $cb->(
+            GET '/testutils/action_token',
+            Cookie => shift,
+        )->decoded_content;
+        ok( $action_token && !ref $action_token, 'Have a CSRF token scalar' );
+        return $action_token;
+    };
+
+    my $set_ia_value = sub {
+        my $opts = shift;
+        my $cookie = delete $opts->{cookie};
+        my ( $field, $value ) = each $opts;
+        my $ia_update_request = $cb->(
+            POST '/ia/save',
+            Cookie  => $cookie,
+            Content => [
+                id           => 'test_ia',
+                field        => $field,
+                value        => $value,
+                autocommit   => 1,
+                action_token => $get_action_token->( $cookie ),
+            ],
+        );
+        use DDP; p $ia_update_request;
+        ok( $ia_update_request->is_success, 'IA update request returns 200' );
+        return decode_json( $ia_update_request->decoded_content )->{result};
+    };
+
     # Create user
     my $user_request = $cb->(
         POST '/testutils/new_user',
@@ -69,10 +98,6 @@ test_psgi $app => sub {
     ok( $session_request->is_success, 'Getting IA user Cookie' );
     my $cookie = 'ddgc_session=' . $session_request->content;
 
-    # Retrieve CSRF Token
-    my $action_token = $cb->( GET '/testutils/action_token' )->decoded_content;
-    ok( $action_token && !ref $action_token, 'Have a CSRF token scalar' );
-
     # Create an IA
     my $new_ia_req = $cb->(
         POST '/ia/create',
@@ -83,7 +108,7 @@ test_psgi $app => sub {
             description   => 'This is a test IA',
             example_query => 'testing IAs',
             repo          => 'longtail',
-            action_token  => $action_token,
+            action_token  => $get_action_token->( $cookie ),
         } ) ],
     );
     ok( $new_ia_req->is_success, 'Creating IA' );
