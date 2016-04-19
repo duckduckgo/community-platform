@@ -129,6 +129,18 @@ test_psgi $app => sub {
     $ia->discard_changes;
     is( $ia->public, 1, 'IA Result is now public' );
 
+    # Check repo JSON - test_ia should be absent due to its milestone
+    $ia_repo = $get_repo_json->({ repo => 'longtail' });
+    ok( !$ia_repo->{test_ia}, 'Test IA not in published milestone' );
+
+    # Set IA milestone
+    my $ia_milestone_result = $set_ia_value->({ cookie => $cookie, dev_milestone => 'testing' });
+    is( $ia_milestone_result->{saved}, 1, 'Set test_ia milestone to testing' );
+
+    # Check repo JSON - test_ia should now be present
+    $ia_repo = $get_repo_json->({ repo => 'longtail' });
+    is( ref $ia_repo->{test_ia}, 'HASH', 'Test IA is now in published milestone' );
+
     # Use this when you need to see session data
     # $cb->( GET '/testutils/debug_session' );
 
