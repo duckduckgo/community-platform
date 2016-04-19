@@ -10,6 +10,8 @@ sub deploy {
     my $success = 1;
     try {
         if ($ENV{DDGC_DB_DSN} =~ /^dbi:SQLite/) {
+            my $fn = $ENV{DDGC_DB_DSN} =~ s/.*dbname=(.*)/$1/r;
+            unlink $fn if $fn;
             if ( $schema ) {
                 $schema->deploy({
                     add_drop_table => $opts->{drop} || 0
