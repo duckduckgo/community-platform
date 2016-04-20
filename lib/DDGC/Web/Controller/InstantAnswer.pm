@@ -762,22 +762,24 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
             # Traffic data is updated on Mondays
             my $last_monday = $today->subtract(days => ($today->day_of_week - $monday) %$weekdays || $weekdays);
             my $month_ago = $last_monday->clone->subtract( days => 30 )->date();
-            my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
+            my @traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search({},
                 {
-                    answer_id => $ia->meta_id, 
-                    date => { '<' => $last_monday->date(), '>' => $month_ago},
-                    pixel_type => [qw/ iaoi iaoe /]
-                },
-                {
-                    select => [{'date', { sum => 'count' } }],
-                    group_by => [qw/ date /]
+                    select => ["date", {sum => 'count', -as => 'total'} ],
+                    where => [{
+                            answer_id => $ia->meta_id, 
+                            date => { '<' => $last_monday->date(), '>' => $month_ago},
+                            pixel_type => [qw/ iaoi iaoe /]
+                        }],
+                    group_by => ["date", "count"],
+                    order_by => ["date"],
+                    result_class => 'DBIx::Class::ResultClass::HashRefInflator',
                 });
 
             use Data::Dumper;
-            warn Dumper $traffic_rs->as_query();
+            warn Dumper @traffic_rs;
 
-            my $iaoi = $traffic_rs->get_array_by_pixel();
-            $ia_data{live}->{traffic} = $iaoi;
+            # my $iaoi = $traffic_rs->get_array_by_pixel();
+            #$ia_data{live}->{traffic} = $iaoi;
         }
     }
 
