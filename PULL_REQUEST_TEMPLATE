@@ -15,8 +15,8 @@ Does this change have significant privacy, security, performance or deployment i
 
 
 Checklist :
-- [ ] Perl unit tests
-- [ ] Front end unit tests
+- [ ] Perl tests
+- [ ] Front end tests
 - Browser verification
     - [ ] IE
     - [ ] Chrome
