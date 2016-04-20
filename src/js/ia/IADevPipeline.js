@@ -462,8 +462,7 @@
             // - last activity (especially comment) is by a contributor (non-admin)
             // - last activity happened long ago (the older the activity, the higher the priority)
             function rank_ia(ia) {
-                var priority_val, score_last_comment, score_elapsed_time, score_tags, score_mention = 0;
-                var priority_msg = '';
+                var score_last_comment, score_elapsed_time, score_tags, score_mention = 0;
 
                 if (ia.pr && (ia.pr.status === "open")) {
                     if (ia.last_comment) {
@@ -472,21 +471,23 @@
                         if (ia.last_comment.admin) {
                             score_last_comment = -20;
                             score_elapsed_time = idle_comment;
-                            priority_msg += "- 20 (last comment by admin) \n+ elapsed time since last comment \n";
+                            ia.priority_msg += "- 20 (last comment by admin) \n+ elapsed time since last comment \n";
                         } else {
                             score_last_comment = 20;
                             score_elapsed_time = (2 * idle_comment);
-                            priority_msg += "+ 20 (last comment by contributor) \n+ twice the elapsed time since last comment \n";
+                            ia.priority_msg += "+ 20 (last comment by contributor) \n+ twice the elapsed time since last comment \n";
                         }
-                    } if (ia.last_commit) {
+                    } 
+                    
+                    if (ia.last_commit) {
                         // Last commit
                         var idle_commit = elapsed_time(ia.last_commit.date);
                         if (ia.last_comment &&  moment.utc(ia.last_comment.date).isBefore(ia.last_commit.date)) {
                             score_elapsed_time += (1.5 * idle_commit);
-                            priority_msg += "+ 1.5 times the elapsed time since last commit (made after last comment) \n";
+                            ia.priority_msg += "+ 1.5 times the elapsed time since last commit (made after last comment) \n";
                         } else if ((!ia.last_comment) && (!ia.last_commit.admin)) {
                             score_elapsed_time += (2 * idle_commit);
-                            priority_msg += "+ twice the elapsed time since last commit (there are no comments in the PR) \n";
+                            ia.priority_msg += "+ twice the elapsed time since last commit (there are no comments in the PR) \n";
                         }
                     }
 
@@ -498,10 +499,10 @@
                             var tag = tags[idx];
                             if (tag.name.toLowerCase() === "on hold") {
                                  score_tags = -100;
-                                 priority_msg += "- 100: the PR is on hold \n";
+                                 ia.priority_msg += "- 100: the PR is on hold \n";
                             } else if (tag.name.toLowerCase() === "priority: high") {
                                  score_tags = 20;
-                                 priority_msg += "+ 20: the PR is high priority \n";
+                                 ia.priority_msg += "+ 20: the PR is high priority \n";
                             }
                         });
                     }
@@ -509,24 +510,19 @@
                     // Priority is higher if the user was mentioned in the last comment
                     if (ia.at_mentions && ia.at_mentions.indexOf(dev_p.data.username) !== -1) {
                          score_mention = 50;
-                         priority_msg += "+ 50: you have been @ mentioned in the last comment \n";
+                         ia.priority_msg += "+ 50: you have been @ mentioned in the last comment \n";
                     }
 
-                    priority_val = score_last_comment + score_elapsed_time + score_tags + score_mention;
+                    ia.priority_val = score_last_comment + score_elapsed_time + score_tags + score_mention;
 
                     // Has a PR, so it still has more priority than IAs which don't have one
-                    if (priority_val <= 0) {
-                        priority_val = 1;
-                        priority_msg += "final value is 1: there's a PR, so it's higher priority than IAs without a PR \n";
+                    if (ia.priority_val <= 0) {
+                        ia.priority_val = 1;
+                        ia.priority_msg += "final value is 1: there's a PR, so it's higher priority than IAs without a PR \n";
                     }
                 }
 
-                var result = {
-                    priority: priority_val,
-                    priority_msg: priority_msg
-                };
-
-                return result;
+                return ia;
             }
 
             // Sort each milestone array by priority
@@ -537,10 +533,7 @@
                         var ia = dev_p.data.dev_milestones[key][temp_ia];
 
                         if (dev_p.by_priority) {
-                            var rank = rank_ia(ia);
-                            
-                            dev_p.data.dev_milestones[key][temp_ia].priority = rank.priority_val;
-                            dev_p.data.dev_milestones[key][temp_ia].priority_msg = rank.priority_msg;
+                            dev_p.data.dev_milestones[key][temp_ia] = rank_ia(ia);
                         }
                     });
                         
