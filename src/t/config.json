@@ -1,0 +1,18 @@
+{
+    ia_types: [
+        'goodies',
+        'spice',
+        'longtail',
+        'fathead'
+    ],
+
+    dev_admin: {
+        username: 'TestOne',
+        password: 'asd'
+   },
+
+   dev_user: {
+        username: 'TestTwo',
+        password: 'asd'
+   }
+}
