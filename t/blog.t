@@ -60,6 +60,8 @@ test_psgi $app => sub {
         teaser      => 'This is a blog post karble warble snarble',
         content     => 'This is a blog post',
         topics      => [qw/blogs posts this/],
+        live        => 1,
+        company_blog => 1,
     });
 
     my $new_post_request = $cb->(
