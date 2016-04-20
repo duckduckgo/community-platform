@@ -16,10 +16,12 @@ use File::Temp qw/ tempdir /;
 use JSON::MaybeXS qw/:all/;
 use HTML::TreeBuilder::LibXML;
 
+use DDGC;
 use DDGC::Web::App::Blog;
 use DDGC::Web::Service::Blog;
 
-
+my $d = DDGC->new;
+t::lib::DDGC::TestUtils::deploy( { drop => 1 }, $d->db );
 
 my $app = builder {
     enable 'Session',
