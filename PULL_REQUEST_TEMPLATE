@@ -1,0 +1,22 @@
+Description :
+
+
+Reviewer notes :
+
+
+References issues / PRs:
+
+#
+
+Checklist :
+- [ ] Perl unit tests
+- [ ] Front end unit tests
+- Browser verification
+    - [ ] IE
+    - [ ] Chrome
+    - [ ] Firefox
+    - [ ] Safari
+    - [ ] Opera 
+- Mobile verification
+    - [ ] iOS
+    - [ ] Android
