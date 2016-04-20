@@ -76,6 +76,8 @@ test_psgi $app => sub {
         Content         => $blog_post,
     );
     ok( $new_post_request->is_success, "Admin user can create blog post" );
+
+    use DDP ; p $new_post_request;
 };
 
 done_testing;
