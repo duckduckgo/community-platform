@@ -8,7 +8,7 @@ page.open('https://maria.duckduckgo.com:5001/ia', function(status) {
 
 
 casper.test.begin('IA Index', function suite(test) {
-    casper.start("http://duck.co/ia", function(response) {
+    casper.start("https://www.github.com", function(response) {
         casper.viewport(1336, 768).then(function() {
             this.reload(function() {
 
