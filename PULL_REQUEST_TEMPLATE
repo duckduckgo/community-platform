@@ -8,6 +8,9 @@ References issues / PRs:
 
 #
 
+Who should be informed of this change?
+
+
 Checklist :
 - [ ] Perl unit tests
 - [ ] Front end unit tests
