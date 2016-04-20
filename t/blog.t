@@ -14,6 +14,7 @@ use Plack::Session::State::Cookie;
 use Plack::Session::Store::File;
 use File::Temp qw/ tempdir /;
 use JSON::MaybeXS qw/:all/;
+use HTML::TreeBuilder::LibXML;
 
 use DDGC::Web::App::Blog;
 use DDGC::Web::Service::Blog;
@@ -79,7 +80,15 @@ test_psgi $app => sub {
     );
     ok( $new_post_request->is_success, "Admin user can create blog post" );
 
-    use DDP ; p $new_post_request;
+    my $new_post = decode_json( $new_post_request->decoded_content );
+    my $new_post_uri = sprintf( '/blog/post/%s/%s', $new_post->{post}->{id}, $new_post->{post}->{uri} );
+    my $new_post_rendered = $cb->( GET $new_post_uri );
+    ok( $new_post_rendered->is_success, 'New blog post found' );
+
+    my $tree = HTML::TreeBuilder::LibXML->new;
+    $tree->parse( $new_post_rendered->decoded_content );
+    $tree->eof;
+    is( $tree->findvalue('/html/head/title'), 'DuckDuckGo Blog : A blog post', 'Blog post title in page title' );
 };
 
 done_testing;
