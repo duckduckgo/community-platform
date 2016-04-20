@@ -81,12 +81,12 @@ get '/post/:id/:uri' => sub {
     my $post = rset('User::Blog')->single_post_ref( $params->{id} );
     if ( $post->{post} ) {
         if ( $post->{post}->{uri} ne $params->{uri} ) {
-            redirect '/post/' . $post->{id} . '/' . $post->{uri};
+            redirect '/post/' . $post->{post}->{id} . '/' . $post->{post}->{uri};
         }
-
+        use DDP; p $post;
         template 'blog/index', {
             %{ $post },
-            title => join ' : ', ( title, $post->{title} ),
+            title => join ' : ', ( title, $post->{post}->{title} ),
         };
     }
     else {
