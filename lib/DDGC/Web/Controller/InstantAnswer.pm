@@ -765,14 +765,17 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
             my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
                 {
                     answer_id => $ia->meta_id, 
-                    date => { '<' => $last_monday->date()}, 
-                    date => { '>' => $month_ago},
-                    pixel_type => [qw( iaoi iaoe )],
+                    date => { '<' => $last_monday->date(), '>' => $month_ago},
+                    pixel_type => [qw/ iaoi iaoe /]
                 },
                 {
-                    order_by => [qw( date )]
+                    select => [{'date', { sum => 'count' } }],
+                    group_by => [qw/ date /]
                 });
-            
+
+            use Data::Dumper;
+            warn Dumper $traffic_rs->as_query();
+
             my $iaoi = $traffic_rs->get_array_by_pixel();
             $ia_data{live}->{traffic} = $iaoi;
         }
