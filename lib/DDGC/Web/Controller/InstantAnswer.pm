@@ -999,7 +999,15 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             $complat_user = $c->d->rs('User')->find({username => $temp_username});
                             return $c->forward($c->view('JSON')) unless $complat_user;
 
-                            $temp_url = 'https://duck.co/user/'.$temp_username;
+                            if (my $gh_login = find_gh_login($c, $complat_user)) {
+                                $temp_username = $gh_login;
+                                $temp_fullname = $temp_username;
+                                $temp_url = 'https://github.com/';
+                            } else {
+                                $temp_url = 'https://duck.co/user/';
+                            }
+
+                            $temp_url = $temp_url . $temp_username;
                         } elsif ($temp_type eq 'github') {
                             return $c->forward($c->view('JSON')) unless check_github($temp_username);
 
@@ -1396,6 +1404,18 @@ sub format_id {
     $id =~ s/^[^a-zA-Z]+$//;
 
     return $id;
+}
+
+sub find_gh_login {
+    my ( $c, $complat_user ) = @_;
+
+    my $login;
+
+    if ($complat_user && (my $gh_id = $complat_user->github_id)) {
+        $login = $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login;
+    }
+
+    return $login;
 }
 
 # Return the properly formatted JSON value
