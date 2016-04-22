@@ -1163,10 +1163,7 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     my $is_admin;
     my $result = '';
     my $data = $c->req->params->{data}? from_json($c->req->params->{data}) : "";
-    use Data::Dumper;
-    print Dumper $c->req->params;
     my $meta_id = format_id($data->{id});
-    warn $meta_id;
     my $ia = $c->d->rs('InstantAnswer')->find({id => $meta_id}) || $c->d->rs('InstantAnswer')->find({meta_id => $meta_id});
     my $name;
     my $exists;
