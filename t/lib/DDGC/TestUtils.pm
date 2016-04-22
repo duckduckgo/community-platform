@@ -10,14 +10,18 @@ sub deploy {
     my $success = 1;
     try {
         if ($ENV{DDGC_DB_DSN} =~ /^dbi:SQLite/) {
+            my $fn = $ENV{DDGC_DB_DSN} =~ s/.*dbname=(.*)/$1/r;
+            unlink $fn if $fn;
             if ( $schema ) {
                 $schema->deploy({
                     add_drop_table => $opts->{drop} || 0
                 });
             }
-            DDGC::Schema->connect($ENV{DDGC_DB_DSN})->deploy({
-                add_drop_table => $opts->{drop} || 0
-            });
+            else {
+                DDGC::Schema->connect($ENV{DDGC_DB_DSN})->deploy({
+                    add_drop_table => $opts->{drop} || 0
+                });
+            }
         }
     }
     catch {
@@ -93,6 +97,10 @@ post '/user_session' => sub {
 get '/debug_session' => sub {
     use DDP; p session; p request->env;
     return 1;
+};
+
+get '/action_token' => sub {
+    return session('action_token');
 };
 
 1;
