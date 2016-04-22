@@ -28,3 +28,4 @@ perl:
   - 5.16
 script:
   - dzil smoke --release --author
+  - grunt test-ia

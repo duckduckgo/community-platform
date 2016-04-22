@@ -278,7 +278,7 @@ module.exports = function(grunt) {
             deleteBuildFiles: "mkdir -p build && rm -r build",
             bower: "bower install",
 	        commit_static: "git add root/static/* package.json && git commit -m 'Release IA pages version: <%= pkg.version %>'",
-            tests: 'casperjs test src/t/ia/. --hostname=' + (grunt.option('hostname') || 'ddgc-staging')
+            tests: "src/t/run.sh"
         },
 
 	// Build again if any of the JS / SCSS files changed.

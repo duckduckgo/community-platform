@@ -9,10 +9,11 @@ var config = require("../config.json"),
 
 
 casper.test.begin("IA Index", function suite(test) {
-    casper.start("http://" + hostname + ".duckduckgo.com:5001/ia", function(response) {
+    casper.start("http://" + hostname + ":5001/ia", function(response) {
         // we don't really support mobile yet
         casper.viewport(1336, 768).then(function() {
             this.reload(function() {
+                test.comment("hostname: " + hostname);
 
                 test.comment("Check existence of basic elements in the page")
                 test.assertExists(NAVBAR);
