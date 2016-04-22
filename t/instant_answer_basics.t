@@ -7,6 +7,7 @@ BEGIN {
 }
 
 use Test::More;
+use Test::WWW::Mechanize::PSGI;
 use t::lib::DDGC::TestUtils;
 use HTTP::Request::Common;
 use Plack::Test;
@@ -145,5 +146,20 @@ test_psgi $app => sub {
     # $cb->( GET '/testutils/debug_session' );
 
 };
+
+# Some basic backend template checks
+my $mech = Test::WWW::Mechanize::PSGI->new( app => $app );
+
+my $ia = $d->rs('InstantAnswer')->find('test_ia');
+
+$ia->update({ dev_milestone => 'live', perl_module => 'DDG::Longtail::TestIA' });
+$ia->add_to_topics( { name => 'interesting_topic' } );
+
+$mech->get_ok('/ia');
+$mech->content_contains('test_ia');
+
+$mech->get_ok('/ia/view/test_ia');
+$mech->title_is('Test Ia'); # Title case filter
+
 
 done_testing;
