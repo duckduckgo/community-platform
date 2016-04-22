@@ -82,7 +82,6 @@ get '/post/:id/:uri' => sub {
         if ( $post->{post}->{uri} ne $params->{uri} ) {
             redirect '/post/' . $post->{post}->{id} . '/' . $post->{post}->{uri};
         }
-        use DDP; p $post;
         template 'blog/index', {
             %{ $post },
             title => join ' : ', ( title, $post->{post}->{title} ),
