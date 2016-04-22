@@ -18,6 +18,11 @@ module.exports = function(grunt) {
     var moment = 'bower_components/moment/min/moment.min.js';
     var charts = 'bower_components/Chart.js/Chart.min.js';
 
+    // Tasks running when testing.
+    var test_tasks = [
+        'exec:tests'
+    ];
+
     // Tasks that run when releasing.
     var release_tasks = [
 	'gitrm:old_releases',
@@ -272,7 +277,8 @@ module.exports = function(grunt) {
             revert_release: "./script/revert_pkg_version.pl release",
             deleteBuildFiles: "mkdir -p build && rm -r build",
             bower: "bower install",
-	    commit_static: "git add root/static/* package.json && git commit -m 'Release IA pages version: <%= pkg.version %>'",
+	        commit_static: "git add root/static/* package.json && git commit -m 'Release IA pages version: <%= pkg.version %>'",
+            tests: 'casperjs test src/t/ia/. --hostname=' + (grunt.option('hostname') || 'ddgc-staging')
         },
 
 	// Build again if any of the JS / SCSS files changed.
@@ -321,6 +327,7 @@ module.exports = function(grunt) {
 
     });
 
+    grunt.registerTask('test-ia', 'Integration tests for IA Pages.', test_tasks);
     grunt.registerTask('release', 'Same as build but creates versioned JS and CSS files.', release_tasks);
     grunt.registerTask('build', 'Compiles templates, builds JS and CSS files.', build_tasks);
     grunt.registerTask('build_release', 'Compiles templates, builds JS and CSS files for release.', build_tasks_release);
