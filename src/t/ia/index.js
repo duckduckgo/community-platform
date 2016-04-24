@@ -13,7 +13,6 @@ casper.test.begin("IA Index", function suite(test) {
         // we don't really support mobile yet
         casper.viewport(1336, 768).then(function() {
             this.reload(function() {
-                test.comment("hostname: " + hostname);
 
                 test.comment("Check existence of basic elements in the page")
                 test.assertExists(NAVBAR);
