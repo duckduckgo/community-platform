@@ -350,9 +350,9 @@ sub update_repo_review_comments {
     push @gh_comments, $self->update_repo_review_comment_from_data($gh_repo, $_)
         for @$comments_data;
     
-    print "   contributor_activity...\n";
+    print "   contributor_github_activity...\n";
     my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_pull_comment')
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_pull_comment')
        for @$comments_data;
 
     return \@gh_comments;
@@ -396,9 +396,9 @@ sub update_repo_comments {
     push @gh_comments, $self->update_repo_comment_from_data($gh_repo, $_)
         for @$comments_data;
 
-    print "   contributor_activity...\n";
+    print "   contributor_github_activity...\n";
     my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_issue_comment')
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_issue_comment')
         for @$comments_data;
 
     return \@gh_comments;
@@ -462,9 +462,9 @@ sub update_repo_commits {
     push @gh_commits, $self->update_repo_commit_from_data($gh_repo, $_)
         for @$commits_data;
 
-    print "   contributor_activity...\n";
+    print "   contributor_github_activity...\n";
     my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_commit')
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_commit')
        for @$commits_data;
 
     return \@gh_commits;
@@ -514,9 +514,9 @@ sub update_repo_commit_comments {
     push @gh_comments, $self->update_commit_comment_from_data($gh_repo, $_)
         for @$comments_data;
 
-    print "   contributor_activity...\n";
+    print "   contributor_github_activity...\n";
     my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_commit_comment')
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_commit_comment')
         for @$comments_data;
 
     return \@gh_comments;
@@ -609,9 +609,9 @@ sub update_repo_issue_events {
     push @gh_issue_events, $self->update_repo_issue_event_from_data($gh_repo, $_)
         for @$issue_events_data;
 
-    print "   contributions...\n";
+    print "   contributor_github_activity...\n";
     my @contributions;
-    push @contributions, $self->update_contributor_activity_from_data($gh_repo, $_, 'git_')
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_')
         for @$issue_events_data;
         
     return \@gh_issue_events;
@@ -667,7 +667,7 @@ sub update_repo_fork_from_data {
 }
 
 # populate the github_event table separately while filling in the others
-sub update_contributor_activity_from_data {
+sub update_contributor_github_activity_from_data {
     my ($self, $gh_repo, $data, $contribution_type) = @_;
     
     my $unique = $data->{sha} || "$data->{id}";
@@ -688,14 +688,14 @@ sub update_contributor_activity_from_data {
     my $date = $data->{commit} ? parse_datetime($data->{commit}->{$user}->{date}) : parse_datetime($data->{created_at});
 
     my %columns;
-    $columns{github_event_id}   = $unique;
-    $columns{contributor_id}    = $self->find_or_update_user($data->{$user}->{login})->id;
-    $columns{github_repo_id}    = $gh_repo->id;
-    $columns{contribution_type} = $contribution_type;
-    $columns{contribution_date} = $date;
+    $columns{github_event_id}       = $unique;
+    $columns{github_user_github_id} = $self->find_or_update_user($data->{$user}->{login})->id;
+    $columns{github_repo_github_id} = $gh_repo->id;
+    $columns{contribution_type}     = $contribution_type;
+    $columns{contribution_date}     = $date;
       
     return $gh_repo
-           ->related_resultset('contributor_activity')
+           ->related_resultset('contributor_github_activity')
            ->update_or_create(\%columns);
 }
 

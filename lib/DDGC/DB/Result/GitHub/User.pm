@@ -65,8 +65,8 @@ has_many github_commit_comments => 'DDGC::DB::Result::GitHub::CommitComments',
     { 'foreign.github_user_id' => 'self.id' },
     { cascade_delete => 1 };
 
-has_many contributor_activity => 'DDGC::DB::Result::ContributorActivity',
-    { 'foreign.contributor_id' => 'self.id' },
+has_many contributor_github_activity => 'DDGC::DB::Result::ContributorGithubActivity',
+    { 'foreign.github_user_github_id' => 'self.github_id' },
     { cascade_delete => 0 };
 
 no Moose;
