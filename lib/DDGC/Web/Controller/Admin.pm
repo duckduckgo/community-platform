@@ -47,5 +47,28 @@ sub index :Chained('base') :PathPart('') :Args(0) {
 	$c->stash->{remaining_coupon_count} = $c->d->rs('User::Coupon')->search({ users_id => undef })->count;
 }
 
+sub upload :Chained('base') :PathPart('upload') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->add_bc('Upload an image');
+	$c->stash->{show} = $c->d->rs('Media')->find( $c->req->params->{show} );
+	my $upload = $c->req->uploads->{image};
+	if ( $upload ) {
+		my $media = $c->d->rs('Media')->create_via_file(
+			$c->user,
+			$upload->tempname,
+			{
+				upload_filename => $upload->filename,
+				content_type => $upload->type
+			}
+		);
+		$c->response->redirect(
+			$c->chained_uri(
+				qw/ Admin upload /,
+				{ show => $media->id },
+			)
+		);
+	}
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;

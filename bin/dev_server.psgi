@@ -14,11 +14,11 @@ use DDH::UserPage::Generate;
 
 DDH::UserPage::Generate->new(
     view_dir     => "$FindBin::Dir/../views",
-    build_dir    => "$FindBin::Dir/../build",
+    build_dir    => "/home/ddgc/ddgc/ddh-userpages",
 )->generate;
 
 builder {
-    mount '/' => Plack::App::Directory::WithIndex->new( root => $FindBin::Dir . "/../build" )->to_app;
-    mount "/static" => Plack::App::File->new(root => $FindBin::Dir . '/../root/static')->to_app;
+    mount '/u' => Plack::App::Directory::WithIndex->new( root => "/home/ddgc/ddgc/ddh-userpages" )->to_app;
+    mount "/ddh-static" => Plack::App::File->new(root => $FindBin::Dir . '/../root/static')->to_app;
 };
 
