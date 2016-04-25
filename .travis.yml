@@ -26,8 +26,7 @@ install:
   - npm install grunt-cli
   - npm install
   - bower install
-  - exporport PATH=$PERLBREW_PATH:$PATH
-  - export PATH=$HOME/perl5/perlbrew/bin:$PATH
+  - export PATH=$PERLBREW_PATH:$PATH
 language: perl
 perl:
   - 5.16
