@@ -26,7 +26,8 @@ install:
   - npm install grunt-cli
   - npm install
   - bower install
-  - export PATH=$PATH:node_modules/phantomjs/lib/phantom/bin
+  - exporport PATH=$PERLBREW_PATH:$PATH
+  - export PATH=$HOME/perl5/perlbrew/bin:$PATH
 language: perl
 perl:
   - 5.16
