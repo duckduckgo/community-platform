@@ -1,0 +1,17 @@
+<form action='/admin/upload' method="post" enctype="multipart/form-data">
+    <p>
+        Select image: <input type="file" name="image" id="image" /><br />
+        <input type="submit" value="Upload" name="submit" />
+    </p>
+</form>
+
+: if $show {
+    <p>
+        <a href="<: $show.url :>">
+            <img src="<: $show.url :>" />
+        </a>
+        <a href="<: $show.url_thumbnail :>">
+            <img src="<: $show.url_thumbnail :>" />
+        </a>
+    </p>
+: }

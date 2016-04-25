@@ -1792,7 +1792,7 @@
             var sum = 0;
 
             $.each(counts, function(idx) {
-                sum += counts[idx];
+                sum += parseInt(counts[idx], 10);
             });
 
             return sum;
