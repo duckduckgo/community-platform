@@ -15,7 +15,6 @@ addons:
     - libxml2-dev
     - libpango1.0-dev
     - imagemagick
-    - node
 before_install:
   - export HARNESS_OPTIONS=j10:c HARNESS_TIMER=1
   - git config --global user.name "Dist Zilla Plugin TravisCI"
@@ -31,6 +30,8 @@ install:
 language: perl
 perl:
   - 5.16
+node_js:
+  - 4.2
 script:
   - dzil smoke --release --author
   - grunt test-ia
