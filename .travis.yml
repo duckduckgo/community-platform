@@ -15,6 +15,7 @@ addons:
     - libxml2-dev
     - libpango1.0-dev
     - imagemagick
+    - node
 before_install:
   - export HARNESS_OPTIONS=j10:c HARNESS_TIMER=1
   - git config --global user.name "Dist Zilla Plugin TravisCI"
@@ -23,6 +24,10 @@ install:
   - cpanm  --quiet  --notest --skip-installed Dist::Zilla
   - dzil authordeps | grep -ve '^\W' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
   - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
+  - npm install grunt-cli
+  - npm install
+  - bower install
+  - export PATH=$PATH:node_modules/phantomjs/lib/phantom/bin
 language: perl
 perl:
   - 5.16
