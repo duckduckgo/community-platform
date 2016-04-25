@@ -14,6 +14,8 @@ casper.test.begin("IA Index", function suite(test) {
         casper.viewport(1336, 768).then(function() {
             this.reload(function() {
 
+                test.comment(hostname);
+
                 test.comment("Check existence of basic elements in the page")
                 test.assertExists(NAVBAR);
                 test.assertExists(IA_LIST);
