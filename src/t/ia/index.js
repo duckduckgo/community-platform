@@ -9,7 +9,7 @@ var config = require("../config.json"),
 
 
 casper.test.begin("IA Index", function suite(test) {
-    casper.start("http://" + hostname + ":5001/ia", function(response) {
+    casper.start("http://" + hostname + "/ia", function(response) {
         // we don't really support mobile yet
         casper.viewport(1336, 768).then(function() {
             this.reload(function() {
