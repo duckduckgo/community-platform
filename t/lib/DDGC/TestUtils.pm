@@ -2,8 +2,11 @@ package t::lib::DDGC::TestUtils;
 use strict;
 use warnings;
 
+use DDGC;
 use DDGC::Base::Web::Common;
 use Try::Tiny;
+
+my $d = DDGC->new;
 
 sub deploy {
     my ( $opts, $schema ) = @_;
@@ -55,7 +58,7 @@ sub new_user {
     my $user;
     try {
         $user = rset('User')->create({
-            username => $username,
+            username => $username
         });
     }
     catch {
@@ -69,11 +72,57 @@ sub new_user {
     return ok ( user_id => $user->id, user => $user );
 }
 
+sub new_gh_user {
+    my ( $username, $gh_id, $role ) = @_;
+    return not_ok "'username' parameter not supplied" if !$username;
+    return not_ok sprintf( "User %s exists", $username )
+        if rset('User')->find_by_username( $username );
+
+    my $error;
+    my $user;
+    try {
+        $user = rset('User')->create({
+            username => $username,
+            github_id => $gh_id
+        });
+    }
+    catch {
+        $error = $_;
+    };
+
+    if ($gh_id) {
+        return not_ok sprintf( "User %s exists", $username )
+            if $d->rs('GitHub::User')->find({ login => $username });
+
+        my $gh_error;
+        my $gh_user;
+        try {
+            $gh_user = $d->rs('GitHub::User')->create({
+                login => $username,
+                github_id => $gh_id
+            });
+        }
+        catch {
+            $gh_error = $_;
+        };
+        
+        if (!$gh_user || $gh_error) {
+            return not_ok sprintf( "Something went wrong: %s", $gh_error );
+        }
+    }
+
+    if (!$user || $error) {
+        return not_ok sprintf( "Something went wrong: %s", $error );
+    }
+    $user->add_role( $role ) if $role;
+    return ok ( user_id => $user->id, user => $user );
+}
+
 # Create user, return user_id
 
 post '/new_user' => sub {
     my $params = params('body');
-    my $result = new_user( $params->{username}, $params->{role} );
+    my $result = $params->{github_id}? new_gh_user( $params->{username}, $params->{github_id}, $params->{role} ) : new_user($params->{username}, $params->{role});
     return $result->{user_id} if $result->{ok};
     send_error $result->{msg}, 500;
 };

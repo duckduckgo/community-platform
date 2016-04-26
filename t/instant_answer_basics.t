@@ -144,11 +144,32 @@ test_psgi $app => sub {
 
     # Check contributors - the new user doesn't have a GitHub account connected
     # so he should be listed with his duck.co account
-    my $contributor_test = $ia->developer;
-    isnt($contributor_test, undef, 'Test contributor is not null for the new IA');    
-    my @contributors  = @{ decode_json( $contributor_test ) };
+    isnt($ia->developer, undef, 'Test contributor is not null for the new IA');    
+    my @contributors  = @{ decode_json( $ia->developer ) };
     my $contributor = $contributors[0];
     is($contributor->{type}, 'duck.co', 'Test contributor is a duck.co account - no github account connected');
+    
+    # Create user with GitHub account linked
+    my $gh_user_request = $cb->(
+        POST '/testutils/new_user',
+        { 
+            username => 'gh_user',
+            github_id => 123456789
+        }
+    );
+    ok( $gh_user_request->is_success, 'Creating a new user with github account linked' );
+    
+
+    # Set contributor to the new user
+    my $ia_switch_contributor = $set_ia_value->({ cookie => $cookie, developer => '[{"username":"gh_user","type":"duck.co","name":"gh_user"}]' });
+    is( $ia_switch_contributor->{saved}, 1, 'Successfully saved the new contributor' );
+
+    # Check the contributor again - this time it should have the github type
+    $ia->discard_changes;
+    isnt($ia->developer, undef, 'Test contributor is not null for the new IA');    
+    @contributors  = @{ decode_json( $ia->developer ) };
+    $contributor = $contributors[0];
+    is($contributor->{type}, 'github', 'Test contributor is a github account');
 
     # Use this when you need to see session data
     # $cb->( GET '/testutils/debug_session' );
