@@ -142,6 +142,14 @@ test_psgi $app => sub {
     $ia_repo = $get_repo_json->({ repo => 'longtail' });
     is( ref $ia_repo->{test_ia}, 'HASH', 'Test IA is now in published milestone' );
 
+    # Check contributors - the new user doesn't have a GitHub account connected
+    # so he should be listed with his duck.co account
+    my $contributor_test = $ia->developer;
+    isnt($contributor_test, undef, 'Test contributor is not null for the new IA');    
+    my @contributors  = @{ decode_json( $contributor_test ) };
+    my $contributor = $contributors[0];
+    is($contributor->{type}, 'duck.co', 'Test contributor is a duck.co account - no github account connected');
+
     # Use this when you need to see session data
     # $cb->( GET '/testutils/debug_session' );
 
