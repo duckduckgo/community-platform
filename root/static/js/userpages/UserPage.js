@@ -5,6 +5,31 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.showUser(response);
   });
 
+  $scope.comleaders = [
+    'ScreapDK',
+    'DavidMascio',
+    'x.15a2',
+    'mintsoft',
+    'TomBebbington',
+    'loganom',
+    'mithrandiragain',
+    'bradcater',
+    'mattr555',
+    'preemeijer',
+    'javathunderman',
+    'mrchrisw',
+    'killerfish',
+    'sebasorribas',
+    'nickcalabs',
+    'haseeb',
+    'iambibhas',
+    'codenirvana',
+    'Jedidiah',
+    'hemanth',
+    'gautamkrishnar',
+    'GuiltyDolphin'
+  ];
+
 
   // for sorting instant answers (live should be first)
   $scope.iaSort = function(ia) {
