@@ -24,6 +24,7 @@ install:
   - cpanm  --quiet  --notest --skip-installed Dist::Zilla
   - dzil authordeps | grep -ve '^\W' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
   - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
+  - find /home/travis/perl5 -name plackup
   - npm install
 language: perl
 perl:
