@@ -26,7 +26,6 @@ install:
   - pwd
   - perl -V 
   - find /home/travis/perl5 -name Plack.pm
-  - cpanm -f --notest Plack
   - find /home/travis/perl5 -name plackup 
 language: perl
 perl:
