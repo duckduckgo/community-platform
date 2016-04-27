@@ -23,10 +23,9 @@ install:
   - cpanm  --quiet  --notest --skip-installed Dist::Zilla
   - dzil authordeps | grep -ve '^\W' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
   - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
-  - pwd
-  - perl -V 
-  - find /home/travis/perl5 -name Plack.pm
-  - find /home/travis/perl5 -name plackup 
+  - npm install -g
+  - npm install grunt
+
 language: perl
 perl:
   - 5.16
