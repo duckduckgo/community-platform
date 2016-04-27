@@ -32,5 +32,5 @@ perl:
 node_js:
   - 4.2
 script:
-  - dzil smoke --release --author
+  - prove -lr -j1 t
   - grunt test-ia
