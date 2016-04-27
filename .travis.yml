@@ -24,7 +24,8 @@ install:
   - dzil authordeps | grep -ve '^\W' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
   - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
   - ls -al
-  - ls /etc/profile.d
+  - cat /etc/profile.d/perlbrew.sh
+  - plackup -h
 language: perl
 perl:
   - 5.16
