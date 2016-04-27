@@ -464,4 +464,13 @@ body {
   font-size: 13px;
   text-overflow: ellipsis; }
 
+.ia-issue:last-of-type {
+  padding-bottom: 15px; }
+.ia-issue a {
+  color: #aaa;
+  font-size: 14px; }
+
+.misc {
+  padding-top: 2em; }
+
 /*# sourceMappingURL=UserPage.css.map */

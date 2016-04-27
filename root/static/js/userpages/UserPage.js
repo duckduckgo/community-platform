@@ -74,6 +74,20 @@ app.controller('UserPageController', function($scope, $http, fn) {
       return ia.dev_milestone !== "ghosted";
     });
 
+      _.each($scope.maintained.concat($scope.ias_developed_only), function(ia) {
+	  ia.issues = [];
+
+	  _.each(response.issues_assigned, function(v, k) {
+	      if(v.ia_id === ia.id) {
+		  ia.issues = ia.issues.concat(v);
+	      }
+	  });
+      });
+
+      $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {
+	  return !v.ia_id;
+      });
+
     $scope.count.maintained_ias = _.size($scope.maintained);
     $scope.count.developed_only_ias = _.size($scope.ias_developed_only);
     $scope.count.open_issues = _.size(response.issues);
