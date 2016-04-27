@@ -5,6 +5,7 @@ cache:
     - $HOME/.cpanm
     - $HOME/perl5/perlbrew/perls/5.16/lib/site_perl
     - /var/tmp
+    - $HOME/.nvm
 addons:
   apt:
     packages:
@@ -24,7 +25,6 @@ install:
   - dzil authordeps | grep -ve '^\W' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
   - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
   - npm install -g grunt-cli casperjs
-  - bower install
 language: perl
 perl:
   - 5.16
