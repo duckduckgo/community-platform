@@ -25,7 +25,7 @@ install:
   - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
   - ls -al
   - cat /etc/profile.d/perlbrew.sh
-  - plackup -h
+  - find /home/travis/perl5 -name plackup 
 language: perl
 perl:
   - 5.16
