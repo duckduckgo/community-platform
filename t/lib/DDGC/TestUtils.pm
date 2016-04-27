@@ -81,7 +81,7 @@ sub new_gh_user {
     my $error;
     my $user;
     try {
-        $user = rset('User')->create({
+        $user = $d->rs('User')->create({
             username => $username,
             github_id => $gh_id
         });
@@ -89,15 +89,13 @@ sub new_gh_user {
     catch {
         $error = $_;
     };
-
-    if ($gh_id) {
-        return not_ok sprintf( "User %s exists", $username )
-            if $d->rs('GitHub::User')->find({ login => $username });
+  
+  if ($gh_id && (!$d->rs('GitHub::User')->search({ login => $username }))) {
 
         my $gh_error;
         my $gh_user;
         try {
-            $gh_user = $d->rs('GitHub::User')->create({
+            $gh_user = $d->rs('GitHub::User')->create_or_update({
                 login => $username,
                 github_id => $gh_id
             });
@@ -109,7 +107,7 @@ sub new_gh_user {
         if (!$gh_user || $gh_error) {
             return not_ok sprintf( "Something went wrong: %s", $gh_error );
         }
-    }
+    }   
 
     if (!$user || $error) {
         return not_ok sprintf( "Something went wrong: %s", $error );
@@ -122,7 +120,7 @@ sub new_gh_user {
 
 post '/new_user' => sub {
     my $params = params('body');
-    my $result = $params->{github_id}? new_gh_user( $params->{username}, $params->{github_id}, $params->{role} ) : new_user($params->{username}, $params->{role});
+    my $result = $params->{github_id}? new_gh_user($params->{username}, $params->{github_id}, $params->{role}) : new_user($params->{username}, $params->{role});
     return $result->{user_id} if $result->{ok};
     send_error $result->{msg}, 500;
 };

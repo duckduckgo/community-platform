@@ -1441,7 +1441,8 @@ sub find_gh_login {
     my $login;
 
     if ($complat_user && (my $gh_id = $complat_user->github_id)) {
-        $login = $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login;
+        my $gh_user = $c->d->rs('GitHub::User')->find({github_id => $gh_id});
+        $login = $gh_user? $gh_user->login : undef;
     }
 
     return $login;
