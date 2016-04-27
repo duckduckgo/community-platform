@@ -85,7 +85,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
       });
 
       $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {
-	  return !v.ia_id;
+	  return true;
       });
 
     $scope.count.maintained_ias = _.size($scope.maintained);

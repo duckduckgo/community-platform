@@ -150,9 +150,11 @@
       <div ng-repeat="ia in show_ias | orderBy: iaSort">
 	<div class="instantanswer typeC flex-container" ng-include="'/ddh-static/partials/c_instantanswer.html'">
 	</div>
+	<!--
 	<div class="ia-issue" ng-repeat="issue in ia.issues">
 	  <a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
 	</div>
+	-->
       </div>
 
       </section>
@@ -180,9 +182,10 @@
 	</div>
 
       <div class="misc">
-	<h3 >Misc</h3>
+	<h3>Issues</h3>
 	<div class="issue" ng-repeat="issue in issues_unassigned">
-	  <a style="color: #333; font-weight: 500; font-size: 14px;" href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
+	  <a style="color: #333; font-weight: 500; font-size: 13px;" href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
+	  <span class="pull-right grid-2 subtitle text-right pad-left-10">{{fn.getFromNow(issue.updated_at)}}</span>
 	</div>
       </div>
 
