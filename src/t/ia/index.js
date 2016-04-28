@@ -10,6 +10,7 @@ var config = require("../config.json"),
 
 casper.test.begin("IA Index", function suite(test) {
     casper.start("http://" + hostname + "/ia", function(response) {
+        test.assertEquals(200, response.status);
         // we don't really support mobile yet
         casper.viewport(1336, 768).then(function() {
             this.reload(function() {
