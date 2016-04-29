@@ -128,3 +128,24 @@ The following accounts are created by `ddgc_deploy_dev.pl`:
 
 Any random password will suffice, as a separate service is used to provide
 authentication in production.
+
+## License
+
+This software is licensed under Perl 5 dual license: either GPLv1 or later, or, at users' choice, Artistic 1.0.
+We welcome contributions to this software under the same licensing terms.
+
+## Third party credits
+
+The project is built using other software packages and creative content:
+
+- SCEditor, [MIT license](http://www.opensource.org/licenses/mit-license.php)
+- jQuery JavaScript Library v1.9.1, [MIT license](http://jquery.org/license)
+- aToolTip jQuery plugin, [CC-BY 3.0 Unported license](http://creativecommons.org/licenses/by/3.0)			
+- Select2, [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) or [GPL v2](http://www.gnu.org/licenses/gpl-2.0.html)
+- handlebars v1.3.0, MIT license
+- HTML5shiv, MIT or GPL2 license
+- jQuery Iframe Transport, part of jQuery-File-Upload jQuery plugin, [MIT license](http://www.opensource.org/licenses/MIT)
+- Dropzone, MIT license
+- ContentLoaded, [MIT license](http://javascript.nwbox.com/ContentLoaded/MIT-LICENSE)
+- addPlaceholder jQuery plugin, code made available on [author's blog](http://iliadraznin.com/2011/02/jquery-placeholder-plugin/)
+
