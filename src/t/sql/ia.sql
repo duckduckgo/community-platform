@@ -1,3 +1,4 @@
+DELETE FROM instant_answer;
 INSERT INTO instant_answer ( id, meta_id, name,
                              description, example_query, repo,
                              dev_milestone, public, perl_module,
