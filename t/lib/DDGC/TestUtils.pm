@@ -91,7 +91,7 @@ sub new_gh_user {
         $error = $_;
     };
   
-  if ($gh_id && (!$d->rs('GitHub::User')->search({ login => $username }))) {
+  if ( !$error && $gh_id ) {
 
         my $gh_error;
         my $gh_user;
