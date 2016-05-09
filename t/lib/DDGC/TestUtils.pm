@@ -81,7 +81,7 @@ sub new_gh_user {
     my $error;
     my $user;
     try {
-        $user = $rset('User')->create({
+        $user = rset('User')->create({
             username => $username,
             github_id => $gh_id
         });
