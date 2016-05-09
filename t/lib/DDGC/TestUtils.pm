@@ -98,7 +98,10 @@ sub new_gh_user {
         try {
             $gh_user = $d->rs('GitHub::User')->update_or_create({
                 login => $username,
-                github_id => $gh_id
+                github_id => $gh_id,
+                type => 'User',
+                gh_data => {},
+                created_at => DateTime->now,
             });
         }
         catch {
