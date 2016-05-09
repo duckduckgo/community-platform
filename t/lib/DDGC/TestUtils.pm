@@ -96,7 +96,7 @@ sub new_gh_user {
         my $gh_error;
         my $gh_user;
         try {
-            $gh_user = $d->rs('GitHub::User')->create_or_update({
+            $gh_user = $d->rs('GitHub::User')->update_or_create({
                 login => $username,
                 github_id => $gh_id
             });
