@@ -5,6 +5,7 @@ use warnings;
 use DDGC;
 use DDGC::Base::Web::Common;
 use Try::Tiny;
+use DateTime;
 
 my $d = DDGC->new;
 
@@ -81,7 +82,7 @@ sub new_gh_user {
     my $error;
     my $user;
     try {
-        $user = $d->rs('User')->create({
+        $user = rset('User')->create({
             username => $username,
             github_id => $gh_id
         });
