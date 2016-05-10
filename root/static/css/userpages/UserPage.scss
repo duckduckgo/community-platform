@@ -571,10 +571,12 @@ body {
 }
 
 .ia-issue {
+    padding-bottom: 0.5em;
+    
     &:last-of-type {
-	padding-bottom: 15px;
+	padding-bottom: 0;
     }
-
+    
     a {
 	font-size: 14px;
     }
@@ -586,4 +588,12 @@ body {
 
 .unexpand {
     display: none;
+}
+
+.issue-container {
+    background: white;
+    padding: 12px 1em;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    border-top: 1px solid #eee;
 }

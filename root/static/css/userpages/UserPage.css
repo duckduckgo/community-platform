@@ -470,15 +470,24 @@ body {
   font-size: 13px;
   text-overflow: ellipsis; }
 
-.ia-issue:last-of-type {
-  padding-bottom: 15px; }
-.ia-issue a {
-  font-size: 14px; }
+.ia-issue {
+  padding-bottom: 0.5em; }
+  .ia-issue:last-of-type {
+    padding-bottom: 0; }
+  .ia-issue a {
+    font-size: 14px; }
 
 .misc {
   padding-top: 2em; }
 
 .unexpand {
   display: none; }
+
+.issue-container {
+  background: white;
+  padding: 12px 1em;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  border-top: 1px solid #eee; }
 
 /*# sourceMappingURL=UserPage.css.map */
