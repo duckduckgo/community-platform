@@ -475,6 +475,7 @@ body {
   .ia-issue:last-of-type {
     padding-bottom: 0; }
   .ia-issue a {
+    padding-left: 0.5em;
     font-size: 14px; }
 
 .misc {
