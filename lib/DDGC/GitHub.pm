@@ -494,6 +494,7 @@ sub update_repo_issue_from_data {
     $columns{github_user_id}   = $self->find_or_update_user($issue->{user}->{login})->id;
     $columns{title}            = $issue->{title};
     $columns{body}             = $issue->{body};
+    $columns{tags}             = $issue->{labels};
     $columns{state}            = $issue->{state};
     $columns{isa_pull_request} = $issue->{pull_request} ? 1 : 0;
     $columns{comments}         = $issue->{comments};
