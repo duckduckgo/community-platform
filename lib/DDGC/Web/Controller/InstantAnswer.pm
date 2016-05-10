@@ -1005,6 +1005,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                                 $temp_username = $gh_login;
                                 $temp_fullname = $temp_username;
                                 $temp_url = 'https://github.com/';
+                                $temp_type = 'github';
                             } else {
                                 $temp_url = 'https://duck.co/user/';
                             }
