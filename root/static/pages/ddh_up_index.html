@@ -170,32 +170,33 @@
 
     <section>
       <div class="flex-container">
-	<!-- PR Reviews -->
+	<!-- PR Reviews 
 	<h3 ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">Assigned Pull Requests</h3>
-	<!-- Open PRs -->
+	<!-- Open PRs 
 	<h3 ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">Open Pull Requests</h3>
+	-->
 	</div>
 
-      <div class="flex-container align-top">
-	<!-- PR Reviews -->
+      <div class="flex-container align-top"></div>
+
+	<!-- PR Reviews
 	<div ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">
 	  <div ng-repeat="issue in prs_open_reviewed | orderBy: '-updated_at'" ng-include="'/ddh-static/partials/c_issue2.html'" class="issue typeC flex-container">
 	    </div>
 	  </div>
 
-	<!-- Open PRs -->
+	<!-- Open PRs 
 	<div ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">
 	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container">
 	    </div>
 	  </div>
 	</div>
+      -->
 
       <div class="misc">
-	<h3 >Misc</h3>
-	<div class="issue" ng-repeat="issue in issues_unassigned">
-	  <a style="color: #333; font-weight: 500; font-size: 14px;" href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
-	</div>
-      </div>
+	<h3 >Other Issues & Pull Requests</h3>
+	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container"></div>
+
 
       </section>
 

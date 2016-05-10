@@ -209,7 +209,7 @@ section {
     margin-left: 10px;
     padding: 4px 0;
     border-radius: $round-sm;
-    border: 1px solid $gray-lt;
+
     font-size: $tx-sm;
     color: $gray;
     text-transform: capitalize;
@@ -562,7 +562,7 @@ body {
 }
 
 .issue-link {
-    max-width: 200px;
+    max-width: 60%;
     display: inline-flex;
 }
 
@@ -586,7 +586,7 @@ body {
 }
 
 .misc {
-    padding-top: 2em;
+
 }
 
 .unexpand {

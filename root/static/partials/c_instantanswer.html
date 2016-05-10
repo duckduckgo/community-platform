@@ -13,7 +13,7 @@
             <span ng-if="dev.avatar_url">
                 <img src="{{dev.avatar_url}}" />
             </span>
-            <span ng-if="! dev.avatar_url">
+            <span ng-if="!dev.avatar_url">
                 {{fn.firstUsernameChar(dev.username)}}
             </span>
         </a>
@@ -21,4 +21,4 @@
 </div>
 
 <!-- status -->
-<div class="status full {{ia.dev_milestone}} grid-1">{{ia.dev_milestone}}</div>
+<div ng-if="ia.dev_milestone !== 'live'" class="status full {{ia.dev_milestone}} grid-1">{{ia.dev_milestone}}</div>

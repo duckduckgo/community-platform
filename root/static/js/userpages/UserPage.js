@@ -82,6 +82,19 @@ app.controller('UserPageController', function($scope, $http, fn) {
 		  ia.issues = ia.issues.concat(v);
 	      }
 	  });
+
+	  // Also add the PRs in here.
+	  _.each(response.pulls_assigned, function(pull) {
+	      if(pull.ia_id === ia.id) {
+		  ia.issues = ia.issues.concat(pull);
+	      }
+	  });
+
+	  _.each(response.pulls_created, function(pull) {
+	      if(pull.ia_id === ia.id) {
+		  ia.issues = ia.issues.concat(pull);
+	      }
+	  });
       });
 
       $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {
