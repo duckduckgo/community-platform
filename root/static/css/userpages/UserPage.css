@@ -493,8 +493,11 @@ body {
   border-right: 1px solid #eee;
   border-bottom: 1px solid #eee; }
 
-.add-space .space {
-  height: 0.5em;
-  border-bottom: 1px solid #eee; }
+.add-space {
+  /*    .space {
+  	height: 0.5em;
+  	border-bottom: 1px solid #eee;
+      }
+  */ }
 
 /*# sourceMappingURL=UserPage.css.map */

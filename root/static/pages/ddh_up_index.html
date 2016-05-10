@@ -153,7 +153,7 @@
 	<div class="instantanswer typeC flex-container" ng-include="'/ddh-static/partials/c_instantanswer.html'">
 	</div>
 
-	<div class="issue-container" ng-class="{true: 'unexpand', false: 'expand'}[!ia.expand]">
+	<div class="issue-container" ng-class="{true: 'unexpand', false: 'expand'}[!ia.expand || ia.issues.length == 0]">
 	  <div class="ia-issue" ng-repeat="issue in ia.issues | orderBy: iaSort">
 	    <span class="octicon" ng-class="{true: 'octicon-git-pull-request', false: 'octicon-issue-opened'}[!!issue.isa_pull_request]"></span>
 	    <a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
