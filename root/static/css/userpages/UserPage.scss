@@ -420,20 +420,22 @@ main {
 }
 
 
-section > div {
+.ias > div {
     &:last-of-type {
 	border-bottom: 1px solid #eee;
+    }
+
+    &:first-of-type {
+	border-top: 1px solid #eee;
     }
 }
 
 .instantanswer {
     padding: $pad-xxs 0;
-    border-top: 1px solid $gray-lt;
+    border-bottom: 1px solid $gray-lt;
     border-left: 1px solid $gray-lt;
     border-right: 1px solid $gray-lt;
     background: white;
-
-
 
     &.typeC { padding: 12px 1em; }
 
@@ -596,5 +598,12 @@ body {
     padding: 12px 1em;
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
-    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+}
+
+.add-space {
+    .space {
+	height: 0.5em;
+	border-bottom: 1px solid #eee;
+    }
 }

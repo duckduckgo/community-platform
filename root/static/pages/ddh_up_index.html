@@ -128,7 +128,7 @@
 
   <!-- Main -->
   <main>
-    <section>
+    <section class="ias">
       <h3>
 	<div class="tabs">
 	  <a href="#" ng-click="changeShownIAs(maintained)">
@@ -147,7 +147,9 @@
 	Instant Answers
 	</h3>
 
-      <div ng-repeat="ia in show_ias | orderBy: iaSort" ng-click="ia.expand = !ia.expand">
+      <div ng-repeat="ia in show_ias | orderBy: iaSort" ng-click="ia.expand = !ia.expand" ng-class="{false: 'add-space'}[!ia.expand]">
+	<div class="space"></div>
+
 	<div class="instantanswer typeC flex-container" ng-include="'/ddh-static/partials/c_instantanswer.html'">
 	</div>
 
@@ -160,6 +162,8 @@
 	    </span>
 	  </div>
 	</div>
+
+	<div class="space"></div>
       </div>
 
       </section>
