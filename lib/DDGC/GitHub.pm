@@ -399,6 +399,10 @@ sub update_repo_comment_from_data {
     $columns{updated_at}     = parse_datetime($comment->{updated_at});
     $columns{gh_data}        = $comment;
 
+    if ( !$gh_repo->github_issues->search( { number => $columns{number} } )->one_row ) {
+        warn sprintf( "Issue %s for %s not found!", $columns{number}, $gh_repo->full_name );
+        return 0;
+    }
     return $gh_repo
         ->related_resultset('github_comments')
         ->update_or_create(\%columns, { key => 'github_comment_github_id' });
