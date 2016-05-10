@@ -87,6 +87,25 @@ sub gh_issues {
         result_class => 'DBIx::Class::ResultClass::HashRefInflator',
     });
 
+    for my $issue ( @issues ) {
+        my @tags;
+        my %temp_tags;
+        my $original_tags = $issue->{tags}? decode_json($issue->{tags}) : '';
+        for my $tag (@{$original_tags}) {
+            if (!$temp_tags{$tag->{name}}) {
+                $temp_tags{$tag->{name}} = {
+                    name => $tag->{name},
+                    color => $tag->{color}
+                };
+            }
+
+            push @tags, $tag;
+        }
+
+        $issue->{tags} = \@tags;
+    }
+
+
     my $closed_pulls = $self->ddgc->rs('GitHub::Issue')->search({
       ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
               { 'me.github_user_id' => $gh_id }]
