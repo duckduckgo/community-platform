@@ -85,7 +85,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
       });
 
       $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {
-	  return true;
+	  return !v.ia_id;
       });
 
     $scope.count.maintained_ias = _.size($scope.maintained);
@@ -128,7 +128,6 @@ app.controller('UserPageController', function($scope, $http, fn) {
       var objKey = _.findKey($scope, which);
       $scope.addImg(objKey);
     };
-
   }
 });
 

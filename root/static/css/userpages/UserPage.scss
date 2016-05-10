@@ -420,11 +420,22 @@ main {
 }
 
 
+section > div {
+    &:last-of-type {
+	border-bottom: 1px solid #eee;
+    }
+}
+
 .instantanswer {
     padding: $pad-xxs 0;
     border-top: 1px solid $gray-lt;
+    border-left: 1px solid $gray-lt;
+    border-right: 1px solid $gray-lt;
+    background: white;
 
-    &.typeC { padding: 12px 0; }
+
+
+    &.typeC { padding: 12px 1em; }
 
     &.typeD {padding: 8px 0;}
 
@@ -565,11 +576,14 @@ body {
     }
 
     a {
-	color: $gray;
 	font-size: 14px;
     }
 }
 
 .misc {
     padding-top: 2em;
+}
+
+.unexpand {
+    display: none;
 }

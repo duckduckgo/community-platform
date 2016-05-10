@@ -355,11 +355,17 @@ main {
     padding-left: 8px;
     white-space: nowrap; }
 
+section > div:last-of-type {
+  border-bottom: 1px solid #eee; }
+
 .instantanswer {
   padding: 20px 0;
-  border-top: 1px solid #eee; }
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  background: white; }
   .instantanswer.typeC, .instantanswer.topic.typeD {
-    padding: 12px 0; }
+    padding: 12px 1em; }
   .instantanswer.typeD {
     padding: 8px 0; }
   .instantanswer .content {
@@ -467,10 +473,12 @@ body {
 .ia-issue:last-of-type {
   padding-bottom: 15px; }
 .ia-issue a {
-  color: #aaa;
   font-size: 14px; }
 
 .misc {
   padding-top: 2em; }
+
+.unexpand {
+  display: none; }
 
 /*# sourceMappingURL=UserPage.css.map */
