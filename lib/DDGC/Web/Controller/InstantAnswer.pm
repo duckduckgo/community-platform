@@ -1036,8 +1036,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     }
 
                     $value = to_json \@result_devs;
-
-                    print $value;
                 }
             }
 
