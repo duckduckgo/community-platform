@@ -28,7 +28,7 @@ my $repo = $d->rs('GitHub::Repo')->search(
 isa_ok( $repo, 'DDGC::DB::Result::GitHub::Repo' );
 
 my $issue = $d->github->gh_api->query(
-    '/repos/duckduckgo/zeroclickinfo-longtail/issues/56'
+    '/repos/duckduckgo/zeroclickinfo-longtail/issues/59'
 );
 ok( $issue->{id}, 'Issue returned from API' );
 
