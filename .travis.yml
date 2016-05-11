@@ -28,3 +28,6 @@ perl:
   - 5.16
 script:
   - dzil smoke --release --author
+env:
+  global:
+    secure: Vfwbe9/9Q/mACQVO6Dq6Jw1WM7CqAFEuqBfS+ukANy6uBgrnw32Sk7LGMYDHGwsaSmiCTz0cfvWZ2RcToCdTK4AyHAPPm/ry69Thnf+BtikE82voL9vv0kSlLZarBBZe7Ll2//sppjMGKdAYiEhYBPn2/3TOeIiYPKnFSsiIwLg=
