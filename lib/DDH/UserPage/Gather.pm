@@ -81,11 +81,30 @@ sub gh_issues {
     },
     {
         join => [ qw/ github_repo / ],
-        columns => [ qw/ id state github_repo_id comments title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at / ],
+        columns => [ qw/ id state github_repo_id comments tags title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at / ],
         collapse => 1,
         group_by => 'me.id',
         result_class => 'DBIx::Class::ResultClass::HashRefInflator',
     });
+
+    for my $issue ( @issues ) {
+        my @tags;
+        my %temp_tags;
+        my $original_tags = $issue->{tags}? decode_json($issue->{tags}) : '';
+        for my $tag (@{$original_tags}) {
+            if (!$temp_tags{$tag->{name}}) {
+                $temp_tags{$tag->{name}} = {
+                    name => $tag->{name},
+                    color => $tag->{color}
+                };
+            }
+
+            push @tags, $tag;
+        }
+
+        $issue->{tags} = \@tags;
+    }
+
 
     my $closed_pulls = $self->ddgc->rs('GitHub::Issue')->search({
       ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
@@ -123,7 +142,10 @@ sub gh_user_id {
 sub find_ia {
     my ( $self, $issue ) = @_;
     
-    if ( my $ia_issue = $self->ddgc->rs('InstantAnswer::Issues')->search({ issue_id => $issue->{number} })->first ) {
+    my $repo = $issue->{github_repo}->{full_name};
+    $repo =~ s/zeroclickinfo-//;
+    
+    if ( my $ia_issue = $self->ddgc->rs('InstantAnswer::Issues')->find({ issue_id => $issue->{number}, repo => $repo }) ) {
         $issue->{ia_id} = $ia_issue->instant_answer_id;
 
         if ( my $ia = $self->ddgc->rs('InstantAnswer')->find({ meta_id => $ia_issue->instant_answer_id }) ) {
@@ -161,7 +183,7 @@ sub transform {
                 for my $developer ( @{ $ia->{$ia_id}->{developer} } ) {
 
 
-                    if ( $developer->{type} &&
+                    if ( ( ref $developer eq 'HASH' ) && $developer->{type} &&
                          $developer->{type} eq 'github' ) {
 
                         ( my $login = $developer->{url} ) =~
