@@ -238,6 +238,9 @@ sub update_repo_from_data {
         ->related_resultset('github_repos')
         ->update_or_create(\%columns, { key => 'github_repo_github_id' });
 
+    # Don't do a full sync if we're testing
+    return if $ENV{TESTING_GITHUB};
+
     printf "Updating %s/%s\n", $gh_repo->owner_name, $gh_repo->repo_name;
     print "   commits...\n";
     $self->update_repo_commits($gh_repo);
