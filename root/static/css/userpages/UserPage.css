@@ -354,8 +354,6 @@ main {
     padding-left: 8px;
     white-space: nowrap; }
 
-.ias > div:last-of-type {
-  border-bottom: 1px solid #eee; }
 .ias > div:first-of-type {
   border-top: 1px solid #eee; }
 
