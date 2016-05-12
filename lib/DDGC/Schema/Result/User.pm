@@ -100,6 +100,11 @@ column updated => {
     set_on_update => 1,
 };
 
+unique_column github_id => {
+    data_type => 'bigint',
+    is_nullable => 1
+};
+
 has_many 'roles', 'DDGC::Schema::Result::User::Role', 'users_id';
 has_many 'subscriptions', 'DDGC::Schema::Result::User::Subscription', 'users_id';
 

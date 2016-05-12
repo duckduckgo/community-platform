@@ -1001,7 +1001,16 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             $complat_user = $c->d->rs('User')->find({username => $temp_username});
                             return $c->forward($c->view('JSON')) unless $complat_user;
 
-                            $temp_url = 'https://duck.co/user/'.$temp_username;
+                            if (my $gh_login = find_gh_login($c, $complat_user)) {
+                                $temp_username = $gh_login;
+                                $temp_fullname = $temp_username;
+                                $temp_url = 'https://github.com/';
+                                $temp_type = 'github';
+                            } else {
+                                $temp_url = 'https://duck.co/user/';
+                            }
+
+                            $temp_url = $temp_url . $temp_username;
                         } elsif ($temp_type eq 'github') {
                             return $c->forward($c->view('JSON')) unless check_github($temp_username);
 
@@ -1027,8 +1036,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     }
 
                     $value = to_json \@result_devs;
-
-                    print $value;
                 }
             }
 
@@ -1170,20 +1177,35 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
 
     if ($c->user && (!$ia)) {
         $is_admin = $c->user->admin;
-        my $gh_id = $c->user->github_id;
         my $dev_milestone = $data->{dev_milestone}? $data->{dev_milestone} : "planning";
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
         my $other_queries = $data->{other_queries}? from_json($data->{other_queries}) : [];
-        my $author = {
-            url => 'https://duck.co/user/' . $c->user->username,
-            name => $c->user->username,
-            type => "duck.co"
-        };
+        my $author;
+        my $maintainer;
 
-        my $maintainer = { 
-            github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
-        };
+        if (my $gh_id = $c->user->github_id) {
+            $author = {
+                url => 'https://github.com/' . $c->user->username,
+                name => $c->user->username,
+                type => "github"
+            };
+
+            my $maintainer = { 
+                github => $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login
+            };
+
+        } else {
+            $author = {
+                url => 'https://duck.co/user/' . $c->user->username,
+                name => $c->user->username,
+                type => "duck.co"
+            };
+
+            $maintainer = { 
+                github => ''
+            };
+        }
 
         # Capitalize each word in the name string
         $name =~ s/([\w']+)/\u\L$1/g;
@@ -1255,17 +1277,32 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
 
             my @files = $gh->pull_request->files($pr_number);
-            my $gh_id = $user->github_id;
             $pr_data = $gh->pull_request->pull($pr_number);
-            my $author = {
-                url => 'https://duck.co/user/' . $c->user->username,
-                name => $user->username,
-                type => "duck.co"
-            };
-            
-            my $maintainer = { 
-                github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
-            };
+            my $author;
+            my $maintainer;
+
+            if (my $gh_id = $c->user->github_id) {
+                $author = {
+                    url => 'https://github.com/' . $c->user->username,
+                    name => $c->user->username,
+                    type => "github"
+                };
+
+                my $maintainer = { 
+                    github => $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login
+                };
+
+            } else {
+                $author = {
+                    url => 'https://duck.co/user/' . $c->user->username,
+                    name => $c->user->username,
+                    type => "duck.co"
+                };
+
+                $maintainer = { 
+                    github => ''
+                };
+            }
             
             my $perl_module;
             my $tab;
@@ -1395,6 +1432,19 @@ sub format_id {
     $id =~ s/^[^a-zA-Z]+$//;
 
     return $id;
+}
+
+sub find_gh_login {
+    my ( $c, $complat_user ) = @_;
+
+    my $login;
+
+    if ($complat_user && (my $gh_id = $complat_user->github_id)) {
+        my $gh_user = $c->d->rs('GitHub::User')->find({github_id => $gh_id});
+        $login = $gh_user? $gh_user->login : undef;
+    }
+
+    return $login;
 }
 
 # Return the properly formatted JSON value
