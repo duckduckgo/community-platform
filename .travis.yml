@@ -3,8 +3,9 @@ sudo: false
 cache:
   directories:
     - $HOME/.cpanm
-    - $HOME/perl5/perlbrew/perls/5.16/lib/site_perl
+    - $HOME/perl5
     - /var/tmp
+    - $HOME/.nvm
 addons:
   apt:
     packages:
@@ -23,11 +24,17 @@ install:
   - cpanm  --quiet  --notest --skip-installed Dist::Zilla
   - dzil authordeps | grep -ve '^\W' | xargs -n 5 -P 10 cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
   - dzil listdeps | grep -ve '^\W' | cpanm  --quiet   --notest  --skip-installed --mirror http://www.cpan.org/ --mirror http://duckpan.org/
+  - find /home/travis/perl5 -name plackup
+  - npm cache clean
+  - npm install
 language: perl
 perl:
   - 5.16
+node_js:
+  - 4.2
 script:
-  - dzil smoke --release --author
+  - prove -lr -j1 t
+  - grunt test-ia
 env:
   global:
     secure: Vfwbe9/9Q/mACQVO6Dq6Jw1WM7CqAFEuqBfS+ukANy6uBgrnw32Sk7LGMYDHGwsaSmiCTz0cfvWZ2RcToCdTK4AyHAPPm/ry69Thnf+BtikE82voL9vv0kSlLZarBBZe7Ll2//sppjMGKdAYiEhYBPn2/3TOeIiYPKnFSsiIwLg=
