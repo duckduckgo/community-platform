@@ -24,7 +24,7 @@ use DDH::UserPage::Generate;
 use DDGC;
 use DDGC::Web;
 
-my $userpage_out = "/home/ddgc/ddgc/test-ddh-userpages";
+my $userpage_out = $ENV{HOME} . "/ddgc/test-ddh-userpages";
 
 my $d = DDGC->new;
 t::lib::DDGC::TestUtils::deploy( undef, $d->db );

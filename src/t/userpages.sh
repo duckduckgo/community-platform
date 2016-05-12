@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export USERPAGE_OUT=/home/ddgc/ddgc/test-ddh-userpages
+export USERPAGE_OUT="${HOME}/ddgc/test-ddh-userpages"
 export SKIP_GENERATE=1
 if [ ! -d "${USERPAGE_OUT}" ] ;  then
     exit -1;
