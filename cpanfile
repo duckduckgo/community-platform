@@ -132,3 +132,5 @@ requires 'Cache::FastMmap', '1.40';
 requires 'HTML::FormatText::WithLinks', '0.15';
 requires 'Cache::LRU', '0.04';
 requires 'Number::Format', '1.73';
+requires 'Starman', '0.4009';
+
