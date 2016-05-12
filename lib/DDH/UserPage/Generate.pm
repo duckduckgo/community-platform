@@ -105,13 +105,6 @@ sub generate {
         my $build_dir = $self->contributor_dir( $contributor );
         my $contributor_data = $self->contributors->{ $contributor };
 
-        my $content = $self->xslate->render(
-            'userpage/index.tx',
-            {
-                data => $contributor_data
-            }
-        );
-
         # JSON dump of user's data
         open my $jfh, '>:encoding(UTF-8)', "$build_dir/index.json" or die();
         print $jfh $self->json->encode( $contributor_data );

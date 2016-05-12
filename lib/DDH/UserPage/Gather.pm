@@ -81,11 +81,32 @@ sub gh_issues {
     },
     {
         join => [ qw/ github_repo / ],
-        columns => [ qw/ id state github_repo_id comments title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at / ],
+        columns => [ qw/ id state github_repo_id comments tags title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at / ],
         collapse => 1,
         group_by => 'me.id',
         result_class => 'DBIx::Class::ResultClass::HashRefInflator',
     });
+
+    for my $issue ( @issues ) {
+        my @tags;
+        my %temp_tags;
+        my $original_tags = $issue->{tags}? decode_json($issue->{tags}) : '';
+        if ($original_tags) {
+            for my $tag (@{$original_tags}) {
+                if (!$temp_tags{$tag->{name}}) {
+                    $temp_tags{$tag->{name}} = {
+                        name => $tag->{name},
+                        color => $tag->{color}
+                    };
+                }
+
+                push @tags, $tag;
+            }
+        }
+
+        $issue->{tags} = \@tags;
+    }
+
 
     my $closed_pulls = $self->ddgc->rs('GitHub::Issue')->search({
       ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
@@ -164,7 +185,7 @@ sub transform {
                 for my $developer ( @{ $ia->{$ia_id}->{developer} } ) {
 
 
-                    if ( (ref $developer eq 'HASH' ) && $developer->{type} &&
+                    if ( ( ref $developer eq 'HASH' ) && $developer->{type} &&
                          $developer->{type} eq 'github' ) {
 
                         ( my $login = $developer->{url} ) =~
@@ -190,13 +211,13 @@ sub transform {
         }
 
         # Issues count for this IA
-        if ( my $issues = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 0 })->count ) {
+        if ( my $issues = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 0, status => 'open' })->count ) {
 
             $ia->{$ia_id}->{issues_count} = $issues;
         }
 
         # PRs count for this IA
-        if ( my $pulls = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 1 })->count ) {
+        if ( my $pulls = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 1, status => 'open' })->count ) {
         
             $ia->{$ia_id}->{prs_count} = $pulls;
         }

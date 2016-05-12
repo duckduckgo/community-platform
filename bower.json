@@ -18,7 +18,8 @@
     "duckduckgo-colors": "duckduckgo/duckduckgo-colors#v0.0.1",
     "duckduckgo-styles": "duckduckgo/duckduckgo-styles#1.0.14",
     "moment": "~2.10.6",
-    "compass-sass-mixins": "*"
+    "compass-sass-mixins": "*",
+    "casperjs": "casperjs#1.1.0"
   },
   "homepage": "https://github.com/duckduckgo/community-platform",
   "description": "Frontend files for duck.co",
