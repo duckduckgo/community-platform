@@ -61,6 +61,15 @@
 	<hr class="mg-top--none" />
 	<div class="row gw">
 		<div class="g third">
+			<p><a class="button  full  tall  h1  yellow" href="<: $u('Admin','upload') :>"><i class="icon-eye-open"></i></a></p>
+		</div>
+		<div class="g twothirds">
+			<h3 class="mg-top--small">Upload images</h3>
+		</div>
+	</div>
+	<hr class="mg-top--none" />
+	<div class="row gw">
+		<div class="g third">
 			<p><a class="button  full  tall  h1  darkblue" href="<: $u('Admin::Event','index') :>"><i class="icon-info-sign"></i></a></p>
 		</div>
 		<div class="g twothirds">

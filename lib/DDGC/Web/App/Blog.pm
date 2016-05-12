@@ -74,19 +74,17 @@ get '/topic/:topic' => sub {
 
 get '/post/:id/:uri' => sub {
     my $params = params('route');
-    my $post;
     # Since we have a login prompt on this page, set last_url
     # TODO: Make this happen for everything (in login handler?)
     session last_url => request->env->{REQUEST_URI};
     my $post = rset('User::Blog')->single_post_ref( $params->{id} );
     if ( $post->{post} ) {
         if ( $post->{post}->{uri} ne $params->{uri} ) {
-            redirect '/post/' . $post->{id} . '/' . $post->{uri};
+            redirect '/post/' . $post->{post}->{id} . '/' . $post->{post}->{uri};
         }
-
         template 'blog/index', {
             %{ $post },
-            title => join ' : ', ( title, $post->{title} ),
+            title => join ' : ', ( title, $post->{post}->{title} ),
         };
     }
     else {
