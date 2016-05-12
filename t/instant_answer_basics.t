@@ -4,6 +4,7 @@ use warnings;
 # Database setup
 BEGIN {
     $ENV{DDGC_DB_DSN} = 'dbi:SQLite:dbname=ddgc_test.db';
+    $ENV{TESTING_GITHUB} = 1;
 }
 
 use Test::More;
@@ -15,11 +16,18 @@ use Plack::Builder;
 use Plack::Session::State::Cookie;
 use Plack::Session::Store::File;
 use File::Temp qw/ tempdir /;
+use File::Path qw/ make_path remove_tree /;
+use File::Spec::Functions;
 use JSON::MaybeXS qw/:all/;
 use URI;
+use DDH::UserPage::Gather;
+use DDH::UserPage::Generate;
+use DateTime;
 
 use DDGC;
 use DDGC::Web;
+
+my $userpage_out = $ENV{HOME} . "/ddgc/test-ddh-userpages";
 
 my $d = DDGC->new;
 t::lib::DDGC::TestUtils::deploy( undef, $d->db );
@@ -197,5 +205,54 @@ $mech->content_contains('test_ia');
 $mech->get_ok('/ia/view/test_ia');
 $mech->title_is('Test Ia'); # Title case filter
 
+if ( -d $userpage_out ) {
+     remove_tree( $userpage_out );
+}
+make_path( $userpage_out );
+
+SKIP: {
+    skip 'No Github API key in environment' unless ( $ENV{DDGC_GITHUB_TOKEN} );
+    $d->github->update_repos( $d->config->github_org, 1 );
+
+    my $now = $d->db->storage->datetime_parser->format_datetime( DateTime->now );
+    ok( $now, "Got RDBMS compatible time stamp" );
+
+    my $daxtheduck = $d->rs('GitHub::User')
+        ->search({ login => 'daxtheduck' })
+        ->one_row
+        ->id;
+    ok( $daxtheduck, "Got GitHub::User id for daxtheduck");
+
+    my $issue = $d->rs('GitHub::Issue')->update_or_create( {
+        github_id => 999,
+        github_repo_id => 1,
+        github_user_id => 123,
+        github_user_id_assignee => $daxtheduck,
+        number => 999,
+        comments => 1,
+        title => "Test PR",
+        body  => "",
+        state => 'open',
+        isa_pull_request => 1,
+        created_at => $now,
+        gh_data => {},
+    } );
+    ok( $issue, "update_or_create returned an instance" );
+    isa_ok( $issue, 'DDGC::DB::Result::GitHub::Issue' );
+
+    DDH::UserPage::Generate->new(
+        contributors => DDH::UserPage::Gather->new->contributors,
+        view_dir => "$FindBin::Dir/../views",
+        build_dir => $userpage_out
+    )->generate;
+
+    local $/;
+    open my $fh, '<:encoding(UTF-8)', catfile(
+        $userpage_out, 'daxtheduck', 'index.json'
+    ) or die $_;
+    my $user_json = <$fh>;
+    my $user_data = decode_json( $user_json );
+    is( $user_data->{pulls_assigned}->{1}->{number}, '999', "dax is assigned PR 999" )
+}
 
 done_testing;
