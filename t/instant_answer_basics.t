@@ -15,11 +15,16 @@ use Plack::Builder;
 use Plack::Session::State::Cookie;
 use Plack::Session::Store::File;
 use File::Temp qw/ tempdir /;
+use File::Path qw/ make_path remove_tree /;
 use JSON::MaybeXS qw/:all/;
 use URI;
+use DDH::UserPage::Gather;
+use DDH::UserPage::Generate;
 
 use DDGC;
 use DDGC::Web;
+
+my $userpage_out = "/home/ddgc/ddgc/test-ddh-userpages";
 
 my $d = DDGC->new;
 t::lib::DDGC::TestUtils::deploy( undef, $d->db );
@@ -197,5 +202,15 @@ $mech->content_contains('test_ia');
 $mech->get_ok('/ia/view/test_ia');
 $mech->title_is('Test Ia'); # Title case filter
 
+if ( -d $userpage_out ) {
+     remove_tree( $userpage_out );
+}
+make_path( $userpage_out );
+
+DDH::UserPage::Generate->new(
+    contributors => DDH::UserPage::Gather->new->contributors,
+    view_dir => "$FindBin::Dir/../views",
+    build_dir => $userpage_out
+);
 
 done_testing;
