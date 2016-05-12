@@ -146,6 +146,7 @@ sub find_ia {
     
     my $repo = $issue->{github_repo}->{full_name};
     $repo =~ s/zeroclickinfo-//;
+    $repo =~ s/duckduckgo\///;
     
     if ( my $ia_issue = $self->ddgc->rs('InstantAnswer::Issues')->find({ issue_id => $issue->{number}, repo => $repo }) ) {
         $issue->{ia_id} = $ia_issue->instant_answer_id;
