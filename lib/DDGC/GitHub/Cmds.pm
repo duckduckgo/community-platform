@@ -41,12 +41,34 @@ sub commits {
     return $self->_drain_api($uri);
 }
 
+sub commit_comments {
+    my ($self, %args) = @_;
+
+    my $owner = uri_escape $args{owner} || die "owner param required";
+    my $repo  = uri_escape $args{repo}  || die "repo param required";
+    my $uri   = URI->new("/repos/$owner/$repo/comments");
+    $uri->query_from(%args);
+
+    return $self->_drain_api($uri);
+}
+
 sub issues {
     my ($self, %args) = @_;
 
     my $owner = uri_escape $args{owner} || die "owner param required";
     my $repo  = uri_escape $args{repo}  || die "repo param required";
     my $uri   = URI->new("/repos/$owner/$repo/issues");
+    $uri->query_form(%args);
+
+    return $self->_drain_api($uri);
+}
+
+sub issue_events {
+    my ($self, %args) = @_;
+
+    my $owner = uri_escape $args{owner} || die "owner param required";
+    my $repo  = uri_escape $args{repo}  || die "repo param required";
+    my $uri   = URI->new("/repos/$owner/$repo/issues/events");
     $uri->query_form(%args);
 
     return $self->_drain_api($uri);

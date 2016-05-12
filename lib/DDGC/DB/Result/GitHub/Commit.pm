@@ -43,5 +43,9 @@ belongs_to github_user_committer => 'DDGC::DB::Result::GitHub::User',
     { 'foreign.id' => 'self.github_user_id_committer' },
     { on_delete => 'cascade', join_type => 'left' };
 
+has_many github_commit_comments => 'DDGC::DB::Result::GitHub::CommitComments',
+     { 'foreign.sha' => 'self.sha' },
+     { cascade_delete => 1 };
+
 no Moose;
 __PACKAGE__->meta->make_immutable( inline_constructor => 0 );

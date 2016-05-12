@@ -114,6 +114,14 @@ sub update_user {
     return $self->update_user_from_data($user);
 }
 
+# only called from update_contributor_activity_from_data
+# used to identify issues that are also PRs
+sub is_issue_pr {
+    my ($self, $issue_id) = @_;
+    my $pull = $self->ddgc->rs('GitHub::Pull')->find({ id => $issue_id });
+    return $pull->{isa_pull_request}; 
+}
+
 # these should probably be in the db or cached in redis
 has owners_team_id      => (is => 'lazy'); 
 has owners_team_members => (is => 'lazy');
@@ -205,6 +213,12 @@ sub wanted_repos {
         duckduckgo/zeroclickinfo-fathead
         duckduckgo/zeroclickinfo-goodies
         duckduckgo/zeroclickinfo-longtail
+        duckduckgo/p5-app-duckpan
+        duckduckgo/duckduckhack-docs
+        duckduckgo/community-platfrom
+        duckduckgo/duckduckgo-publisher
+        duckduckgo/duckduckgo-styles
+        duckduckgo/cpp-libface
     |;
 }
 
@@ -237,12 +251,16 @@ sub update_repo_from_data {
     my $gh_repo = $gh_user
         ->related_resultset('github_repos')
         ->update_or_create(\%columns, { key => 'github_repo_github_id' });
-
+    
     printf "Updating %s/%s\n", $gh_repo->owner_name, $gh_repo->repo_name;
     print "   commits...\n";
     $self->update_repo_commits($gh_repo);
+    print "   commit comments...\n";
+    $self->update_repo_commit_comments($gh_repo);
     print "   issues...\n";
     $self->update_repo_issues($gh_repo);
+    print "   issue events...\n";
+    $self->update_repo_issue_events($gh_repo);
     print "   pulls...\n";
     $self->update_repo_pulls($gh_repo);
     print "   comments...\n";
@@ -331,6 +349,11 @@ sub update_repo_review_comments {
     my @gh_comments;
     push @gh_comments, $self->update_repo_review_comment_from_data($gh_repo, $_)
         for @$comments_data;
+    
+    print "   contributor_github_activity...\n";
+    my @contributions;
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_pull_comment')
+       for @$comments_data;
 
     return \@gh_comments;
 }
@@ -371,6 +394,11 @@ sub update_repo_comments {
 
     my @gh_comments;
     push @gh_comments, $self->update_repo_comment_from_data($gh_repo, $_)
+        for @$comments_data;
+
+    print "   contributor_github_activity...\n";
+    my @contributions;
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_issue_comment')
         for @$comments_data;
 
     return \@gh_comments;
@@ -434,6 +462,11 @@ sub update_repo_commits {
     push @gh_commits, $self->update_repo_commit_from_data($gh_repo, $_)
         for @$commits_data;
 
+    print "   contributor_github_activity...\n";
+    my @contributions;
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_commit')
+       for @$commits_data;
+
     return \@gh_commits;
 }
 
@@ -460,6 +493,52 @@ sub update_repo_commit_from_data {
     return $gh_repo
         ->related_resultset('github_commits')
         ->update_or_create(\%columns, { key => 'github_commit_sha_github_repo_id' });
+}
+
+sub update_repo_commit_comments {
+    my ($self, $gh_repo) = @_;
+
+    my $latest_comment = $gh_repo
+        ->related_resultset('github_commit_comments')
+        ->most_recent;
+
+    my %params;
+    $params{owner} = $gh_repo->owner_name;
+    $params{repo}  = $gh_repo->repo_name;
+    $params{since} = datetime_str($latest_comment->updated_at + $self->one_second)
+        if $latest_comment;
+
+    my $comments_data = $self->gh_api->commit_comments(%params);
+
+    my @gh_comments;
+    push @gh_comments, $self->update_commit_comment_from_data($gh_repo, $_)
+        for @$comments_data;
+
+    print "   contributor_github_activity...\n";
+    my @contributions;
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_commit_comment')
+        for @$comments_data;
+
+    return \@gh_comments;
+}
+
+sub update_repo_commit_comment_from_data {
+    my ($self, $gh_repo, $comment) = @_;
+
+    my %columns;
+    $columns{sha}               = $comment->{commit_id};
+    $columns{github_user_id}    = $self->find_or_update_user($comment->{user}->{login})->id;
+    $columns{comment_id}        = $comment->{id};
+    $columns{position}          = $comment->{position};
+    $columns{line}              = $comment->{line};
+    $columns{body}              = $comment->{body};
+    $columns{created_at}        = parse_datetime($comment->{created_at});
+    $columns{updated_at}        = parse_datetime($comment->{updated_at});
+    $columns{gh_data}           = $comment;
+
+    return $gh_repo
+        ->related_resultset('github_commit_comments')
+        ->update_or_create(\%columns, { key => 'github_commit_comment_sha_comment_id' })
 }
 
 sub update_repo_issues {
@@ -511,6 +590,49 @@ sub update_repo_issue_from_data {
         ->update_or_create(\%columns, { key => 'github_issue_github_id' });
 }
 
+sub update_repo_issue_events {
+    my ($self, $gh_repo) = @_;
+    
+    my $latest_issue_event = $gh_repo
+        ->related_resultset('github_issue_events')
+        ->most_recent;
+
+    my %params;
+    $params{owner}  = $gh_repo->owner_name;
+    $params{repo}   = $gh_repo->repo_name;
+    $params{since}  = datetime_str($latest_issue_event->created_at + $self->one_second)
+        if $latest_issue_event;
+
+    my $issue_events_data = $self->gh_api->issue_events(%params);
+
+    my @gh_issue_events;
+    push @gh_issue_events, $self->update_repo_issue_event_from_data($gh_repo, $_)
+        for @$issue_events_data;
+
+    print "   contributor_github_activity...\n";
+    my @contributions;
+    push @contributions, $self->update_contributor_github_activity_from_data($gh_repo, $_, 'git_')
+        for @$issue_events_data;
+        
+    return \@gh_issue_events;
+}
+
+sub update_repo_issue_event_from_data {
+    my ($self, $gh_repo, $event) = @_;
+
+    my %columns;
+    $columns{github_id}        = $event->{id};
+    $columns{github_issue_id}  = $event->{issue}->{id};
+    $columns{github_user_id}   = $self->find_or_update_user($event->{actor}->{login})->id;
+    $columns{event}            = $event->{event};
+    $columns{created_at}       = parse_datetime($event->{created_at});
+    $columns{gh_data}          = $event;
+    
+    return $gh_repo
+        ->related_resultset('github_issue_events')
+        ->upate_or_create(\%columns, { key => 'github_issue_event_github_id' });
+}
+
 sub update_repo_forks {
     my ($self, $gh_repo) = @_;
 
@@ -523,13 +645,13 @@ sub update_repo_forks {
     my @gh_forks;
     push @gh_forks, $self->update_repo_fork_from_data($gh_repo, $_)
         for @$forks_data;
-
+    
     return \@gh_forks;
 }
 
 sub update_repo_fork_from_data {
     my ($self, $gh_repo, $fork) = @_;
-
+    
     my %columns;
     $columns{github_id}      = $fork->{id};
     $columns{github_user_id} = $self->find_or_update_user($fork->{owner}->{login})->id;
@@ -538,10 +660,44 @@ sub update_repo_fork_from_data {
     $columns{created_at}     = parse_datetime($fork->{created_at});
     $columns{updated_at}     = parse_datetime($fork->{updated_at});
     $columns{gh_data}        = $fork;
-
+    
     return $gh_repo
         ->related_resultset('github_forks')
         ->update_or_create(\%columns, { key => 'github_fork_github_id' });
 }
+
+# populate the github_event table separately while filling in the others
+sub update_contributor_github_activity_from_data {
+    my ($self, $gh_repo, $data, $contribution_type) = @_;
+    
+    my $unique = $data->{sha} || "$data->{id}";
+    my $user;
+        if ($data->{commit}) {
+          $user = 'committer';
+        } elsif ($data->{event_type}) {
+          # if the data has an event_type key, we know it's a github_issue_event
+          $user = 'actor';
+          # we need to diffrentiate between pulls and issue events
+          # so we check to see if the FK issue isa_pull_request is 1 : 0 with is_issue_pr
+          my $type_substr = $self->is_issue_pr($data->{id}) ? 'pull_' : 'issue_';
+          # contruct the correct issue event string
+          $contribution_type = $contribution_type . $type_substr . $data->{event_type};
+        } else {
+          $user = 'user';
+        }
+    my $date = $data->{commit} ? parse_datetime($data->{commit}->{$user}->{date}) : parse_datetime($data->{created_at});
+
+    my %columns;
+    $columns{github_event_id}       = $unique;
+    $columns{github_user_github_id} = $self->find_or_update_user($data->{$user}->{login})->id;
+    $columns{github_repo_github_id} = $gh_repo->id;
+    $columns{contribution_type}     = $contribution_type;
+    $columns{contribution_date}     = $date;
+      
+    return $gh_repo
+           ->related_resultset('contributor_github_activity')
+           ->update_or_create(\%columns);
+}
+
 
 1;

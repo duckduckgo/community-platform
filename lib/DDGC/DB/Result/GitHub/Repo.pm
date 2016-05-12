@@ -60,6 +60,14 @@ has_many github_forks => 'DDGC::DB::Result::GitHub::Fork',
     { 'foreign.github_repo_id' => 'self.id' },
     { cascade_delete => 1 };
 
+has_many github_commit_comments => 'DDGC::DB::Result::GitHub::CommitComments',
+    { 'foreign.github_repo_id' => 'self.id' },
+    { cascade_delete => 1 };
+    
+has_many contributor_github_activity => 'DDGC::DB::Result::ContributorGithubActivity',
+    { 'foreign.github_repo_github_id'=> 'self.id' },
+    { cascade_delete => 0 };
+
 sub owner_name { my @p = split('/',$_[0]->full_name); return $p[0]; }
 sub repo_name  { my @p = split('/',$_[0]->full_name); return $p[1]; }
 
