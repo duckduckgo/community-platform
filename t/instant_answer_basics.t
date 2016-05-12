@@ -211,6 +211,6 @@ DDH::UserPage::Generate->new(
     contributors => DDH::UserPage::Gather->new->contributors,
     view_dir => "$FindBin::Dir/../views",
     build_dir => $userpage_out
-);
+)->generate;
 
 done_testing;
