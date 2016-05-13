@@ -111,7 +111,10 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.count.reviewed_prs = _.size(response.pulls_assigned);
     $scope.count.developed_prs = _.size($scope.prs_open_developed);
     $scope.count.closed_prs = response.closed_pulls;
-    $scope.count.ias = _.size($scope.ias);
+    $scope.count.ias = _.size($scope.ias)
+      $scope.count.filtered = _.filter($scope.maintained.concat($scope.ias_developed_only), function(ia) {
+	  return ia.issues.length > 0;
+      }).length;
 
     $scope.ias_maintained = response.maintained;
 
@@ -137,12 +140,21 @@ app.controller('UserPageController', function($scope, $http, fn) {
     // by default. for 'filterable'
     $scope.show_ias = ($scope.count.maintained_ias) ? $scope.maintained : $scope.ias_developed_only;
 
-    $scope.changeShownIAs = function(which) {
-      $scope.show_ias = which;
+      $scope.changeShownIAs = function(which, open) {
+	  if(open) {
+	      $scope.show_ias = _.filter(which, function(ia) {
+		  ia.expand = true;
+		  return ia.issues.length > 0;
+	      });
+	  } else {
+	      $scope.show_ias = _.each(which, function(ia) {
+		  ia.expand = false;
+	      });
+	  }
 
-      var objKey = _.findKey($scope, which);
-      $scope.addImg(objKey);
-    };
+	  var objKey = _.findKey($scope, which);
+	  $scope.addImg(objKey);
+      };
   }
 });
 

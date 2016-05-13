@@ -143,6 +143,12 @@
 	      <span class="badge">{{count.developed_only_ias}}</span>
 	      </span>
 	    </a>
+	  <a href="#" ng-click="changeShownIAs(maintained.concat(ias_developed_only), true)">
+	    <span ng-class="{'active': show_ias != maintained && show_ias != ias_developed_only}" >
+	      Other Instant Answers
+	      <span class="badge">{{count.filtered}}</span>
+	    </span>
+	  </a>
 	  </div>
 	Instant Answers
 	</h3>
