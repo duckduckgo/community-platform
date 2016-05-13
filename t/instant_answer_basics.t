@@ -162,7 +162,7 @@ test_psgi $app => sub {
         POST '/testutils/new_user',
         { 
             username => 'daxtheduck',
-            github_id => 13421713
+            github_id => 123
         }
     );
     ok( $gh_user_request->is_success, 'Creating a new user with github account linked' );
@@ -240,6 +240,63 @@ SKIP: {
     ok( $issue, "update_or_create returned an instance" );
     isa_ok( $issue, 'DDGC::DB::Result::GitHub::Issue' );
 
+    #test data for count_prs and count_issues
+    my $ia_pr = $d->rs('InstantAnswer::Issues')->update_or_create( {
+        instant_answer_id => 'test_ia',
+        repo => 'longtail',
+        author => $daxtheduck,
+        issue_id => 997,
+        title => "Test PR",
+        body  => "",
+        status => 'open',
+        is_pr => 1,
+        date => $now,
+    } );
+    ok( $ia_pr, "update_or_create returned an instance" );
+    isa_ok( $ia_pr, 'DDGC::DB::Result::InstantAnswer::Issues' );
+
+    my $ia_pr_closed = $d->rs('InstantAnswer::Issues')->update_or_create( {
+        instant_answer_id => 'test_ia',
+        repo => 'longtail',
+        author => $daxtheduck,
+        issue_id => 998,
+        title => "Test PR closed",
+        body  => "",
+        status => 'closed',
+        is_pr => 1,
+        date => $now,
+    } );
+    ok( $ia_pr_closed, "update_or_create returned an instance" );
+    isa_ok( $ia_pr_closed, 'DDGC::DB::Result::InstantAnswer::Issues' );
+
+    my $ia_issue = $d->rs('InstantAnswer::Issues')->update_or_create( {
+        instant_answer_id => 'test_ia',
+        repo => 'longtail',
+        author => $daxtheduck,
+        issue_id => 996,
+        title => "Test Issue",
+        body  => "",
+        status => 'open',
+        is_pr => 0,
+        date => $now,
+    } );
+    ok( $ia_issue, "update_or_create returned an instance" );
+    isa_ok( $ia_issue, 'DDGC::DB::Result::InstantAnswer::Issues' );
+    
+    my $ia_issue2 = $d->rs('InstantAnswer::Issues')->update_or_create( {
+        instant_answer_id => 'test_ia',
+        repo => 'longtail',
+        author => $daxtheduck,
+        issue_id => 995,
+        title => "Test Issue 2",
+        body  => "",
+        status => 'open',
+        is_pr => 0,
+        date => $now,
+    } );
+    ok( $ia_issue2, "update_or_create returned an instance" );
+    isa_ok( $ia_issue2, 'DDGC::DB::Result::InstantAnswer::Issues' );
+    
     DDH::UserPage::Generate->new(
         contributors => DDH::UserPage::Gather->new->contributors,
         view_dir => "$FindBin::Dir/../views",
@@ -252,7 +309,19 @@ SKIP: {
     ) or die $_;
     my $user_json = <$fh>;
     my $user_data = decode_json( $user_json );
-    is( $user_data->{pulls_assigned}->{1}->{number}, '999', "dax is assigned PR 999" )
+    is( $user_data->{pulls_assigned}->{1}->{number}, '999', "dax is assigned PR 999" );
+
+    my $user_ia;
+    for my $temp_ia ( @{ $user_data->{ia}->{live} } ) {
+        if ( $temp_ia->{id} eq 'test_ia') {
+            $user_ia = $temp_ia;
+            last;
+        }
+    }
+
+    ok( $user_ia, "IA found" );
+    is( $user_ia->{prs_count}, 1, "just one open PR" );
+    is( $user_ia->{issues_count}, 2, "two open issues" );
 }
 
 done_testing;
