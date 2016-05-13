@@ -200,8 +200,7 @@
 	</div>
       -->
 
-      <div class="misc">
-	<h3 >Other Issues & Pull Requests</h3>
+      <div class="misc" ng-show="show_ias != maintained && show_ias != ias_developed_only">
 	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container"></div>
 
 

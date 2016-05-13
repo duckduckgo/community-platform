@@ -63,7 +63,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
     });
 
     $scope.prs_open_developed = _.filter(response.pulls_created, function(pull) {
-      return pull.state === "open";
+      return pull.state === "open" && !pull.ia_id;
     });
     $scope.prs_open_reviewed = _.filter(response.pulls_assigned, function(pull) {
       return pull.state === "open";
