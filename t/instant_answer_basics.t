@@ -276,12 +276,26 @@ SKIP: {
         issue_id => 996,
         title => "Test Issue",
         body  => "",
-        status => 'closed',
+        status => 'open',
         is_pr => 0,
         date => $now,
     } );
     ok( $ia_issue, "update_or_create returned an instance" );
     isa_ok( $ia_issue, 'DDGC::DB::Result::InstantAnswer::Issues' );
+    
+    my $ia_issue2 = $d->rs('InstantAnswer::Issues')->update_or_create( {
+        instant_answer_id => 'test_ia',
+        repo => 'longtail',
+        author => $daxtheduck,
+        issue_id => 995,
+        title => "Test Issue 2",
+        body  => "",
+        status => 'open',
+        is_pr => 0,
+        date => $now,
+    } );
+    ok( $ia_issue2, "update_or_create returned an instance" );
+    isa_ok( $ia_issue2, 'DDGC::DB::Result::InstantAnswer::Issues' );
     
     DDH::UserPage::Generate->new(
         contributors => DDH::UserPage::Gather->new->contributors,
@@ -298,7 +312,7 @@ SKIP: {
     is( $user_data->{pulls_assigned}->{1}->{number}, '999', "dax is assigned PR 999" );
 
     my $user_ia;
-    for my $temp_ia ( @{ $user_data->{ia}->{planning} } ) {
+    for my $temp_ia ( @{ $user_data->{ia}->{live} } ) {
         if ( $temp_ia->{id} eq 'test_ia') {
             $user_ia = $temp_ia;
             last;
@@ -307,7 +321,7 @@ SKIP: {
 
     ok( $user_ia, "IA found" );
     is( $user_ia->{prs_count}, 1, "just one open PR" );
-    is( $user_ia->{issues_count}, 0, "no open issues" );
+    is( $user_ia->{issues_count}, 2, "two open issues" );
 }
 
 done_testing;
