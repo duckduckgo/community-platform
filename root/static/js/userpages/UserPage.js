@@ -74,12 +74,13 @@ app.controller('UserPageController', function($scope, $http, fn) {
       return ia.dev_milestone !== "ghosted";
     });
 
+      
+
       _.each($scope.maintained.concat($scope.ias_developed_only), function(ia) {
 	  ia.issues = [];
 
 	  _.each(response.issues_assigned, function(v, k) {
 	      if(v.ia_id === ia.id) {
-		  v.hasMaintainerTag = hasMaintainerTag(v);
 		  ia.issues = ia.issues.concat(v);
 	      }
 	  });
