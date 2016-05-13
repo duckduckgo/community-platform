@@ -157,6 +157,7 @@
 	  <div class="ia-issue" ng-repeat="issue in ia.issues | orderBy: iaSort">
 	    <span class="octicon" ng-class="{true: 'octicon-git-pull-request', false: 'octicon-issue-opened'}[!!issue.isa_pull_request]"></span>
 	    <a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
+	    <div class="maintainer-status">Maintainer Input</div>
 	    <span class="subtitle pull-right">
 	      {{fn.getFromNow(issue.updated_at)}}
 	    </span>

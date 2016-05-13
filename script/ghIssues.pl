@@ -51,7 +51,7 @@ my $gh = Net::GitHub->new(access_token => $token);
 
 my $today = localtime;
 # get last 6 hours of issues
-my $since = $today - (6 * ONE_HOUR);
+my $since = $today - (60 * 24 *  ONE_HOUR);
 
 # get the GH issues
 sub getIssues{

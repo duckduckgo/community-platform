@@ -79,6 +79,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
 	  _.each(response.issues_assigned, function(v, k) {
 	      if(v.ia_id === ia.id) {
+		  v.hasMaintainerTag = hasMaintainerTag(v);
 		  ia.issues = ia.issues.concat(v);
 	      }
 	  });
