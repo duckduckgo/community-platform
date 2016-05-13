@@ -123,7 +123,10 @@ sub gh_user_id {
 sub find_ia {
     my ( $self, $issue ) = @_;
     
-    if ( my $ia_issue = $self->ddgc->rs('InstantAnswer::Issues')->search({ issue_id => $issue->{number} })->first ) {
+    my $repo = $issue->{github_repo}->{full_name};
+    $repo =~ s/zeroclickinfo-//;
+    
+    if ( my $ia_issue = $self->ddgc->rs('InstantAnswer::Issues')->find({ issue_id => $issue->{number}, repo => $repo }) ) {
         $issue->{ia_id} = $ia_issue->instant_answer_id;
 
         if ( my $ia = $self->ddgc->rs('InstantAnswer')->find({ meta_id => $ia_issue->instant_answer_id }) ) {
