@@ -618,3 +618,19 @@ body {
 .ia-issue .octicon-issue-opened {
     margin-left: -2px;
 }
+
+.issue-title {
+    display: inline-block;
+    width: 37em;
+    vertical-align: top;
+}
+
+.plus, .minus {
+    display: inline-block;
+    background: #eee;
+    color: black;
+    width: 24px;
+    text-align: center;
+    border-radius: 50%;
+    height: 24px;
+}

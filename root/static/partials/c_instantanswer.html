@@ -22,3 +22,8 @@
 
 <!-- status -->
 <div ng-if="ia.dev_milestone !== 'live'" class="status full {{ia.dev_milestone}} grid-1">{{ia.dev_milestone}}</div>
+
+<span ng-if="ia.issues.length > 0">
+  <span class="plus" ng-if="!ia.expand">+</span>
+  <span class="minus" ng-if="ia.expand">—</span>
+</span>
