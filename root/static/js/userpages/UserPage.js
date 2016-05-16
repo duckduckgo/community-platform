@@ -102,7 +102,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	  _.each(ia.issues, function(issue) {
 	      if(issue.tags) {
 		  var hasMaintainerApproved = _.filter(issue.tags, function(tag) {
-		      if(tag.name === "Maintainer Approved") {
+		      if(tag.name === "Maintainer Input Requested") {
 			  return true;
 		      }
 		  }).length > 0;
