@@ -502,4 +502,7 @@ body {
   padding: 2px 8px;
   font-size: 12px; }
 
+.ia-issue .octicon-issue-opened {
+  margin-left: -2px; }
+
 /*# sourceMappingURL=UserPage.css.map */
