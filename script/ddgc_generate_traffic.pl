@@ -17,7 +17,10 @@ use DateTime;
 
 my $d = DDGC->new;
 
-my @ids = $d->rs('InstantAnswer')->get_column('meta_id')->all;
+my @ids = $d->rs('InstantAnswer')
+    ->search({dev_milestone => 'live'})
+    ->get_column('meta_id')
+    ->all;
 
 my $today = DateTime->now();
 my $last_month = $today->clone()->subtract(days => 31);
