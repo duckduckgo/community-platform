@@ -238,6 +238,9 @@ sub update_repo_from_data {
         ->related_resultset('github_repos')
         ->update_or_create(\%columns, { key => 'github_repo_github_id' });
 
+    # Don't do a full sync if we're testing
+    return if $ENV{TESTING_GITHUB};
+
     printf "Updating %s/%s\n", $gh_repo->owner_name, $gh_repo->repo_name;
     print "   commits...\n";
     $self->update_repo_commits($gh_repo);
@@ -399,6 +402,10 @@ sub update_repo_comment_from_data {
     $columns{updated_at}     = parse_datetime($comment->{updated_at});
     $columns{gh_data}        = $comment;
 
+    if ( !$gh_repo->github_issues->search( { number => $columns{number} } )->one_row ) {
+        warn sprintf( "Issue %s for %s not found!", $columns{number}, $gh_repo->full_name );
+        return 0;
+    }
     return $gh_repo
         ->related_resultset('github_comments')
         ->update_or_create(\%columns, { key => 'github_comment_github_id' });
@@ -494,6 +501,7 @@ sub update_repo_issue_from_data {
     $columns{github_user_id}   = $self->find_or_update_user($issue->{user}->{login})->id;
     $columns{title}            = $issue->{title};
     $columns{body}             = $issue->{body};
+    $columns{tags}             = $issue->{labels};
     $columns{state}            = $issue->{state};
     $columns{isa_pull_request} = $issue->{pull_request} ? 1 : 0;
     $columns{comments}         = $issue->{comments};

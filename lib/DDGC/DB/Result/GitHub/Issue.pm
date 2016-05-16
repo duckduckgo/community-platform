@@ -19,6 +19,12 @@ column number           => {data_type => 'bigint',  is_nullable => 0};
 column comments         => {data_type => 'int',     is_nullable => 0};
 column title            => {data_type => 'text',    is_nullable => 0};
 column body             => {data_type => 'text',    is_nullable => 0};
+column tags             => {
+    data_type => 'text', 
+    is_nullable => 1,
+    serializer_class => 'JSON',
+    serializer_options => { convert_blessed => 1, pretty => 1 },
+};
 column state            => {data_type => 'text',    is_nullable => 0};
 column isa_pull_request => {data_type => 'int',     is_nullable => 0};
 column github_user_id_assignee => {data_type => 'bigint', is_nullable => 1};
