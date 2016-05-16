@@ -97,6 +97,18 @@ app.controller('UserPageController', function($scope, $http, fn) {
 		  ia.issues = ia.issues.concat(pull);
 	      }
 	  });
+
+
+	  _.each(ia.issues, function(issue) {
+	      if(issue.tags) {
+		  var hasMaintainerApproved = _.filter(issue.tags, function(tag) {
+		      if(tag.name === "Maintainer Approved") {
+			  return true;
+		      }
+		  }).length > 0;
+		  issue.hasMaintainer = hasMaintainerApproved;
+	      }
+	  });
       });
 
       $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {

@@ -145,7 +145,7 @@
 	    </a>
 	  <a href="#" ng-click="changeShownIAs(maintained.concat(ias_developed_only), true)">
 	    <span ng-class="{'active': show_ias != maintained && show_ias != ias_developed_only}" >
-	      Other Instant Answers
+	      Issues & PRs
 	      <span class="badge">{{count.filtered}}</span>
 	    </span>
 	  </a>
@@ -163,7 +163,7 @@
 	  <div class="ia-issue" ng-repeat="issue in ia.issues | orderBy: '-updated_at'">
 	    <span class="octicon" ng-class="{true: 'octicon-git-pull-request', false: 'octicon-issue-opened'}[!!issue.isa_pull_request]"></span>
 	    <a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
-<!--	    <div class="maintainer-status">Maintainer Input</div> -->
+	    <div class="maintainer-status" ng-if="issue.hasMaintainer">Maintainer Input</div>
 	    <span class="subtitle pull-right">
 	      {{fn.getFromNow(issue.updated_at)}}
 	    </span>
