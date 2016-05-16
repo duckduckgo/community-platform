@@ -7,20 +7,17 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
   $scope.comleaders = [
     'ScreapDK',
-    'DavidMascio',
-    'x.15a2',
     'mintsoft',
     'TomBebbington',
     'loganom',
-    'mithrandiragain',
     'bradcater',
     'mattr555',
     'preemeijer',
     'javathunderman',
-    'mrchrisw',
+    'MrChrisW',
     'killerfish',
     'sebasorribas',
-    'nickcalabs',
+    'NickCalabs',
     'haseeb',
     'iambibhas',
     'codenirvana',
@@ -30,8 +27,39 @@ app.controller('UserPageController', function($scope, $http, fn) {
     'GuiltyDolphin'
   ];
 
+  $scope.admins = [
+    'abeyang',
+    'AdamSC1-ddg',
+    'alohaas',
+    'andrey-p',
+    'b1ake',
+    'b2ddg',
+    'bbraithwaite',
+    'bsstoner',
+    'chrismorast',
+    'daxtheduck',
+    'edgesince84',
+    'jagtalon',
+    'jbarrett',
+    'jdorweiler',
+    'jkv',
+    'kablamo',
+    'malbin',
+    'marcantonio',
+    'MariagraziaAlastra',
+    'moollaza',
+    'mrshu',
+    'nilnilnil',
+    'russellholt',
+    'tagawa',
+    'thm',
+    'tommytommytommy',
+    'yegg',
+    'zachthompson',
+    'zekiel'
+  ];
 
-  // for sorting instant answers (live should be first)
+// for sorting instant answers (live should be first)
   $scope.iaSort = function(ia) {
     switch (ia.dev_milestone) {
       case 'live': return 0;
