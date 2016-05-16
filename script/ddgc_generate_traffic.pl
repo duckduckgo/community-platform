@@ -9,8 +9,6 @@ use FindBin;
 use lib $FindBin::Dir . "/../lib";
 
 use DDGC;
-use Carp;
-use Data::Printer;
 use List::MoreUtils qw(zip);
 use List::Util qw(pairs);
 use DateTime;
