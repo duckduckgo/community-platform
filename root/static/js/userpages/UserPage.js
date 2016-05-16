@@ -27,7 +27,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
     'GuiltyDolphin'
   ];
 
-  $scope.admins = [
+  $scope.staff = [
     'abeyang',
     'AdamSC1-ddg',
     'alohaas',
@@ -79,7 +79,15 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.count = {};
     $scope.topics = [];
 
-    $scope.imgUrl = 'https://duckduckgo.com/t/userpage_' + $scope.response.gh_data.login;
+    $scope.role = 'regular';
+
+    if ($scope.staff.indexOf($scope.response.gh_data.login) !== -1) {
+        $scope.role = 'staff';
+    } else if ($scope.comleaders.indexOf($scope.response.gh_data.login) !== -1) {
+        $scope.role = 'comleader';
+    }
+
+    $scope.imgUrl = 'https://duckduckgo.com/t/userpage_' + $scope.role + '_' + $scope.response.gh_data.login;
 
     $scope.newImg = new Image();
     $scope.newImg.src = $scope.imgUrl + '?' + Math.ceil(Math.random() * 1e7);
