@@ -8,6 +8,12 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
   // for sorting instant answers (live should be first)
   $scope.iaSort = function(ia) {
+      var issues = ia.issues.length;
+
+      if(issues > 0) {
+	  return -5 - issues;
+      }
+
     switch (ia.dev_milestone) {
       case 'live': return 0;
       case 'complete': return 10;
@@ -17,6 +23,10 @@ app.controller('UserPageController', function($scope, $http, fn) {
       default: return 1000;
     }
   };
+
+    $scope.iaPriority = function(ia) {
+	return ia.issues.length;
+    }
 
   var initial = false;
 
