@@ -27,7 +27,7 @@
             // console.log("IADevPipeline init()");
             var dev_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
-            var username = $(".user-name a.js-popout-link").text();
+            var username = $.trim($(".header-account-info .user-name a.js-popout-link").text());
 
 	        // 100% width
             $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
@@ -60,8 +60,9 @@
                 }
 
                 // Get username for the at mentions filter
-                var username = $.trim($(".header-account-info .user-name").text());
                 data.username = username;
+
+                console.log(data.username);
 
                 dev_p.data = data;
                 
@@ -440,6 +441,7 @@
                 console.log(milestone);
                 for (var idx = 0; idx < dev_p.data.dev_milestones[milestone].length; idx++) {
                     var temp_ia = dev_p.data.dev_milestones[milestone][idx];
+                    temp_ia.username = dev_p.data.username;
 
                     if (temp_ia.id === meta_id) {
                         return temp_ia;
