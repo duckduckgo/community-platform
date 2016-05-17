@@ -108,6 +108,17 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	      }
 	  });
 
+	  _.each(response.pulls_other, function(pull) {
+	      if(pull.ia_id === ia.id) {
+                  ia.issues = ia.issues.concat(pull);
+              }
+	  });
+
+	  _.each(response.issues_other, function(v, k) {
+	      if(v.ia_id === ia.id) {
+                  ia.issues = ia.issues.concat(v);
+              }
+	  });
 
 	  _.each(ia.issues, function(issue) {
 	      if(issue.tags) {
@@ -119,6 +130,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 		  issue.hasMaintainer = hasMaintainerApproved;
 	      }
 	  });
+
       });
 
       $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {

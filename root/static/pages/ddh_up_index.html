@@ -152,7 +152,7 @@
 	  </div>
 	</h3>
 
-      <div ng-repeat="ia in show_ias | orderBy: iaSort"  ng-class="{false: 'add-space'}[!ia.expand]" ng-click="ia.expand = !ia.expand">
+      <div ng-repeat="ia in show_ias | orderBy: iaSort"  ng-class="{false: 'add-space'}[!ia.expand || ia.issues.length == 0]" ng-click="ia.expand = !ia.expand">
 
 	<div class="instantanswer typeC flex-container" ng-include="'/ddh-static/partials/c_instantanswer.html'">
 	</div>
