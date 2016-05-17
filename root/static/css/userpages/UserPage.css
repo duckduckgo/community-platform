@@ -496,7 +496,8 @@ body {
   color: #F1a031;
   border-radius: 3px;
   padding: 2px 8px;
-  font-size: 12px; }
+  font-size: 12px;
+  margin-left: 9px; }
 
 .ia-issue .octicon-issue-opened {
   margin-left: -2px; }
