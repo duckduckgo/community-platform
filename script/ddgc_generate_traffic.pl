@@ -52,6 +52,7 @@ sub get_random_counts {
 
 foreach my $id (@ids) {
     my @counts = get_random_counts();
+    $d->rs('InstantAnswer::Traffic')->search({answer_id => $id})->delete();
     $d->rs('InstantAnswer::Traffic')->populate([
         [qw( answer_id pixel_type date count )],
         map { my ($date, $count) = @$_; [$id, 'iaoi', $date, $count] } pairs zip (@days, @counts),
