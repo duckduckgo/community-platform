@@ -26,7 +26,7 @@ h2 {
 
 h3 {
   font-size: 21px;
-  margin-bottom: 30px; }
+  margin-bottom: 40px; }
 
 html, body, p, div {
   font-size: 15px;
@@ -44,7 +44,8 @@ html, body, p, div {
 
 .subtitle {
   font-size: 13px;
-  color: #aaa; }
+  color: #aaa;
+  line-height: 2; }
 
 a.subtitle:visited {
   color: #aaa; }
@@ -214,8 +215,8 @@ section {
   text-transform: capitalize; }
   .status.full {
     float: left;
-    margin-left: 0;
-    text-align: center; }
+    margin-left: 20px;
+    text-align: right; }
   .status.live {
     border-color: rgba(89, 159, 73, 0.4);
     color: #599F49; }
@@ -244,26 +245,20 @@ section {
     width: 100%;
     border-radius: 24px; }
 
-.tabs {
-  float: right; }
-  .tabs a {
-    display: inline-block;
-    padding: 4px 0 0 20px;
-    margin-left: 20px;
-    color: #aaa;
-    outline: 0; }
-    .tabs a:not(:first-of-type) {
-      border-left: 1px solid #eee; }
-    .tabs a:hover {
-      color: #333;
-      opacity: 1; }
-    .tabs a > span {
-      padding-bottom: 8px;
-      opacity: 0.7; }
-    .tabs a .active {
-      border-bottom: 2px solid rgba(68, 149, 212, 0.85);
-      color: #333;
-      opacity: 1; }
+.tabs a {
+  display: inline-block;
+  padding: 4px 0 0 20px;
+  margin-left: 20px;
+  color: black;
+  outline: 0; }
+  .tabs a:first-of-type {
+    margin-left: 0;
+    padding-left: 0; }
+  .tabs a > span {
+    padding-bottom: 16px; }
+  .tabs a .active {
+    border-bottom: 2px solid rgba(68, 149, 212, 0.85);
+    color: #333; }
 
 .badge {
   margin-left: 10px;
@@ -274,7 +269,7 @@ section {
   color: rgba(170, 170, 170, 0.5); }
 
 .count {
-  padding-left: 10px;
+  padding-left: 11px;
   color: #aaa; }
 
 header {
@@ -285,6 +280,7 @@ header {
   border-bottom: none;
   padding: 45px 0; }
   header .stats {
+    padding-left: 1.5em;
     margin-left: 259px; }
   header .stats, header div, header p {
     color: #fff; }
@@ -344,7 +340,8 @@ main {
   .issue.hideAvatar .avatars {
     display: none; }
   .issue.typeC, .issue.topic.typeD {
-    font-size: 13px; }
+    font-size: 13px;
+    margin: 0px 20px; }
     .issue.typeC .comment, .issue.topic.typeD .comment {
       padding-left: 0; }
     .issue.typeC strong, .issue.topic.typeD strong {
@@ -354,10 +351,11 @@ main {
     padding-left: 8px;
     white-space: nowrap; }
 
-.ias > div:last-of-type {
-  border-bottom: 1px solid #eee; }
 .ias > div:first-of-type {
   border-top: 1px solid #eee; }
+
+.ias {
+  margin-bottom: 33px; }
 
 .instantanswer {
   padding: 20px 0;
@@ -366,7 +364,7 @@ main {
   border-right: 1px solid #eee;
   background: white; }
   .instantanswer.typeC, .instantanswer.topic.typeD {
-    padding: 12px 1em; }
+    padding: 20px 20px; }
   .instantanswer.typeD {
     padding: 8px 0; }
   .instantanswer .content {
@@ -464,15 +462,14 @@ body {
 
 .issue-link {
   max-width: 60%;
-  display: inline-flex; }
+  font-size: 15px; }
 
 .issue-ellipsis {
   overflow: hidden;
-  font-size: 13px;
   text-overflow: ellipsis; }
 
 .ia-issue {
-  padding-bottom: 0.5em; }
+  padding-bottom: 20px; }
   .ia-issue:last-of-type {
     padding-bottom: 0; }
   .ia-issue a {
@@ -484,7 +481,7 @@ body {
 
 .issue-container {
   background: white;
-  padding: 12px 1em;
+  padding: 18px 20px;
   border-left: 1px solid #eee;
   border-right: 1px solid #eee;
   border-bottom: 1px solid #eee; }
@@ -495,5 +492,41 @@ body {
   	border-bottom: 1px solid #eee;
       }
   */ }
+
+.maintainer-status {
+  display: inline-block;
+  border: 1px solid RGBA(241, 160, 49, 0.33);
+  color: #F1a031;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  margin-left: 9px; }
+
+.ia-issue .octicon-issue-opened {
+  margin-left: -2px; }
+
+.issue-title {
+  display: inline-block;
+  width: 37em;
+  vertical-align: top; }
+
+.plus, .minus {
+  cursor: pointer;
+  display: inline-block;
+  background: #eee;
+  color: black;
+  width: 24px;
+  text-align: center;
+  border-radius: 50%;
+  height: 24px;
+  margin-left: 20px; }
+
+.add-space {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-top: 1px solid #eee; }
+
+.hoverable:hover {
+  background: #edf5fb; }
 
 /*# sourceMappingURL=UserPage.css.map */

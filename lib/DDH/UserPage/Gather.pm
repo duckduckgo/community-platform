@@ -74,9 +74,9 @@ sub gh_issues {
     my ( $self, $gh_id ) = @_;
 
     my @issues = $self->ddgc->rs('GitHub::Issue')->search({
-      ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
-              { 'me.github_user_id' => $gh_id }]
-      ),
+      #( -or => [{ 'me.github_user_id_assignee' => $gh_id },
+      #        { 'me.github_user_id' => $gh_id }]
+      #),
       ( state => 'open' ),
     },
     {
@@ -270,7 +270,13 @@ sub transform {
                     # Pair the issue to an IA if possible
                     $issue = $self->find_ia( $issue );
                     my $issue_assignee = $issue->{github_user_id_assignee};
-                    my $suffix_key = ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) ? 'assigned' : 'created';
+                    my $issue_opener = $issue->{github_user_id_author};
+                    my $suffix_key = 'other';
+                    if ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) {
+                        $suffix_key = 'assigned';
+                    } elsif ( $issue_opener && ( $gh_id eq $issue_opener ) ) {
+                        $suffix_key = 'created';
+                    }
                     
                     if ( $issue->{isa_pull_request} ) {
                         my $pull_key = 'pulls_' . $suffix_key;

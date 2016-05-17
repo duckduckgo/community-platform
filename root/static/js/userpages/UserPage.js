@@ -8,6 +8,12 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
   // for sorting instant answers (live should be first)
   $scope.iaSort = function(ia) {
+      var issues = ia.issues.length;
+
+      if(issues > 0) {
+	  return -5 - issues;
+      }
+
     switch (ia.dev_milestone) {
       case 'live': return 0;
       case 'complete': return 10;
@@ -17,6 +23,10 @@ app.controller('UserPageController', function($scope, $http, fn) {
       default: return 1000;
     }
   };
+
+    $scope.iaPriority = function(ia) {
+	return ia.issues.length;
+    }
 
   var initial = false;
 
@@ -63,7 +73,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
     });
 
     $scope.prs_open_developed = _.filter(response.pulls_created, function(pull) {
-      return pull.state === "open";
+      return pull.state === "open" && !pull.ia_id;
     });
     $scope.prs_open_reviewed = _.filter(response.pulls_assigned, function(pull) {
       return pull.state === "open";
@@ -73,6 +83,8 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.maintained = _.filter(response.maintained, function(ia) {
       return ia.dev_milestone !== "ghosted";
     });
+
+      
 
       _.each($scope.maintained.concat($scope.ias_developed_only), function(ia) {
 	  ia.issues = [];
@@ -95,6 +107,30 @@ app.controller('UserPageController', function($scope, $http, fn) {
 		  ia.issues = ia.issues.concat(pull);
 	      }
 	  });
+
+	  _.each(response.pulls_other, function(pull) {
+	      if(pull.ia_id === ia.id) {
+                  ia.issues = ia.issues.concat(pull);
+              }
+	  });
+
+	  _.each(response.issues_other, function(v, k) {
+	      if(v.ia_id === ia.id) {
+                  ia.issues = ia.issues.concat(v);
+              }
+	  });
+
+	  _.each(ia.issues, function(issue) {
+	      if(issue.tags) {
+		  var hasMaintainerApproved = _.filter(issue.tags, function(tag) {
+		      if(tag.name === "Maintainer Input Requested") {
+			  return true;
+		      }
+		  }).length > 0;
+		  issue.hasMaintainer = hasMaintainerApproved;
+	      }
+	  });
+
       });
 
       $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {
@@ -103,13 +139,16 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
     $scope.count.maintained_ias = _.size($scope.maintained);
     $scope.count.developed_only_ias = _.size($scope.ias_developed_only);
-    $scope.count.open_issues = _.size(response.issues);
+    $scope.count.open_issues = _.size(response.issues_assigned);
     $scope.count.closed_issues = _.size(response.issues) - $scope.count.open_issues;
     $scope.count.open_prs = _.size($scope.prs_open);
     $scope.count.reviewed_prs = _.size(response.pulls_assigned);
-    $scope.count.developed_prs = _.size($scope.prs_open_developed);
+    $scope.count.developed_prs = _.size(response.pulls_assigned);
     $scope.count.closed_prs = response.closed_pulls;
-    $scope.count.ias = _.size($scope.ias);
+    $scope.count.ias = _.size($scope.ias)
+      $scope.count.filtered = _.filter($scope.maintained.concat($scope.ias_developed_only), function(ia) {
+	  return ia.issues.length > 0;
+      }).length;
 
     $scope.ias_maintained = response.maintained;
 
@@ -135,12 +174,21 @@ app.controller('UserPageController', function($scope, $http, fn) {
     // by default. for 'filterable'
     $scope.show_ias = ($scope.count.maintained_ias) ? $scope.maintained : $scope.ias_developed_only;
 
-    $scope.changeShownIAs = function(which) {
-      $scope.show_ias = which;
+      $scope.changeShownIAs = function(which, open) {
+	  if(open) {
+	      $scope.show_ias = _.filter(which, function(ia) {
+		  ia.expand = true;
+		  return ia.issues.length > 0;
+	      });
+	  } else {
+	      $scope.show_ias = _.each(which, function(ia) {
+		  ia.expand = false;
+	      });
+	  }
 
-      var objKey = _.findKey($scope, which);
-      $scope.addImg(objKey);
-    };
+	  var objKey = _.findKey($scope, which);
+	  $scope.addImg(objKey.replace(/_/g, ''));
+      };
   }
 });
 

@@ -84,8 +84,8 @@
 <header>
   <div class="container">
     <div class="stats">
-      <div class="third">
-	<span>All Instant Answers</span>
+      <div class="quarter">
+	<span>Instant Answers</span>
 	<h2>{{count.total_ias}}</h2>
 	</div>
       <!--
@@ -94,12 +94,16 @@
 	<h2>{{count.reviewed_prs}}</h2>
 	</div>
       -->
-      <div class="third">
-	<span>Open Pull Requests</span>
+      <div class="quarter">
+	<span>Pull Requests</span>
 	<h2>{{count.developed_prs}}</h2>
 	</div>
-      <div class="fourth">
-	<span>Closed Pull Requests</span>
+      <div class="quarter">
+	<span>Issues</span>
+	<h2>{{count.open_issues}}</h2>
+      </div>
+      <div class="quarter">
+	<span>Closed</span>
 	<h2>{{count.closed_prs}}</h2>
 	</div>
       </div>
@@ -143,27 +147,35 @@
 	      <span class="badge">{{count.developed_only_ias}}</span>
 	      </span>
 	    </a>
+	  <a href="#" ng-click="changeShownIAs(maintained.concat(ias_developed_only), true)">
+	    <span ng-class="{'active': show_ias != maintained && show_ias != ias_developed_only}" >
+	      Issues & PRs
+	      <span class="badge">{{count.filtered}}</span>
+	    </span>
+	  </a>
 	  </div>
-	Instant Answers
 	</h3>
 
-      <div ng-repeat="ia in show_ias | orderBy: iaSort" ng-click="ia.expand = !ia.expand" ng-class="{false: 'add-space'}[!ia.expand]">
-	<div class="space"></div>
+      <div ng-repeat="ia in show_ias | orderBy: iaSort" ng-class="{false: 'add-space'}[!ia.expand || ia.issues.length == 0]" ng-click="ia.expand = !ia.expand">
 
-	<div class="instantanswer typeC flex-container" ng-include="'/ddh-static/partials/c_instantanswer.html'">
+	<div class="instantanswer typeC flex-container" ng-include="'/ddh-static/partials/c_instantanswer.html'" ng-class="{true: 'hoverable'}[ia.issues.length > 0]">
 	</div>
 
-	<div class="issue-container" ng-class="{true: 'unexpand', false: 'expand'}[!ia.expand || ia.issues.length == 0]">
-	  <div class="ia-issue" ng-repeat="issue in ia.issues | orderBy: iaSort">
+	<div ng-click="$event.stopPropagation()" class="issue-container" ng-class="{true: 'unexpand', false: 'expand'}[!ia.expand || ia.issues.length == 0]">
+	  <div class="ia-issue" ng-repeat="issue in ia.issues | orderBy: '-updated_at'">
 	    <span class="octicon" ng-class="{true: 'octicon-git-pull-request', false: 'octicon-issue-opened'}[!!issue.isa_pull_request]"></span>
-	    <a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
+
+	    <div style="display: inline-block;">
+	      <a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
+	      <div class="maintainer-status" ng-if="issue.hasMaintainer">Maintainer Input</div>
+	    </div>
+
 	    <span class="subtitle pull-right">
 	      {{fn.getFromNow(issue.updated_at)}}
 	    </span>
 	  </div>
 	</div>
 
-	<div class="space"></div>
       </div>
 
       </section>
@@ -193,8 +205,7 @@
 	</div>
       -->
 
-      <div class="misc">
-	<h3 >Other Issues & Pull Requests</h3>
+      <div class="misc" ng-show="show_ias != maintained && show_ias != ias_developed_only">
 	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container"></div>
 
 
