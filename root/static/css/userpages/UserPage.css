@@ -492,7 +492,7 @@ body {
 
 .maintainer-status {
   display: inline-block;
-  border: 1px solid #f1a133;
+  border: 1px solid RGBA(241, 160, 49, 0.33);
   color: #F1a031;
   border-radius: 3px;
   padding: 2px 8px;
