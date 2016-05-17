@@ -26,7 +26,7 @@ h2 {
 
 h3 {
   font-size: 21px;
-  margin-bottom: 30px; }
+  margin-bottom: 40px; }
 
 html, body, p, div {
   font-size: 15px;
@@ -256,7 +256,7 @@ section {
     margin-left: 0;
     padding-left: 0; }
   .tabs a > span {
-    padding-bottom: 8px; }
+    padding-bottom: 16px; }
   .tabs a .active {
     border-bottom: 2px solid rgba(68, 149, 212, 0.85);
     color: #333; }

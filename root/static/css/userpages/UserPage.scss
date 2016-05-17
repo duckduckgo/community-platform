@@ -85,7 +85,7 @@ a, a:visited {
 }
 
 h2 { font-size: $tx-xxl; }
-h3 { font-size: $tx-lg; margin-bottom: $pad-sm; }
+h3 { font-size: $tx-lg; margin-bottom: 40px; }
 
 html, body, p, div {
     font-size: $tx;
@@ -276,7 +276,7 @@ section {
 	}
 
 	& > span {
-	    padding-bottom: 8px;
+	    padding-bottom: 16px;
 	    }
 
 	.active {
