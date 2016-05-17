@@ -466,7 +466,7 @@ body {
   text-overflow: ellipsis; }
 
 .ia-issue {
-  padding-bottom: 0.5em; }
+  padding-bottom: 20px; }
   .ia-issue:last-of-type {
     padding-bottom: 0; }
   .ia-issue a {
@@ -513,6 +513,7 @@ body {
   width: 24px;
   text-align: center;
   border-radius: 50%;
-  height: 24px; }
+  height: 24px;
+  margin-left: 20px; }
 
 /*# sourceMappingURL=UserPage.css.map */
