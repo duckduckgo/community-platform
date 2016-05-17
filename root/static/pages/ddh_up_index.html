@@ -156,9 +156,9 @@
 	  </div>
 	</h3>
 
-      <div ng-repeat="ia in show_ias | orderBy: iaSort"  ng-class="{false: 'add-space'}[!ia.expand || ia.issues.length == 0]" ng-click="ia.expand = !ia.expand">
+      <div ng-repeat="ia in show_ias | orderBy: iaSort" ng-class="{false: 'add-space'}[!ia.expand || ia.issues.length == 0]" ng-click="ia.expand = !ia.expand">
 
-	<div class="instantanswer typeC flex-container" ng-include="'/ddh-static/partials/c_instantanswer.html'">
+	<div class="instantanswer typeC flex-container" ng-include="'/ddh-static/partials/c_instantanswer.html'" ng-class="{true: 'hoverable'}[ia.issues.length > 0]">
 	</div>
 
 	<div ng-click="$event.stopPropagation()" class="issue-container" ng-class="{true: 'unexpand', false: 'expand'}[!ia.expand || ia.issues.length == 0]">

@@ -268,7 +268,7 @@ section {
   color: rgba(170, 170, 170, 0.5); }
 
 .count {
-  padding-left: 5px;
+  padding-left: 11px;
   color: #aaa; }
 
 header {
@@ -524,5 +524,8 @@ body {
   margin-top: 5px;
   margin-bottom: 5px;
   border-top: 1px solid #eee; }
+
+.hoverable:hover {
+  background: #edf5fb; }
 
 /*# sourceMappingURL=UserPage.css.map */

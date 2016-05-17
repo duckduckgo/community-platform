@@ -297,7 +297,7 @@ section {
 .fa, .octicon { color: $gray-50; }
 
 .count {
-    padding-left: 5px;
+    padding-left: 11px;
     color: $gray;
 }
 
@@ -638,4 +638,8 @@ body {
     margin-top: 5px;
     margin-bottom: 5px;
     border-top: 1px solid #eee;
+}
+
+.hoverable:hover {
+    background: #edf5fb;
 }
