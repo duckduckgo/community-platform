@@ -32,6 +32,8 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON(json_url, function(ia_data) {
+                    ia_data.username = this_username;
+
                     //Get user permissions
                     ia_data.permissions = {};
                     if ($(".special-permissions").length) {
