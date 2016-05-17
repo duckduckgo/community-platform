@@ -51,8 +51,9 @@ sub get_random_counts {
     map { int(rand($max)) } (0..$num_days);
 }
 
+$d->rs('InstantAnswer::Traffic')->delete();
+
 foreach my $id (@ids) {
-    $d->rs('InstantAnswer::Traffic')->search({answer_id => $id})->delete();
     my @counts = get_random_counts() or next;
     $d->rs('InstantAnswer::Traffic')->populate([
         [qw( answer_id pixel_type date count )],
