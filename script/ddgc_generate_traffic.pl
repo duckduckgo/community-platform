@@ -26,6 +26,22 @@ option days => (
     default => $default_days,
 );
 
+my $d = DDGC->new;
+
+option id => (
+    is        => 'ro',
+    format    => 's@',
+    autosplit => ',',
+    doc       => 'IDs of Instant Answers to generate traffic for',
+    default   => sub {
+        my @ids = $d->rs('InstantAnswer')
+                    ->search({dev_milestone => 'live'})
+                    ->get_column('meta_id')
+                    ->all;
+        return \@ids;
+    },
+);
+
 my $opt = DDGC::Cmd::GenerateTraffic->new_with_options;
 
 my $num_days = $opt->{days};
@@ -35,12 +51,7 @@ my $start_date = DateTime->now->subtract(days => $num_days);
 
 my @days = map { $start_date->clone->add(days => $_)->strftime('%F') } (0..$num_days);
 
-my $d = DDGC->new;
-
-my @ids = $d->rs('InstantAnswer')
-    ->search({dev_milestone => 'live'})
-    ->get_column('meta_id')
-    ->all;
+my @ids = @{$opt->id};
 
 my @bounds = (0, 10, 100, 1_000, 10_000);
 
