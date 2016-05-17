@@ -15,7 +15,16 @@ use List::Util qw(any pairs);
 use DateTime;
 
 use Moo;
-use MooX::Options;
+use MooX::Options
+    description => 'generate random traffic data',
+    authors     => 'Ben Moon <guiltydolphin@gmail.com>',
+    synopsis    => '
+
+    To generate a week of traffic for the calculator, with each
+    day having a maximum count of 10:
+
+    ddgc_generate_traffic.pl --id=calculator --days=7 --max=10
+';
 
 my $default_days = 31;
 
