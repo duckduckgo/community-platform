@@ -42,16 +42,12 @@ my @ids = $d->rs('InstantAnswer')
     ->get_column('meta_id')
     ->all;
 
-sub generate_bounded_counts {
-    my $max = shift;
-    map { int(rand($max)) } (0..$num_days);
-}
-
 my @bounds = (10, 100, 1_000, 10_000);
 
 # Generate a set of counts, bounded in sections (small, large etc)
 sub get_random_counts {
-    generate_bounded_counts($bounds[int(rand($#bounds))])
+    my $max = $bounds[int(rand($#bounds))];
+    map { int(rand($max)) } (0..$num_days);
 }
 
 foreach my $id (@ids) {
