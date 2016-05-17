@@ -2,8 +2,6 @@
 
 <div class="grid-6">
   <strong><a href="https://duck.co/ia/view/{{ia.id}}" ng-click="addImg('iapage', ia.id); $event.stopPropagation()">{{ia.name}}</a></strong>
-  <span class="count" ng-if="ia.prs_count">{{ia.prs_count}} <span class="octicon octicon-git-pull-request"></span></span>
-  <span class="count" ng-if="ia.issues_count">{{ia.issues_count}} <span class="octicon octicon-issue-opened"></span></span>
 </div>
 
 <!-- developers -->
@@ -22,6 +20,10 @@
     </div>
     -->
 </div>
+
+<span class="count" ng-if="ia.prs_count">{{ia.prs_count}} <span class="octicon octicon-git-pull-request"></span></span>
+<span class="count" ng-if="ia.issues_count">{{ia.issues_count}} <span class="octicon octicon-issue-opened"></span></span>
+
 
 <!-- status -->
 <div ng-if="ia.dev_milestone !== 'live'" class="status full {{ia.dev_milestone}} grid-1">{{ia.dev_milestone}}</div>

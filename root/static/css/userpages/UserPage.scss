@@ -216,7 +216,7 @@ section {
 
     &.full {
 	float: left;
-	margin-left: 0;
+	margin-left: 20px;
 	text-align: center;
 	}
     &.live {
@@ -301,7 +301,7 @@ section {
 .fa, .octicon { color: $gray-50; }
 
 .count {
-    padding-left: $pad-xxxs;
+    padding-left: 5px;
     color: $gray;
 }
 
