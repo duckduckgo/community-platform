@@ -42,17 +42,18 @@ my @ids = $d->rs('InstantAnswer')
     ->get_column('meta_id')
     ->all;
 
-my @bounds = (10, 100, 1_000, 10_000);
+my @bounds = (0, 10, 100, 1_000, 10_000);
 
 # Generate a set of counts, bounded in sections (small, large etc)
 sub get_random_counts {
     my $max = $bounds[int(rand($#bounds))];
+    return () if $max == 0;
     map { int(rand($max)) } (0..$num_days);
 }
 
 foreach my $id (@ids) {
-    my @counts = get_random_counts();
     $d->rs('InstantAnswer::Traffic')->search({answer_id => $id})->delete();
+    my @counts = get_random_counts() or next;
     $d->rs('InstantAnswer::Traffic')->populate([
         [qw( answer_id pixel_type date count )],
         map { my ($date, $count) = @$_; [$id, 'iaoi', $date, $count] } pairs zip (@days, @counts),
