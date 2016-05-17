@@ -51,6 +51,12 @@ option max => (
         " a maximum of 0 implies there wasn't enough traffic data",
 );
 
+option clear => (
+    is      => 'ro',
+    default => 0,
+    doc     => 'delete all traffic data and exit',
+);
+
 my $opt = DDGC::Cmd::GenerateTraffic->new_with_options;
 
 my $num_days = $opt->{days};
@@ -73,6 +79,7 @@ sub get_random_counts {
 }
 
 $d->rs('InstantAnswer::Traffic')->delete();
+exit if $opt->{clear};
 
 foreach my $id (@ids) {
     my @counts = get_random_counts() or next;
