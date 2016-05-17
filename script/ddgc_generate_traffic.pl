@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+package DDGC::Cmd::GenerateTraffic;
 
 use strict;
 use warnings;
@@ -13,6 +14,27 @@ use List::MoreUtils qw(zip);
 use List::Util qw(pairs);
 use DateTime;
 
+use Moo;
+use MooX::Options;
+
+my $default_days = 31;
+
+option days => (
+    is      => 'ro',
+    format  => 'i',
+    doc     => "number of days of data to generate (default $default_days)",
+    default => $default_days,
+);
+
+my $opt = DDGC::Cmd::GenerateTraffic->new_with_options;
+
+my $num_days = $opt->{days};
+die 'number of days must be positive!' unless $num_days >= 0;
+
+my $start_date = DateTime->now->subtract(days => $num_days);
+
+my @days = map { $start_date->clone->add(days => $_)->strftime('%F') } (0..$num_days);
+
 my $d = DDGC->new;
 
 my @ids = $d->rs('InstantAnswer')
@@ -20,15 +42,9 @@ my @ids = $d->rs('InstantAnswer')
     ->get_column('meta_id')
     ->all;
 
-my $today = DateTime->now();
-my $last_month = $today->clone()->subtract(days => 31);
-
-my @days = map { $last_month->clone->add(days => $_)->strftime('%F') } (1..31);
-my $days = \@days;
-
 sub generate_bounded_counts {
     my ($min, $max) = @_;
-    map { int(rand($max+$min)) + $min } (1..31);
+    map { int(rand($max+$min)) + $min } (0..$num_days);
 }
 
 my %bounds = (
@@ -36,7 +52,7 @@ my %bounds = (
     large => [1_000, 100_000],
 );
 
-# Returns a month's worth of counts
+# Generate a set of counts, bounded in sections (small, large etc)
 sub get_random_counts {
     generate_bounded_counts(int(rand())
         ? @{$bounds{small}} : @{$bounds{large}}
