@@ -26,6 +26,10 @@ use MooX::Options
     ddgc_generate_traffic.pl --id=calculator --days=7 --max=10
 ';
 
+#######################################################################
+#                               Options                               #
+#######################################################################
+
 my $default_days = 31;
 
 option days => (
@@ -66,6 +70,10 @@ option clear => (
     doc     => 'delete all traffic data and exit',
 );
 
+######################
+#  Fetching Options  #
+######################
+
 my $opt = DDGC::Cmd::GenerateTraffic->new_with_options;
 
 my $num_days = $opt->{days};
@@ -79,6 +87,10 @@ my @ids = @{$opt->id};
 
 my @bounds = @{$opt->max};
 die 'cannot have a negative maximum!' if any { $_ < 0 } @bounds;
+
+#######################################################################
+#                         Traffic Generation                          #
+#######################################################################
 
 # Generate a set of counts, bounded in sections (small, large etc)
 sub get_random_counts {
