@@ -32,11 +32,11 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON(json_url, function(ia_data) {
-                    ia_data.username = this_username;
 
                     //Get user permissions
                     ia_data.permissions = {};
                     if ($(".special-permissions").length) {
+                        ia_data.username = this_username;
                         ia_data.permissions = {can_edit: 1};
 
 			// See if we can show the generate screenshot button.
@@ -68,6 +68,8 @@
                         } else {
                             ia_data.edited_dev_milestone = ia_data.live.dev_milestone;
                         }
+                    } else {
+                        ia_data.live.username = this_username;
                     }
 
                     // Separate back-end files from front-end ones
