@@ -360,7 +360,7 @@ main {
   border-right: 1px solid #eee;
   background: white; }
   .instantanswer.typeC, .instantanswer.topic.typeD {
-    padding: 12px 1em; }
+    padding: 12px 20px; }
   .instantanswer.typeD {
     padding: 8px 0; }
   .instantanswer .content {
@@ -478,7 +478,7 @@ body {
 
 .issue-container {
   background: white;
-  padding: 12px 1em;
+  padding: 12px 20px;
   border-left: 1px solid #eee;
   border-right: 1px solid #eee;
   border-bottom: 1px solid #eee; }

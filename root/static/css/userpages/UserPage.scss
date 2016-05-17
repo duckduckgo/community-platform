@@ -429,7 +429,7 @@ main {
     border-right: 1px solid $gray-lt;
     background: white;
 
-    &.typeC { padding: 12px 1em; }
+    &.typeC { padding: 12px 20px; }
 
     &.typeD {padding: 8px 0;}
 
@@ -587,7 +587,7 @@ body {
 
 .issue-container {
     background: white;
-    padding: 12px 1em;
+    padding: 12px 20px;
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
     border-bottom: 1px solid #eee;
