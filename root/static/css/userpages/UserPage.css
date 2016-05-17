@@ -340,7 +340,8 @@ main {
   .issue.hideAvatar .avatars {
     display: none; }
   .issue.typeC, .issue.topic.typeD {
-    font-size: 13px; }
+    font-size: 13px;
+    margin: 0px 20px; }
     .issue.typeC .comment, .issue.topic.typeD .comment {
       padding-left: 0; }
     .issue.typeC strong, .issue.topic.typeD strong {

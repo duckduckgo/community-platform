@@ -403,7 +403,7 @@ main {
     &.hideAvatar .avatars { display: none; }
     &.typeC {
 	font-size: $tx-sm;
-
+	margin: 0px 20px;
 	.comment { padding-left: 0; }
 	strong { padding-right: 8px; }
 	}
