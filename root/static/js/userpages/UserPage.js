@@ -175,7 +175,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	  }
 
 	  var objKey = _.findKey($scope, which);
-	  $scope.addImg(objKey);
+	  $scope.addImg(objKey.replace(/_/g, ''));
       };
   }
 });

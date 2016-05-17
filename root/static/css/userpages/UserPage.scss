@@ -559,12 +559,11 @@ body {
 
 .issue-link {
     max-width: 60%;
-    display: inline-flex;
+    font-size: 15px;
 }
 
 .issue-ellipsis {
     overflow: hidden;
-    font-size: 13px;
     text-overflow: ellipsis
 }
 
@@ -627,6 +626,7 @@ body {
 }
 
 .plus, .minus {
+    cursor: pointer;
     display: inline-block;
     background: #eee;
     color: black;
