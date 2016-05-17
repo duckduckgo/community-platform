@@ -353,6 +353,9 @@ main {
 .ias > div:first-of-type {
   border-top: 1px solid #eee; }
 
+.ias {
+  margin-bottom: 33px; }
+
 .instantanswer {
   padding: 20px 0;
   border-bottom: 1px solid #eee;
