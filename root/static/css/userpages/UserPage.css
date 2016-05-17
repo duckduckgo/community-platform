@@ -279,6 +279,7 @@ header {
   border-bottom: none;
   padding: 45px 0; }
   header .stats {
+    padding-left: 1.5em;
     margin-left: 259px; }
   header .stats, header div, header p {
     color: #fff; }

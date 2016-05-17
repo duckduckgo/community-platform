@@ -84,8 +84,8 @@
 <header>
   <div class="container">
     <div class="stats">
-      <div class="third">
-	<span>All Instant Answers</span>
+      <div class="quarter">
+	<span>Instant Answers</span>
 	<h2>{{count.total_ias}}</h2>
 	</div>
       <!--
@@ -94,12 +94,16 @@
 	<h2>{{count.reviewed_prs}}</h2>
 	</div>
       -->
-      <div class="third">
-	<span>Open Pull Requests</span>
+      <div class="quarter">
+	<span>Pull Requests</span>
 	<h2>{{count.developed_prs}}</h2>
 	</div>
-      <div class="fourth">
-	<span>Closed Pull Requests</span>
+      <div class="quarter">
+	<span>Issues</span>
+	<h2>{{count.open_issues}}</h2>
+      </div>
+      <div class="quarter">
+	<span>Closed</span>
 	<h2>{{count.closed_prs}}</h2>
 	</div>
       </div>

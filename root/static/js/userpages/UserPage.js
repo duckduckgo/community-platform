@@ -139,11 +139,11 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
     $scope.count.maintained_ias = _.size($scope.maintained);
     $scope.count.developed_only_ias = _.size($scope.ias_developed_only);
-    $scope.count.open_issues = _.size(response.issues);
+    $scope.count.open_issues = _.size(response.issues_assigned);
     $scope.count.closed_issues = _.size(response.issues) - $scope.count.open_issues;
     $scope.count.open_prs = _.size($scope.prs_open);
     $scope.count.reviewed_prs = _.size(response.pulls_assigned);
-    $scope.count.developed_prs = _.size($scope.prs_open_developed);
+    $scope.count.developed_prs = _.size(response.pulls_assigned);
     $scope.count.closed_prs = response.closed_pulls;
     $scope.count.ias = _.size($scope.ias)
       $scope.count.filtered = _.filter($scope.maintained.concat($scope.ias_developed_only), function(ia) {
