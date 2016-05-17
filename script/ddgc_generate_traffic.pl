@@ -71,3 +71,5 @@ foreach my $id (@ids) {
         map { my ($date, $count) = @$_; [$id, 'iaoi', $date, $count] } pairs zip (@days, @counts),
     ]);
 }
+
+1;
