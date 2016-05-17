@@ -43,19 +43,19 @@ my @ids = $d->rs('InstantAnswer')
     ->all;
 
 sub generate_bounded_counts {
-    my ($min, $max) = @_;
-    map { int(rand($max+$min)) + $min } (0..$num_days);
+    my $max = shift;
+    map { int(rand($max)) } (0..$num_days);
 }
 
 my %bounds = (
-    small => [0, 3_000],
-    large => [1_000, 100_000],
+    small => 3_000,
+    large => 100_000,
 );
 
 # Generate a set of counts, bounded in sections (small, large etc)
 sub get_random_counts {
     generate_bounded_counts(int(rand())
-        ? @{$bounds{small}} : @{$bounds{large}}
+        ? $bounds{small} : $bounds{large}
     );
 }
 
