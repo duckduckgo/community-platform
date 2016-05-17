@@ -215,7 +215,7 @@ section {
   .status.full {
     float: left;
     margin-left: 20px;
-    text-align: center; }
+    text-align: right; }
   .status.live {
     border-color: rgba(89, 159, 73, 0.4);
     color: #599F49; }
