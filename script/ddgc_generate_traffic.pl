@@ -11,7 +11,7 @@ use lib $FindBin::Dir . "/../lib";
 
 use DDGC;
 use List::MoreUtils qw(zip);
-use List::Util qw(pairs);
+use List::Util qw(any pairs);
 use DateTime;
 
 use Moo;
@@ -42,6 +42,15 @@ option id => (
     },
 );
 
+option max => (
+    is        => 'ro',
+    format    => 'i@',
+    autosplit => ',',
+    default   => sub { [0, 10, 100, 1_000, 10_000] },
+    doc       => 'maximum counts to randomly choose between;' .
+        " a maximum of 0 implies there wasn't enough traffic data",
+);
+
 my $opt = DDGC::Cmd::GenerateTraffic->new_with_options;
 
 my $num_days = $opt->{days};
@@ -53,7 +62,8 @@ my @days = map { $start_date->clone->add(days => $_)->strftime('%F') } (0..$num_
 
 my @ids = @{$opt->id};
 
-my @bounds = (0, 10, 100, 1_000, 10_000);
+my @bounds = @{$opt->max};
+die 'cannot have a negative maximum!' if any { $_ < 0 } @bounds;
 
 # Generate a set of counts, bounded in sections (small, large etc)
 sub get_random_counts {
