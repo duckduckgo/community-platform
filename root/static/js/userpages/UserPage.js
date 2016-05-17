@@ -121,6 +121,10 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	  });
 
 	  _.each(ia.issues, function(issue) {
+	      if(issue.title.length > 70) {
+		  issue.title = issue.title.substring(0, 70) + "...";
+	      }
+
 	      if(issue.tags) {
 		  var hasMaintainerApproved = _.filter(issue.tags, function(tag) {
 		      if(tag.name === "Maintainer Input Requested") {
