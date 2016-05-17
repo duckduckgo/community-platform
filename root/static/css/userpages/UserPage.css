@@ -250,8 +250,6 @@ section {
   margin-left: 20px;
   color: black;
   outline: 0; }
-  .tabs a:not(:first-of-type) {
-    border-left: 1px solid #eee; }
   .tabs a:first-of-type {
     margin-left: 0;
     padding-left: 0; }

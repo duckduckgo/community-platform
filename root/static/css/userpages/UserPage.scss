@@ -266,10 +266,6 @@ section {
 	color: black;
 	outline: 0;
 
-	&:not(:first-of-type) {
-	    border-left: 1px solid $gray-lt;
-	    }
-	
 	&:first-of-type {
 	    margin-left: 0;
 	    padding-left: 0;
