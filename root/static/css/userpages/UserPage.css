@@ -244,26 +244,27 @@ section {
     width: 100%;
     border-radius: 24px; }
 
-.tabs {
-  float: right; }
-  .tabs a {
-    display: inline-block;
-    padding: 4px 0 0 20px;
-    margin-left: 20px;
-    color: #aaa;
-    outline: 0; }
-    .tabs a:not(:first-of-type) {
-      border-left: 1px solid #eee; }
-    .tabs a:hover {
-      color: #333;
-      opacity: 1; }
-    .tabs a > span {
-      padding-bottom: 8px;
-      opacity: 0.7; }
-    .tabs a .active {
-      border-bottom: 2px solid rgba(68, 149, 212, 0.85);
-      color: #333;
-      opacity: 1; }
+.tabs a {
+  display: inline-block;
+  padding: 4px 0 0 20px;
+  margin-left: 20px;
+  color: #aaa;
+  outline: 0; }
+  .tabs a:not(:first-of-type) {
+    border-left: 1px solid #eee; }
+  .tabs a:first-of-type {
+    margin-left: 0;
+    padding-left: 0; }
+  .tabs a:hover {
+    color: #333;
+    opacity: 1; }
+  .tabs a > span {
+    padding-bottom: 8px;
+    opacity: 0.7; }
+  .tabs a .active {
+    border-bottom: 2px solid rgba(68, 149, 212, 0.85);
+    color: #333;
+    opacity: 1; }
 
 .badge {
   margin-left: 10px;

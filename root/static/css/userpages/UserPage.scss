@@ -259,8 +259,6 @@ section {
 }
 
 .tabs {
-    float: right;
-
     a {
 	display: inline-block;
 	padding: 4px 0 0 $pad-xxs;
@@ -271,6 +269,11 @@ section {
 	&:not(:first-of-type) {
 	    border-left: 1px solid $gray-lt;
 	    }
+	
+	&:first-of-type {
+	    margin-left: 0;
+	    padding-left: 0;
+	}
 
 	&:hover {
 	    color: $black;
