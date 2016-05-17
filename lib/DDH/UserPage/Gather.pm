@@ -153,6 +153,13 @@ sub find_ia {
 
         if ( my $ia = $self->ddgc->rs('InstantAnswer')->find({ meta_id => $ia_issue->instant_answer_id }) ) {
             $issue->{ia_name} = $ia->name;
+
+            if ( my $login = $ia->maintainer? $ia->maintainer->github : undef ) {
+                $issue->{maintainer} = {
+                    username => $login,
+                    avatar_url => $self->get_avatar($login)
+                }
+            }
         }
     }
 
