@@ -10,7 +10,6 @@
   <div ng-if="!issue.ia_name">
       <span style="width: initial;" class="one-line issue-name"><strong><a class="issue-link one-line" href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}" ng-click="addImg('issue', issue.github_repo.full_name + issue.number)" ><div class="issue-ellipsis">{{issue.title}}</div></a>
       </strong>
-	<span class="subtitle comment" ng-if="issue.comments">{{issue.comments}} <span class="octicon octicon-comment"></span></span>
       </span>
   </div>
 
