@@ -517,4 +517,9 @@ body {
   height: 24px;
   margin-left: 20px; }
 
+.add-space {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-top: 1px solid #eee; }
+
 /*# sourceMappingURL=UserPage.css.map */
