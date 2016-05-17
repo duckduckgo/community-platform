@@ -5,8 +5,61 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.showUser(response);
   });
 
+  $scope.comleaders = [
+    'ScreapDK',
+    'mintsoft',
+    'TomBebbington',
+    'loganom',
+    'bradcater',
+    'mattr555',
+    'preemeijer',
+    'javathunderman',
+    'MrChrisW',
+    'killerfish',
+    'sebasorribas',
+    'NickCalabs',
+    'haseeb',
+    'iambibhas',
+    'codenirvana',
+    'Jedidiah',
+    'hemanth',
+    'gautamkrishnar',
+    'GuiltyDolphin'
+  ];
 
-  // for sorting instant answers (live should be first)
+  $scope.staff = [
+    'abeyang',
+    'AdamSC1-ddg',
+    'alohaas',
+    'andrey-p',
+    'b1ake',
+    'b2ddg',
+    'bbraithwaite',
+    'bsstoner',
+    'chrismorast',
+    'daxtheduck',
+    'edgesince84',
+    'jagtalon',
+    'jbarrett',
+    'jdorweiler',
+    'jkv',
+    'kablamo',
+    'malbin',
+    'marcantonio',
+    'MariagraziaAlastra',
+    'moollaza',
+    'mrshu',
+    'nilnilnil',
+    'russellholt',
+    'tagawa',
+    'thm',
+    'tommytommytommy',
+    'yegg',
+    'zachthompson',
+    'zekiel'
+  ];
+
+// for sorting instant answers (live should be first)
   $scope.iaSort = function(ia) {
     switch (ia.dev_milestone) {
       case 'live': return 0;
@@ -26,7 +79,15 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.count = {};
     $scope.topics = [];
 
-    $scope.imgUrl = 'https://duckduckgo.com/t/userpage_' + $scope.response.gh_data.login;
+    $scope.role = 'regular';
+
+    if ($scope.staff.indexOf($scope.response.gh_data.login) !== -1) {
+        $scope.role = 'staff';
+    } else if ($scope.comleaders.indexOf($scope.response.gh_data.login) !== -1) {
+        $scope.role = 'comleader';
+    }
+
+    $scope.imgUrl = 'https://duckduckgo.com/t/userpage_' + $scope.role + '_' + $scope.response.gh_data.login;
 
     $scope.newImg = new Image();
     $scope.newImg.src = $scope.imgUrl + '?' + Math.ceil(Math.random() * 1e7);
