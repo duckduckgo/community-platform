@@ -105,6 +105,7 @@ sub gh_issues {
         }
 
         $issue->{tags} = \@tags;
+        $issue->{assignee_avatar} = $self->get_avatar($issue->{github_user_id_assignee}, 1);
     }
 
 
@@ -153,14 +154,6 @@ sub find_ia {
 
         if ( my $ia = $self->ddgc->rs('InstantAnswer')->find({ meta_id => $ia_issue->instant_answer_id }) ) {
             $issue->{ia_name} = $ia->name;
-
-            my $maintainer = $ia->maintainer? decode_json($ia->maintainer) : undef;
-            if ( ( $maintainer ) && ( my $login = $maintainer->{github} ) ) {
-                $issue->{maintainer} = {
-                    username => $login,
-                    avatar_url => $self->get_avatar($login)
-                }
-            }
         }
     }
 
@@ -168,9 +161,10 @@ sub find_ia {
 }
 
 sub get_avatar {
-    my ( $self, $developer ) = @_;
+    my ( $self, $developer, $is_id ) = @_;
 
-    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->search( \[ 'LOWER(login) = ?', lc( $developer ) ] )->one_row ) {
+    my $gh_user = $is_id? $self->ddgc->rs('GitHub::User')->find({ github_id => $developer }) :  $self->ddgc->rs('GitHub::User')->search( \[ 'LOWER(login) = ?', lc( $developer ) ] )->one_row;
+    if ( $gh_user ) {
         my $gh_data = $gh_user->gh_data;
         return $gh_data->{avatar_url} if $gh_data;
     }
