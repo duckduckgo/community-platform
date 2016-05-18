@@ -230,7 +230,7 @@ section {
 }
 
 .avatar {
-    float: left;
+    float: right;
     width: $avatar;
     height: $avatar;
     border-radius: $avatar;
@@ -239,6 +239,10 @@ section {
     background-color: $gray-lt;
     text-align: center;
 
+    margin-right: 20px;
+    position: relative;
+    top: -3px;
+
     &.right {
 	float: right;
 	margin-left: 4px;
@@ -246,7 +250,7 @@ section {
 
     span {
 	position: relative;
-	top: -1px;
+	top: -2px;
 	font-size: $tx-xxs;
 	color: $gray-med;
 	text-transform: uppercase;
@@ -571,7 +575,7 @@ body {
 	padding-bottom: 0;
     }
     
-    a {
+    .issue-name {
 	padding-left: 0.5em;
 	font-size: 15px;
     }
