@@ -166,13 +166,26 @@
 	    <span class="octicon" ng-class="{true: 'octicon-git-pull-request', false: 'octicon-issue-opened'}[!!issue.isa_pull_request]"></span>
 
 	    <div style="display: inline-block;">
-	      <a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}">{{issue.title}}</a>
+	      <a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}" class="issue-name">{{issue.title}}</a>
 	      <div class="maintainer-status" ng-if="issue.hasMaintainer">Maintainer Input</div>
 	    </div>
 
 	    <span class="subtitle pull-right">
 	      {{fn.getFromNow(issue.updated_at)}}
 	    </span>
+
+	    <div class="avatar" ng-if="issue.maintainer.username.toLowerCase() !== response.gh_data.login.toLowerCase()">
+              <a href="/u/{{issue.maintainer.username.toLowerCase()}}" ng-click="addImg('avatar', issue.maintainer.username.toLowerCase()); $event.stopPropagation()">
+		
+		<span ng-if="issue.maintainer.avatar_url">
+                  <img src="{{issue.maintainer.avatar_url}}" />
+		</span>
+		<span ng-if="!issue.maintainer.avatar_url">
+                  {{fn.firstUsernameChar(issue.maintainer.username)}}
+		</span>
+              </a>
+	    </div>
+
 	  </div>
 	</div>
 
@@ -206,7 +219,7 @@
       -->
 
       <div class="misc" ng-show="show_ias != maintained && show_ias != ias_developed_only">
-	  <div ng-repeat="issue in response.issues_assigned | orderBy: '-updated_at'" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container"></div>
+	  <div ng-repeat="issue in response.issues_assigned | orderBy: 'updated_at'" ng-if="!mapIssues[issue.id]" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container"></div>
 
 
       </section>

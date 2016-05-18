@@ -64,7 +64,8 @@ app.controller('UserPageController', function($scope, $http, fn) {
       var issues = ia.issues.length;
 
       if(issues > 0) {
-	  return -5 - issues;
+	  var sorted = _.sortBy(ia.issues, function(issue) { return moment().diff(moment(issue.updated_at)); });
+	  return -(1/moment().diff(moment(sorted[0].updated_at)));
       }
 
     switch (ia.dev_milestone) {

@@ -224,19 +224,22 @@ section {
     color: rgba(224, 87, 42, 0.7); }
 
 .avatar {
-  float: left;
+  float: right;
   width: 24px;
   height: 24px;
   border-radius: 24px;
   border: 1px solid rgba(51, 51, 51, 0.05);
   background-color: #eee;
-  text-align: center; }
+  text-align: center;
+  margin-right: 20px;
+  position: relative;
+  top: -3px; }
   .avatar.right {
     float: right;
     margin-left: 4px; }
   .avatar span {
     position: relative;
-    top: -1px;
+    top: -2px;
     font-size: 10px;
     color: #999;
     text-transform: uppercase; }
@@ -471,7 +474,7 @@ body {
   padding-bottom: 20px; }
   .ia-issue:last-of-type {
     padding-bottom: 0; }
-  .ia-issue a {
+  .ia-issue .issue-name {
     padding-left: 0.5em;
     font-size: 15px; }
 
