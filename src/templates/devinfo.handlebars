@@ -132,7 +132,11 @@
     <p  class="readonly--info {{#exists staged 'maintainer'}}hide{{/exists}}" id="maintainer--readonly">
         {{#if maintainer}}
             {{#if maintainer.github}}
-                <a href="https://github.com/{{maintainer.github}}"> {{maintainer.github}}</a>
+                {{#if username}}
+                    <a href="http://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link"> {{maintainer.github}}</a>
+                {{else}}
+                    <a href="https://github.com/{{maintainer.github}}"> {{maintainer.github}}</a>
+                {{/if}}
             {{else}}
                 <span class="no-available">No maintainer yet.</span>
             {{/if}}
@@ -160,10 +164,10 @@
         {{/ne_and}}
     {{/if}}
     </h3>
-    <ul>
+    <ul id="contributors--readonly">
       {{#if developer}}
         {{#each developer}}
-          <li><a href="{{url}}" class="one-line">{{name}}</a></li>
+          <li><a {{#eq type 'github'}}{{#if ../../username}}href="http://duckduckhack.com/u/{{slug (final_path url)}}" class="userpage-link"{{else}}href="{{url}}"{{/if}}{{else}}href="{{url}}"{{/eq}}>{{name}}</a></li>
         {{/each}}
       {{else}}
         <span class="no-available">No contributors yet.</span>

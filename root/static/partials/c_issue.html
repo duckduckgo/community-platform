@@ -3,8 +3,7 @@
 <span class="grid-6 content">
   <div ng-if="issue.ia_name">
     <div class="one-line issue-name"><a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}" ng-click="addImg('issueianame', issue.github_repo.full_name + issue.number)">{{issue.title}}</a></div>
-    <span class="subtitle sep--after" ng-if="issue.ia_name"><a href="https://duck.co/ia/view/{{issue.ia_id}}" ng-click="addImg('iapageinpr', issue.ia_id)" class="subtitle">{{issue.ia_name}}</a></span>
-    <span class="subtitle comment" ng-if="issue.comments">{{issue.comments}} <span class="octicon octicon-comment"></span></span>
+    <span class="subtitle" ng-if="issue.ia_name"><a href="https://duck.co/ia/view/{{issue.ia_id}}" ng-click="addImg('iapageinpr', issue.ia_id)" class="subtitle">{{issue.ia_name}}</a></span>
   </div>
 
   <div ng-if="!issue.ia_name">

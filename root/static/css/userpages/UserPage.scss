@@ -104,9 +104,8 @@ html, body, p, div {
 }
 
 .subtitle {
-    font-size: $tx-sm;
+    font-size: 15px;
     color: $gray;
-    line-height: 2;
 }
 
 a.subtitle {
@@ -134,7 +133,7 @@ a.subtitle {
     @include outer-container;
     min-width: 68em;
     max-width: 68em;
-    min-height: 68em;
+    min-height: 87em;
 }
 
 section {
@@ -298,7 +297,7 @@ section {
 .fa, .octicon { color: $gray-50; }
 
 .count {
-    padding-left: 11px;
+    padding-left: 14px;
     color: $gray;
 }
 
@@ -533,7 +532,7 @@ body {
 }
 
 .issue-name {
-    width: 260px;
+    width: 400px;
 }
 
 .sep--after {
@@ -574,7 +573,7 @@ body {
     
     a {
 	padding-left: 0.5em;
-	font-size: 14px;
+	font-size: 15px;
     }
 }
 
@@ -643,4 +642,8 @@ body {
 
 .hoverable:hover {
     background: #edf5fb;
+}
+
+.issue-name a {
+    font-size: 15px;
 }

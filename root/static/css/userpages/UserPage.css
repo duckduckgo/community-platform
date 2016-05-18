@@ -43,9 +43,8 @@ html, body, p, div {
       color: rgba(68, 149, 212, 0.85); }
 
 .subtitle {
-  font-size: 13px;
-  color: #aaa;
-  line-height: 2; }
+  font-size: 15px;
+  color: #aaa; }
 
 a.subtitle:visited {
   color: #aaa; }
@@ -73,7 +72,7 @@ a.subtitle:visited {
   margin-right: auto;
   min-width: 68em;
   max-width: 68em;
-  min-height: 68em; }
+  min-height: 87em; }
   .container::after {
     clear: both;
     content: "";
@@ -269,7 +268,7 @@ section {
   color: rgba(170, 170, 170, 0.5); }
 
 .count {
-  padding-left: 11px;
+  padding-left: 14px;
   color: #aaa; }
 
 header {
@@ -443,7 +442,7 @@ body {
   padding-bottom: 0; }
 
 .issue-name {
-  width: 260px; }
+  width: 400px; }
 
 .sep--after:after {
   content: "";
@@ -474,7 +473,7 @@ body {
     padding-bottom: 0; }
   .ia-issue a {
     padding-left: 0.5em;
-    font-size: 14px; }
+    font-size: 15px; }
 
 .unexpand {
   display: none; }
@@ -528,5 +527,8 @@ body {
 
 .hoverable:hover {
   background: #edf5fb; }
+
+.issue-name a {
+  font-size: 15px; }
 
 /*# sourceMappingURL=UserPage.css.map */

@@ -32,9 +32,11 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON(json_url, function(ia_data) {
+
                     //Get user permissions
                     ia_data.permissions = {};
                     if ($(".special-permissions").length) {
+                        ia_data.username = this_username;
                         ia_data.permissions = {can_edit: 1};
 
 			// See if we can show the generate screenshot button.
@@ -66,6 +68,8 @@
                         } else {
                             ia_data.edited_dev_milestone = ia_data.live.dev_milestone;
                         }
+                    } else {
+                        ia_data.live.username = this_username;
                     }
 
                     // Separate back-end files from front-end ones
@@ -94,6 +98,7 @@
                             }
                         });
                     }
+
 
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
@@ -367,6 +372,10 @@
                         if (ia_data.permissions.admin && ia_data.edit_count) {
                             $("#view_commits").removeClass("hide");
                         }
+                    });
+
+                    $("body").on('click', ".userpage-link", function(evt) {
+                        Utils.sendReq($(this).parent());
                     });
 
                     $('body').on('click', '.switch.js-switch', function(evt) {
