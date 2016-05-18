@@ -95,7 +95,7 @@ sub gh_issues {
     $format_issues->{issues_created} = {};
 
     for my $issue ( @issues ) {
-        #$issue = $self->find_ia( $issue );
+        $issue = $self->find_ia( $issue );
         my $issue_assignee = $issue->{github_user_id_assignee};
         my $issue_opener = $issue->{github_user_id};
         my $suffix_key = 'other';
