@@ -88,11 +88,16 @@ sub gh_issues {
         result_class => 'DBIx::Class::ResultClass::HashRefInflator',
     });
 
-    my @format_issues;
+    my $format_issues;
+    $format_issues->{issues_assigned} = {};
+    $format_issues->{pulls_assigned} = {};
+    $format_issues->{pulls_created} = {};
+    $format_issues->{issues_created} = {};
+
     for my $issue ( @issues ) {
-        $issue = $self->find_ia( $issue );
+        #$issue = $self->find_ia( $issue );
         my $issue_assignee = $issue->{github_user_id_assignee};
-        my $issue_opener = $issue->{github_user_id_author};
+        my $issue_opener = $issue->{github_user_id};
         my $suffix_key = 'other';
         my $issue_key;
         if ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) {
@@ -128,14 +133,12 @@ sub gh_issues {
             $issue->{github_user}->{gh_data} = encode_utf8( $issue->{github_user}->{gh_data} );
             my $gh_data = $self->json->decode( $issue->{github_user}->{gh_data} );
             $issue->{assignee_avatar} = $gh_data->{avatar_url};
+            delete $issue->{github_user}->{gh_data};
         }
 
-        my %temp_issue = (
-            $issue_key => $issue
-        );
-
-        push @format_issues, \%temp_issue;
+        $format_issues->{$issue_key}->{$issue->{id}} =  $issue;
     }
+
 
 
     my $closed_pulls = $self->ddgc->rs('GitHub::Issue')->search({
@@ -155,7 +158,7 @@ sub gh_issues {
     })->count;
 
     my %gh_issues = (
-        issues => \@format_issues,
+        issues => $format_issues,
         closed_pulls => $closed_pulls,
         closed_issues => $closed_issues
     );
@@ -284,10 +287,10 @@ sub transform {
                 $transform->{$lc_contributor}->{closed_pulls} = $issues->{closed_pulls};
                 $transform->{$lc_contributor}->{closed_issues} = $issues->{closed_issues};
 
-                $transform->{$lc_contributor}->{pulls_assigned} = {};
-                $transform->{$lc_contributor}->{pulls_created} = {};
-                $transform->{$lc_contributor}->{issues_assigned} = {};
-                $transform->{$lc_contributor}->{issues_assigned} = {};
+                $transform->{$lc_contributor}->{pulls_assigned} = $issues->{issues}->{pulls_assigned};
+                $transform->{$lc_contributor}->{pulls_created} = $issues->{issues}->{pulls_created};
+                $transform->{$lc_contributor}->{issues_assigned} = $issues->{issues}->{issues_assigned};
+                $transform->{$lc_contributor}->{issues_created} = $issues->{issues}->{issues_created};
 
                 #for my $issue ( @{ $issues->{issues} } ) {
                     # Pair the issue to an IA if possible
