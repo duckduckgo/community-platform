@@ -27,7 +27,7 @@
             // console.log("IADevPipeline init()");
             var dev_p = this;
             var url = window.location.pathname.replace(/\/$/, '') + "/json";
-            var username = $(".user-name a.js-popout-link").text();
+            var username = $.trim($(".header-account-info .user-name a.js-popout-link").text());
 
 	        // 100% width
             $(".site-main > .content-wrap").first().removeClass("content-wrap").addClass("wrap-pipeline");
@@ -60,8 +60,9 @@
                 }
 
                 // Get username for the at mentions filter
-                var username = $.trim($(".header-account-info .user-name").text());
                 data.username = username;
+
+                console.log(data.username);
 
                 dev_p.data = data;
                 
@@ -110,9 +111,15 @@
                 }
             });
 
+            $("body").on("click", ".userpage-link", function(evt) {
+                Utils.sendReq($(this).parent().parent());
+            });
+
             $("body").on("click", "#sidebar-maintainer", function(evt) {
-                $(this).find("input").removeClass("hide");
-                $(this).find(".readonly").addClass("hide");
+                if (dev_p.data.permissions && dev_p.data.permissions.admin) {
+                    $(this).find("input").removeClass("hide");
+                    $(this).find(".readonly").addClass("hide");
+                }
             });
 
             $("body").on("click", "#pipeline_toggle-dev", function(evt) {
@@ -434,6 +441,7 @@
                 console.log(milestone);
                 for (var idx = 0; idx < dev_p.data.dev_milestones[milestone].length; idx++) {
                     var temp_ia = dev_p.data.dev_milestones[milestone][idx];
+                    temp_ia.username = dev_p.data.username;
 
                     if (temp_ia.id === meta_id) {
                         return temp_ia;

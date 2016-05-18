@@ -8,10 +8,10 @@
     </div>
     <div class="column-center-live left">
         <div class="column-center-live__child">
-            <p class="column-center-live__child__p">
+            <p class="column-center-live__child__p" id="maintainer-live">
                 {{#if live.maintainer}}
                     {{#if live.maintainer.github}}
-                        <a href="https://github.com/{{live.maintainer.github}}">{{live.maintainer.github}}</a>
+                        <a href="http://duckduckhack.com/u/{{slug live.maintainer.github}}" class="userpage-link">{{live.maintainer.github}}</a>
                     {{else}}
                         —
                     {{/if}}
@@ -23,10 +23,10 @@
     </div>
     <div class="column-right-edits left" id="column-edits-maintainer">
         <div class="column-right-edits__child">
-            <p class="column-right-edits__child__p">
+            <p class="column-right-edits__child__p" id="maintainer-edited">
                 {{#if edited.maintainer}}
                     {{#if edited.maintainer.github}}
-                        <a href="https://github.com/{{edited.maintainer.github}}">{{edited.maintainer.github}}</a>
+                        <a href="http://duckduckhack.com/u/{{slug edited.maintainer.github}}" class="userpage-link">{{edited.maintainer.github}}</a>
                     {{/if}}
                 {{/if}}
             </p>
