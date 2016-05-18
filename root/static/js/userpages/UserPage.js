@@ -84,7 +84,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
       return ia.dev_milestone !== "ghosted";
     });
 
-      
+      $scope.mapIssues = {};
 
       _.each($scope.maintained.concat($scope.ias_developed_only), function(ia) {
 	  ia.issues = [];
@@ -135,6 +135,10 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	      }
 	  });
 
+
+	  _.each(ia.issues, function(issue) {
+	      $scope.mapIssues[issue.id] = true;
+	  });
       });
 
       $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {
@@ -191,7 +195,9 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	  }
 
 	  var objKey = _.findKey($scope, which);
-	  $scope.addImg(objKey.replace(/_/g, ''));
+	  if(objKey) {
+	      $scope.addImg(objKey.replace(/_/g, ''));
+	  }
       };
   }
 });
