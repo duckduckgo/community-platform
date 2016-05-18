@@ -15,6 +15,7 @@ use Plack::Test;
 use HTTP::Request::Common;
 use List::MoreUtils qw/ uniq /;
 use Carp;
+use Encode qw(encode_utf8);
 
 binmode STDOUT, ':encoding(UTF-8)';
 binmode STDERR, ':encoding(UTF-8)';
@@ -80,14 +81,32 @@ sub gh_issues {
       ( state => 'open' ),
     },
     {
-        join => [ qw/ github_repo / ],
-        columns => [ qw/ id state github_repo_id comments tags title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at / ],
+        join => [ qw/ github_repo github_user/ ],
+        columns => [ qw/ id state github_repo_id comments tags title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at github_user.login github_user.gh_data/ ],
         collapse => 1,
         group_by => 'me.id',
         result_class => 'DBIx::Class::ResultClass::HashRefInflator',
     });
 
+    my @format_issues;
     for my $issue ( @issues ) {
+        $issue = $self->find_ia( $issue );
+        my $issue_assignee = $issue->{github_user_id_assignee};
+        my $issue_opener = $issue->{github_user_id_author};
+        my $suffix_key = 'other';
+        my $issue_key;
+        if ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) {
+            $suffix_key = 'assigned';
+        } elsif ( $issue_opener && ( $gh_id eq $issue_opener ) ) {
+            $suffix_key = 'created';
+        }
+        
+        if ( $issue->{isa_pull_request} ) {
+            $issue_key = 'pulls_' . $suffix_key;
+        } else {
+            $issue_key = 'issues_' . $suffix_key;
+        }
+
         my @tags;
         my %temp_tags;
         my $original_tags = $issue->{tags}? decode_json($issue->{tags}) : '';
@@ -105,7 +124,17 @@ sub gh_issues {
         }
 
         $issue->{tags} = \@tags;
-        $issue->{assignee_avatar} = $self->get_avatar($issue->{github_user_id_assignee}, 1);
+        if ( $issue->{github_user} && $issue->{github_user}->{gh_data} ) {
+            $issue->{github_user}->{gh_data} = encode_utf8( $issue->{github_user}->{gh_data} );
+            my $gh_data = $self->json->decode( $issue->{github_user}->{gh_data} );
+            $issue->{assignee_avatar} = $gh_data->{avatar_url};
+        }
+
+        my %temp_issue = (
+            $issue_key => $issue
+        );
+
+        push @format_issues, \%temp_issue;
     }
 
 
@@ -126,7 +155,7 @@ sub gh_issues {
     })->count;
 
     my %gh_issues = (
-        issues => \@issues,
+        issues => \@format_issues,
         closed_pulls => $closed_pulls,
         closed_issues => $closed_issues
     );
@@ -161,10 +190,9 @@ sub find_ia {
 }
 
 sub get_avatar {
-    my ( $self, $developer, $is_id ) = @_;
+    my ( $self, $developer ) = @_;
 
-    my $gh_user = $is_id? $self->ddgc->rs('GitHub::User')->find({ github_id => $developer }) :  $self->ddgc->rs('GitHub::User')->search( \[ 'LOWER(login) = ?', lc( $developer ) ] )->one_row;
-    if ( $gh_user ) {
+    if ( my $gh_user = $self->ddgc->rs('GitHub::User')->search( \[ 'LOWER(login) = ?', lc( $developer ) ] )->one_row ) {
         my $gh_data = $gh_user->gh_data;
         return $gh_data->{avatar_url} if $gh_data;
     }
@@ -261,26 +289,26 @@ sub transform {
                 $transform->{$lc_contributor}->{issues_assigned} = {};
                 $transform->{$lc_contributor}->{issues_assigned} = {};
 
-                for my $issue ( @{ $issues->{issues} } ) {
+                #for my $issue ( @{ $issues->{issues} } ) {
                     # Pair the issue to an IA if possible
-                    $issue = $self->find_ia( $issue );
-                    my $issue_assignee = $issue->{github_user_id_assignee};
-                    my $issue_opener = $issue->{github_user_id_author};
-                    my $suffix_key = 'other';
-                    if ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) {
-                        $suffix_key = 'assigned';
-                    } elsif ( $issue_opener && ( $gh_id eq $issue_opener ) ) {
-                        $suffix_key = 'created';
-                    }
-                    
-                    if ( $issue->{isa_pull_request} ) {
-                        my $pull_key = 'pulls_' . $suffix_key;
-                        $transform->{$lc_contributor}->{$pull_key}->{$issue->{id}} = $issue;
-                    } else {
-                        my $issue_key = 'issues_' . $suffix_key;
-                        $transform->{$lc_contributor}->{$issue_key}->{$issue->{id}} = $issue;
-                    }
-                }
+                    #$issue = $self->find_ia( $issue );
+                   # my $issue_assignee = $issue->{github_user_id_assignee};
+                   # my $issue_opener = $issue->{github_user_id_author};
+                   # my $suffix_key = 'other';
+                   # if ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) {
+                   #     $suffix_key = 'assigned';
+                   # } elsif ( $issue_opener && ( $gh_id eq $issue_opener ) ) {
+                   #     $suffix_key = 'created';
+                   # }
+                   # 
+                   # if ( $issue->{isa_pull_request} ) {
+                   #     my $pull_key = 'pulls_' . $suffix_key;
+                   #     $transform->{$lc_contributor}->{$pull_key}->{$issue->{id}} = $issue;
+                   # } else {
+                   #     my $issue_key = 'issues_' . $suffix_key;
+                   #     $transform->{$lc_contributor}->{$issue_key}->{$issue->{id}} = $issue;
+                   # }
+                #}
             }
 
             # Append topics
