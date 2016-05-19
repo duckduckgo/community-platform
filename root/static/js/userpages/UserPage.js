@@ -258,7 +258,10 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.show_ias = ($scope.count.maintained_ias) ? $scope.maintained : $scope.ias_developed_only;
 
       $scope.changeShownIAs = function(which, open) {
+      var objKey;
+
 	  if(open) {
+          objKey = 'issuesandprs';
 	      $scope.show_ias = _.filter(which, function(ia) {
 		  ia.expand = true;
 		  return ia.issues.length > 0;
@@ -267,9 +270,9 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	      $scope.show_ias = _.each(which, function(ia) {
 		  ia.expand = false;
 	      });
+	      objKey = _.findKey($scope, which);
 	  }
 
-	  var objKey = _.findKey($scope, which);
 	  if(objKey) {
 	      $scope.addImg(objKey.replace(/_/g, ''));
 	  }
