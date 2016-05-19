@@ -150,35 +150,49 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
       _.each($scope.maintained.concat($scope.ias_developed_only), function(ia) {
 	  ia.issues = [];
+	  ia.pull_count = 0;
+	  ia.issue_count = 0;
 
 	  _.each(response.issues_assigned, function(v, k) {
 	      if(v.ia_id === ia.id) {
 		  ia.issues = ia.issues.concat(v);
+		  ia.issue_count++;
 	      }
+	  });
+
+	  _.each(response.issues_created, function(v, k) {
+	      if(v.ia_id === ia.id) {
+                  ia.issues = ia.issues.concat(v);
+		  ia.issue_count++;
+              }
 	  });
 
 	  // Also add the PRs in here.
 	  _.each(response.pulls_assigned, function(pull) {
 	      if(pull.ia_id === ia.id) {
 		  ia.issues = ia.issues.concat(pull);
+		  ia.pull_count++;
 	      }
 	  });
 
 	  _.each(response.pulls_created, function(pull) {
 	      if(pull.ia_id === ia.id) {
 		  ia.issues = ia.issues.concat(pull);
+		  ia.pull_count++;
 	      }
 	  });
 
 	  _.each(response.pulls_other, function(pull) {
 	      if(pull.ia_id === ia.id) {
                   ia.issues = ia.issues.concat(pull);
+		  ia.pull_count++;
               }
 	  });
 
 	  _.each(response.issues_other, function(v, k) {
 	      if(v.ia_id === ia.id) {
                   ia.issues = ia.issues.concat(v);
+		  ia.pull_count++;
               }
 	  });
 
@@ -203,22 +217,34 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	  });
       });
 
+      response.issues_assigned = _.sortBy(_.toArray(response.issues_assigned), function(issue) {
+	  return moment().diff(moment(issue.updated_at), 'days');
+      });
+
+      $scope.count.mapIssues = _.size($scope.mapIssues);
+
       $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {
 	  return !v.ia_id;
       });
 
     $scope.count.maintained_ias = _.size($scope.maintained);
+      $scope.count.other = _.filter(response.issues_assigned, function(issue) {
+	  return !$scope.mapIssues[issue.id];
+      }).length || 0;
     $scope.count.developed_only_ias = _.size($scope.ias_developed_only);
     $scope.count.open_issues = _.size(response.issues_assigned);
     $scope.count.closed_issues = _.size(response.issues) - $scope.count.open_issues;
     $scope.count.open_prs = _.size($scope.prs_open);
     $scope.count.reviewed_prs = _.size(response.pulls_assigned);
     $scope.count.developed_prs = _.size(response.pulls_assigned);
+      $scope.count.pulls_other = _.size(response.pulls_other);
+      $scope.count.issues_other = _.size(response.isues_other);
     $scope.count.closed_prs = response.closed_pulls;
     $scope.count.ias = _.size($scope.ias)
       $scope.count.filtered = _.filter($scope.maintained.concat($scope.ias_developed_only), function(ia) {
 	  return ia.issues.length > 0;
       }).length;
+      $scope.count.assigned = _.size(response.issues_assigned);
 
     $scope.ias_maintained = response.maintained;
 

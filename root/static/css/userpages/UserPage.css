@@ -43,7 +43,7 @@ html, body, p, div {
       color: rgba(68, 149, 212, 0.85); }
 
 .subtitle {
-  font-size: 15px;
+  font-size: 13px;
   color: #aaa; }
 
 a.subtitle:visited {
@@ -70,7 +70,7 @@ a.subtitle:visited {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  min-width: 68em;
+  min-width: 63em;
   max-width: 68em;
   min-height: 87em; }
   .container::after {
@@ -524,9 +524,14 @@ body {
   text-align: center;
   border-radius: 50%;
   height: 24px;
-  margin-left: 20px;
-  font-family: monospace;
-  font-size: 16px; }
+  margin-left: 20px; }
+
+.plus .octicon {
+  font-size: 12px; }
+
+.minus .octicon {
+  font-size: 16px;
+  vertical-align: middle; }
 
 .add-space {
   margin-top: 5px;

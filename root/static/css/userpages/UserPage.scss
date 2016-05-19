@@ -104,7 +104,7 @@ html, body, p, div {
 }
 
 .subtitle {
-    font-size: 15px;
+    font-size: 13px;
     color: $gray;
 }
 
@@ -131,7 +131,7 @@ a.subtitle {
 
 .container {
     @include outer-container;
-    min-width: 68em;
+    min-width: 63em;
     max-width: 68em;
     min-height: 87em;
 }
@@ -643,8 +643,15 @@ body {
     border-radius: 50%;
     height: 24px;
     margin-left: 20px;
-    font-family: monospace;
+}
+
+.plus .octicon {
+    font-size: 12px;
+}
+
+.minus .octicon {
     font-size: 16px;
+    vertical-align: middle;
 }
 
 .add-space {

@@ -21,14 +21,18 @@
     -->
 </div>
 
-<span class="count" ng-if="ia.prs_count">{{ia.prs_count}} <span class="octicon octicon-git-pull-request"></span></span>
-<span class="count" ng-if="ia.issues_count">{{ia.issues_count}} <span class="octicon octicon-issue-opened"></span></span>
+<span class="count" ng-if="ia.pull_count > 0">{{ia.pull_count}} <span class="octicon octicon-git-pull-request"></span></span>
+<span class="count" ng-if="ia.issue_count > 0">{{ia.issue_count}} <span class="octicon octicon-issue-opened"></span></span>
 
 
 <!-- status -->
 <div ng-if="ia.dev_milestone !== 'live'" class="status full {{ia.dev_milestone}} grid-1">{{ia.dev_milestone}}</div>
 
 <span ng-if="ia.issues.length > 0">
-  <span class="plus" ng-if="!ia.expand">+</span>
-  <span class="minus" ng-if="ia.expand">—</span>
+  <span class="plus" ng-if="!ia.expand">
+    <span class="octicon octicon-plus" style="color: #666"></span>
+  </span>
+  <span class="minus" ng-if="ia.expand">
+    <span class="octicon octicon-dash" style="color: #666"></span>
+  </span>
 </span>

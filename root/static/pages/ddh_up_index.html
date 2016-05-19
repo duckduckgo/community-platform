@@ -149,7 +149,7 @@
 	  <a href="#" ng-click="changeShownIAs(maintained.concat(ias_developed_only), true)">
 	    <span ng-class="{'active': show_ias != maintained && show_ias != ias_developed_only}" >
 	      Issues & PRs
-	      <span class="badge">{{count.filtered}}</span>
+	      <span class="badge">{{count.other + count.filtered}}</span>
 	    </span>
 	  </a>
 	  </div>
@@ -173,7 +173,7 @@
 	      {{fn.getFromNow(issue.updated_at)}}
 	    </span>
 
-	    <div class="avatar" ng-if="issue.github_user_assignee.login.toLowerCase() !== response.gh_data.login.toLowerCase()">
+	    <div class="avatar" ng-if="!!issue.github_user_assignee && issue.github_user_assignee.login.toLowerCase() !== response.gh_data.login.toLowerCase()">
               <a href="/u/{{issue.github_user_assignee.login.toLowerCase()}}" ng-click="addImg('avatar', issue.github_user_assignee.login.toLowerCase()); $event.stopPropagation()">
 		
 		<span ng-if="issue.github_user_assignee.avatar_url">
@@ -218,7 +218,7 @@
       -->
 
       <div class="misc" ng-show="show_ias != maintained && show_ias != ias_developed_only">
-	  <div ng-repeat="issue in response.issues_assigned | orderBy: 'updated_at'" ng-if="!mapIssues[issue.id]" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container"></div>
+	  <div ng-repeat="issue in response.issues_assigned" ng-if="!mapIssues[issue.id]" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container"></div>
 
 
       </section>
