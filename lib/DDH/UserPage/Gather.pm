@@ -75,16 +75,13 @@ sub gh_issues {
     my ( $self, $gh_id ) = @_;
 
     my @issues = $self->ddgc->rs('GitHub::Issue')->search({
-      #( -or => [{ 'me.github_user_id_assignee' => $gh_id },
-      #        { 'me.github_user_id' => $gh_id }]
-      #),
-      ( state => 'open' ),
+      state => 'open',
     },
     {
-        join => [ qw/ github_repo github_user/ ],
-        columns => [ qw/ id state github_repo_id comments tags title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at github_user.login github_user.gh_data/ ],
+        join => [ qw/ github_repo github_user_assignee / ], 
+        columns => [ qw/ id state github_repo_id comments tags title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at github_user_assignee.login github_user_assignee.gh_data/ ],
         collapse => 1,
-        group_by => 'me.id',
+        group_by => [ qw/ me.id github_user_assignee.id github_repo.full_name / ],
         result_class => 'DBIx::Class::ResultClass::HashRefInflator',
     });
 
@@ -95,7 +92,7 @@ sub gh_issues {
     $format_issues->{issues_created} = {};
 
     for my $issue ( @issues ) {
-        $issue = $self->find_ia( $issue );
+        #$issue = $self->find_ia( $issue );
         my $issue_assignee = $issue->{github_user_id_assignee};
         my $issue_opener = $issue->{github_user_id};
         my $suffix_key = 'other';
@@ -129,11 +126,11 @@ sub gh_issues {
         }
 
         $issue->{tags} = \@tags;
-        if ( $issue->{github_user} && $issue->{github_user}->{gh_data} ) {
-            $issue->{github_user}->{gh_data} = encode_utf8( $issue->{github_user}->{gh_data} );
-            my $gh_data = $self->json->decode( $issue->{github_user}->{gh_data} );
-            $issue->{assignee_avatar} = $gh_data->{avatar_url};
-            delete $issue->{github_user}->{gh_data};
+        if ( $issue->{github_user_assignee} && $issue->{github_user_assignee}->{gh_data} ) {
+            $issue->{github_user_assignee}->{gh_data} = encode_utf8( $issue->{github_user_assignee}->{gh_data} );
+            my $gh_data = $self->json->decode( $issue->{github_user_assignee}->{gh_data} );
+            $issue->{github_user_assignee}->{avatar_url} = $gh_data->{avatar_url};
+            delete $issue->{github_user_assignee}->{gh_data};
         }
 
         $format_issues->{$issue_key}->{$issue->{id}} =  $issue;
