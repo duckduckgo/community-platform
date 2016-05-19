@@ -524,7 +524,9 @@ body {
   text-align: center;
   border-radius: 50%;
   height: 24px;
-  margin-left: 20px; }
+  margin-left: 20px;
+  font-family: monospace;
+  font-size: 16px; }
 
 .add-space {
   margin-top: 5px;
