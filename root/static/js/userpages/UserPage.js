@@ -223,8 +223,15 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.ias_maintained = response.maintained;
 
       $scope.selectPrevious = function(index) {
-	  if(index > 0) {
-	      document.querySelectorAll(".all")[index - 1].className += " above";
+	  var elm = document.querySelectorAll(".all")[index - 1];
+	  if(index > 0 && /above/.test(elm.className)) {
+	      if(/add\-space/.test(elm.className)) {
+		  elm.className = "all add-space";
+	      } else {
+		  elm.className = "all";
+	      }
+	  } else if(index > 0) {
+	      elm.className += " above";
 	  }
       };
 
