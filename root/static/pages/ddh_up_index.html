@@ -174,14 +174,14 @@
 	      {{fn.getFromNow(issue.updated_at)}}
 	    </span>
 
-	    <div class="avatar" ng-if="issue.maintainer.username.toLowerCase() !== response.gh_data.login.toLowerCase()">
-              <a href="/u/{{issue.maintainer.username.toLowerCase()}}" ng-click="addImg('avatar', issue.maintainer.username.toLowerCase()); $event.stopPropagation()">
+	    <div class="avatar" ng-if="issue.github_user_assignee.login.toLowerCase() !== response.gh_data.login.toLowerCase()">
+              <a href="/u/{{issue.github_user_assignee.login.toLowerCase()}}" ng-click="addImg('avatar', issue.github_user_assignee.login.toLowerCase()); $event.stopPropagation()">
 		
-		<span ng-if="issue.maintainer.avatar_url">
-                  <img src="{{issue.maintainer.avatar_url}}" />
+		<span ng-if="issue.github_user_assignee.avatar_url">
+                  <img src="{{issue.github_user_assignee.avatar_url}}" />
 		</span>
-		<span ng-if="!issue.maintainer.avatar_url">
-                  {{fn.firstUsernameChar(issue.maintainer.username)}}
+		<span ng-if="!issue.github_user_assignee.avatar_url">
+                  {{fn.firstUsernameChar(issue.github_user_assignee.login)}}
 		</span>
               </a>
 	    </div>
