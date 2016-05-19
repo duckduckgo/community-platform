@@ -183,8 +183,8 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	  });
 
 	  _.each(ia.issues, function(issue) {
-	      if(issue.title.length > 70) {
-		  issue.title = issue.title.substring(0, 70) + "...";
+	      if(issue.title.length > 60) {
+		  issue.title = issue.title.substring(0, 60) + "...";
 	      }
 
 	      if(issue.tags) {
@@ -221,6 +221,12 @@ app.controller('UserPageController', function($scope, $http, fn) {
       }).length;
 
     $scope.ias_maintained = response.maintained;
+
+      $scope.selectPrevious = function(index) {
+	  if(index > 0) {
+	      document.querySelectorAll(".all")[index - 1].className += " above";
+	  }
+      };
 
     $scope.topics = _.map(response.topics, function(key, num) {
       return {count: key, topic: num};

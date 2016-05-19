@@ -180,12 +180,12 @@ section {
 
 .flex-container {
     @include display(flex);
-    align-items: center;
+    @include align-items(center);
     // justify-content: space-between;
 
     &.align-top { @include align-items(flex-start); }
 
-    .grid-1 { @include flex(1); }
+    .grid-1 {  }
     .grid-2 { @include flex(2); }
     .grid-4 { @include flex(4); }
     .grid-6 { @include flex(6); }
@@ -418,8 +418,8 @@ main {
 
 
 .ias > div {
-    &:first-of-type {
-	border-top: 1px solid #eee;
+    &:last-of-type {
+	border-bottom: 1px solid #eee;
     }
 }
 
@@ -429,7 +429,7 @@ main {
 
 .instantanswer {
     padding: $pad-xxs 0;
-    border-bottom: 1px solid $gray-lt;
+    border-top: 1px solid $gray-lt;
     border-left: 1px solid $gray-lt;
     border-right: 1px solid $gray-lt;
     background: white;
@@ -451,6 +451,10 @@ main {
 	    font-size: $tx-sm;
 	    }
 	}
+
+    .add-space & {
+	border-bottom: 1px solid #eee;
+    }
 }
 
 .a.status {
@@ -576,7 +580,7 @@ body {
     }
     
     .issue-name {
-	padding-left: 0.5em;
+	padding-left: 0.7em;
 	font-size: 15px;
     }
 }
@@ -594,7 +598,10 @@ body {
     padding: 18px 20px;
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
-    border-bottom: 1px solid #eee;
+
+    .add-space & {
+	border-bottom: 1px solid #eee;
+    }
 }
 
 .add-space {
@@ -641,13 +648,28 @@ body {
 .add-space {
     margin-top: 5px;
     margin-bottom: 5px;
-    border-top: 1px solid #eee;
 }
 
 .hoverable:hover {
-    background: #edf5fb;
+    background: #f5fafd;
+
+    .plus, .minus {
+	background: #ddd;
+    }
 }
 
 .issue-name a {
     font-size: 15px;
+}
+
+.issue.typeC:first-of-type {
+    border-top: none;
+}
+
+.above {
+    border-bottom: 1px solid #eee;
+}
+
+.above.add-space .issue-container {
+    border-bottom: none;
 }

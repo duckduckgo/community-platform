@@ -130,7 +130,15 @@ section {
   display: -moz-flex;
   display: -ms-flexbox;
   display: flex;
-  align-items: center; }
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  box-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -ms-flex-align: center; }
   .flex-container.align-top {
     -webkit-box-align: start;
     -moz-box-align: start;
@@ -141,14 +149,6 @@ section {
     -o-align-items: flex-start;
     align-items: flex-start;
     -ms-flex-align: start; }
-  .flex-container .grid-1 {
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    box-flex: 1;
-    -webkit-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
-    flex: 1; }
   .flex-container .grid-2 {
     -webkit-box-flex: 2;
     -moz-box-flex: 2;
@@ -353,15 +353,15 @@ main {
     padding-left: 8px;
     white-space: nowrap; }
 
-.ias > div:first-of-type {
-  border-top: 1px solid #eee; }
+.ias > div:last-of-type {
+  border-bottom: 1px solid #eee; }
 
 .ias {
   margin-bottom: 33px; }
 
 .instantanswer {
   padding: 20px 0;
-  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
   border-left: 1px solid #eee;
   border-right: 1px solid #eee;
   background: white; }
@@ -379,6 +379,8 @@ main {
     .instantanswer .avatar span {
       top: 0px;
       font-size: 13px; }
+  .add-space .instantanswer {
+    border-bottom: 1px solid #eee; }
 
 .a.status {
   padding: 0 1em 0 1em; }
@@ -475,7 +477,7 @@ body {
   .ia-issue:last-of-type {
     padding-bottom: 0; }
   .ia-issue .issue-name {
-    padding-left: 0.5em;
+    padding-left: 0.7em;
     font-size: 15px; }
 
 .unexpand {
@@ -485,8 +487,9 @@ body {
   background: white;
   padding: 18px 20px;
   border-left: 1px solid #eee;
-  border-right: 1px solid #eee;
-  border-bottom: 1px solid #eee; }
+  border-right: 1px solid #eee; }
+  .add-space .issue-container {
+    border-bottom: 1px solid #eee; }
 
 .add-space {
   /*    .space {
@@ -525,13 +528,23 @@ body {
 
 .add-space {
   margin-top: 5px;
-  margin-bottom: 5px;
-  border-top: 1px solid #eee; }
+  margin-bottom: 5px; }
 
 .hoverable:hover {
-  background: #edf5fb; }
+  background: #f5fafd; }
+  .hoverable:hover .plus, .hoverable:hover .minus {
+    background: #ddd; }
 
 .issue-name a {
   font-size: 15px; }
+
+.issue.typeC:first-of-type, .issue.topic.typeD:first-of-type {
+  border-top: none; }
+
+.above {
+  border-bottom: 1px solid #eee; }
+
+.above.add-space .issue-container {
+  border-bottom: none; }
 
 /*# sourceMappingURL=UserPage.css.map */
