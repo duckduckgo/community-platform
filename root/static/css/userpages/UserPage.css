@@ -554,4 +554,11 @@ body {
 .above.add-space .issue-container {
   border-bottom: none; }
 
+#wrapper {
+  overflow: initial;
+  min-width: 1500px; }
+
+.site-main {
+  overflow: initial; }
+
 /*# sourceMappingURL=UserPage.css.map */
