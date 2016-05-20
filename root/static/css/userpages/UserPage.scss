@@ -85,7 +85,7 @@ a, a:visited {
 }
 
 h2 { font-size: $tx-xxl; }
-h3 { font-size: $tx-lg; margin-bottom: $pad-sm; }
+h3 { font-size: $tx-lg; margin-bottom: 40px; }
 
 html, body, p, div {
     font-size: $tx;
@@ -104,7 +104,7 @@ html, body, p, div {
 }
 
 .subtitle {
-    font-size: $tx-sm;
+    font-size: 13px;
     color: $gray;
 }
 
@@ -131,9 +131,9 @@ a.subtitle {
 
 .container {
     @include outer-container;
-    min-width: 68em;
+    min-width: 63em;
     max-width: 68em;
-    min-height: 68em;
+    min-height: 87em;
 }
 
 section {
@@ -180,12 +180,12 @@ section {
 
 .flex-container {
     @include display(flex);
-    align-items: center;
+    @include align-items(center);
     // justify-content: space-between;
 
     &.align-top { @include align-items(flex-start); }
 
-    .grid-1 { @include flex(1); }
+    .grid-1 {  }
     .grid-2 { @include flex(2); }
     .grid-4 { @include flex(4); }
     .grid-6 { @include flex(6); }
@@ -209,15 +209,15 @@ section {
     margin-left: 10px;
     padding: 4px 0;
     border-radius: $round-sm;
-    border: 1px solid $gray-lt;
+
     font-size: $tx-sm;
     color: $gray;
     text-transform: capitalize;
 
     &.full {
 	float: left;
-	margin-left: 0;
-	text-align: center;
+	margin-left: 20px;
+	text-align: right;
 	}
     &.live {
 	border-color: $green-40;
@@ -230,7 +230,7 @@ section {
 }
 
 .avatar {
-    float: left;
+    float: right;
     width: $avatar;
     height: $avatar;
     border-radius: $avatar;
@@ -239,6 +239,10 @@ section {
     background-color: $gray-lt;
     text-align: center;
 
+    margin-right: 20px;
+    position: relative;
+    top: -3px;
+
     &.right {
 	float: right;
 	margin-left: 4px;
@@ -246,7 +250,7 @@ section {
 
     span {
 	position: relative;
-	top: -1px;
+	top: -2px;
 	font-size: $tx-xxs;
 	color: $gray-med;
 	text-transform: uppercase;
@@ -259,33 +263,25 @@ section {
 }
 
 .tabs {
-    float: right;
-
     a {
 	display: inline-block;
 	padding: 4px 0 0 $pad-xxs;
 	margin-left: $pad-xxs;
-	color: $gray;
+	color: black;
 	outline: 0;
 
-	&:not(:first-of-type) {
-	    border-left: 1px solid $gray-lt;
-	    }
-
-	&:hover {
-	    color: $black;
-	    opacity: 1;
-	    }
+	&:first-of-type {
+	    margin-left: 0;
+	    padding-left: 0;
+	}
 
 	& > span {
-	    padding-bottom: 8px;
-	    opacity: 0.7;
+	    padding-bottom: 16px;
 	    }
 
 	.active {
 	    border-bottom: 2px solid $blue-85;
 	    color: $black;
-	    opacity: 1;
 	    }
 
 	}
@@ -305,7 +301,7 @@ section {
 .fa, .octicon { color: $gray-50; }
 
 .count {
-    padding-left: $pad-xxxs;
+    padding-left: 14px;
     color: $gray;
 }
 
@@ -321,6 +317,7 @@ header {
     padding: $pad 0;
 
     .stats {
+	padding-left: 1.5em;
 	margin-left: $sidebar + $pad;
 	}
     .stats, div, p { color: $white; }
@@ -407,7 +404,7 @@ main {
     &.hideAvatar .avatars { display: none; }
     &.typeC {
 	font-size: $tx-sm;
-
+	margin: 0px 20px;
 	.comment { padding-left: 0; }
 	strong { padding-right: 8px; }
 	}
@@ -420,11 +417,24 @@ main {
 }
 
 
+.ias > div {
+    &:last-of-type {
+	border-bottom: 1px solid #eee;
+    }
+}
+
+.ias {
+    margin-bottom: 33px;
+}
+
 .instantanswer {
     padding: $pad-xxs 0;
     border-top: 1px solid $gray-lt;
+    border-left: 1px solid $gray-lt;
+    border-right: 1px solid $gray-lt;
+    background: white;
 
-    &.typeC { padding: 12px 0; }
+    &.typeC { padding: 20px 20px; }
 
     &.typeD {padding: 8px 0;}
 
@@ -441,6 +451,10 @@ main {
 	    font-size: $tx-sm;
 	    }
 	}
+
+    .add-space & {
+	border-bottom: 1px solid #eee;
+    }
 }
 
 .a.status {
@@ -526,7 +540,7 @@ body {
 }
 
 .issue-name {
-    width: 260px;
+    width: 400px;
 }
 
 .sep--after {
@@ -549,12 +563,122 @@ body {
 }
 
 .issue-link {
-    max-width: 200px;
-    display: inline-flex;
+    max-width: 60%;
+    font-size: 15px;
 }
 
 .issue-ellipsis {
     overflow: hidden;
-    font-size: 13px;
     text-overflow: ellipsis
+}
+
+.ia-issue {
+    padding-bottom: 20px;
+    
+    &:last-of-type {
+	padding-bottom: 0;
+    }
+    
+    .issue-name {
+	padding-left: 0.7em;
+	font-size: 15px;
+    }
+}
+
+.misc {
+
+}
+
+.unexpand {
+    display: none;
+}
+
+.issue-container {
+    background: white;
+    padding: 18px 20px;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+
+    .add-space & {
+	border-bottom: 1px solid #eee;
+    }
+}
+
+.add-space {
+/*    .space {
+	height: 0.5em;
+	border-bottom: 1px solid #eee;
+    }
+*/
+}
+
+.maintainer-status {
+    display: inline-block;
+    border: 1px solid RGBA(241, 160, 49, 0.33);
+    color: #F1a031;
+    border-radius: 3px;
+    padding: 2px 8px;
+    font-size: 12px;
+    margin-left: 9px;
+}
+
+
+.ia-issue .octicon-issue-opened {
+    margin-left: -2px;
+}
+
+.issue-title {
+    display: inline-block;
+    width: 37em;
+    vertical-align: top;
+}
+
+.plus, .minus {
+    cursor: pointer;
+    display: inline-block;
+    background: #eee;
+    color: black;
+    width: 24px;
+    text-align: center;
+    border-radius: 50%;
+    height: 24px;
+    margin-left: 20px;
+}
+
+.plus .octicon {
+    font-size: 12px;
+}
+
+.minus .octicon {
+    font-size: 16px;
+    vertical-align: middle;
+}
+
+.add-space {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.hoverable:hover {
+    background: #f5fafd;
+
+    .plus, .minus {
+	background: #ddd;
+    }
+}
+
+.issue-name a {
+    font-size: 15px;
+}
+
+.issue.typeC:first-of-type {
+    border-top: none;
+}
+
+.above {
+    border-bottom: 1px solid #eee;
+}
+
+.above.add-space .issue-container {
+    border-bottom: none;
 }

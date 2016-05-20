@@ -5,9 +5,69 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.showUser(response);
   });
 
+  $scope.comleaders = [
+    'ScreapDK',
+    'mintsoft',
+    'TomBebbington',
+    'loganom',
+    'bradcater',
+    'mattr555',
+    'preemeijer',
+    'javathunderman',
+    'MrChrisW',
+    'killerfish',
+    'sebasorribas',
+    'NickCalabs',
+    'haseeb',
+    'iambibhas',
+    'codenirvana',
+    'Jedidiah',
+    'hemanth',
+    'gautamkrishnar',
+    'GuiltyDolphin'
+  ];
 
-  // for sorting instant answers (live should be first)
+  $scope.staff = [
+    'abeyang',
+    'AdamSC1-ddg',
+    'alohaas',
+    'andrey-p',
+    'b1ake',
+    'b2ddg',
+    'bbraithwaite',
+    'bsstoner',
+    'chrismorast',
+    'daxtheduck',
+    'edgesince84',
+    'jagtalon',
+    'jbarrett',
+    'jdorweiler',
+    'jkv',
+    'kablamo',
+    'malbin',
+    'marcantonio',
+    'MariagraziaAlastra',
+    'moollaza',
+    'mrshu',
+    'nilnilnil',
+    'russellholt',
+    'tagawa',
+    'thm',
+    'tommytommytommy',
+    'yegg',
+    'zachthompson',
+    'zekiel'
+  ];
+
+// for sorting instant answers (live should be first)
   $scope.iaSort = function(ia) {
+      var issues = ia.issues.length;
+
+      if(issues > 0) {
+	  var sorted = _.sortBy(ia.issues, function(issue) { return moment().diff(moment(issue.updated_at)); });
+	  return -(1/moment().diff(moment(sorted[0].updated_at)));
+      }
+
     switch (ia.dev_milestone) {
       case 'live': return 0;
       case 'complete': return 10;
@@ -18,6 +78,10 @@ app.controller('UserPageController', function($scope, $http, fn) {
     }
   };
 
+    $scope.iaPriority = function(ia) {
+	return ia.issues.length;
+    }
+
   var initial = false;
 
   // given a username, fill out the $scope variables appropriately, like IAs, etc.
@@ -26,7 +90,15 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.count = {};
     $scope.topics = [];
 
-    $scope.imgUrl = 'https://duckduckgo.com/t/userpage_' + $scope.response.gh_data.login;
+    $scope.role = 'regular';
+
+    if ($scope.staff.indexOf($scope.response.gh_data.login) !== -1) {
+        $scope.role = 'staff';
+    } else if ($scope.comleaders.indexOf($scope.response.gh_data.login) !== -1) {
+        $scope.role = 'comleader';
+    }
+
+    $scope.imgUrl = 'https://duckduckgo.com/t/userpage_' + $scope.role + '_' + $scope.response.gh_data.login;
 
     $scope.newImg = new Image();
     $scope.newImg.src = $scope.imgUrl + '?' + Math.ceil(Math.random() * 1e7);
@@ -63,7 +135,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
     });
 
     $scope.prs_open_developed = _.filter(response.pulls_created, function(pull) {
-      return pull.state === "open";
+      return pull.state === "open" && !pull.ia_id;
     });
     $scope.prs_open_reviewed = _.filter(response.pulls_assigned, function(pull) {
       return pull.state === "open";
@@ -74,17 +146,120 @@ app.controller('UserPageController', function($scope, $http, fn) {
       return ia.dev_milestone !== "ghosted";
     });
 
+      $scope.mapIssues = {};
+
+      _.each($scope.maintained.concat($scope.ias_developed_only), function(ia) {
+	  ia.issues = [];
+	  ia.pull_count = 0;
+	  ia.issue_count = 0;
+
+	  _.each(response.issues_assigned, function(v, k) {
+	      if(v.ia_id === ia.id) {
+		  ia.issues = ia.issues.concat(v);
+		  ia.issue_count++;
+	      }
+	  });
+
+	  _.each(response.issues_created, function(v, k) {
+	      if(v.ia_id === ia.id) {
+                  ia.issues = ia.issues.concat(v);
+		  ia.issue_count++;
+              }
+	  });
+
+	  // Also add the PRs in here.
+	  _.each(response.pulls_assigned, function(pull) {
+	      if(pull.ia_id === ia.id) {
+		  ia.issues = ia.issues.concat(pull);
+		  ia.pull_count++;
+	      }
+	  });
+
+	  _.each(response.pulls_created, function(pull) {
+	      if(pull.ia_id === ia.id) {
+		  ia.issues = ia.issues.concat(pull);
+		  ia.pull_count++;
+	      }
+	  });
+
+	  _.each(response.pulls_other, function(pull) {
+	      if(pull.ia_id === ia.id) {
+                  ia.issues = ia.issues.concat(pull);
+		  ia.pull_count++;
+              }
+	  });
+
+	  _.each(response.issues_other, function(v, k) {
+	      if(v.ia_id === ia.id) {
+                  ia.issues = ia.issues.concat(v);
+		  ia.pull_count++;
+              }
+	  });
+
+	  _.each(ia.issues, function(issue) {
+	      if(issue.title.length > 60) {
+		  issue.title = issue.title.substring(0, 60) + "...";
+	      }
+
+	      if(issue.tags) {
+		  var hasMaintainerApproved = _.filter(issue.tags, function(tag) {
+		      if(tag.name === "Maintainer Input Requested") {
+			  return true;
+		      }
+		  }).length > 0;
+		  issue.hasMaintainer = hasMaintainerApproved;
+	      }
+	  });
+
+
+	  _.each(ia.issues, function(issue) {
+	      $scope.mapIssues[issue.id] = true;
+	  });
+      });
+
+      response.issues_assigned = _.sortBy(_.toArray(response.issues_assigned), function(issue) {
+	  return moment().diff(moment(issue.updated_at), 'days');
+      });
+
+      $scope.count.mapIssues = _.size($scope.mapIssues);
+
+      $scope.issues_unassigned = _.filter(response.issues_assigned, function(v, k) {
+	  return !v.ia_id;
+      });
+
     $scope.count.maintained_ias = _.size($scope.maintained);
+      $scope.count.other = _.filter(response.issues_assigned, function(issue) {
+	  return !$scope.mapIssues[issue.id];
+      }).length || 0;
     $scope.count.developed_only_ias = _.size($scope.ias_developed_only);
-    $scope.count.open_issues = _.size(response.issues);
+    $scope.count.open_issues = _.size(response.issues_assigned);
     $scope.count.closed_issues = _.size(response.issues) - $scope.count.open_issues;
     $scope.count.open_prs = _.size($scope.prs_open);
     $scope.count.reviewed_prs = _.size(response.pulls_assigned);
-    $scope.count.developed_prs = _.size($scope.prs_open_developed);
+    $scope.count.developed_prs = _.size(response.pulls_assigned);
+      $scope.count.pulls_other = _.size(response.pulls_other);
+      $scope.count.issues_other = _.size(response.isues_other);
     $scope.count.closed_prs = response.closed_pulls;
-    $scope.count.ias = _.size($scope.ias);
+    $scope.count.ias = _.size($scope.ias)
+      $scope.count.filtered = _.filter($scope.maintained.concat($scope.ias_developed_only), function(ia) {
+	  return ia.issues.length > 0;
+      }).length;
+      $scope.count.assigned = _.size(response.issues_assigned);
 
     $scope.ias_maintained = response.maintained;
+
+      $scope.selectPrevious = function(index) {
+	  var elm = document.querySelectorAll(".all")[index - 1];
+	  if(index > 0 && /above/.test(elm.className)) {
+	      if(/add\-space/.test(elm.className)) {
+		  elm.className = "all add-space";
+	      } else {
+		  elm.className = "all";
+	      }
+	  } else if(index > 0) {
+	      elm.className += " above";
+	  }
+      };
 
     $scope.topics = _.map(response.topics, function(key, num) {
       return {count: key, topic: num};
@@ -108,13 +283,26 @@ app.controller('UserPageController', function($scope, $http, fn) {
     // by default. for 'filterable'
     $scope.show_ias = ($scope.count.maintained_ias) ? $scope.maintained : $scope.ias_developed_only;
 
-    $scope.changeShownIAs = function(which) {
-      $scope.show_ias = which;
+      $scope.changeShownIAs = function(which, open) {
+      var objKey;
 
-      var objKey = _.findKey($scope, which);
-      $scope.addImg(objKey.replace(/_/g, ''));
-    };
+	  if(open) {
+          objKey = 'issuesandprs';
+	      $scope.show_ias = _.filter(which, function(ia) {
+		  ia.expand = true;
+		  return ia.issues.length > 0;
+	      });
+	  } else {
+	      $scope.show_ias = _.each(which, function(ia) {
+		  ia.expand = false;
+	      });
+	      objKey = _.findKey($scope, which);
+	  }
 
+	  if(objKey) {
+	      $scope.addImg(objKey.replace(/_/g, ''));
+	  }
+      };
   }
 });
 

@@ -26,7 +26,7 @@ h2 {
 
 h3 {
   font-size: 21px;
-  margin-bottom: 30px; }
+  margin-bottom: 40px; }
 
 html, body, p, div {
   font-size: 15px;
@@ -70,9 +70,9 @@ a.subtitle:visited {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  min-width: 68em;
+  min-width: 63em;
   max-width: 68em;
-  min-height: 68em; }
+  min-height: 87em; }
   .container::after {
     clear: both;
     content: "";
@@ -130,7 +130,15 @@ section {
   display: -moz-flex;
   display: -ms-flexbox;
   display: flex;
-  align-items: center; }
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  box-align: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -ms-flex-align: center; }
   .flex-container.align-top {
     -webkit-box-align: start;
     -moz-box-align: start;
@@ -141,14 +149,6 @@ section {
     -o-align-items: flex-start;
     align-items: flex-start;
     -ms-flex-align: start; }
-  .flex-container .grid-1 {
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    box-flex: 1;
-    -webkit-flex: 1;
-    -moz-flex: 1;
-    -ms-flex: 1;
-    flex: 1; }
   .flex-container .grid-2 {
     -webkit-box-flex: 2;
     -moz-box-flex: 2;
@@ -209,14 +209,13 @@ section {
   margin-left: 10px;
   padding: 4px 0;
   border-radius: 3px;
-  border: 1px solid #eee;
   font-size: 13px;
   color: #aaa;
   text-transform: capitalize; }
   .status.full {
     float: left;
-    margin-left: 0;
-    text-align: center; }
+    margin-left: 20px;
+    text-align: right; }
   .status.live {
     border-color: rgba(89, 159, 73, 0.4);
     color: #599F49; }
@@ -225,19 +224,22 @@ section {
     color: rgba(224, 87, 42, 0.7); }
 
 .avatar {
-  float: left;
+  float: right;
   width: 24px;
   height: 24px;
   border-radius: 24px;
   border: 1px solid rgba(51, 51, 51, 0.05);
   background-color: #eee;
-  text-align: center; }
+  text-align: center;
+  margin-right: 20px;
+  position: relative;
+  top: -3px; }
   .avatar.right {
     float: right;
     margin-left: 4px; }
   .avatar span {
     position: relative;
-    top: -1px;
+    top: -2px;
     font-size: 10px;
     color: #999;
     text-transform: uppercase; }
@@ -245,26 +247,20 @@ section {
     width: 100%;
     border-radius: 24px; }
 
-.tabs {
-  float: right; }
-  .tabs a {
-    display: inline-block;
-    padding: 4px 0 0 20px;
-    margin-left: 20px;
-    color: #aaa;
-    outline: 0; }
-    .tabs a:not(:first-of-type) {
-      border-left: 1px solid #eee; }
-    .tabs a:hover {
-      color: #333;
-      opacity: 1; }
-    .tabs a > span {
-      padding-bottom: 8px;
-      opacity: 0.7; }
-    .tabs a .active {
-      border-bottom: 2px solid rgba(68, 149, 212, 0.85);
-      color: #333;
-      opacity: 1; }
+.tabs a {
+  display: inline-block;
+  padding: 4px 0 0 20px;
+  margin-left: 20px;
+  color: black;
+  outline: 0; }
+  .tabs a:first-of-type {
+    margin-left: 0;
+    padding-left: 0; }
+  .tabs a > span {
+    padding-bottom: 16px; }
+  .tabs a .active {
+    border-bottom: 2px solid rgba(68, 149, 212, 0.85);
+    color: #333; }
 
 .badge {
   margin-left: 10px;
@@ -275,7 +271,7 @@ section {
   color: rgba(170, 170, 170, 0.5); }
 
 .count {
-  padding-left: 10px;
+  padding-left: 14px;
   color: #aaa; }
 
 header {
@@ -286,6 +282,7 @@ header {
   border-bottom: none;
   padding: 45px 0; }
   header .stats {
+    padding-left: 1.5em;
     margin-left: 259px; }
   header .stats, header div, header p {
     color: #fff; }
@@ -345,7 +342,8 @@ main {
   .issue.hideAvatar .avatars {
     display: none; }
   .issue.typeC, .issue.topic.typeD {
-    font-size: 13px; }
+    font-size: 13px;
+    margin: 0px 20px; }
     .issue.typeC .comment, .issue.topic.typeD .comment {
       padding-left: 0; }
     .issue.typeC strong, .issue.topic.typeD strong {
@@ -355,11 +353,20 @@ main {
     padding-left: 8px;
     white-space: nowrap; }
 
+.ias > div:last-of-type {
+  border-bottom: 1px solid #eee; }
+
+.ias {
+  margin-bottom: 33px; }
+
 .instantanswer {
   padding: 20px 0;
-  border-top: 1px solid #eee; }
+  border-top: 1px solid #eee;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee;
+  background: white; }
   .instantanswer.typeC, .instantanswer.topic.typeD {
-    padding: 12px 0; }
+    padding: 20px 20px; }
   .instantanswer.typeD {
     padding: 8px 0; }
   .instantanswer .content {
@@ -372,6 +379,8 @@ main {
     .instantanswer .avatar span {
       top: 0px;
       font-size: 13px; }
+  .add-space .instantanswer {
+    border-bottom: 1px solid #eee; }
 
 .a.status {
   padding: 0 1em 0 1em; }
@@ -438,7 +447,7 @@ body {
   padding-bottom: 0; }
 
 .issue-name {
-  width: 260px; }
+  width: 400px; }
 
 .sep--after:after {
   content: "";
@@ -456,12 +465,93 @@ body {
   min-height: 69px; }
 
 .issue-link {
-  max-width: 200px;
-  display: inline-flex; }
+  max-width: 60%;
+  font-size: 15px; }
 
 .issue-ellipsis {
   overflow: hidden;
-  font-size: 13px;
   text-overflow: ellipsis; }
+
+.ia-issue {
+  padding-bottom: 20px; }
+  .ia-issue:last-of-type {
+    padding-bottom: 0; }
+  .ia-issue .issue-name {
+    padding-left: 0.7em;
+    font-size: 15px; }
+
+.unexpand {
+  display: none; }
+
+.issue-container {
+  background: white;
+  padding: 18px 20px;
+  border-left: 1px solid #eee;
+  border-right: 1px solid #eee; }
+  .add-space .issue-container {
+    border-bottom: 1px solid #eee; }
+
+.add-space {
+  /*    .space {
+  	height: 0.5em;
+  	border-bottom: 1px solid #eee;
+      }
+  */ }
+
+.maintainer-status {
+  display: inline-block;
+  border: 1px solid RGBA(241, 160, 49, 0.33);
+  color: #F1a031;
+  border-radius: 3px;
+  padding: 2px 8px;
+  font-size: 12px;
+  margin-left: 9px; }
+
+.ia-issue .octicon-issue-opened {
+  margin-left: -2px; }
+
+.issue-title {
+  display: inline-block;
+  width: 37em;
+  vertical-align: top; }
+
+.plus, .minus {
+  cursor: pointer;
+  display: inline-block;
+  background: #eee;
+  color: black;
+  width: 24px;
+  text-align: center;
+  border-radius: 50%;
+  height: 24px;
+  margin-left: 20px; }
+
+.plus .octicon {
+  font-size: 12px; }
+
+.minus .octicon {
+  font-size: 16px;
+  vertical-align: middle; }
+
+.add-space {
+  margin-top: 5px;
+  margin-bottom: 5px; }
+
+.hoverable:hover {
+  background: #f5fafd; }
+  .hoverable:hover .plus, .hoverable:hover .minus {
+    background: #ddd; }
+
+.issue-name a {
+  font-size: 15px; }
+
+.issue.typeC:first-of-type, .issue.topic.typeD:first-of-type {
+  border-top: none; }
+
+.above {
+  border-bottom: 1px solid #eee; }
+
+.above.add-space .issue-container {
+  border-bottom: none; }
 
 /*# sourceMappingURL=UserPage.css.map */

@@ -15,6 +15,7 @@ use Plack::Test;
 use HTTP::Request::Common;
 use List::MoreUtils qw/ uniq /;
 use Carp;
+use Encode qw(encode_utf8);
 
 binmode STDOUT, ':encoding(UTF-8)';
 binmode STDERR, ':encoding(UTF-8)';
@@ -71,23 +72,21 @@ sub ia_local {
 }
 
 sub gh_issues {
-    my ( $self, $gh_id ) = @_;
+    my ( $self ) = @_;
 
     my @issues = $self->ddgc->rs('GitHub::Issue')->search({
-      #( -or => [{ 'me.github_user_id_assignee' => $gh_id },
-      #        { 'me.github_user_id' => $gh_id }]
-      #),
-      ( state => 'open' ),
+      state => 'open',
     },
     {
-        join => [ qw/ github_repo / ],
-        columns => [ qw/ id state github_repo_id comments tags title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at / ],
+        join => [ qw/ github_repo github_user_assignee / ], 
+        columns => [ qw/ id state github_repo_id comments tags title number isa_pull_request github_repo.full_name github_user_id github_user_id_assignee created_at updated_at github_user_assignee.login github_user_assignee.gh_data/ ],
         collapse => 1,
-        group_by => 'me.id',
+        group_by => [ qw/ me.id github_user_assignee.id github_repo.full_name / ],
         result_class => 'DBIx::Class::ResultClass::HashRefInflator',
     });
 
     for my $issue ( @issues ) {
+        $issue = $self->find_ia( $issue );
         my @tags;
         my %temp_tags;
         my $original_tags = $issue->{tags}? decode_json($issue->{tags}) : '';
@@ -105,8 +104,19 @@ sub gh_issues {
         }
 
         $issue->{tags} = \@tags;
+        if ( $issue->{github_user_assignee} && $issue->{github_user_assignee}->{gh_data} ) {
+            $issue->{github_user_assignee}->{gh_data} = encode_utf8( $issue->{github_user_assignee}->{gh_data} );
+            my $gh_data = $self->json->decode( $issue->{github_user_assignee}->{gh_data} );
+            $issue->{github_user_assignee}->{avatar_url} = $gh_data->{avatar_url};
+            delete $issue->{github_user_assignee}->{gh_data};
+        }
     }
 
+    return \@issues;
+}
+
+sub closed_gh_issues {
+    my ( $self, $gh_id ) = @_;
 
     my $closed_pulls = $self->ddgc->rs('GitHub::Issue')->search({
       ( -or => [{ 'me.github_user_id_assignee' => $gh_id },
@@ -125,7 +135,6 @@ sub gh_issues {
     })->count;
 
     my %gh_issues = (
-        issues => \@issues,
         closed_pulls => $closed_pulls,
         closed_issues => $closed_issues
     );
@@ -146,6 +155,7 @@ sub find_ia {
     
     my $repo = $issue->{github_repo}->{full_name};
     $repo =~ s/zeroclickinfo-//;
+    $repo =~ s/duckduckgo\///;
     
     if ( my $ia_issue = $self->ddgc->rs('InstantAnswer::Issues')->find({ issue_id => $issue->{number}, repo => $repo }) ) {
         $issue->{ia_id} = $ia_issue->instant_answer_id;
@@ -170,6 +180,8 @@ sub get_avatar {
 sub transform {
     my ( $self, $ia ) = @_;
     my $transform = {};
+
+    my $issues = $self->gh_issues();
 
     for my $ia_id ( keys $ia ) {
         my @contributors;
@@ -211,9 +223,9 @@ sub transform {
         }
 
         # Issues count for this IA
-        if ( my $issues = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 0, status => 'open' })->count ) {
+        if ( my $issues_count = $self->ddgc->rs('InstantAnswer::Issues')->search({ instant_answer_id => $ia_id, is_pr => 0, status => 'open' })->count ) {
 
-            $ia->{$ia_id}->{issues_count} = $issues;
+            $ia->{$ia_id}->{issues_count} = $issues_count;
         }
 
         # PRs count for this IA
@@ -248,34 +260,36 @@ sub transform {
 
             #Append GitHub issues and pull requests
             my $gh_id = $self->gh_user_id( $contributor );
-            if ( $gh_id && ( my $issues = $self->gh_issues( $gh_id ) ) && !( $transform->{$lc_contributor}->{pulls}) && !($transform->{$lc_contributor}->{issues}) ) {
-                
-                $transform->{$lc_contributor}->{closed_pulls} = $issues->{closed_pulls};
-                $transform->{$lc_contributor}->{closed_issues} = $issues->{closed_issues};
+            if ( $gh_id && ( my $closed_issues = $self->closed_gh_issues( $gh_id ) ) && !( $transform->{$lc_contributor}->{pulls}) && !($transform->{$lc_contributor}->{issues}) ) {
+                if ( my $closed_issues = $self->closed_gh_issues( $gh_id ) ) {
+                    $transform->{$lc_contributor}->{closed_pulls} = $closed_issues->{closed_pulls};
+                    $transform->{$lc_contributor}->{closed_issues} = $closed_issues->{closed_issues};
+                }
 
-                $transform->{$lc_contributor}->{pulls_assigned} = {};
-                $transform->{$lc_contributor}->{pulls_created} = {};
-                $transform->{$lc_contributor}->{issues_assigned} = {};
-                $transform->{$lc_contributor}->{issues_assigned} = {};
+                if ( $issues ) {
+                    $transform->{$lc_contributor}->{pulls_assigned} = {};
+                    $transform->{$lc_contributor}->{pulls_created} = {};
+                    $transform->{$lc_contributor}->{issues_assigned} = {};
+                    $transform->{$lc_contributor}->{issues_created} = {};
 
-                for my $issue ( @{ $issues->{issues} } ) {
-                    # Pair the issue to an IA if possible
-                    $issue = $self->find_ia( $issue );
-                    my $issue_assignee = $issue->{github_user_id_assignee};
-                    my $issue_opener = $issue->{github_user_id_author};
-                    my $suffix_key = 'other';
-                    if ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) {
-                        $suffix_key = 'assigned';
-                    } elsif ( $issue_opener && ( $gh_id eq $issue_opener ) ) {
-                        $suffix_key = 'created';
-                    }
-                    
-                    if ( $issue->{isa_pull_request} ) {
-                        my $pull_key = 'pulls_' . $suffix_key;
-                        $transform->{$lc_contributor}->{$pull_key}->{$issue->{id}} = $issue;
-                    } else {
-                        my $issue_key = 'issues_' . $suffix_key;
-                        $transform->{$lc_contributor}->{$issue_key}->{$issue->{id}} = $issue;
+                    for my $issue ( @{ $issues } ) {
+                        # Pair the issue to an IA if possible
+                        my $issue_assignee = $issue->{github_user_id_assignee};
+                        my $issue_opener = $issue->{github_user_id};
+                        my $suffix_key = 'other';
+                        if ( $issue_assignee && ( $gh_id eq $issue_assignee ) ) {
+                            $suffix_key = 'assigned';
+                        } elsif ( $issue_opener && ( $gh_id eq $issue_opener ) ) {
+                            $suffix_key = 'created';
+                        }
+                        
+                        if ( $issue->{isa_pull_request} ) {
+                            my $pull_key = 'pulls_' . $suffix_key;
+                            $transform->{$lc_contributor}->{$pull_key}->{$issue->{id}} = $issue;
+                        } else {
+                            my $issue_key = 'issues_' . $suffix_key;
+                            $transform->{$lc_contributor}->{$issue_key}->{$issue->{id}} = $issue;
+                        }
                     }
                 }
             }

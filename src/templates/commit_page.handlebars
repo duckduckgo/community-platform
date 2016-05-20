@@ -193,14 +193,14 @@
                 <td name="maintainer"  id="maintainer_original">
                     {{#if original.maintainer}}
                         {{#if original.maintainer.github}}
-                            <a href="https://github.com/{{original.maintainer.github}}">{{original.maintainer.github}}</a>
+                            <a href="http://duckduckhack.com/u/{{slug original.maintainer.github}}">{{original.maintainer.github}}</a>
                         {{/if}}
                     {{/if}}
                 </td>
                 <td name="maintainer">
                     {{#if maintainer}}
                         {{#if maintainer.github}}
-                            <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a>
+                            <a href="http://duckduckhack.com/u/{{slug maintainer.github}}">{{maintainer.github}}</a>
                         {{/if}}
                     {{/if}}
                 </td>
@@ -227,7 +227,7 @@
                 <td name="developer"  id="developer_original">
                     {{#each original.developer}}
                         <li data-type="{{type}}">
-                            <a href="{{url}}">
+                            <a href="{{#eq type 'github'}}https://duckduckhack.com/u/{{slug name}}{{else}}{{url}}{{/eq}}">
                                 {{name}}
                             </a>
                         </li>
@@ -236,7 +236,7 @@
                 <td name="developer">
                     {{#each developer}}
                         <li data-type="{{type}}">
-                            <a href="{{url}}">
+                            <a href="{{#eq type 'github'}}https://duckduckhack.com/u/{{slug name}}{{else}}{{url}}{{/eq}}">
                                 {{name}}
                             </a>
                         </li>
