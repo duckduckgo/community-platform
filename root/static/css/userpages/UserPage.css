@@ -366,7 +366,7 @@ main {
   border-right: 1px solid #eee;
   background: white; }
   .instantanswer.typeC, .instantanswer.topic.typeD {
-    padding: 20px 20px; }
+    padding: 12px 20px; }
   .instantanswer.typeD {
     padding: 8px 0; }
   .instantanswer .content {
