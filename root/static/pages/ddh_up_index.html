@@ -95,11 +95,11 @@
       -->
       <div class="quarter">
 	<span>Pull Requests</span>
-	<h2>{{count.developed_prs}}</h2>
+	<h2>{{count.all_prs}}</h2>
 	</div>
       <div class="quarter">
 	<span>Issues</span>
-	<h2>{{count.open_issues}}</h2>
+	<h2>{{count.all_issues}}</h2>
       </div>
       <div class="quarter">
 	<span>Closed</span>
@@ -136,26 +136,26 @@
 	<div class="tabs">
 	  <a href="#" ng-click="changeShownIAs(maintained)">
 	    <span ng-class="{'active': show_ias == maintained}" >
-	      Maintaining
+	      Maintaining IAs
 	      <span class="badge">{{count.maintained_ias}}</span>
 	      </span>
 	    </a>
 	  <a href="#" ng-click="changeShownIAs(ias_developed_only)">
 	    <span ng-class="{'active': show_ias == ias_developed_only}">
-	      Developed
+	      Developed IAs
 	      <span class="badge">{{count.developed_only_ias}}</span>
 	      </span>
 	    </a>
 	  <a href="#" ng-click="changeShownIAs(maintained.concat(ias_developed_only), true)">
 	    <span ng-class="{'active': show_ias != maintained && show_ias != ias_developed_only}" >
 	      Issues & PRs
-	      <span class="badge">{{count.other + count.filtered}}</span>
+	      <span class="badge">{{count.filtered + count.other}}</span>
 	    </span>
 	  </a>
 	  </div>
 	</h3>
 
-      <div ng-repeat="ia in show_ias | orderBy: iaSort" ng-class="{false: 'add-space'}[!ia.expand || ia.issues.length == 0]" ng-click="ia.expand = !ia.expand; selectPrevious($index);" class="all">
+      <div ng-repeat="ia in show_ias | orderBy: iaSort" ng-class="{false: 'add-space'}[!ia.expand || ia.issues.length == 0]" ng-click="ia.expand = !ia.expand; selectPrevious($index, ia);" class="all">
 
 	<div class="instantanswer typeC flex-container" ng-include="'/ddh-static/partials/c_instantanswer.html'" ng-class="{true: 'hoverable'}[ia.issues.length > 0]">
 	</div>
@@ -218,7 +218,7 @@
       -->
 
       <div class="misc" ng-show="show_ias != maintained && show_ias != ias_developed_only">
-	  <div ng-repeat="issue in response.issues_assigned" ng-if="!mapIssues[issue.id]" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container"></div>
+	  <div ng-repeat="issue in all_the_issues" ng-if="!mapIssues[issue.id]" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container"></div>
 
 
       </section>
