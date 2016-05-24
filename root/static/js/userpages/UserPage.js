@@ -192,7 +192,11 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	  _.each(response.issues_other, function(v, k) {
 	      if(v.ia_id === ia.id) {
                   ia.issues = ia.issues.concat(v);
-		  ia.pull_count++;
+		  if(v.isa_pull_request === 1) {
+		      ia.pull_count++;
+		  } else {
+		      ia.issue_count++;
+		  }
               }
 	  });
 
