@@ -322,10 +322,19 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
       $scope.changeShownIAs = function(which, open) {
 	  if(open) {
-	      $scope.show_ias = _.filter(which, function(ia) {
+	      var seen = {};
+	      var temp = [];
+	      _.each(which.concat(open), function(ia) {
+		  if(!seen[ia.id]) {
+		      seen[ia.id] = true;
+		      temp.push(ia);
+		  }
+	      });
+	      $scope.show_ias = _.filter(temp, function(ia) {
 		  ia.expand = true;
 		  return ia.issues.length > 0;
 	      });
+
 	  } else {
 	      $scope.show_ias = _.each(which, function(ia) {
 		  ia.expand = false;
