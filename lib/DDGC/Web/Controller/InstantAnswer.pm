@@ -1183,16 +1183,17 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
         my $other_queries = $data->{other_queries}? from_json($data->{other_queries}) : [];
         my $author;
         my $maintainer;
-
-        if (my $gh_id = $c->user->github_id) {
-            $author = {
-                url => 'https://github.com/' . $c->user->username,
-                name => $c->user->username,
-                type => "github"
+        my $gh_id = $c->user->github_id;
+        
+        if ($gh_id && (my $gh_user =  $c->d->rs('GitHub::User')->find({github_id => $gh_id}))) {
+            $maintainer = { 
+                github => $gh_user->login
             };
-
-            my $maintainer = { 
-                github => $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login
+            
+            $author = {
+                url => 'https://github.com/' . $gh_user->login,
+                name => $gh_user->login,
+                type => "github"
             };
 
         } else {
@@ -1268,6 +1269,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     my $repo;
     my $pr_number;
     my $gh;
+    my $gh_id = $c->user->github_id;
     
     if ($user) {
         if(($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
@@ -1281,15 +1283,15 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             my $author;
             my $maintainer;
 
-            if (my $gh_id = $c->user->github_id) {
-                $author = {
-                    url => 'https://github.com/' . $c->user->username,
-                    name => $c->user->username,
-                    type => "github"
+            if ($gh_id && (my $gh_user =  $c->d->rs('GitHub::User')->find({github_id => $gh_id}))) {
+                $maintainer = { 
+                    github => $gh_user->login
                 };
-
-                my $maintainer = { 
-                    github => $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login
+                
+                $author = {
+                    url => 'https://github.com/' . $gh_user->login,
+                    name => $gh_user->login,
+                    type => "github"
                 };
 
             } else {

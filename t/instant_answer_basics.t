@@ -186,6 +186,44 @@ test_psgi $app => sub {
     $contributor = $contributors[0];
     is($contributor->{type}, 'github', 'Test contributor is a github account ' . $contributor->{url});
 
+    # Get session for github user
+    my $session_request = $cb->(
+        POST '/testutils/user_session',
+        { username => 'daxtheduck' }
+    );
+    ok( $session_request->is_success, 'Getting IA user Cookie' );
+    my $cookie = 'ddgc_session=' . $session_request->content;
+
+    # Create an IA
+    my $new_gh_ia_req = $cb->(
+        POST '/ia/create',
+        Cookie          => $cookie,
+        Content         => [ data => encode_json( {
+            id            => 'test_github_ia',
+            name          => 'Test GH IA',
+            description   => 'This is a test IA',
+            example_query => 'testing IAs',
+            repo          => 'fathead',
+            action_token  => $get_action_token->( $cookie ),
+        } ) ],
+    );
+    ok( $new_gh_ia_req->is_success, 'Creating IA' );
+
+    # Find IA
+    my $gh_ia = $d->rs('InstantAnswer')->find('test_github_ia');
+    ok( $gh_ia, 'Query returns something' );
+    isa_ok( $gh_ia, 'DDGC::DB::Result::InstantAnswer' );
+
+    # Check all_milestones JSON (should have everything)
+    my $gh_ia_repo = $get_repo_json->({ repo => 'fathead', all_milestones => 1 });
+    is( ref $gh_ia_repo->{test_github_ia}, 'HASH', 'Test IA is in all milestone repo JSON' );
+
+    # Check the contributor
+    isnt($gh_ia->developer, undef, 'Test contributor is not null for the new IA');    
+    my @gh_contributors  = @{ decode_json( $gh_ia->developer ) };
+    my $gh_contributor = $gh_contributors[0];
+    is($gh_contributor->{type}, 'github', 'Test contributor is a github account ' . $contributor->{url});
+
     # Use this when you need to see session data
     # $cb->( GET '/testutils/debug_session' );
 
