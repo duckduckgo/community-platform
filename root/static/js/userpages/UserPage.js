@@ -235,6 +235,11 @@ app.controller('UserPageController', function($scope, $http, fn) {
       $scope.count.other += _.filter(response.pulls_assigned, function(ia) {
 	  return !$scope.mapIssues[ia.id];
       }).length || 0;
+
+      $scope.count.other += _.filter(response.pulls_created, function(ia) {
+	  return !$scope.mapIssues[ia.id];
+      }).length || 0;
+
     $scope.count.developed_only_ias = _.size($scope.ias_developed_only);
     $scope.count.open_issues = _.size(response.issues_assigned);
     $scope.count.closed_issues = _.size(response.issues) - $scope.count.open_issues;
@@ -247,12 +252,22 @@ app.controller('UserPageController', function($scope, $http, fn) {
     $scope.count.ias = _.size($scope.ias)
       $scope.count.filtered = 0;
 
-      $scope.all_the_issues = _.toArray(response.issues_assigned).concat(_.toArray(response.pulls_assigned));
+      $scope.all_the_issues = _.toArray(response.issues_assigned).concat(_.toArray(response.pulls_assigned)).concat(_.toArray(response.pulls_created));
       $scope.all_the_issues = _.sortBy($scope.all_the_issues, function(issue) {
 	  return moment().diff(moment(issue.updated_at), 'days');
       });
 
-      _.each(_.filter($scope.maintained.concat($scope.ias_developed_only), function(ia) {
+
+      var seen = {};
+      var temp = [];
+      _.each($scope.maintained.concat($scope.ias_developed_only), function(ia) {
+	  if(!seen[ia.id]) {
+	      seen[ia.id] = true;
+	      temp.push(ia);
+	  }
+      });
+
+      _.each(_.filter(temp, function(ia) {
 	  return ia.issues.length > 0;
       }), function(ia) {
 	  $scope.count.filtered += ia.issues.length;
