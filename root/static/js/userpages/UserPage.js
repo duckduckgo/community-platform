@@ -315,7 +315,7 @@ app.controller('UserPageController', function($scope, $http, fn) {
       $scope.count.all_prs = 0;
       $scope.count.all_issues = 0;
 
-      _.each($scope.maintained.concat($scope.ias_developed_only), function(ia) {
+      _.each(temp, function(ia) {
 	  _.each(ia.issues, function(issue) {
 	      if(issue.isa_pull_request === 1) {
 		  $scope.count.all_prs++;
