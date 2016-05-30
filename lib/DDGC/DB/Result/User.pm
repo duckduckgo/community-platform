@@ -11,6 +11,8 @@ use Path::Class;
 use IPC::Run qw/ run timeout /;
 use LWP::Simple qw/ is_success getstore /;
 use File::Temp qw/ tempfile /;
+use File::Spec::Functions;
+use URI;
 use Carp;
 use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
@@ -272,6 +274,29 @@ sub store_github_credentials {
 			gh_data => $gh_data,
 		})
 	}
+}
+
+sub verified_userpage {
+	my ( $self ) = @_;
+	return if !$self->github_id;
+	return if !$self->github_user;
+	my $d = catdir( '/home/ddgc/ddgc/ddh-userpages', lc( $self->github_user ) );
+	return if ( ! -d $d );
+	return URI->new(
+		sprintf( 'https://duckduckhack.com/u/%s#tutorial', lc( $self->github_user ) )
+	)->canonical;
+}
+
+sub has_not_seen_userpage_banner {
+	my ( $self ) = @_;
+	my $result = $self->schema->resultset('User::CampaignNotice')->find( {
+		users_id => $self->id,
+		campaign_id => 128,
+		campaign_source => 'campaign',
+		cache_for => 600,
+	} );
+
+	return ($result) ? 0 : 1;
 }
 
 sub add_default_notifications {
