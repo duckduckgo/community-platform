@@ -4,6 +4,9 @@
 			<div class="faux__image">
 				<img src="/static/img/logo_ddg_community_thm.png" />
 			</div>
+			<div class="hide">
+				<img src="<: $campaign_info.show_req :>" />
+			</div>
 			<div class="faux__body">
 				<: if ( $campaign_info.notification ) { :>
 					<: $campaign_info.notification | raw :>
