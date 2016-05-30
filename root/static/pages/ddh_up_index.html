@@ -63,7 +63,7 @@
   </div>
 </div>
 
-<div class="tutorial">
+<div class="tutorial" ng-show="is_tutorial">
   <div class="tutorial-text">
     As a DuckDuckHack contributor, you've been given early-access to use your new DuckDuckHack profile!</br></br>
     In the future, this will be the new place to manage and showcase your DuckDuckHack contributions.</br></br>
@@ -74,7 +74,7 @@
     </ul>
   </div>
   <div class="tutorial-btn_grp">
-    <div class="btn">Got It</div>
+    <a href="#" ng-click="is_tutorial = false"><div class="btn">Got It</div></a>
     <a href="mailto:open@duckduckgo.com?subject=Developer%20Dashboard%20feedback"><div class="btn--primary">Send Feedback</div></a>
   </div>
 </div>
