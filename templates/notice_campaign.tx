@@ -6,7 +6,7 @@
 			</div>
 			<div class="faux__body">
 				<: if ( $campaign_info.notification ) { :>
-					<: $campaign_info.notification :>
+					<: $campaign_info.notification | raw :>
 				<: } else { :>
 					We have some exciting news coming soon! Would you like to be in the loop?
 				<: } :>
