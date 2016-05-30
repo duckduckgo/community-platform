@@ -64,7 +64,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 			$c->stash->{campaign_info}->{campaign_name} = 'Your DuckDuckHack Profile';
 			$c->stash->{campaign_info}->{link} = $url;
 			$c->stash->{campaign_info}->{notification} = sprintf(
-				"Preview your upcoming <a href='%s'>DuckDuckHack Profile</a>!", $url
+				"Preview your upcoming <a href='%s' onClick='sendReq()'>DuckDuckHack Profile</a>!", $url
 			);
 		}
 	}
