@@ -42,24 +42,16 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 			return $c->detach;
 		}
 
-		if (!$c->session->{campaign_notification_checked}) {
-			$c->session->{campaign_notification_checked} = 1;
-			my $campaign = $c->user->get_first_available_campaign;
-			if ($campaign) {
-				if (!$c->user->seen_campaign_notice($campaign, 'campaign')) {
-					$c->session->{campaign_notification} = $campaign;
-				}
-			}
-		}
-
-		if ($c->session->{campaign_notification}) {
-			my $campaign_config = $c->d->config->campaigns->{$c->session->{campaign_notification}};
-			if ($campaign_config->{notification_active}) {
-				$c->stash->{campaign_info}->{campaign_id} = $campaign_config->{id};
-				$c->stash->{campaign_info}->{campaign_name} = $c->session->{campaign_notification};
-				$c->stash->{campaign_info}->{link} = $campaign_config->{url};
-				$c->stash->{campaign_info}->{notification} = $campaign_config->{notification};
-			}
+		if (
+			( my $url = $c->user->verified_userpage ) &&
+			$c->user->has_not_seen_userpage_banner
+		) {
+			$c->stash->{campaign_info}->{campaign_id} = 128;
+			$c->stash->{campaign_info}->{campaign_name} = 'Your DuckDuckHack Profile';
+			$c->stash->{campaign_info}->{link} = $url;
+			$c->stash->{campaign_info}->{notification} = sprintf(
+				"Preview your upcoming <a href='%s'>DuckDuckHack Profile</a>!", $url
+			);
 		}
 	}
 
