@@ -7,7 +7,9 @@
 'use strict';
 
 // var app = angular.module('app', ['ngSanitize', 'textAngular', 'flow']);
-var app = angular.module('app', ['ngSanitize']);
+var app = angular.module('app', ['ngSanitize']).config(function($locationProvider) {
+    $locationProvider.html5Mode({enabled: true, requireBase: false});
+    })
 
 // CONTROLLERS
 

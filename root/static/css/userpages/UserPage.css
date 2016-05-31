@@ -560,4 +560,80 @@ body {
 .site-main {
   overflow: initial; }
 
+.tutorial {
+  position: absolute;
+  width: 400px;
+  right: 10px;
+  z-index: 3;
+  background: white;
+  border: 1px solid #d2d2d2;
+  padding: 20px 20px 20px 40px;
+  top: 78px;
+  border-radius: 3px; }
+  .tutorial .tutorial-text {
+    font-size: 13px; }
+    .tutorial .tutorial-text ul {
+      font-size: 13px; }
+  .tutorial .tutorial-btn_grp {
+    clear: both;
+    text-align: center; }
+  .tutorial .btn, .tutorial .btn--primary {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-align: center;
+    position: relative;
+    text-decoration: none;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 0 1em;
+    line-height: 2.5;
+    border: 1px solid #babec9;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.1);
+    background-color: #f8f8f8;
+    color: #474747;
+    -moz-border-radius: 0.25em;
+    -webkit-border-radius: 0.25em;
+    border-radius: 0.25em;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    -ms-box-sizing: content-box;
+    -o-box-sizing: content-box;
+    box-sizing: content-box;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    -moz-transition: none 0.3s ease-in-out 0s;
+    -o-transition: none 0.3s ease-in-out 0s;
+    -webkit-transition: none 0.3s ease-in-out;
+    -webkit-transition-delay: 0s;
+    transition: none 0.3s ease-in-out 0s;
+    outline: none !important;
+    background-color: #fafafa;
+    border-color: #ddd;
+    line-height: 2;
+    font-weight: normal;
+    font-size: 1em;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    color: #333;
+    display: inline-block;
+    margin: 0 2%;
+    width: 42%;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 13px; }
+  .tutorial .btn--primary {
+    background-color: #60a5da;
+    border-color: #60a5da;
+    color: #fff; }
+
 /*# sourceMappingURL=UserPage.css.map */

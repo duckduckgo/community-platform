@@ -92,6 +92,10 @@ app.controller('UserPageController', function($scope, $http, fn) {
 
     $scope.role = 'regular';
 
+      if(window.location.hash) {
+	  $scope.is_tutorial = window.location.hash === "#tutorial";
+      }
+
     if ($scope.staff.indexOf($scope.response.gh_data.login) !== -1) {
         $scope.role = 'staff';
     } else if ($scope.comleaders.indexOf($scope.response.gh_data.login) !== -1) {
