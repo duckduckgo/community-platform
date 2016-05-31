@@ -7,6 +7,7 @@ use DateTime;
 use DateTime::Duration;
 use DateTime::Format::Mail;
 use URI;
+use POSIX;
 
 use namespace::autoclean;
 
@@ -46,11 +47,24 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 			( my $url = $c->user->verified_userpage ) &&
 			$c->user->has_not_seen_userpage_banner
 		) {
+            my $random = ceil(rand(1e7));
+            my $base_req_url = 'https://duckduckgo.com/t/uplaunch_'; 
+            my $role = 'regular';
+            if ($c->user->admin) {
+                $role = 'staff';
+            } elsif ($c->user->is('community_leader')) {
+                $role = 'comleader';
+            }
+
+            $role .= '_' . $c->user->github_user;
+            $c->stash->{campaign_info}->{user_info} = $role;
+            $c->stash->{campaign_info}->{show_req} = $base_req_url . 'shown_' . $role . '?' . $random;
+            $c->stash->{campaign_info}->{base_req} = $base_req_url;
 			$c->stash->{campaign_info}->{campaign_id} = 128;
 			$c->stash->{campaign_info}->{campaign_name} = 'Your DuckDuckHack Profile';
 			$c->stash->{campaign_info}->{link} = $url;
 			$c->stash->{campaign_info}->{notification} = sprintf(
-				"Preview your upcoming <a href='%s'>DuckDuckHack Profile</a>!", $url
+				"Preview your upcoming <a href='%s' onClick='sendReq()'>DuckDuckHack Profile</a>!", $url
 			);
 		}
 	}
