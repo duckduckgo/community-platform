@@ -7,6 +7,7 @@ use DateTime;
 use DateTime::Duration;
 use DateTime::Format::Mail;
 use URI;
+use POSIX;
 
 use namespace::autoclean;
 
@@ -42,24 +43,29 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 			return $c->detach;
 		}
 
-		if (!$c->session->{campaign_notification_checked}) {
-			$c->session->{campaign_notification_checked} = 1;
-			my $campaign = $c->user->get_first_available_campaign;
-			if ($campaign) {
-				if (!$c->user->seen_campaign_notice($campaign, 'campaign')) {
-					$c->session->{campaign_notification} = $campaign;
-				}
-			}
-		}
+		if (
+			( my $url = $c->user->verified_userpage ) &&
+			$c->user->has_not_seen_userpage_banner
+		) {
+            my $random = ceil(rand(1e7));
+            my $base_req_url = 'https://duckduckgo.com/t/uplaunch_'; 
+            my $role = 'regular';
+            if ($c->user->admin) {
+                $role = 'staff';
+            } elsif ($c->user->is('community_leader')) {
+                $role = 'comleader';
+            }
 
-		if ($c->session->{campaign_notification}) {
-			my $campaign_config = $c->d->config->campaigns->{$c->session->{campaign_notification}};
-			if ($campaign_config->{notification_active}) {
-				$c->stash->{campaign_info}->{campaign_id} = $campaign_config->{id};
-				$c->stash->{campaign_info}->{campaign_name} = $c->session->{campaign_notification};
-				$c->stash->{campaign_info}->{link} = $campaign_config->{url};
-				$c->stash->{campaign_info}->{notification} = $campaign_config->{notification};
-			}
+            $role .= '_' . $c->user->github_user;
+            $c->stash->{campaign_info}->{user_info} = $role;
+            $c->stash->{campaign_info}->{show_req} = $base_req_url . 'shown_' . $role . '?' . $random;
+            $c->stash->{campaign_info}->{base_req} = $base_req_url;
+			$c->stash->{campaign_info}->{campaign_id} = 128;
+			$c->stash->{campaign_info}->{campaign_name} = 'Your DuckDuckHack Profile';
+			$c->stash->{campaign_info}->{link} = $url;
+			$c->stash->{campaign_info}->{notification} = sprintf(
+				"Preview your upcoming <a href='%s' onClick='sendReq()'>DuckDuckHack Profile</a>!", $url
+			);
 		}
 	}
 
