@@ -7,12 +7,6 @@
     </script>
 	<div id='campaign_info' class="notice info notice--campaign">
 		<div class="faux  notice__content">
-			<div class="faux__image">
-				<img src="/static/img/logo_ddg_community_thm.png" />
-			</div>
-			<div class="hide">
-				<img id="imgReq" src="<: $campaign_info.show_req :>" />
-			</div>
 			<div class="faux__body">
 				<: if ( $campaign_info.notification ) { :>
 					<: $campaign_info.notification | raw :>

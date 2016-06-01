@@ -692,21 +692,32 @@ body {
 }
 
 .tutorial {
-    position: absolute;
-    width: 400px;
-    right: 10px;
-    z-index: 3;
-    background: white;
-    border: 1px solid #d2d2d2;
-    padding: 20px 20px 20px 40px;
-    top: 78px;
+    background: #eee;
+    border: none;
+    padding: 20px 10px 20px 20px;
     border-radius: 3px;
+    margin-bottom: 60px;
 
     .tutorial-text {
 	font-size: 13px;
 
 	ul {
 	    font-size: 13px;
+	}
+    }
+
+    a {
+	color: #60A5DA;
+    }
+
+    .tutorial-x {
+	position: relative;
+	cursor: pointer;
+	display: block;
+
+	.octicon {
+	    position: absolute;
+	    right: 9px;
 	}
     }
 
