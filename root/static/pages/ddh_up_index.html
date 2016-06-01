@@ -63,22 +63,6 @@
   </div>
 </div>
 
-<div class="tutorial ng-cloak" ng-show="is_tutorial">
-  <div class="tutorial-text">
-    As a DuckDuckHack contributor, you've been given early-access to use your new DuckDuckHack profile!</br></br>
-    In the future, this will be the new place to manage and showcase your DuckDuckHack contributions.</br></br>
-    With your profile, you can:</br></br>
-    <ul>
-      <li>See all current Issues and Pull Requests associated with your Instant Answers in one place.</li>
-      <li>Quickly access the Instant Answers you're maintaining or have contributed to across DuckDuckHack GitHub repositories.</li>
-    </ul>
-  </div>
-  <div class="tutorial-btn_grp">
-    <a href="#" ng-click="is_tutorial = false"><div class="btn">Got It</div></a>
-    <a href="mailto:open@duckduckgo.com?subject=Developer%20Dashboard%20feedback"><div class="btn--primary">Send Feedback</div></a>
-  </div>
-</div>
-
         <div class="site-main">
             <div class="">
 
@@ -147,6 +131,17 @@
 
   <!-- Main -->
   <main>
+
+    <div class="tutorial ng-cloak" ng-show="is_tutorial">
+      <div class="tutorial-text">
+	<strong>Welcome to your DuckDuckHack Profile!</strong></br></br>
+	You now have one place to manage <strong>all</strong> your Instant Answers and any Issues or Pull Requests for them. </br></br>
+	
+	Can we make your profile more useful? <a href="mailto:open@duckduckgo.com?subject=Developer%20Dashboard%20feedback">Let us know how!</a>
+      </div>
+      <!--<a href="#" ng-click="is_tutorial = false"><div class="btn">Got It</div></a>-->
+    </div>
+    
     <section class="ias">
       <h3>
 	<div class="tabs">
