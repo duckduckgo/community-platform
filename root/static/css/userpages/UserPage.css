@@ -572,6 +572,13 @@ body {
       font-size: 13px; }
   .tutorial a {
     color: #60A5DA; }
+  .tutorial .tutorial-x {
+    position: relative;
+    cursor: pointer;
+    display: block; }
+    .tutorial .tutorial-x .octicon {
+      position: absolute;
+      right: 9px; }
   .tutorial .tutorial-btn_grp {
     clear: both;
     text-align: center; }

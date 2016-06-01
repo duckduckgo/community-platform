@@ -710,6 +710,17 @@ body {
 	color: #60A5DA;
     }
 
+    .tutorial-x {
+	position: relative;
+	cursor: pointer;
+	display: block;
+
+	.octicon {
+	    position: absolute;
+	    right: 9px;
+	}
+    }
+
     .tutorial-btn_grp {
 	clear: both;
 	text-align: center
