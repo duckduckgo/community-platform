@@ -12,6 +12,7 @@
     </div>
 </div>
 
+<: include "notice_campaign.tx" :>
 
 <div id="ia-index">
 <script>

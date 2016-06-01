@@ -12,6 +12,8 @@
     </div>
 </div>
 
+<: include "notice_campaign.tx" :>
+
 <input type="hidden" name="action_token" class="text" value="<: $c.session.action_token :>" />
 
 <: if $is_admin { :>
