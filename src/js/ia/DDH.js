@@ -2,7 +2,6 @@
 
     //console.log("DDH.js");
 
-
     env.DDH = {
 
     };
@@ -22,5 +21,4 @@
         }
 
     };
-
 })(window);

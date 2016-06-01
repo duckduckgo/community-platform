@@ -10,6 +10,9 @@ $(document).ready(function() {
             DDH.page = new DDH[DDH_iapage]();
         }
         // else .. error
+	
+	// Remove the notice above the blue bar.
+	$(".notice--top").hide();
     }
 
 });

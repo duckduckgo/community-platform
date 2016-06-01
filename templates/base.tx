@@ -18,7 +18,7 @@
 				<: include "breadcrumb.tx" :>
 				<: include "notice_errors.tx" :>
 				<: include "notice_warnings.tx" :>
-				<: include "notice_campaign.tx" :>
+				<div class="notice--top"><: include "notice_campaign.tx" :></div>
 				<: include $next_template() :>
 			</div>
 		</div> <!--.site-main-->
