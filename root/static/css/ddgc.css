@@ -193,9 +193,15 @@ span.callout-row__text {
   background: #eee;
   color: #333;
   border: none;
-  border-radius: 3px; }
+  border-radius: 3px;
+  margin-top: 3em;
+  margin-bottom: 0;
+  max-width: 1200px; }
   #campaign_info.notice a {
     color: #60a5da; }
+  #campaign_info.notice .faux__body {
+    padding-left: 1em;
+    padding-right: 1em; }
 
 /*
  * Help
