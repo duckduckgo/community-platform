@@ -253,13 +253,7 @@ $(document).ready(function() {
 		var me = $(this);
 		$.ajax({
 			url: me.attr('href'),
-			beforeSend: function(xhr) {
-				me.replaceWith(
-					'<img class="loading-image"' +
-					'src="/static/images/ajax-loader.gif"/>'
-				);
-			},
-			success: function(data) {
+			complete: function(data) {
 				$('#campaign_info').remove();
 			}
 		});
