@@ -229,7 +229,7 @@ test_psgi $app => sub {
 
     # Create an IA from a PR - the link in there uses uppercase
     my $new_ia_pr_req = $cb->(
-        POST '/ia/create_ia_from_pr',
+        POST '/ia/create_from_pr',
         Cookie          => $cookie,
         Content         => [
             pr           => 'https://github.com/duckduckgo/zeroclickinfo-goodies/pull/3172',
