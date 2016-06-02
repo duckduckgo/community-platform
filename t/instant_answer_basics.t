@@ -227,7 +227,7 @@ test_psgi $app => sub {
     # Use this when you need to see session data
     # $cb->( GET '/testutils/debug_session' );
 
-    # Create an IA from a PR
+    # Create an IA from a PR - contains mixed case ID
     my $new_ia_pr_req = $cb->(
         POST '/ia/create_from_pr',
         Cookie          => $cookie,
@@ -238,8 +238,8 @@ test_psgi $app => sub {
     );
     ok( $new_ia_pr_req->is_success, 'Creating IA from PR' );
 
-    # Find IA
-    my $lc_ia = $d->rs('InstantAnswer')->find('game_of_life_cheat_sheet');
+    # Find IA - the meta_id should be lowercase
+    my $lc_ia = $d->rs('InstantAnswer')->find('upper_case_ia_test');
     ok( $lc_ia, 'Query returns something - the meta_id was correctly formatted' );
     isa_ok( $lc_ia, 'DDGC::DB::Result::InstantAnswer' );
 
