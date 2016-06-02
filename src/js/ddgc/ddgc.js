@@ -249,14 +249,12 @@ $(document).ready(function() {
 	});
 
 	$('a.campaign_nothanks').click(function(e){
-		e.preventDefault();
-		var me = $(this);
-		$.ajax({
-			url: me.attr('href'),
-			complete: function(data) {
-				$('#campaign_info').remove();
-			}
-		});
+	    e.preventDefault();
+	    $('.notice--campaign').hide();
+	    var me = $(this);
+	    $.ajax({
+		url: me.attr('href'),
+	    });
 	});
 
 	$('a.checkfalse_link').click(function(e){
