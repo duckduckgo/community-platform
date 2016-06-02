@@ -205,7 +205,9 @@ span.callout-row__text {
   border-radius: 3px;
   margin-top: 3em;
   margin-bottom: 0;
-  font-size: 15px; }
+  font-size: 15px;
+  padding-top: 16px;
+  padding-bottom: 16px; }
   #campaign_info.notice a {
     color: #60a5da; }
   #campaign_info.notice .faux__body {
