@@ -193,7 +193,7 @@ span.callout-row__text {
   max-width: 92%; }
 
 .overview-wrap #campaign_info.notice, .issues-wrap #campaign_info.notice, .index-wrap #campaign_info.notice {
-  max-width: 62.3%; }
+  width: 886px; }
 
 .page-account #campaign_info.notice {
   margin-bottom: 3em; }
