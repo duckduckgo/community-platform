@@ -577,7 +577,8 @@ body {
     display: block; }
     .tutorial .tutorial-x .octicon {
       position: absolute;
-      right: 9px; }
+      right: 9px;
+      top: -2px; }
   .tutorial .tutorial-btn_grp {
     clear: both;
     text-align: center; }
