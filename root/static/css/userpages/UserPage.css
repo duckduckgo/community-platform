@@ -567,9 +567,8 @@ body {
   border-radius: 3px;
   margin-bottom: 60px; }
   .tutorial .tutorial-text {
-    font-size: 13px; }
-    .tutorial .tutorial-text ul {
-      font-size: 13px; }
+    font-size: 15px;
+    line-height: 0.9; }
   .tutorial a {
     color: #60A5DA; }
   .tutorial .tutorial-x {
@@ -578,7 +577,8 @@ body {
     display: block; }
     .tutorial .tutorial-x .octicon {
       position: absolute;
-      right: 9px; }
+      right: 9px;
+      top: -2px; }
   .tutorial .tutorial-btn_grp {
     clear: both;
     text-align: center; }

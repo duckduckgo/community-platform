@@ -19,6 +19,7 @@
 				</div>
 			</div>
 		</div>
+		<a href="<: $u(['My','dismiss_ddh_profile']) :>" class="campaign_nothanks"><span class="ddgsi ddgsi-close-bold"></span></a>
 	</div>
 <: } :>
 
