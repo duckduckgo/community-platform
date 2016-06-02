@@ -61,6 +61,15 @@ sub campaign_nothanks :Chained('base') :Args(0) {
 	return $c->detach;
 }
 
+sub dismiss_ddh_profile :Chained('base') :Args(0) {
+	my ( $self, $c ) = @_;
+	$c->stash->{x} = ( $c->user->set_seen_userpage_banner ) ? { ok => 1 } : { ok => 0 };
+	$c->session->{campaign_notification} = undef;
+	$c->stash->{campaign_info} = undef;
+	$c->forward( $c->view('JSON') );
+	return $c->detach;
+}
+
 sub _post_login_setup {
 	my ( $self, $c ) = @_;
 	my $user = $c->user;

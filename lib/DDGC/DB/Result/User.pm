@@ -299,6 +299,15 @@ sub has_not_seen_userpage_banner {
 	return ($result) ? 0 : 1;
 }
 
+sub set_seen_userpage_banner {
+	my ( $self ) = @_;
+	$self->schema->resultset('User::CampaignNotice')->find_or_create( {
+		users_id => $self->id,
+		campaign_id => 128,
+		campaign_source => 'campaign',
+	}	);
+}
+
 sub add_default_notifications {
 	my ( $self ) = @_;
 	return if $self->search_related('user_notifications')->count;
