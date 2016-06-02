@@ -42,6 +42,18 @@
 	min-height: 70px;
 }
 
+.wrap-pipeline #campaign_info.notice {
+    max-width: 92%;
+}
+
+.overview-wrap #campaign_info.notice, .issues-wrap #campaign_info.notice, .index-wrap #campaign_info.notice {
+    max-width: 61.7%;
+}
+
+.page-account #campaign_info.notice {
+    margin-bottom: 3em;
+}
+
 #campaign_info.notice {
     background: #eee;
     color: #333;
@@ -49,7 +61,7 @@
     border-radius: 3px;
     margin-top: 3em;
     margin-bottom: 0;
-    max-width: 1200px;
+    font-size: 15px;
 
     a {
 	color: $blue-light;
@@ -58,5 +70,12 @@
     .faux__body {
 	padding-left: 1em;
 	padding-right: 1em;
+    }
+
+    .ddgsi {
+	float: right;
+	color: #ccc;
+	position: relative;
+	top: -17px;
     }
 }
