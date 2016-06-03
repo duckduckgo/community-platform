@@ -139,10 +139,5 @@
                 </button>
             </form>
         </section>
-
-        <section class='clear tab-mid'>
-            <h5>Weekly Developer Newsletter</h5>
-            <p><a href="https://www.listbox.com/subscribe/?list_id=197814">Subscribe for coding tips and contribution suggestions</a></p>
-        </section>
     </div>
 </aside>
