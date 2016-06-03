@@ -1357,6 +1357,8 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                     
                     # Capitalize each word in the name string
                     $name =~ s/([\w']+)/\u\L$1/g;
+
+                    $id = format_id($id);
                     
                     my $new_ia = $c->d->rs('InstantAnswer')->update_or_create({
                         id => $id,
