@@ -8,6 +8,9 @@
 	<div id='campaign_info' class="notice info notice--campaign">
 		<div class="faux  notice__content">
 			<div class="faux__body">
+                <div class="hide">
+                    <img id="imgReq" src="<: $campaign_info.show_req :>" />
+                </div>
 				<: if ( $campaign_info.notification ) { :>
 					<: $campaign_info.notification | raw :>
 				<: } else { :>
