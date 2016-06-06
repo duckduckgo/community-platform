@@ -595,7 +595,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPage";
-    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find({meta_id => $answer_id});
+    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find({meta_id => lc $answer_id});
     my $ia = $c->stash->{ia};
     
     unless ($ia) {
