@@ -322,13 +322,22 @@
                     var ind = this;
                     if (!shown) {
                         var split_query = query.split(/\s/);
+                        var reg_array = [];
                         $.each(split_query, function(idx) {
                             var temp_regex = new RegExp(split_query[idx].replace("\\", ""), "gi");
-                            ind.filter_regex($children, temp_regex);
+                            if (temp_regex) {
+                                ind.filter_regex($children, temp_regex);
+                                reg_array.push(temp_regex);
+                            }
                         });
+                        
+                        this.count_multiple($obj, reg_array, dev_milestone, topic, template, repo, true);
+                    } else {
+                        this.count_multiple($obj, regex, dev_milestone, topic, template, repo, false);
                     }
                 } else {
                     $children.parent().show();
+                    this.count_multiple($obj, regex, dev_milestone, topic, template, repo, false);
                 }
             }
 
@@ -343,9 +352,27 @@
             // Not supported on IE8 and IE9.
             history.pushState({}, "Index: Instant Answers", url);
 
-            this.count($obj, $("#filter_repo ul li a"), regex, dev_milestone + topic + template);
-            this.count($obj, $("#filter_topic ul li a"), regex, dev_milestone + repo + template);
-            this.count($obj, $("#filter_template ul li a"), regex, dev_milestone + repo + topic);
+        },
+
+        count_multiple: function($list, regex, dev_milestone, topic, template, repo, is_array) {
+            var $filter_repo = $("#filter_repo ul li a");
+            var $filter_topic = $("#filter_topic ul li a");
+            var $filter_template = $("#filter_template ul li a");
+
+            var ind = this;
+            if (is_array) {
+                $.each(regex, function(idx) {
+                    var tmp_r = regex[idx];
+                    
+                    ind.count($list, $filter_repo, tmp_r, dev_milestone + topic + template);
+                    ind.count($list, $filter_topic, tmp_r, dev_milestone + repo + template);
+                    ind.count($list, $filter_template, tmp_r, dev_milestone + repo + topic);
+                });
+            } else {
+                this.count($list, $filter_repo, regex, dev_milestone + topic + template);
+                this.count($list, $filter_topic, regex, dev_milestone + repo + template);
+                this.count($list, $filter_template, regex, dev_milestone + repo + topic);
+            }
         },
 
         count: function($list, $obj, regex, classes) {
