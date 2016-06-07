@@ -19,6 +19,7 @@
 #ia-index {
     padding-top: 3.5em;
     @include center-content(962px);
+    overflow: inherit;
 }
 
 .ia-single {
