@@ -11,7 +11,7 @@
 	  <div class="modal__body">
 	    <div><a href="<: $u('My','account') :>">Settings</a></div>
             <: if $c.user.verified_userpage { :>
-              <div><a href="$campaign_info.link">Profile</a></div>
+              <div><a href="<: $c.user.verified_userpage :>">Profile</a></div>
             <: } :>
 	    <div><a href="<: $u('My','logout', { action_token => $action_token }) :>">Logout</a></div>
 	  </div>
