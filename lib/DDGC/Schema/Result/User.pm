@@ -100,6 +100,11 @@ column updated => {
     set_on_update => 1,
 };
 
+column github_user_plaintext => {
+    data_type => 'text',
+    is_nullable => 1
+};
+
 unique_column github_id => {
     data_type => 'bigint',
     is_nullable => 1
