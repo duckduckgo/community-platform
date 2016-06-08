@@ -10,6 +10,10 @@
         <div class="modal__box">
           <div class="modal__body">
             <div><a href="/my/account">Settings</a></div>
+            : my $up = $vars.user.verified_userpage;
+            : if $up {
+              <div><a href="<: $up :>">Profile</a></div>
+            : }
             <div><a href="<: uri_for('/my/logout', { action_token => $session.action_token }) :>">Logout</a></div>
           </div>
         </div>
