@@ -122,7 +122,7 @@ sub github_user {
         sub {
             return if (!$self->github_id);
             $_[1]->selectrow_array(
-                'SELECT login FROM github_user WHERE github_id = ?',
+                'SELECT login FROM github_user WHERE github_id = ? LIMIT 1',
                 {}, $self->github_id
             );
         }
