@@ -4,14 +4,16 @@ package DDGC::DB::Result::User;
 use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
-with 'DDGC::Schema::Role::Result::User::Subscription';
+with qw/
+    DDGC::Schema::Role::Result::User::Subscription
+    DDGC::Schema::Role::Result::User::Profile
+/;
 use DBIx::Class::Candy;
 use DDGC::User::Page;
 use Path::Class;
 use IPC::Run qw/ run timeout /;
 use LWP::Simple qw/ is_success getstore /;
 use File::Temp qw/ tempfile /;
-use File::Spec::Functions;
 use URI;
 use Carp;
 use Prosody::Mod::Data::Access;
@@ -274,17 +276,6 @@ sub store_github_credentials {
 			gh_data => $gh_data,
 		})
 	}
-}
-
-sub verified_userpage {
-	my ( $self ) = @_;
-	return if !$self->github_id;
-	return if !$self->github_user;
-	my $d = catdir( '/home/ddgc/ddgc/ddh-userpages', lc( $self->github_user ) );
-	return if ( ! -d $d );
-	return URI->new(
-		sprintf( 'https://duckduckhack.com/u/%s#tutorial', lc( $self->github_user ) )
-	)->canonical;
 }
 
 sub has_not_seen_userpage_banner {

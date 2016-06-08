@@ -34,6 +34,8 @@
             </span>
         </fieldset>
 
+        or <a href="/my/github_oauth" name="register">Login with Github</a>
+
         <div class="account-links clear">
             <p class="half  palm-half">
                 <a href="/my/forgotpw">Forgot your password?</a>
