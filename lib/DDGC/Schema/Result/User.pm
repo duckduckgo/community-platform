@@ -113,6 +113,21 @@ unique_column github_id => {
 has_many 'roles', 'DDGC::Schema::Result::User::Role', 'users_id';
 has_many 'subscriptions', 'DDGC::Schema::Result::User::Subscription', 'users_id';
 
+sub github_user {
+    my ( $self ) = @_;
+    my $github_stats_user = $self->result_source->schema->storage->dbh_do(
+        sub {
+            return if (!$self->github_id);
+            $_[1]->selectrow_array(
+                'SELECT login FROM github_user WHERE github_id = ?',
+                {}, $self->github_id
+            );
+        }
+    );
+    return $github_stats_user if $github_stats_user;
+    return $self->github_user_plaintext;
+}
+
 sub normalise_role {
     my ( $role ) = @_;
     return 'forum_manager' if ( lc( $role ) eq 'idea_manager' );
