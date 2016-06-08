@@ -80,8 +80,13 @@ sub getIssues{
 
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
+			# Match (roughly) the following formats:
+			# Instant Answer Page: Link   <- preferred standard link
+			# [Instant Answer Page](Link) <- GHFM link
 			my $name_from_link = '';
-            ($name_from_link) = $issue->{'body'} =~ /https?:\/\/duck\.co\/ia\/view\/(\w+)/i;
+            ($name_from_link) = $issue->{'body'} =~ qr{
+                \[(?:Instant\s?Answer|IA)\sPage\]\(https?://duck\.co/ia/view/(\w+)\)
+                | (?:Instant\s?Answer|IA)\sPage:\s https?://duck\.co/ia/view/(\w+)}ix;
 
             # remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
