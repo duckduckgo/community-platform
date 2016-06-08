@@ -4,7 +4,10 @@ package DDGC::Schema::Result::User;
 
 use Moo;
 extends 'DDGC::Schema::Result';
-with 'DDGC::Schema::Role::Result::User::Subscription';
+with qw/
+    DDGC::Schema::Role::Result::User::Subscription
+    DDGC::Schema::Role::Result::User::Profile
+/;
 
 use DBIx::Class::Candy;
 use Scalar::Util qw/ looks_like_number /;
@@ -100,6 +103,11 @@ column updated => {
     set_on_update => 1,
 };
 
+column github_user_plaintext => {
+    data_type => 'text',
+    is_nullable => 1
+};
+
 unique_column github_id => {
     data_type => 'bigint',
     is_nullable => 1
@@ -107,6 +115,21 @@ unique_column github_id => {
 
 has_many 'roles', 'DDGC::Schema::Result::User::Role', 'users_id';
 has_many 'subscriptions', 'DDGC::Schema::Result::User::Subscription', 'users_id';
+
+sub github_user {
+    my ( $self ) = @_;
+    my $github_stats_user = $self->result_source->schema->storage->dbh_do(
+        sub {
+            return if (!$self->github_id);
+            $_[1]->selectrow_array(
+                'SELECT login FROM github_user WHERE github_id = ?',
+                {}, $self->github_id
+            );
+        }
+    );
+    return $github_stats_user if $github_stats_user;
+    return $self->github_user_plaintext;
+}
 
 sub normalise_role {
     my ( $role ) = @_;
