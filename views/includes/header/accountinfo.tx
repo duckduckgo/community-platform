@@ -10,7 +10,7 @@
           <: } else { :>
               role = 'regular';
           <: } :>
-          img.src = '<: $campaign_info.base_req :>' + 'clicked_' + role + '_' + '<: $vars.user.username :>' + '?' + Math.ceil(Math.random() * 1e7);
+          img.src = 'https://duckduckgo.com/t/uplaunch_profileclicked_' + role + '_' + '<: $vars.user.username :>' + '?' + Math.ceil(Math.random() * 1e7);
       };
   </script>
   <: my $notification_count = $vars.user.unread_notifications || $undone_notifications_count || $vars.user.undone_notifications_count || 0; :>
