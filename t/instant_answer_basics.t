@@ -258,6 +258,8 @@ $mech->content_contains('test_ia');
 
 $mech->get_ok('/ia/view/test_ia');
 $mech->title_is('Test Ia'); # Title case filter
+$mech->get_ok('/ia/view/TEst_Ia'); # make sure we still get the IA with different letter casing
+$mech->title_is('Test Ia'); # is this the correct IA?
 
 if ( -d $userpage_out ) {
      remove_tree( $userpage_out );
