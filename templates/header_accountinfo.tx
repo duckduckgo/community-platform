@@ -1,5 +1,19 @@
 <div class="header-account-info">
-  <: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
+<script>
+    function sendReq() {
+        var img = new Image();
+        var role;
+        <: if ($c.user.admin) { :>
+            role = 'staff';
+        <: } elsif ($c.user.is('community_leader')) { :>
+            role = 'comleader';
+        <: } else { :>
+            role = 'regular';
+        <: } :>
+        img.src = 'https://duckduckgo.com/t/uplaunch_profileclicked_' + role + '_' + '<: $c.user.username :>' + '?' + Math.ceil(Math.random() * 1e7);
+    };
+</script>
+<: my $notification_count = $undone_notifications_count || $c.user.undone_notifications_count :>
     <a href="<: $u('My::Notifications','index') :>">
       <i class="ddgsi ddgsi-comment notification <: if $notification_count { :>has-notification<: } :>"></i>
     </a>
@@ -12,7 +26,7 @@
 	    <div><a href="<: $u('My','account') :>">Settings</a></div>
             : my $up = $c.user.verified_userpage;
             : if $up {
-              <div><a href="<: $c.user.verified_userpage :>">Profile</a></div>
+              <div><a onClick="sendReq()" href="<: $c.user.verified_userpage :>">Profile</a></div>
             : }
 	    <div><a href="<: $u('My','logout', { action_token => $action_token }) :>">Logout</a></div>
 	  </div>
