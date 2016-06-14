@@ -25,7 +25,8 @@ app.controller('UserPageController', function($scope, $http, fn) {
     'hemanth',
     'gautamkrishnar',
     'GuiltyDolphin',
-    'pjhampton'
+    'pjhampton',
+    'gaulrobe'
   ];
 
   $scope.staff = [
