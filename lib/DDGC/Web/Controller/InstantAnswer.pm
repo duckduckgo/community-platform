@@ -949,7 +949,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $is_admin = 0;
     my $saved = 0;
     my $field = $c->req->params->{field};
-            my $value = $c->req->params->{value};
+    my $value = $c->req->params->{value};
     my $msg = "";
 
     # if the update fails because of invalid values
@@ -1033,20 +1033,20 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
-                my $result;
+                my $maintainer;
                 if ($value) {
-                    $result = format_maintainer($c, $value, $ia, 0);
-                    if ((!$result->{maintainer}) || ($result->{maintainer} && (!$result->{maintainer}->{github}))) {
-                        $msg = $result->{msg};
+                    $maintainer = format_maintainer($c, $value, $ia, 0);
+                    if ((!$maintainer->{maintainer}) || ($maintainer->{maintainer} && (!$maintainer->{maintainer}->{github}))) {
+                        $msg = $maintainer->{msg};
                         $c->stash->{x}->{result}->{msg} = $msg;
                         return $c->forward($c->view('JSON'));
                     }
                 } else {
-                  my $maintainer = {github => ''};
-                  $result = {maintainer => $maintainer};
+                  my $gh_empty = {github => ''};
+                  $maintainer = {maintainer => $gh_empty};
                 }
 
-                $value = to_json $result->{maintainer};
+                $value = to_json $maintainer->{maintainer};
             } elsif ($field eq "id") {
                 return $c->forward($c->view('JSON')) unless $is_admin;
                 $field = "meta_id";
