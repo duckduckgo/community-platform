@@ -1859,9 +1859,14 @@
                 
                 // Only logged in contributors can assign themselves IAs to maintain
                 if (!this.username) {
+                    $(".error-gh-exists").removeClass("hide");
                     $("#maintain-button").remove();
                 } else {
                     $("#maintainer--readonly .no-available").remove();
+                    if (!ia_data.live.gh_exists) {
+                        $(".error-gh-exists").removeClass("hide");
+                        $("#maintain-button").remove();
+                    }
                 }
 
             } else {

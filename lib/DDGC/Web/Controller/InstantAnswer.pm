@@ -748,6 +748,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     $ia_data{live}->{prs} = \@all_prs;
     
     if ($c->user) {
+        $ia_data{live}->{gh_exists} = $c->user->github_id? 1 : 0;
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
@@ -972,7 +973,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
        $is_admin = $c->user->admin;
 
         # Allow any logged in user to self-assign an IA for maintainership
-        if ($permissions || $is_admin || (($field eq 'maintainer') && ($value eq $c->user->username) && (!$ia_data->{maintainer}->{github}))) {
+        if ($permissions || $is_admin || (($field eq 'maintainer') 
+            && ($value eq $c->user->username) && ((!defined $ia_data->{maintainer}{github}) || (!length $ia_data->{maintainer}{github})))) {
+            
             $result->{is_admin} = $is_admin;
             $c->stash->{x}->{result} = $result;
 
