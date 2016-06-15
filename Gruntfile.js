@@ -10,7 +10,7 @@ module.exports = function(grunt) {
     var reload = {
 	livereload: {
 	    host: os.hostname(),
-	    port: 5000
+	    port: 5555
 	}
     };
 

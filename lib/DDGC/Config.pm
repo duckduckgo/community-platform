@@ -62,7 +62,7 @@ sub has_conf {
 has_conf nid => DDGC_NID => 1;
 has_conf pid => DDGC_PID => $$;
 
-has_conf livereload_js_uri => DDGC_LIVERELOAD_JS_URI => sprintf( 'http://%s:5000/livereload.js', hostname() );
+has_conf livereload_js_uri => DDGC_LIVERELOAD_JS_URI => sprintf( 'http://%s:5555/livereload.js', hostname() );
 has_conf appdir_path => DDGC_APPDIR => sub {
 	( -f "$FindBin::Bin/../package.json" ) && return "$FindBin::Bin/../";
 	return "/home/ddgc/live/";
