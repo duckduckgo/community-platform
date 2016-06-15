@@ -1033,13 +1033,17 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
-                my $result = format_maintainer($c, $value, $ia, 0);
-               use Data::Dumper;
-               print Dumper $result;
-                if (!$result->{maintainer}) {
-                    $msg = $result->{msg};
-                    $c->stash->{x}->{result}->{msg} = $msg;
-                    return $c->forward($c->view('JSON'));
+                my $result;
+                if ($value) {
+                    $result = format_maintainer($c, $value, $ia, 0);
+                    if ((!$result->{maintainer}) || ($result->{maintainer} && (!$result->{maintainer}->{github}))) {
+                        $msg = $result->{msg};
+                        $c->stash->{x}->{result}->{msg} = $msg;
+                        return $c->forward($c->view('JSON'));
+                    }
+                } else {
+                  my $maintainer = {github => ''};
+                  $result = {maintainer => $maintainer};
                 }
 
                 $value = to_json $result->{maintainer};
@@ -1430,7 +1434,7 @@ sub format_maintainer {
         $msg = 'Invalid username';
     }
 
-    if ($complat_user && $commit && %maintainer) {
+    if ($commit && $value && $complat_user && %maintainer && $maintainer{github}) {
         # give edit permissions
         $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
     }
@@ -1471,6 +1475,8 @@ sub save {
                $field = 'meta_id';
             } elsif ($field eq 'maintainer' && (!$autocommit)) {
                 $value = format_maintainer($c, $value, $ia, 1);
+                $value = $value->{maintainer};
+                $value = $value ? to_json($value) : to_json({github => ''});
             }
             
             commit_edit($c->d, $ia, $field, $value);
