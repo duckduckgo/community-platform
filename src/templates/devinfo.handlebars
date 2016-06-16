@@ -139,13 +139,22 @@
                 {{/if}}
             {{else}}
                 <span class="no-available">No maintainer yet.</span>
+                <span class="error-notification hide"></span>
+                <div class="button btn--primary" id="maintain-button">Maintain this IA</div>
+                <div class="error-gh-exists hide"> <a href="/my/github_oauth">Login with GitHub </a></div>
+                <div class="error-gh-exists hide">to maintain this IA</div>
             {{/if}}
         {{else}}
             <span class="no-available">No maintainer yet.</span>
+            <span class="error-notification hide"></span>
+            <div class="button btn--primary" id="maintain-button">Maintain this IA</div>
+            <div class="error-gh-exists hide"> <a href="/my/github_oauth">Login with GitHub </a></div>
+            <div class="error-gh-exists hide">to maintain this IA</div>
         {{/if}}
     </p>
 
     {{#if permissions.admin}}
+        <span class="error-notification hide"></span>
         <input class="{{#n_exists staged 'maintainer'}}hide{{/n_exists}} frm__input maintainer js-autocommit hidden-toshow" id="maintainer-input"
             value="{{~#exists staged 'maintainer'~}}
                 {{staged.maintainer}}

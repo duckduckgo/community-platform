@@ -748,6 +748,7 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     $ia_data{live}->{prs} = \@all_prs;
     
     if ($c->user) {
+        $ia_data{live}->{gh_exists} = $c->user->github_id? 1 : 0;
         $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
@@ -954,6 +955,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     my $is_admin = 0;
     my $saved = 0;
     my $field = $c->req->params->{field};
+    my $value = $c->req->params->{value};
     my $msg = "";
 
     # if the update fails because of invalid values
@@ -975,11 +977,13 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
        $permissions = $ia->users->find($c->user->id);
        $is_admin = $c->user->admin;
 
-        if ($permissions || $is_admin) {
+        # Allow any logged in user to self-assign an IA for maintainership
+        if ($permissions || $is_admin || (($field eq 'maintainer') 
+            && ($value eq $c->user->username) && ((!defined $ia_data->{maintainer}{github}) || (!length $ia_data->{maintainer}{github})))) {
+            
             $result->{is_admin} = $is_admin;
             $c->stash->{x}->{result} = $result;
 
-            my $value = $c->req->params->{value};
             my $autocommit = $c->req->params->{autocommit};
             my $rs_user = $c->d->rs('User');
             my $complat_user = $rs_user->find({username => $value}) || $rs_user->find_by_github_login($value);
@@ -1044,7 +1048,20 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
-                return $c->forward($c->view('JSON')) unless $value = format_maintainer($c, $value, $ia, 0);
+                my $maintainer;
+                if ($value) {
+                    $maintainer = format_maintainer($c, $value, $ia, 0);
+                    if ((!$maintainer->{maintainer}) || ($maintainer->{maintainer} && (!$maintainer->{maintainer}->{github}))) {
+                        $msg = $maintainer->{msg};
+                        $c->stash->{x}->{result}->{msg} = $msg;
+                        return $c->forward($c->view('JSON'));
+                    }
+                } else {
+                  my $gh_empty = {github => ''};
+                  $maintainer = {maintainer => $gh_empty};
+                }
+
+                $value = to_json $maintainer->{maintainer};
             } elsif ($field eq "id") {
                 return $c->forward($c->view('JSON')) unless $is_admin;
                 $field = "meta_id";
@@ -1459,12 +1476,14 @@ sub format_maintainer {
     my $user = $c->d->rs('User');
     my $complat_user = $user->find({username => $value}) || $user->find_by_github_login($value);
     my $complat_user_admin = $complat_user? $complat_user->admin : '';
+    my %result;
+    my $msg = '';
 
     
     my %maintainer;
     if ($complat_user && (my $gh_id = $complat_user->github_id)) {
         %maintainer = ( github => $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login );
-    } elsif (check_github($value)) {
+    } elsif ((!$complat_user) && check_github($value)) {
         # this github account isn't tied to any duck.co account
         # we still allow it to be listed as maintainer
         # but can't give edit permissions
@@ -1476,14 +1495,24 @@ sub format_maintainer {
             $complat_user = $gh_id ? $user->find({github_id => $gh_id}) : '';
             $complat_user_admin = $complat_user? $complat_user->admin : '';
         }
+    } elsif ($complat_user) {
+        $msg = 'User has no GitHub account linked';
+    } elsif (!$complat_user) {
+        $msg = 'Invalid username';
     }
 
-    if ($complat_user && $commit && %maintainer) {
+    if ($commit && $value && $complat_user && %maintainer && $maintainer{github}) {
         # give edit permissions
         $ia->add_to_users($complat_user) unless ($complat_user_admin || $ia->users->find($complat_user->id));
     }
 
-    return %maintainer ? to_json \%maintainer : 0;
+    %result = (
+        maintainer => \%maintainer,
+        msg => $msg,
+    );
+
+    return \%result;
+
 }
 
 sub save {
@@ -1513,6 +1542,8 @@ sub save {
                $field = 'meta_id';
             } elsif ($field eq 'maintainer' && (!$autocommit)) {
                 $value = format_maintainer($c, $value, $ia, 1);
+                $value = $value->{maintainer};
+                $value = $value ? to_json($value) : to_json({github => ''});
             }
             
             commit_edit($c->d, $ia, $field, $value);
