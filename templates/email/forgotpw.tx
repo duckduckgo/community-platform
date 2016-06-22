@@ -3,7 +3,7 @@
 <tr>
 	<td width="10"></td>
 	<td align="center" colspan="2">
-		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#fff" <: style("msg_content") :>>
+		<table cellpadding="0" cellspacing="5" border="0" bgcolor="#ffffff" <: style("msg_content") :>>
 			<tr>
 				<td colspan="2" valign="middle">
 					<h4 <: style("default") :>>Please click on the following link to confirm you want to reset your password:</h4>
