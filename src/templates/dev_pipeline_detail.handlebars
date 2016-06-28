@@ -157,11 +157,7 @@
         <div id="sidebar-maintainer" class="sidebar-field">
             <div class="field-label primary-label"> Maintainer </div>
             <span class="readonly"> {{#if maintainer.github}}  
-                {{#if username}}
-                    <a href="http://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link">{{maintainer.github}}</a> 
-                {{else}}
-                    <a href="https://github.com/{{slug maintainer.github}}" class="userpage-link">{{maintainer.github}}</a>
-                {{/if}}
+                <a href="http://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link">{{maintainer.github}}</a> 
             {{/if}} </span>
         </div>
     {{/if}}
