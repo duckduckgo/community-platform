@@ -157,11 +157,7 @@
         <div id="sidebar-maintainer" class="sidebar-field">
             <div class="field-label primary-label"> Maintainer </div>
             <span class="readonly"> {{#if maintainer.github}}  
-                {{#if username}}
-                    <a href="http://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link">{{maintainer.github}}</a> 
-                {{else}}
-                    <a href="https://github.com/{{slug maintainer.github}}" class="userpage-link">{{maintainer.github}}</a>
-                {{/if}}
+                <a href="http://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link">{{maintainer.github}}</a> 
             {{/if}} </span>
         </div>
     {{/if}}
@@ -169,7 +165,7 @@
     {{#is_true (length developer)}}
         <div id="sidebar-contributors" class="sidebar-field">
             <div class="field-label primary-label"> Contributors </div>
-            <span class="readonly"> {{#each developer}} <a {{#eq type 'github'}}{{#if ../../username}}href="http://duckduckhack.com/u/{{slug (final_path url)}}" class="userpage-link"{{else}}href="{{url}}"{{/if}}{{else}}href="{{url}}"{{/eq}}>{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
+            <span class="readonly"> {{#each developer}} <a {{#eq type 'github'}}href="http://duckduckhack.com/u/{{slug (final_path url)}}" class="userpage-link"{{else}}href="{{url}}"{{/eq}}>{{name}}</a>{{#unless @last}}, {{/unless}}{{/each}}</span>
         </div>
     {{/is_true}}
 
