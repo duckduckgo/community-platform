@@ -864,7 +864,7 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     $c->stash->{x}->{result} = $result;
     return $c->forward($c->view('JSON')) unless ($c->req->params->{data} && $c->user && $c->user->admin);
 
-    my $server = "http://beta.duckduckgo.com/install";
+    my $server = "http://beta.duckduckgo.com/ia_install";
     my $key = $ENV{'BETA_KEY'};
     my $decoded_data = from_json($c->req->params->{data});
 
