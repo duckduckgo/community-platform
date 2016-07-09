@@ -83,12 +83,12 @@ sub getIssues{
 			# Match (roughly) the following formats:
 			# Instant Answer Page: Link   <- preferred standard link
 			# [Instant Answer Page](Link) <- GHFM link
-			my $name_from_link = '';
-            ($name_from_link) = $issue->{'body'} =~ qr{
-                \[(?:Instant\s?Answer|IA)\sPage\]\(https?://duck\.co/ia/view/(\w+)\)
-                | (?:Instant\s?Answer|IA)\sPage:\s https?://duck\.co/ia/view/(\w+)}ix;
+			$issue->{'body'} =~ qr{
+				\[(?:Instant\s?Answer|IA)\sPage\]\(https?://duck\.co/ia/view/(?<id>\w+)\)
+				| (?:Instant\s?Answer|IA)\sPage:\s https?://duck\.co/ia/view/(?<id>\w+)}ix;
 
-            # remove special chars from title and body
+			my $name_from_link = $+{id} // '';
+			# remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
 
