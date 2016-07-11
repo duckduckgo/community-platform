@@ -168,12 +168,24 @@ test_psgi $app => sub {
     ok( $gh_user_request->is_success, 'Creating a new user with github account linked' );
     
 
-    # Set contributor to the new user
     my $dax = {
         username => 'daxtheduck',
         type => 'duck.co',
         name => 'daxtheduck'
     };
+
+    # Create another user with GitHub account linked
+    my $gh_user_request_2 = $cb->(
+        POST '/testutils/new_user',
+        { 
+            username => 'test_gh_user',
+            github_id => 321
+        }
+    );
+    ok( $gh_user_request_2->is_success, 'Creating a new user with github account linked' );
+    
+
+    my $gh_user = 'test_gh_user';
 
     $dax = encode_json([$dax]);
     my $ia_switch_contributor = $set_ia_value->({ cookie => $cookie, developer => $dax });
@@ -186,13 +198,20 @@ test_psgi $app => sub {
     $contributor = $contributors[0];
     is($contributor->{type}, 'github', 'Test contributor is a github account ' . $contributor->{url});
 
+    my $ia_assign_maint = $set_ia_value->({ cookie => $cookie, maintainer => $gh_user });
+    is( $ia_assign_maint->{saved}, 1, 'Successfully saved the new maintainer' );
+    my $gh_user_db = $d->rs('User')->find({ username => 'test_gh_user' });
+    ok( $gh_user_db, 'Query returns something' );
+    isa_ok( $gh_user_db, 'DDGC::DB::Result::User' );
+    ok( $ia->users->find($gh_user_db->id), 'Maintainer has edit permissions for the IA');
+    
     # Get session for github user
-    my $session_request = $cb->(
+    $session_request = $cb->(
         POST '/testutils/user_session',
         { username => 'daxtheduck' }
     );
     ok( $session_request->is_success, 'Getting IA user Cookie' );
-    my $cookie = 'ddgc_session=' . $session_request->content;
+    $cookie = 'ddgc_session=' . $session_request->content;
 
     # Create an IA
     my $new_gh_ia_req = $cb->(
