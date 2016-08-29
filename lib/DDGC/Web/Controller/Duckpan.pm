@@ -40,7 +40,8 @@ sub upload :Chained('logged_in') :Args(0) {
 		my $upload = $c->req->upload('pause99_add_uri_httpupload');
 		my $filename = $c->d->config->cachedir.'/'.$upload->filename;
 		$upload->copy_to($filename);
-		my $return = $c->d->duckpan->add_user_distribution($c->user,$filename);
+		my $upload_user = $c->d->rs('User')->search({ username => 'ddgc' })->one_row // $c->user;
+		my $return = $c->d->duckpan->add_user_distribution($upload_user,$filename);
 		my $return_ref = ref $return;
 		if ($return_ref eq 'DDGC::DB::Result::DuckPAN::Release') {
 			$c->stash->{duckpan_release} = $return;
