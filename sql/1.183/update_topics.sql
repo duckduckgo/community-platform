@@ -6,7 +6,9 @@ INSERT INTO topics (name) VALUES ('swift');
 INSERT INTO topics (name) VALUES ('javascript');
 INSERT INTO topics (name) VALUES ('css');
 INSERT INTO topics (name) VALUES ('perl');
-
-# do stuff add stack_overflow to all topics
-
+insert into instant_answer_topics (instant_answer_id, topics_id) select 'stack_overflow', id from topics where name='python';
+insert into instant_answer_topics (instant_answer_id, topics_id) select 'stack_overflow', id from topics where name='swift';
+insert into instant_answer_topics (instant_answer_id, topics_id) select 'stack_overflow', id from topics where name='javascript';
+insert into instant_answer_topics (instant_answer_id, topics_id) select 'stack_overflow', id from topics where name='css';
+insert into instant_answer_topics (instant_answer_id, topics_id) select 'stack_overflow', id from topics where name='perl';
 COMMIT;
