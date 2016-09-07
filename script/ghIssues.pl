@@ -33,9 +33,9 @@ my @results;
 
 # the repos we care about
 my @repos = (
-#    'zeroclickinfo-spice',
-#    'zeroclickinfo-goodies',
-#    'zeroclickinfo-longtail',
+    'zeroclickinfo-spice',
+    'zeroclickinfo-goodies',
+    'zeroclickinfo-longtail',
     'zeroclickinfo-fathead'
 );
 
