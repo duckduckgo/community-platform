@@ -1044,7 +1044,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
-                return $c->forward($c->view('JSON')) unless $value = format_maintainer($c, $value, $ia, 0);
+                return $c->forward($c->view('JSON')) unless $value = format_maintainer($c, $value, $ia, $autocommit);
             } elsif ($field eq "id") {
                 return $c->forward($c->view('JSON')) unless $is_admin;
                 $field = "meta_id";
