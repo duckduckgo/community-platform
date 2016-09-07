@@ -495,7 +495,7 @@ sub update_pr_template {
         return unless $comment->{user}->{login} eq 'daxtheduck';
 
         # skip dax welcome message if it exists
-        if($comment->{body} =~ /Thanks for taking the time to contribute!/){
+        if($comment->{body} =~ /Thanks for the pull request/){
             if(scalar @comments > 1){
                 $comment = $comments[1];
                 return unless $comment->{user}->{login} eq 'daxtheduck';
