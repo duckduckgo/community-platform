@@ -83,159 +83,7 @@ sub getIssues{
         for my $issue (@issues){
             $progress->update($line) unless $d->is_live;
             $line++;
-
-            my $name_from_link = id_from_body($issue->{body});
-
-            # remove special chars from title and body
-            $issue->{'body'} =~ s/\'//g;
-            $issue->{'title'} =~ s/\'//g;
-
-            # get repo name
-            $repo =~ s/zeroclickinfo-//;
-
-            my $is_pr = exists $issue->{pull_request} ? 1 : 0;
-
-            # get last commit and user info
-            my $last_commit;
-            $last_commit = get_last_commit($repo, $issue->{number}) if $is_pr;
-
-            # get last comment
-            my $comments;
-            $comments = get_comments($repo, $issue->{number}) if $is_pr;
-            my $last_comment = $comments->[-1] if $comments;
-
-            my $mentions = get_mentions($last_comment->{text}) if $last_comment;
-
-            $comments = to_json $comments if $comments;
-            $last_comment = to_json $last_comment if $last_comment;
-
-            my $producer = assign_producer($issue->{assignee}->{login});
-
-            my $state = $issue->{state};
-            if ($state ne 'open') {
-                $state = $gh->pull_request->is_merged('duckduckgo','zeroclickinfo-'.$repo, $issue->{number})? 'merged' : $state;
-            }
-
-            # add entry to result array
-            my %entry = (
-                name => $name_from_link || '',
-                repo => $repo || '',
-                issue_id => $issue->{'number'} || '',
-                author => $issue->{user}->{login} || '',
-                title => $issue->{'title'} || '',
-                body => $issue->{'body'} || '',
-                tags => $issue->{'labels'} || '',
-                date => $issue->{'created_at'} || '',
-                is_pr => $is_pr,
-                last_update => $issue->{updated_at},
-                last_commit => $last_commit,
-                last_comment => $last_comment,
-                all_comments => $comments,
-                mentions => $mentions,
-                producer => $producer,
-                state => $state,
-            );
-
-            push(@results, \%entry);
-
-            my $create_page = sub {
-                my $data = \%entry;
-                return unless $data->{name};
-
-                # check to see if we have this IA already
-                # First lookup by ID.  This can fail if an admin updates the ID on the IA page later
-                my $ia = $d->rs('InstantAnswer')->search( {
-                        -or => [
-                            id => $data->{name},
-                            meta_id => $data->{name},
-                        ]
-                    } )->hri->one_row;
-                my $new_ia = 1 if !$ia;
-
-                # no auto generating IA pages from a PR anymore
-                return unless $ia;
-
-                my @time = localtime(time);
-                my ($month, $day, $year) = ($time[4]+1, $time[3], $time[5]+1900);
-                my $date = "$month/$day/$year";
-
-                $data->{body} =~ s/\n|\r//g;
-
-                # get the file info for the pr
-                $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
-                my $pr = $gh->pull_request->pull($data->{issue_id});
-                my @files_data = $gh->pull_request->files($data->{issue_id});
-
-                my $template = find_template(\@files_data);
-
-                # look for the perl module
-                my $pm = perl_module_from_files($data->{repo}, \@files_data);
-
-                my $is_new_ia;
-                for my $tag (@{$data->{tags}}){
-                    $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
-                    if ($tag->{name} eq 'CheatSheet') {
-                        $pm = "DDG::Goodie::CheatSheets";
-                        $ia->{tab} = "Cheat Sheet";
-                    }
-                }
-
-                my $developer = developer_from_author($data->{author});
-                $developer = to_json $developer;
-
-                my $name = $data->{name};
-                $name =~ s/_/ /g;
-
-                # move status to development once we have seen the PR
-                my $dev_milestone = get_dev_milestone($ia, $state);
-
-                if($data->{state} eq 'merged'){
-                    $ia->{developer} = add_developer($ia->{developer}, $data->{author}, $ia);
-                }
-
-                my %new_data = (
-                    id => $ia->{id} || $data->{name},
-                    meta_id => $ia->{meta_id} || $data->{name},
-                    name => $ia->{name} || ucfirst $name,
-                    dev_milestone => $dev_milestone || $ia->{dev_milestone},
-                    description => $ia->{description},
-                    created_date => $ia->{created_date} || $date,
-                    repo => $ia->{repo} || $data->{repo},
-                    perl_module => $ia->{perl_module} || $pm,
-                    forum_link => $ia->{forum_link},
-                    src_api_documentation => $ia->{src_api_documentation},
-                    developer => $ia->{developer} || $developer,
-                    last_update => $issue->{updated_at},
-                    last_commit => $data->{last_commit},
-                    last_comment => $data->{last_comment},
-                    all_comments => $data->{all_comments},
-                    at_mentions => $data->{mentions},
-                    producer => $data->{producer},
-                    template => $template,
-                    example_query => $ia->{example_query} || '',
-                    tab => $ia->{tab} || '',
-                    src_url => $ia->{src_url} || '',
-                    public => 1
-                );
-
-                update_pr_template(\%new_data, $data->{issue_id}, $ia);
-
-                #return 1 if !$is_new_ia;
-                $d->rs('InstantAnswer')->update_or_create({%new_data});
-
-                #print "ia/view/$new_data{id}\n";
-
-            };
-
-            # check for an existing IA page.  Create one if none are found
-            try {
-                $d->db->txn_do($create_page) if $is_pr;
-            } catch {
-                print "Update error $_ \n rolling back\n";
-                $d->errorlog("Error updating ghIssues: '$_'...");
-            }
-
-
+            process_issue($issue, $repo);
         }
     }
     # warn Dumper @results;
@@ -291,6 +139,160 @@ sub id_from_body {
     | (?:Instant\s?Answer|IA)\sPage:?\s+ https?://duck\.co/ia/view/(?<id>\w+[^\s])}ix;
 
     return $+{id} // '';
+}
+
+sub process_issue {
+    my ($issue, $repo) = @_;
+    my $name_from_link = id_from_body($issue->{body});
+
+    # remove special chars from title and body
+    $issue->{'body'} =~ s/\'//g;
+    $issue->{'title'} =~ s/\'//g;
+
+    # get repo name
+    $repo =~ s/zeroclickinfo-//;
+
+    my $is_pr = exists $issue->{pull_request} ? 1 : 0;
+
+    # get last commit and user info
+    my $last_commit;
+    $last_commit = get_last_commit($repo, $issue->{number}) if $is_pr;
+
+    # get last comment
+    my $comments;
+    $comments = get_comments($repo, $issue->{number}) if $is_pr;
+    my $last_comment = $comments->[-1] if $comments;
+
+    my $mentions = get_mentions($last_comment->{text}) if $last_comment;
+
+    $comments = to_json $comments if $comments;
+    $last_comment = to_json $last_comment if $last_comment;
+
+    my $producer = assign_producer($issue->{assignee}->{login});
+
+    my $state = $issue->{state};
+    if ($state ne 'open') {
+        $state = $gh->pull_request->is_merged('duckduckgo','zeroclickinfo-'.$repo, $issue->{number})? 'merged' : $state;
+    }
+
+    # add entry to result array
+    my %entry = (
+        name => $name_from_link || '',
+        repo => $repo || '',
+        issue_id => $issue->{'number'} || '',
+        author => $issue->{user}->{login} || '',
+        title => $issue->{'title'} || '',
+        body => $issue->{'body'} || '',
+        tags => $issue->{'labels'} || '',
+        date => $issue->{'created_at'} || '',
+        is_pr => $is_pr,
+        last_update => $issue->{updated_at},
+        last_commit => $last_commit,
+        last_comment => $last_comment,
+        all_comments => $comments,
+        mentions => $mentions,
+        producer => $producer,
+        state => $state,
+    );
+
+    push(@results, \%entry);
+
+    my $create_page = sub {
+        my $data = \%entry;
+        return unless $data->{name};
+
+        # check to see if we have this IA already
+        # First lookup by ID.  This can fail if an admin updates the ID on the IA page later
+        my $ia = $d->rs('InstantAnswer')->search( {
+                -or => [
+                    id => $data->{name},
+                    meta_id => $data->{name},
+                ]
+            } )->hri->one_row;
+        my $new_ia = 1 if !$ia;
+
+        # no auto generating IA pages from a PR anymore
+        return unless $ia;
+
+        my @time = localtime(time);
+        my ($month, $day, $year) = ($time[4]+1, $time[3], $time[5]+1900);
+        my $date = "$month/$day/$year";
+
+        $data->{body} =~ s/\n|\r//g;
+
+        # get the file info for the pr
+        $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$data->{repo}");
+        my $pr = $gh->pull_request->pull($data->{issue_id});
+        my @files_data = $gh->pull_request->files($data->{issue_id});
+
+        my $template = find_template(\@files_data);
+
+        # look for the perl module
+        my $pm = perl_module_from_files($data->{repo}, \@files_data);
+
+        my $is_new_ia;
+        for my $tag (@{$data->{tags}}){
+            $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
+            if ($tag->{name} eq 'CheatSheet') {
+                $pm = "DDG::Goodie::CheatSheets";
+                $ia->{tab} = "Cheat Sheet";
+            }
+        }
+
+        my $developer = developer_from_author($data->{author});
+        $developer = to_json $developer;
+
+        my $name = $data->{name};
+        $name =~ s/_/ /g;
+
+        # move status to development once we have seen the PR
+        my $dev_milestone = get_dev_milestone($ia, $state);
+
+        if($data->{state} eq 'merged'){
+            $ia->{developer} = add_developer($ia->{developer}, $data->{author}, $ia);
+        }
+
+        my %new_data = (
+            id => $ia->{id} || $data->{name},
+            meta_id => $ia->{meta_id} || $data->{name},
+            name => $ia->{name} || ucfirst $name,
+            dev_milestone => $dev_milestone || $ia->{dev_milestone},
+            description => $ia->{description},
+            created_date => $ia->{created_date} || $date,
+            repo => $ia->{repo} || $data->{repo},
+            perl_module => $ia->{perl_module} || $pm,
+            forum_link => $ia->{forum_link},
+            src_api_documentation => $ia->{src_api_documentation},
+            developer => $ia->{developer} || $developer,
+            last_update => $issue->{updated_at},
+            last_commit => $data->{last_commit},
+            last_comment => $data->{last_comment},
+            all_comments => $data->{all_comments},
+            at_mentions => $data->{mentions},
+            producer => $data->{producer},
+            template => $template,
+            example_query => $ia->{example_query} || '',
+            tab => $ia->{tab} || '',
+            src_url => $ia->{src_url} || '',
+            public => 1
+        );
+
+        update_pr_template(\%new_data, $data->{issue_id}, $ia);
+
+        #return 1 if !$is_new_ia;
+        $d->rs('InstantAnswer')->update_or_create({%new_data});
+
+        #print "ia/view/$new_data{id}\n";
+
+    };
+
+    # check for an existing IA page.  Create one if none are found
+    try {
+        $d->db->txn_do($create_page) if $is_pr;
+    } catch {
+        print "Update error $_ \n rolling back\n";
+        $d->errorlog("Error updating ghIssues: '$_'...");
+    }
 }
 
 sub get_last_commit {
