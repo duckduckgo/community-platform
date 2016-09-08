@@ -195,16 +195,7 @@ sub getIssues{
                 $name =~ s/_/ /g;
 
                 # move status to development once we have seen the PR
-                my $dev_milestone;
-                if (($ia->{dev_milestone} eq 'planning') && ($state eq 'open')){
-                    $dev_milestone = 'development';
-                } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated') && ($ia->{dev_milestone} ne 'ghosted')) {
-                    if ($state eq 'merged') {
-                        $dev_milestone = 'complete';
-                    } elsif (($state eq 'closed') && ($ia->{production_state} eq 'offline')) {
-                        $dev_milestone = 'planning';
-                    }
-                }
+                my $dev_milestone = get_dev_milestone($ia, $state);
 
                 if($data->{state} eq 'merged'){
                     $ia->{developer} = add_developer($ia->{developer}, $data->{author}, $ia);
@@ -281,6 +272,19 @@ sub perl_module_from_files {
         }
     }
     return;
+}
+
+sub get_dev_milestone {
+    my ($ia, $state) = @_;
+    if (($ia->{dev_milestone} eq 'planning') && ($state eq 'open')){
+        return 'development';
+    } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated') && ($ia->{dev_milestone} ne 'ghosted')) {
+        if ($state eq 'merged') {
+            return 'complete';
+        } elsif (($state eq 'closed') && ($ia->{production_state} eq 'offline')) {
+            return 'planning';
+        }
+    }
 }
 
 sub get_last_commit {
