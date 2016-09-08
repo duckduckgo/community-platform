@@ -199,11 +199,7 @@ sub getIssues{
                      }
                 }
 
-                my $developer = [{
-                        name => $data->{author},
-                        type => 'github',
-                        url => "https://github.com/$data->{author}"
-                    }];
+                my $developer = developer_from_author($data->{author});
                 $developer = to_json $developer;
 
                 my $name = $data->{name};
@@ -272,6 +268,15 @@ sub getIssues{
 	}
     # warn Dumper @results;
     # warn Dumper %pr_hash;
+}
+
+sub developer_from_author {
+    my ($author) = @_;
+    return [{
+        name => $author,
+        type => 'github',
+        url  => "https://github.com/$author"
+    }];
 }
 
 sub get_last_commit {
