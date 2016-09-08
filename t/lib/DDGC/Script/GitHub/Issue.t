@@ -3,10 +3,16 @@
 use strict;
 use warnings;
 
+use List::Util qw(pairs);
+
 use Test::Deep;
 use Test::More;
 
-use DDGC::Script::GitHub::Issue qw(get_mentions id_from_body);
+use DDGC::Script::GitHub::Issue qw(
+    get_dev_milestone
+    get_mentions
+    id_from_body
+);
 
 subtest get_mentions => sub {
     subtest 'no mentions' => sub {
@@ -61,6 +67,23 @@ Maintainer: @foo
 EOF
     ), 'foo', 'proper mention with mixed mentions');
 
+};
+
+subtest get_dev_milestone => sub {
+    my @cases = (
+        [qw(deprecated online open)]  => '',
+        [qw(ghosted online open)]     => '',
+        [qw(live online open)]        => '',
+        [qw(planning offline closed)] => 'planning',
+        [qw(planning offline open)]   => 'development',
+        [qw(planning online merged)]  => 'complete',
+        [qw(planning online open)]    => 'development',
+    );
+    map {
+        my ($args, $expect) = @$_;
+        cmp_deeply(get_dev_milestone(@$args), $expect,
+            join(' ', map { qq{"$_"} } @$args));
+    } (pairs @cases);
 };
 
 done_testing;

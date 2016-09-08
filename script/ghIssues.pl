@@ -18,7 +18,7 @@ use Date::Parse;
 use Time::Piece;
 use Time::Seconds;
 
-use DDGC::Script::GitHub::Issue qw(get_mentions id_from_body);
+use DDGC::Script::GitHub::Issue qw(get_dev_milestone get_mentions id_from_body);
 
 my $d = DDGC->new;
 
@@ -114,19 +114,6 @@ sub perl_module_from_files {
         }
     }
     return;
-}
-
-sub get_dev_milestone {
-    my ($ia, $state) = @_;
-    if (($ia->{dev_milestone} eq 'planning') && ($state eq 'open')){
-        return 'development';
-    } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated') && ($ia->{dev_milestone} ne 'ghosted')) {
-        if ($state eq 'merged') {
-            return 'complete';
-        } elsif (($state eq 'closed') && ($ia->{production_state} eq 'offline')) {
-            return 'planning';
-        }
-    }
 }
 
 sub process_issue {
@@ -235,7 +222,11 @@ sub process_issue {
         $name =~ s/_/ /g;
 
         # move status to development once we have seen the PR
-        my $dev_milestone = get_dev_milestone($ia, $state);
+        my $dev_milestone = get_dev_milestone(
+            $ia->{dev_milestone},
+            $ia->{production_state},
+            $state,
+        );
 
         if($data->{state} eq 'merged'){
             $ia->{developer} = add_developer($ia->{developer}, $data->{author}, $ia);

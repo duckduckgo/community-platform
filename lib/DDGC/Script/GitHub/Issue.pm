@@ -4,7 +4,7 @@ package DDGC::Script::GitHub::Issue;
 BEGIN {
     require Exporter;
     our @ISA = qw(Exporter);
-    our @EXPORT_OK = qw(get_mentions id_from_body);
+    our @EXPORT_OK = qw(get_dev_milestone get_mentions id_from_body);
 }
 
 sub get_mentions {
@@ -27,6 +27,19 @@ sub id_from_body {
     my ($body) = @_;
     $body =~ qr{$gh_form|$norm_form}i;
     return $+{id};
+}
+
+sub get_dev_milestone {
+    my ($ia_milestone, $production_state, $issue_state) = @_;
+    if ($ia_milestone eq 'planning' && $issue_state eq 'open'){
+        return 'development';
+    } elsif ($ia_milestone !~ /^(live|deprecated|ghosted)$/) {
+        if ($issue_state eq 'merged') {
+            return 'complete';
+        } elsif ($issue_state eq 'closed' && $production_state eq 'offline') {
+            return 'planning';
+        }
+    }
 }
 
 1;
