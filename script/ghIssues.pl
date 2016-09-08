@@ -84,16 +84,8 @@ sub getIssues{
             $progress->update($line) unless $d->is_live;
             $line++;
 
-            # get the IA name from the link in the first comment
-            # Update this later for whatever format we decide on
-            # Match (roughly) the following formats:
-            # Instant Answer Page: Link   <- preferred standard link
-            # [Instant Answer Page](Link) <- GHFM link
-            $issue->{'body'} =~ qr{
-            \[(?:Instant\s?Answer|IA)\sPage\]\(https?://duck\.co/ia/view/(?<id>\w+[^\s])\)
-            | (?:Instant\s?Answer|IA)\sPage:?\s+ https?://duck\.co/ia/view/(?<id>\w+[^\s])}ix;
+            my $name_from_link = id_from_body($issue->{body});
 
-            my $name_from_link = $+{id} // '';
             # remove special chars from title and body
             $issue->{'body'} =~ s/\'//g;
             $issue->{'title'} =~ s/\'//g;
@@ -285,6 +277,20 @@ sub get_dev_milestone {
             return 'planning';
         }
     }
+}
+
+# get the IA name from the link in the first comment
+# Update this later for whatever format we decide on
+# Match (roughly) the following formats:
+# Instant Answer Page: Link   <- preferred standard link
+# [Instant Answer Page](Link) <- GHFM link
+sub id_from_body {
+    my ($body) = @_;
+    $body =~ qr{
+    \[(?:Instant\s?Answer|IA)\sPage\]\(https?://duck\.co/ia/view/(?<id>\w+[^\s])\)
+    | (?:Instant\s?Answer|IA)\sPage:?\s+ https?://duck\.co/ia/view/(?<id>\w+[^\s])}ix;
+
+    return $+{id} // '';
 }
 
 sub get_last_commit {
