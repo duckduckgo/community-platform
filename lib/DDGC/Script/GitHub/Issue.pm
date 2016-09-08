@@ -10,8 +10,6 @@ BEGIN {
 sub get_mentions {
     my ($comment) = @_;
 
-    # remove github inline comment blocks
-    $comment =~ s/^>.+\n//g;
     my @mentions = $comment =~ /@(\w+)/g;
     return [@mentions];
 }
