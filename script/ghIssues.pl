@@ -18,6 +18,8 @@ use Date::Parse;
 use Time::Piece;
 use Time::Seconds;
 
+use DDGC::Script::GitHub::Issue qw(get_mentions);
+
 my $d = DDGC->new;
 
 BEGIN {
@@ -163,7 +165,8 @@ sub process_issue {
     $comments = get_comments($repo, $issue->{number}) if $is_pr;
     my $last_comment = $comments->[-1] if $comments;
 
-    my $mentions = get_mentions($last_comment->{text}) if $last_comment;
+    my $mentions = get_duck_co_mentions($last_comment->{text})
+        if $last_comment;
 
     $comments = to_json $comments if $comments;
     $last_comment = to_json $last_comment if $last_comment;
@@ -487,12 +490,9 @@ sub find_template {
     }
 }
 
-sub get_mentions {
+sub get_duck_co_mentions {
     my ($comment) = @_;
-
-    # remove github inline comment blocks
-    $comment =~ s/^>.+\n//g;
-    my @mentions = $comment =~ /@(\w+)/g;
+    my @mentions = get_mentions($comment);
 
     my $duck_users;
     # get duck.co id for each
