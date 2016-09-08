@@ -81,8 +81,8 @@ sub getIssues{
 sub retrieve_repo_issues {
     my ($repo, $since) = @_;
     my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {
+            since => $since->datetime,
             state => 'all',
-            since => $since->datetime
         }
     );
 
@@ -97,7 +97,7 @@ sub developer_from_author {
     return [{
             name => $author,
             type => 'github',
-            url  => "https://github.com/$author"
+            url  => "https://github.com/$author",
         }];
 }
 
@@ -153,22 +153,22 @@ sub process_issue {
 
     # add entry to result array
     my %entry = (
-        name => $name_from_link || '',
-        repo => $repo || '',
-        issue_id => $issue->{'number'} || '',
-        author => $issue->{user}->{login} || '',
-        title => $issue->{'title'} || '',
-        body => $issue->{'body'} || '',
-        tags => $issue->{'labels'} || '',
-        date => $issue->{'created_at'} || '',
-        is_pr => $is_pr,
-        last_update => $issue->{updated_at},
-        last_commit => $last_commit,
-        last_comment => $last_comment,
         all_comments => $comments,
-        mentions => $mentions,
-        producer => $producer,
-        state => $state,
+        author       => $issue->{user}->{login} || '',
+        body         => $issue->{'body'} || '',
+        date         => $issue->{'created_at'} || '',
+        is_pr        => $is_pr,
+        issue_id     => $issue->{'number'} || '',
+        last_comment => $last_comment,
+        last_commit  => $last_commit,
+        last_update  => $issue->{updated_at},
+        mentions     => $mentions,
+        name         => $name_from_link || '',
+        producer     => $producer,
+        repo         => $repo || '',
+        state        => $state,
+        tags         => $issue->{'labels'} || '',
+        title        => $issue->{'title'} || '',
     );
 
     push(@results, \%entry);
@@ -181,7 +181,7 @@ sub process_issue {
         # First lookup by ID.  This can fail if an admin updates the ID on the IA page later
         my $ia = $d->rs('InstantAnswer')->search( {
                 -or => [
-                    id => $data->{name},
+                    id      => $data->{name},
                     meta_id => $data->{name},
                 ]
             } )->hri->one_row;
@@ -233,28 +233,28 @@ sub process_issue {
         }
 
         my %new_data = (
-            id => $ia->{id} || $data->{name},
-            meta_id => $ia->{meta_id} || $data->{name},
-            name => $ia->{name} || ucfirst $name,
-            dev_milestone => $dev_milestone || $ia->{dev_milestone},
-            description => $ia->{description},
-            created_date => $ia->{created_date} || $date,
-            repo => $ia->{repo} || $data->{repo},
-            perl_module => $ia->{perl_module} || $pm,
-            forum_link => $ia->{forum_link},
+            all_comments          => $data->{all_comments},
+            at_mentions           => $data->{mentions},
+            created_date          => $ia->{created_date} || $date,
+            description           => $ia->{description},
+            dev_milestone         => $dev_milestone || $ia->{dev_milestone},
+            developer             => $ia->{developer} || $developer,
+            example_query         => $ia->{example_query} || '',
+            forum_link            => $ia->{forum_link},
+            id                    => $ia->{id} || $data->{name},
+            last_comment          => $data->{last_comment},
+            last_commit           => $data->{last_commit},
+            last_update           => $issue->{updated_at},
+            meta_id               => $ia->{meta_id} || $data->{name},
+            name                  => $ia->{name} || ucfirst $name,
+            perl_module           => $ia->{perl_module} || $pm,
+            producer              => $data->{producer},
+            public                => 1,
+            repo                  => $ia->{repo} || $data->{repo},
             src_api_documentation => $ia->{src_api_documentation},
-            developer => $ia->{developer} || $developer,
-            last_update => $issue->{updated_at},
-            last_commit => $data->{last_commit},
-            last_comment => $data->{last_comment},
-            all_comments => $data->{all_comments},
-            at_mentions => $data->{mentions},
-            producer => $data->{producer},
-            template => $template,
-            example_query => $ia->{example_query} || '',
-            tab => $ia->{tab} || '',
-            src_url => $ia->{src_url} || '',
-            public => 1
+            src_url               => $ia->{src_url} || '',
+            tab                   => $ia->{tab} || '',
+            template              => $template,
         );
 
         update_pr_template(\%new_data, $data->{issue_id}, $ia);
@@ -286,14 +286,14 @@ sub get_last_commit {
     my $gh_user = $commit->{commit}->{committer}->{name};
     my $result = duckco_user($gh_user);
     my $last_commit = {
-        diff => $commit->{html_url},
-        user => $gh_user,
-        duckco => $result->{gh_user},
-        admin => $result->{admin},
+        admin     => $result->{admin},
         comleader => $result->{comleader},
-        date => $commit->{commit}->{committer}->{date},
-        message => $commit->{commit}->{message},
-        issue_id => $issue
+        date      => $commit->{commit}->{committer}->{date},
+        diff      => $commit->{html_url},
+        duckco    => $result->{gh_user},
+        issue_id  => $issue,
+        message   => $commit->{commit}->{message},
+        user      => $gh_user,
     };
 
     return to_json $last_commit;
@@ -347,9 +347,9 @@ sub duckco_user {
     }
 
     my %result = (
-        user => $username,
-        admin => $admin,
-        comleader => $comleader
+        admin     => $admin,
+        comleader => $comleader,
+        user      => $username,
     );
 
     return \%result;
@@ -404,23 +404,23 @@ my $update = sub {
 
         my $ia = $d->rs('InstantAnswer')->search( {
                 -or => [
-                    id => $result->{name},
+                    id      => $result->{name},
                     meta_id => $result->{name},
                 ]
             } )->one_row;
 
         if(exists $result->{name} && $ia){
             $d->rs('InstantAnswer::Issues')->update_or_create({
+                    author            => $result->{author},
+                    body              => $result->{body},
+                    date              => $result->{date},
                     instant_answer_id => $ia->id,
-                    repo => $result->{repo},
-                    issue_id => $result->{issue_id},
-                    title => $result->{title},
-                    body => $result->{body},
-                    tags => $result->{tags},
-                    is_pr => $result->{is_pr},
-                    date => $result->{date},
-                    author => $result->{author},
-                    status => $result->{state},
+                    is_pr             => $result->{is_pr},
+                    issue_id          => $result->{issue_id},
+                    repo              => $result->{repo},
+                    status            => $result->{state},
+                    tags              => $result->{tags},
+                    title             => $result->{title},
                 });
 
         }
@@ -618,7 +618,7 @@ sub add_developer {
         my $new_dev = {
             name => $author,
             type => 'github',
-            url => "https://github.com/$author"
+            url  => "https://github.com/$author"
         };
         push(@{$data}, $new_dev);
         $data = to_json($data);
