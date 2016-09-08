@@ -53,20 +53,6 @@ my $today = localtime;
 # get last 6 hours of issues
 my $since = $today - (6 * ONE_HOUR);
 
-sub retrieve_repo_issues {
-    my ($repo, $since) = @_;
-    my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {
-            state => 'all',
-            since => $since->datetime
-        }
-    );
-
-    while($gh->issue->has_next_page){
-        push(@issues, $gh->issue->next_page)
-    }
-    return @issues;
-}
-
 # get the GH issues
 sub getIssues{
     foreach my $repo (@repos){
@@ -88,6 +74,20 @@ sub getIssues{
     }
     # warn Dumper @results;
     # warn Dumper %pr_hash;
+}
+
+sub retrieve_repo_issues {
+    my ($repo, $since) = @_;
+    my @issues = $gh->issue->repos_issues('duckduckgo', $repo, {
+            state => 'all',
+            since => $since->datetime
+        }
+    );
+
+    while($gh->issue->has_next_page){
+        push(@issues, $gh->issue->next_page)
+    }
+    return @issues;
 }
 
 sub developer_from_author {
