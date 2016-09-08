@@ -319,6 +319,21 @@ sub get_last_commit {
     return to_json $last_commit;
 }
 
+sub format_comment {
+    my ($comment) = @_;
+    my $gh_user = $comment->{user}->{login};
+    my $result = duckco_user($gh_user);
+    return {
+        admin     => $result->{admin},
+        comleader => $result->{comleader},
+        date      => $comment->{created_at},
+        duckco    => $result->{user},
+        id        => $comment->{id},
+        text      => $comment->{body},
+        user      => $gh_user,
+    };
+}
+
 sub get_comments {
     my ($repo, $issue) = @_;
     my $issues = $gh->issue;
@@ -332,24 +347,8 @@ sub get_comments {
     # sort comments by time
     my @sorted = sort { str2time($a->{created_at}) <=> str2time($b->{created_at}) } @all_comments;
 
-    my $formatted_comments;
-    foreach my $comment (@sorted){
-
-        my $gh_user = $comment->{user}->{login};
-        my $result = duckco_user($gh_user);
-        push(@$formatted_comments,
-            {
-                user => $gh_user,
-                duckco => $result->{user},
-                admin => $result->{admin},
-                comleader => $result->{comleader},
-                date => $comment->{created_at},
-                text => $comment->{body},
-                id => $comment->{id}
-            });
-    }
-
-    return $formatted_comments;
+    my @formatted_comments = map { format_comment($_) } @sorted;
+    return \@formatted_comments;
 }
 
 sub duckco_user {
