@@ -40,6 +40,7 @@ subtest id_from_body => sub {
 
     subtest formats => sub {
         my %cases = (
+            'IA Page:  https://duck.co/ia/view/foo'              => 'double spacing',
             'IA Page: http://duck.co/ia/view/foo'                => 'http',
             'IA Page: https://duck.co/ia/view/foo'               => 'short',
             'Instant Answer Page: https://duck.co/ia/view/foo'   => 'long',
