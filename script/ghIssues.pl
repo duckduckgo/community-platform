@@ -78,28 +78,28 @@ sub getIssues{
 
         print "Starting $repo\n";
         my $progress = Term::ProgressBar->new(scalar @issues) unless $d->is_live;
-		
+
         # add all the data we care about to an array
-		for my $issue (@issues){
+        for my $issue (@issues){
             $progress->update($line) unless $d->is_live;
             $line++;
 
             # get the IA name from the link in the first comment
-			# Update this later for whatever format we decide on
-			# Match (roughly) the following formats:
-			# Instant Answer Page: Link   <- preferred standard link
-			# [Instant Answer Page](Link) <- GHFM link
-			$issue->{'body'} =~ qr{
-				\[(?:Instant\s?Answer|IA)\sPage\]\(https?://duck\.co/ia/view/(?<id>\w+[^\s])\)
-				| (?:Instant\s?Answer|IA)\sPage:?\s+ https?://duck\.co/ia/view/(?<id>\w+[^\s])}ix;
+            # Update this later for whatever format we decide on
+            # Match (roughly) the following formats:
+            # Instant Answer Page: Link   <- preferred standard link
+            # [Instant Answer Page](Link) <- GHFM link
+            $issue->{'body'} =~ qr{
+            \[(?:Instant\s?Answer|IA)\sPage\]\(https?://duck\.co/ia/view/(?<id>\w+[^\s])\)
+            | (?:Instant\s?Answer|IA)\sPage:?\s+ https?://duck\.co/ia/view/(?<id>\w+[^\s])}ix;
 
-			my $name_from_link = $+{id} // '';
-			# remove special chars from title and body
-			$issue->{'body'} =~ s/\'//g;
-			$issue->{'title'} =~ s/\'//g;
+            my $name_from_link = $+{id} // '';
+            # remove special chars from title and body
+            $issue->{'body'} =~ s/\'//g;
+            $issue->{'title'} =~ s/\'//g;
 
-			# get repo name
-			$repo =~ s/zeroclickinfo-//;
+            # get repo name
+            $repo =~ s/zeroclickinfo-//;
 
             my $is_pr = exists $issue->{pull_request} ? 1 : 0;
 
@@ -113,7 +113,7 @@ sub getIssues{
             my $last_comment = $comments->[-1] if $comments;
 
             my $mentions = get_mentions($last_comment->{text}) if $last_comment;
-            
+
             $comments = to_json $comments if $comments;
             $last_comment = to_json $last_comment if $last_comment;
 
@@ -125,15 +125,15 @@ sub getIssues{
             }
 
             # add entry to result array
-			my %entry = (
-			    name => $name_from_link || '',
-				repo => $repo || '',
-				issue_id => $issue->{'number'} || '',
-                author => $issue->{user}->{login} || '', 
-				title => $issue->{'title'} || '',
-				body => $issue->{'body'} || '',
-				tags => $issue->{'labels'} || '',
-				date => $issue->{'created_at'} || '',
+            my %entry = (
+                name => $name_from_link || '',
+                repo => $repo || '',
+                issue_id => $issue->{'number'} || '',
+                author => $issue->{user}->{login} || '',
+                title => $issue->{'title'} || '',
+                body => $issue->{'body'} || '',
+                tags => $issue->{'labels'} || '',
+                date => $issue->{'created_at'} || '',
                 is_pr => $is_pr,
                 last_update => $issue->{updated_at},
                 last_commit => $last_commit,
@@ -142,10 +142,10 @@ sub getIssues{
                 mentions => $mentions,
                 producer => $producer,
                 state => $state,
-			);
+            );
 
-			push(@results, \%entry);
-            
+            push(@results, \%entry);
+
             my $create_page = sub {
                 my $data = \%entry;
                 return unless $data->{name};
@@ -153,11 +153,11 @@ sub getIssues{
                 # check to see if we have this IA already
                 # First lookup by ID.  This can fail if an admin updates the ID on the IA page later
                 my $ia = $d->rs('InstantAnswer')->search( {
-                    -or => [
-                        id => $data->{name},
-                        meta_id => $data->{name},
-                    ]
-                } )->hri->one_row;
+                        -or => [
+                            id => $data->{name},
+                            meta_id => $data->{name},
+                        ]
+                    } )->hri->one_row;
                 my $new_ia = 1 if !$ia;
 
                 # no auto generating IA pages from a PR anymore
@@ -193,10 +193,10 @@ sub getIssues{
                 my $is_new_ia;
                 for my $tag (@{$data->{tags}}){
                     $is_new_ia = 1 if $tag->{name} eq 'New Instant Answer';
-                     if ($tag->{name} eq 'CheatSheet') {
+                    if ($tag->{name} eq 'CheatSheet') {
                         $pm = "DDG::Goodie::CheatSheets";
                         $ia->{tab} = "Cheat Sheet";
-                     }
+                    }
                 }
 
                 my $developer = developer_from_author($data->{author});
@@ -215,7 +215,7 @@ sub getIssues{
                     } elsif (($state eq 'closed') && ($ia->{production_state} eq 'offline')) {
                         $dev_milestone = 'planning';
                     }
-                } 
+                }
 
                 if($data->{state} eq 'merged'){
                     $ia->{developer} = add_developer($ia->{developer}, $data->{author}, $ia);
@@ -227,7 +227,7 @@ sub getIssues{
                     name => $ia->{name} || ucfirst $name,
                     dev_milestone => $dev_milestone || $ia->{dev_milestone},
                     description => $ia->{description},
-                    created_date => $ia->{created_date} || $date, 
+                    created_date => $ia->{created_date} || $date,
                     repo => $ia->{repo} || $data->{repo},
                     perl_module => $ia->{perl_module} || $pm,
                     forum_link => $ia->{forum_link},
@@ -250,7 +250,7 @@ sub getIssues{
 
                 #return 1 if !$is_new_ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
-                
+
                 #print "ia/view/$new_data{id}\n";
 
             };
@@ -264,8 +264,8 @@ sub getIssues{
             }
 
 
-		}
-	}
+        }
+    }
     # warn Dumper @results;
     # warn Dumper %pr_hash;
 }
@@ -273,10 +273,10 @@ sub getIssues{
 sub developer_from_author {
     my ($author) = @_;
     return [{
-        name => $author,
-        type => 'github',
-        url  => "https://github.com/$author"
-    }];
+            name => $author,
+            type => 'github',
+            url  => "https://github.com/$author"
+        }];
 }
 
 sub get_last_commit {
@@ -289,8 +289,8 @@ sub get_last_commit {
 
     my $gh_user = $commit->{commit}->{committer}->{name};
     my $result = duckco_user($gh_user);
-    my $last_commit = { 
-        diff => $commit->{html_url}, 
+    my $last_commit = {
+        diff => $commit->{html_url},
         user => $gh_user,
         duckco => $result->{gh_user},
         admin => $result->{admin},
@@ -318,11 +318,11 @@ sub get_comments {
 
     my $formatted_comments;
     foreach my $comment (@sorted){
- 
-    my $gh_user = $comment->{user}->{login};
-    my $result = duckco_user($gh_user);
-    push(@$formatted_comments,
-            { 
+
+        my $gh_user = $comment->{user}->{login};
+        my $result = duckco_user($gh_user);
+        push(@$formatted_comments,
+            {
                 user => $gh_user,
                 duckco => $result->{user},
                 admin => $result->{admin},
@@ -364,41 +364,41 @@ sub duckco_user {
 # then update the file paths in the db
 sub merge_files {
     my ($data, $issue_id) = @_;
-        $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-".$data->repo);
-        my $pr;
-        try{
-            $pr = $gh->pull_request->pull($issue_id);
-        }catch{
-        };
+    $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-".$data->repo);
+    my $pr;
+    try{
+        $pr = $gh->pull_request->pull($issue_id);
+    }catch{
+    };
 
-        return unless $pr;
+    return unless $pr;
 
-        # closed PRs have undef merged_at.  Merged ones have the date
-        return unless $pr->{merged_at};
-        
-        my @files_changed = $gh->pull_request->files($issue_id);
-        my $result = $d->rs('InstantAnswer')->find({id => $data->id});
-        my $files;
+    # closed PRs have undef merged_at.  Merged ones have the date
+    return unless $pr->{merged_at};
 
-        # turn code from db into hash
-        if($result->code){
-            my $code = from_json($result->code);
-            foreach (@{$code}){
-                $files->{$_} = 1;
-            }
+    my @files_changed = $gh->pull_request->files($issue_id);
+    my $result = $d->rs('InstantAnswer')->find({id => $data->id});
+    my $files;
+
+    # turn code from db into hash
+    if($result->code){
+        my $code = from_json($result->code);
+        foreach (@{$code}){
+            $files->{$_} = 1;
         }
-        # add any new files to files hash or delete files that were removed in the PR
-        for (@files_changed){
-            if($_->{status} eq 'removed'){
-                delete $files->{$_->{filename}};
-            }
-            else{
-                $files->{$_->{filename}} = 1;
-            }
+    }
+    # add any new files to files hash or delete files that were removed in the PR
+    for (@files_changed){
+        if($_->{status} eq 'removed'){
+            delete $files->{$_->{filename}};
         }
-        my @files = keys $files;
+        else{
+            $files->{$_->{filename}} = 1;
+        }
+    }
+    my @files = keys $files;
 
-        $result->update({code => JSON->new->ascii(1)->encode(\@files)}) if $result;
+    $result->update({code => JSON->new->ascii(1)->encode(\@files)}) if $result;
 }
 
 my $update = sub {
@@ -408,25 +408,25 @@ my $update = sub {
         # check if the IA is in our table so we dont die on a foreign key error
 
         my $ia = $d->rs('InstantAnswer')->search( {
-            -or => [
-                id => $result->{name},
-                meta_id => $result->{name},
-            ]
-        } )->one_row;
- 
+                -or => [
+                    id => $result->{name},
+                    meta_id => $result->{name},
+                ]
+            } )->one_row;
+
         if(exists $result->{name} && $ia){
             $d->rs('InstantAnswer::Issues')->update_or_create({
-                instant_answer_id => $ia->id,
-                repo => $result->{repo},
-                issue_id => $result->{issue_id},
-                title => $result->{title},
-                body => $result->{body},
-                tags => $result->{tags},
-                is_pr => $result->{is_pr},
-                date => $result->{date},
-                author => $result->{author},
-                status => $result->{state},
-	        });
+                    instant_answer_id => $ia->id,
+                    repo => $result->{repo},
+                    issue_id => $result->{issue_id},
+                    title => $result->{title},
+                    body => $result->{body},
+                    tags => $result->{tags},
+                    is_pr => $result->{is_pr},
+                    date => $result->{date},
+                    author => $result->{author},
+                    status => $result->{state},
+                });
 
         }
 
@@ -447,7 +447,7 @@ sub assign_producer {
     if ($user && $user->admin) {
         $gh_user = $user->username;
     } else {
-        # If no linked account found, we can't be sure whether 
+        # If no linked account found, we can't be sure whether
         # the user is an admin or not.
         # But producers can only be admins, so use the temporary fallback
         $gh_user = $producers[int(rand(@producers))];
@@ -483,7 +483,7 @@ sub get_mentions {
     # get duck.co id for each
     foreach my $gh_user (@mentions){
         my $user = $d->rs('User')->find_by_github_login( $gh_user );
-        
+
         if($user){
             push(@$duck_users, {name => $user->username} );
         }
@@ -564,39 +564,39 @@ sub update_pr_template {
 ---
 *This is an automated message which will be updated as changes are made to the [IA page](https://duck.co/ia/view/$data->{meta_id})*
 );
-    # check to see if anything has been updated since the last post
-    # remove white space and testing block of the comment.  Testing
-    # has markdown clickable check boxes that we don't want to compare.
-    my $tmp_message = $message;
-    for ($tmp_message, $old_comment){
-        $_ =~ s/\s//g;
-        $_ =~ s/\*\*Testing\*\*.*$//g;
-    }
-    return if $tmp_message eq $old_comment;
+# check to see if anything has been updated since the last post
+# remove white space and testing block of the comment.  Testing
+# has markdown clickable check boxes that we don't want to compare.
+my $tmp_message = $message;
+for ($tmp_message, $old_comment){
+    $_ =~ s/\s//g;
+    $_ =~ s/\*\*Testing\*\*.*$//g;
+}
+return if $tmp_message eq $old_comment;
 
-    my $dax = $ENV{DAX_TOKEN};
-    return unless $dax;
+my $dax = $ENV{DAX_TOKEN};
+return unless $dax;
 
-    warn "Posting comment: $data->{name}";
-    my $dax_comment = Net::GitHub->new(access_token => $dax);
+warn "Posting comment: $data->{name}";
+my $dax_comment = Net::GitHub->new(access_token => $dax);
 
-    try{
-        if(!$comment_number){
-            # update the comment
-            $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
+try{
+    if(!$comment_number){
+        # update the comment
+        $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
                 "body" => $message
-                }
-            );
-        }else{
-            $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
+            }
+        );
+    }else{
+        $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
                 "body" => $message
-                }
-            );
-        }
+            }
+        );
     }
-    catch {
-        $d->errorlog("Error posting dax comment: '$_'...");
-    };
+}
+catch {
+    $d->errorlog("Error posting dax comment: '$_'...");
+};
 }
 
 sub add_developer {
@@ -610,10 +610,10 @@ sub add_developer {
     try{
         if($user){
             my $ddgc_name = $user->username;
-            
+
             # Give edit permissions to the contributor
             my $ia = $ia_hash? $d->rs('InstantAnswer')->find({id => $ia_hash->{id}}) : undef;
-            
+
             if ($ia) {
                 $ia->add_to_users($user) unless ($ia->users->find($user->id) || $user->admin);
             }
@@ -632,14 +632,14 @@ sub add_developer {
         $data = to_json($data);
 
     }catch{
-       print "Error while updating developers $_ \n fall back to un-altered dev data";
-       $d->errorlog("Error while updating developers in ghIssues: '$_'...");
+        print "Error while updating developers $_ \n fall back to un-altered dev data";
+        $d->errorlog("Error while updating developers in ghIssues: '$_'...");
 
-       # fall back to un-altered dev data
-       $data = $dev_json;
+        # fall back to un-altered dev data
+        $data = $dev_json;
     };
 
-   return $data;
+    return $data;
 }
 
 getIssues;
