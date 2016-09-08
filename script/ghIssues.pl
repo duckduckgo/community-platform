@@ -469,21 +469,13 @@ sub find_template {
 
 sub get_duck_co_mentions {
     my ($comment) = @_;
-    my @mentions = get_mentions($comment);
-
-    my $duck_users;
+    my @duck_users;
     # get duck.co id for each
-    foreach my $gh_user (@mentions){
+    foreach my $gh_user (get_mentions $comment) {
         my $user = $d->rs('User')->find_by_github_login( $gh_user );
-
-        if($user){
-            push(@$duck_users, {name => $user->username} );
-        }
+        push @duck_users, { name => $user->username } if $user;
     }
-
-    if($duck_users){
-        return to_json $duck_users;
-    }
+    return to_json \@duck_users if @duck_users;
 }
 
 sub update_pr_template {
