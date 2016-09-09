@@ -12,6 +12,7 @@ use DDGC::Script::GitHub::Issue qw(
     get_dev_milestone
     get_mentions
     id_from_body
+    perl_module_from_files
 );
 
 subtest get_mentions => sub {
@@ -85,6 +86,34 @@ subtest get_dev_milestone => sub {
         cmp_deeply(get_dev_milestone(@$args), $expect,
             join(' ', map { qq{"$_"} } @$args));
     } (pairs @cases);
+};
+
+subtest perl_module_from_files => sub {
+    subtest 'single files' => sub {
+        my @cases = (
+            ['Goodie', '']                          => [undef, 'empty'],
+            ['Goodie', 'lib/DDG/Goodie/Foo.pm']     => ['DDG::Goodie::Foo', 'standard path'],
+            ['Goodie', 'lib/DDG/Goodie/Foo/Bar.pm'] => ['DDG::Goodie::Foo::Bar', 'nested path'],
+            ['Spice', 'lib/DDG/Goodie/Foo.pm']      => [undef, 'wrong repo'],
+            ['Spice', 'lib/DDG/Spice/Foo.pm']       => ['DDG::Spice::Foo', 'spice repo'],
+        );
+        map {
+            my ($args, $res) = @$_;
+            my ($expected, $comment) = @$res;
+            my ($repo, $file) = @$args;
+            cmp_deeply(perl_module_from_files($repo, [{ filename => $file}]),
+                $expected, "$comment: $file");
+        } (pairs @cases);
+    };
+    cmp_deeply(perl_module_from_files('Goodie',
+        [ map { { filename => $_ } }
+            ('lib/DDG/Goodie/Foo.pm', 'lib/DDG/Goodie/Bar.pm')
+        ]), 'DDG::Goodie::Foo', 'multiple files same repo');
+    cmp_deeply(perl_module_from_files('Goodie',
+        [ map { { filename => $_ } }
+            ('lib/DDG/Spice/Bar.pm', 'lib/DDG/Goodie/Foo.pm')
+        ]), 'DDG::Goodie::Foo', 'multiple files different repos');
+
 };
 
 done_testing;

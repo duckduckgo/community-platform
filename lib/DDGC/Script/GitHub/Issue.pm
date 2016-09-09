@@ -4,7 +4,12 @@ package DDGC::Script::GitHub::Issue;
 BEGIN {
     require Exporter;
     our @ISA = qw(Exporter);
-    our @EXPORT_OK = qw(get_dev_milestone get_mentions id_from_body);
+    our @EXPORT_OK = qw(
+        get_dev_milestone
+        get_mentions
+        id_from_body
+        perl_module_from_files
+    );
 }
 
 sub get_mentions {
@@ -40,6 +45,25 @@ sub get_dev_milestone {
             return 'planning';
         }
     }
+}
+
+sub perl_module_from_file {
+    my ($repo, $file) = @_;
+    my $tmp_repo = ucfirst $repo;
+    $tmp_repo =~ s/s$//g;
+
+    if(my ($name) = $file->{filename} =~ /lib\/DDG\/$tmp_repo\/(.+)\.pm/i ){
+        my @parts = split('/', $name);
+        $name = join('::', @parts);
+        return "DDG::${tmp_repo}::$name";
+    }
+    return;
+}
+
+sub perl_module_from_files {
+    my ($repo, $files_data) = @_;
+    my @modules = map { perl_module_from_file($repo, $_) } @$files_data;
+    $modules[0];
 }
 
 1;

@@ -18,7 +18,12 @@ use Date::Parse;
 use Time::Piece;
 use Time::Seconds;
 
-use DDGC::Script::GitHub::Issue qw(get_dev_milestone get_mentions id_from_body);
+use DDGC::Script::GitHub::Issue qw(
+    get_dev_milestone
+    get_mentions
+    id_from_body
+    perl_module_from_files
+);
 
 my $d = DDGC->new;
 
@@ -99,21 +104,6 @@ sub developer_from_author {
             type => 'github',
             url  => "https://github.com/$author",
         }];
-}
-
-sub perl_module_from_files {
-    my ($repo, $files_data) = @_;
-    foreach my $file (@{$files_data}) {
-        my $tmp_repo = ucfirst $repo;
-        $tmp_repo =~ s/s$//g;
-
-        if(my ($name) = $file->{filename} =~ /lib\/DDG\/$tmp_repo\/(.+)\.pm/i ){
-            my @parts = split('/', $name);
-            $name = join('::', @parts);
-            return "DDG::${tmp_repo}::$name";
-        }
-    }
-    return;
 }
 
 sub process_issue {
