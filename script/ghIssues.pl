@@ -79,8 +79,6 @@ sub getIssues{
             process_issue($issue, $repo);
         }
     }
-    # warn Dumper @results;
-    # warn Dumper %pr_hash;
 }
 
 sub retrieve_repo_issues {
@@ -103,7 +101,7 @@ sub developer_from_author {
             name => $author,
             type => 'github',
             url  => "https://github.com/$author",
-        }];
+    }];
 }
 
 sub process_issue {
@@ -249,11 +247,7 @@ sub process_issue {
 
         update_pr_template(\%new_data, $data->{issue_id}, $ia);
 
-        #return 1 if !$is_new_ia;
         $d->rs('InstantAnswer')->update_or_create({%new_data});
-
-        #print "ia/view/$new_data{id}\n";
-
     };
 
     # check for an existing IA page.  Create one if none are found
@@ -333,7 +327,6 @@ sub duckco_user {
         $username = $user->username;
         $admin = $user->admin;
         $comleader = 0;
-        #$user->is('community_leader');
     }
 
     my %result = (
@@ -387,11 +380,8 @@ sub merge_files {
 }
 
 my $update = sub {
-    #$d->rs('InstantAnswer::Issues')->delete_all();
-
     foreach my $result (@results){
         # check if the IA is in our table so we dont die on a foreign key error
-
         my $ia = $d->rs('InstantAnswer')->search( {
                 -or => [
                     id      => $result->{name},
@@ -412,9 +402,7 @@ my $update = sub {
                     tags              => $result->{tags},
                     title             => $result->{title},
                 });
-
         }
-
         merge_files($ia, $result->{issue_id}) if $ia;
     }
 };
@@ -538,39 +526,39 @@ sub update_pr_template {
 ---
 *This is an automated message which will be updated as changes are made to the [IA page](https://duck.co/ia/view/$data->{meta_id})*
 );
-# check to see if anything has been updated since the last post
-# remove white space and testing block of the comment.  Testing
-# has markdown clickable check boxes that we don't want to compare.
-my $tmp_message = $message;
-for ($tmp_message, $old_comment){
-    $_ =~ s/\s//g;
-    $_ =~ s/\*\*Testing\*\*.*$//g;
-}
-return if $tmp_message eq $old_comment;
-
-my $dax = $ENV{DAX_TOKEN};
-return unless $dax;
-
-warn "Posting comment: $data->{name}";
-my $dax_comment = Net::GitHub->new(access_token => $dax);
-
-try{
-    if(!$comment_number){
-        # update the comment
-        $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
-                "body" => $message
-            }
-        );
-    }else{
-        $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
-                "body" => $message
-            }
-        );
+    # check to see if anything has been updated since the last post
+    # remove white space and testing block of the comment.  Testing
+    # has markdown clickable check boxes that we don't want to compare.
+    my $tmp_message = $message;
+    for ($tmp_message, $old_comment){
+        $_ =~ s/\s//g;
+        $_ =~ s/\*\*Testing\*\*.*$//g;
     }
-}
-catch {
-    $d->errorlog("Error posting dax comment: '$_'...");
-};
+    return if $tmp_message eq $old_comment;
+
+    my $dax = $ENV{DAX_TOKEN};
+    return unless $dax;
+
+    warn "Posting comment: $data->{name}";
+    my $dax_comment = Net::GitHub->new(access_token => $dax);
+
+    try{
+        if(!$comment_number){
+            # update the comment
+            $dax_comment->issue->create_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $pr_number, {
+                    "body" => $message
+                }
+            );
+        }else{
+            $dax_comment->issue->update_comment('duckduckgo', 'zeroclickinfo-'.$data->{repo}, $comment_number, {
+                    "body" => $message
+                }
+            );
+        }
+    }
+    catch {
+        $d->errorlog("Error posting dax comment: '$_'...");
+    };
 }
 
 sub add_developer {
