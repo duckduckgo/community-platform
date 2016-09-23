@@ -11,23 +11,11 @@ use DDGC;
 use Try::Tiny;
 
 my $d = DDGC->new;
-my @languages = [
-    "java",
-    "PHP",
-    "HTML",
-    "C",
-    "C#",
-    "C++",
-    "ruby",
-    "Objective-C",
-    "R",
-    "scala",
-    "haskell"
-    ];
+my @languages = (qw/ java PHP HTML C C# C++ ruby Objective-C R scala haskell /);
 
-for my $i (0 .. $#languages) {
-    my $temp_topic = $d->rs('Topic')->update_or_create({
-        name => $languages[0][$i]
+for my $language (@languages) {
+    $d->rs('Topic')->update_or_create({
+        name => $language
     });
 }
 
