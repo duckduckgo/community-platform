@@ -11,7 +11,7 @@ use DDGC;
 use Try::Tiny;
 
 my $d = DDGC->new;
-my @languages = (qw/ java PHP HTML C C# C++ ruby Objective-C R scala haskell /);
+my @languages = qw/ java PHP HTML C C# C++ ruby Objective-C R scala haskell /;
 
 for my $language (@languages) {
     $d->rs('Topic')->update_or_create({
