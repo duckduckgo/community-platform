@@ -362,11 +362,17 @@ app.controller('UserPageController', function($scope, $http, fn) {
 	      });
 	  }
 
+	  if($scope.show_ias.length === 0) {
+	      $scope.show_ias = ($scope.count.maintained_ias) ? $scope.maintained : $scope.ias_developed_only;
+	  }
+	  
 	  var objKey = _.findKey($scope, which);
 	  if(objKey) {
 	      $scope.addImg(objKey.replace(/_/g, ''));
 	  }
       };
+
+      $scope.changeShownIAs($scope.maintained, $scope.ias_developed_only);
   }
 });
 
