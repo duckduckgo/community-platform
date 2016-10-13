@@ -1,7 +1,7 @@
 <: if $invalid_hash { :>
 	<div class="notice error">
 		<i class="icn icon-warning-sign"></i>
-		There was a problem with this unsubscribe link. Please email ddgc@duck.co to unsubscribe.
+		There was a problem with this unsubscribe link. Please email ddgc@duckduckgo.com to unsubscribe.
 	</div>
 <: } else { :>
 	<div class="notice success">
