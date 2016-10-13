@@ -4,7 +4,7 @@
 		<h2>Delete account</h2>
 
 		<: if $delete_error { :>
-			<div class="notice error"><i class="icn icon-warning-sign"></i><: 'Sorry, there was a problem deleting this account! Please notify ddgc@duck.co.' :></div>
+			<div class="notice error"><i class="icn icon-warning-sign"></i><: 'Sorry, there was a problem deleting this account! Please notify ddgc@duckduckgo.com' :></div>
 		<: } :>
 		<: if $wrong_password { :>
 			<div class="notice error"><i class="icn icon-warning-sign"></i><: 'Incorrect password.' :></div>

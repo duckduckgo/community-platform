@@ -56,7 +56,7 @@ __PACKAGE__->config(
 	},
 	'Plugin::ErrorCatcher::Email' => {
 		to => $ENV{DDGC_ERROR_EMAIL} // 'ddgc@duckduckgo.com',
-		from => 'noreply@duck.co',
+		from => 'noreply@duckduckgo.com',
 		subject => '[DuckDuckGo Community] %p %l CRASH!!!',
 		use_tags => 1,
 	},

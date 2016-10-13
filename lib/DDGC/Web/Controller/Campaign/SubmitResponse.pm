@@ -54,7 +54,7 @@ sub respond : Chained('base') : PathPart('respond') : Args(0) {
 	$c->stash->{referer} = $c->session->{wear_referer};
 
 	my $to = $c->d->config->share_email // 'sharewear@duckduckgo.com';
-	my $from = 'noreply@duck.co';
+	my $from = 'noreply@duckduckgo.com';
 	my $username = $c->user->username;
 	my $campaign_name = $c->req->param('campaign_name');;
 	my $campaign = $c->d->config->campaigns->{ $campaign_name };

@@ -418,7 +418,7 @@ sub send_email_verification {
 	$c->d->postman->template_mail(
 		1,
 		$c->user->email,
-		'"DuckDuckGo Community" <noreply@duck.co>',
+		'"DuckDuckGo Community" <noreply@duckduckgo.com>',
 		'[DuckDuckGo Community] Please verify your email address',
 		'newemail',
 		$c->stash,
@@ -691,7 +691,7 @@ sub forgotpw_tokencheck :Chained('logged_out') :Args(2) {
 	$c->d->postman->template_mail(
 		$user->email_verified,
 		$user->email,
-		'"DuckDuckGo Community" <noreply@duck.co>',
+		'"DuckDuckGo Community" <noreply@duckduckgo.com>',
 		'[DuckDuckGo Community] New password for '.$username,
 		'newpw',
 		$c->stash,
@@ -764,7 +764,7 @@ sub changepw :Chained('logged_in') :Args(0) {
 		$c->d->postman->template_mail(
 			$c->user->email_verified,
 			$c->user->email,
-			'"DuckDuckGo Community" <noreply@duck.co>',
+			'"DuckDuckGo Community" <noreply@duckduckgo.com>',
 			'[DuckDuckGo Community] New password for '.$c->user->username,
 			'newpw',
 			$c->stash,
@@ -849,7 +849,7 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->d->postman->template_mail(
 		$user->email_verified,
 		$user->email,
-		'"DuckDuckGo Community" <noreply@duck.co>',
+		'"DuckDuckGo Community" <noreply@duckduckgo.com>',
 		'[DuckDuckGo Community] Reset password for '.$user->username,
 		'forgotpw',
 		$c->stash,
@@ -872,7 +872,7 @@ sub _verify_email {
 	$c->d->postman->template_mail(
 		1,
 		$user->email,
-		'"DuckDuckGo Community" <noreply@duck.co>',
+		'"DuckDuckGo Community" <noreply@duckduckgo.com>',
 		'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
 		'register',
 		$c->stash,
@@ -1003,7 +1003,7 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 			$c->d->postman->template_mail(
 				1,
 				$c->d->config->feedback_email,
-				'"DuckDuckGo Community" <noreply@duck.co>',
+				'"DuckDuckGo Community" <noreply@duckduckgo.com>',
 				'[DDG Language Request] New request',
 				'requestlanguage',
 				$c->stash,
@@ -1048,7 +1048,7 @@ sub new_user {
     			$c->d->postman->template_mail(
     				1,
     				$user->email,
-    				'"DuckDuckGo Community" <noreply@duck.co>',
+    				'"DuckDuckGo Community" <noreply@duckduckgo.com>',
     				'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
     				'register',
     				$c->stash,
