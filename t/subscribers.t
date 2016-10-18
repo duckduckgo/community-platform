@@ -28,6 +28,8 @@ my $app = builder {
 test_psgi $app => sub {
     my ( $cb ) = @_;
 
+    set_absolute_time('2016-10-18T12:00:00Z');
+
     for my $email (qw/
         test1@duckduckgo.com
         test2@duckduckgo.com
