@@ -22,7 +22,7 @@ column created      => {
     set_on_create => 1,
 };
 
-has_many => logs => 'DDGC::Schema::Result::Subscriber::MailLog' => {
+has_many logs => 'DDGC::Schema::Result::Subscriber::MailLog' => {
     'foreign.email_address' => 'self.email_address',
     'foreign.campaign'      => 'self.campaign',
 };
@@ -54,12 +54,12 @@ sub _url {
 
 sub verify_url {
     my ( $self ) = @_;
-    self->_url( 'v' );
+    $self->_url( 'v' );
 }
 
 sub unsubscribe_url {
     my ( $self ) = @_;
-    self->_url( 'u' );
+    $self->_url( 'u' );
 }
 
 sub verify {
