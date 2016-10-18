@@ -3,10 +3,10 @@
 use Moo;
 use MooX::Options;
 
+use Test::MockTime qw/ set_absolute_time /;
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
 use DDGC::Util::Script::SubscriberMailer;
-use Test::MockTime qw/ set_absolute_time /;
 
 option verify => (
     is => 'ro',
