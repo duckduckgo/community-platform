@@ -50,6 +50,42 @@ test_psgi $app => sub {
     $transport = DDGC::Util::Script::SubscriberMailer->new->verify;
     is( $transport->delivery_count, 0, 'No verification emails re-sent' );
 
+    my $unsubscribe = sub {
+        my ( $email ) = @_;
+        my $subscriber = rset('Subscriber')->find( {
+            email_address => $email,
+            campaign => 'a',
+        } );
+        my $url = URI->new( $subscriber->unsubscribe_url );
+        ok(
+            $cb->( GET $url->path ),
+            "Verifying " . $subscriber->email_address
+        );
+    };
+
+    my $verify = sub {
+        my ( $email ) = @_;
+        my $subscriber = rset('Subscriber')->find( {
+            email_address => $email,
+            campaign => 'a',
+        } );
+        my $url = URI->new( $subscriber->verify_url );
+        ok(
+            $cb->( GET $url->path ),
+            "Verifying " . $subscriber->email_address
+        );
+    };
+
+    for my $email (qw/ test1@duckduckgo.com test2@duckduckgo.com test3@duckduckgo.com /) {
+        $verify->( $email );
+    }
+
+    set_absolute_time('2016-10-19T12:00:00Z');
+    $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
+    is( $transport->delivery_count, 3, '3 received emails' );
+
+    $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
+    is( $transport->delivery_count, 0, 'Emails not re-sent' );
 };
 
 done_testing;
