@@ -13,6 +13,7 @@ use Plack::Builder;
 use CHI;
 use DDGC::Web;
 use DDGC::Web::App::Blog;
+use DDGC::Web::App::Subscriber;
 use DDGC::Web::Service::Blog;
 use DDGC::Web::Service::ActivityFeed;
 use Plack::App::File;
@@ -40,6 +41,7 @@ builder {
             qw/ Environment Response Parameters Timer Session DBITrace CatalystLog /
         ];
     }
+    mount '/s' => DDGC::Web::App::Subscriber->to_app;
     mount '/blog' => DDGC::Web::App::Blog->to_app;
     mount '/blog.json' => DDGC::Web::Service::Blog->to_app;
     mount '/activityfeed.json' => DDGC::Web::Service::ActivityFeed->to_app;
