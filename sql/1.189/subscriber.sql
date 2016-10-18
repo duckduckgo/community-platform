@@ -4,6 +4,7 @@ CREATE TABLE subscriber (
     created timestamp with time zone NOT NULL,
     verified integer DEFAULT 0 NOT NULL,
     unsubscribed integer DEFAULT 0 NOT NULL,
+    flow text,
     v_key text NOT NULL,
     u_key text NOT NULL
 );
