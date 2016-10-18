@@ -115,7 +115,7 @@ sub verify {
 
         for my $subscriber ( @subscribers ) {
             $self->email(
-                'verify',
+                'v',
                 $subscriber,
                 $self->campaigns->{verify}->{subject},
                 $self->campaigns->{verify}->{template},

@@ -33,7 +33,7 @@ sub verification_mail_unsent_for {
                 'SELECT email_address
                  FROM subscriber_maillog
                  WHERE campaign = ?
-                 AND email_id = \'verify\'',
+                 AND email_id = \'v\'',
                 $campaign
             ],
         }
