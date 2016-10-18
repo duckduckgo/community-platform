@@ -19,37 +19,37 @@ sub _build_campaigns {
             },
             mails => {
                 1 => {
-                    days     => 2,
+                    days     => 1,
                     subject  => 'Placeholder 1',
                     template => 'email/a/1.tx',
                 },
                 2 => {
-                    days     => 5,
+                    days     => 3,
                     subject  => 'Placeholder 2',
                     template => 'email/a/2.tx',
                 },
                 3 => {
-                    days     => 10,
+                    days     => 5,
                     subject  => 'Placeholder 3',
                     template => 'email/a/3.tx',
                 },
                 4 => {
-                    days     => 17,
+                    days     => 7,
                     subject  => 'Placeholder 4',
                     template => 'email/a/4.tx',
                 },
                 5 => {
-                    days     => 25,
+                    days     => 9,
                     subject  => 'Placeholder 5',
                     template => 'email/a/5.tx',
                 },
                 6 => {
-                    days     => 35,
+                    days     => 11,
                     subject  => 'Placeholder 6',
                     template => 'email/a/6.tx',
                 },
                 7 => {
-                    days     => 40,
+                    days     => 15,
                     subject  => 'Placeholder 7',
                     template => 'email/a/7.tx',
                 },
