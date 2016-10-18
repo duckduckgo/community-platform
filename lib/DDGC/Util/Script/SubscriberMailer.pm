@@ -123,6 +123,8 @@ sub verify {
             );
         }
     }
+
+    return $self->smtp->transport;
 }
 
 1;
