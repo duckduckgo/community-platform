@@ -34,7 +34,7 @@ sub mail_unsent {
                  FROM subscriber_maillog
                  WHERE campaign = ?
                  AND email_id = ?',
-                [ $campaign, $email ]
+                ( $campaign, $email )
             ],
         }
     } );
@@ -58,14 +58,14 @@ sub by_days_ago {
     my ( $self, $days ) = @_;
     my $today = DateTime->now->truncate( to => 'day' );
     my $end = $self->format_datetime(
-        $today->subtract( days => $days )
+        $today->subtract( days => ( $days - 1 ) )
     );
     my $start = $self->format_datetime(
         $today->subtract( days => 1 )
     );
 
     $self->search_rs( {
-        created => 
+        created => { -between => [ $start, $end ] }
     } );
 }
 
