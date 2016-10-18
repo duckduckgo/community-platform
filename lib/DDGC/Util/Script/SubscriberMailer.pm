@@ -83,21 +83,21 @@ sub execute {
 
     for my $campaign ( keys %{ $self->campaigns } ) {
         next if !$self->campaigns->{ $campaign }->{live};
-        for my $mail ( keys %{ $self->campaigns->{ $campaign }->mails } ) {
+        for my $mail ( keys %{ $self->campaigns->{ $campaign }->{mails} } ) {
             my @subscribers = rset('Subscriber')
                 ->campaign( $campaign )
                 ->subscribed
                 ->verified
                 ->mail_unsent( $campaign, $mail )
-                ->by_days_ago( $mail->{days} )
+                ->by_days_ago( $self->campaigns->{ $campaign }->{mails}->{ $mail }->{days} )
                 ->all;
 
             for my $subscriber ( @subscribers ) {
                 $self->email(
                     $mail,
                     $subscriber,
-                    $self->campaigns->{ $campaign }->mails->{ $mail }->{subject},
-                    $self->campaigns->{ $campaign }->mails->{ $mail }->{template},
+                    $self->campaigns->{ $campaign }->{mails}->{ $mail }->{subject},
+                    $self->campaigns->{ $campaign }->{mails}->{ $mail }->{template},
                 );
             }
         }
