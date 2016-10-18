@@ -26,6 +26,20 @@ sub unverified {
     $self->search_rs( { verified => 0 } );
 }
 
+sub mail_unsent {
+    my ( $self, $campaign, $email ) = @_;
+    $self->search_rs( {
+        email_address => { -not_in => \[
+                'SELECT email_address
+                 FROM subscriber_maillog
+                 WHERE campaign = ?
+                 AND email_id = ?',
+                [ $campaign, $email ]
+            ],
+        }
+    } );
+}
+
 sub verification_mail_unsent_for {
     my ( $self, $campaign ) = @_;
     $self->search_rs( {

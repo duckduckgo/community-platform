@@ -86,6 +86,7 @@ sub execute {
                 ->campaign( $campaign )
                 ->subscribed
                 ->verified
+                ->mail_unsent( $campaign, $mail )
                 ->by_days_ago( $mail->{days} )
                 ->all;
 
