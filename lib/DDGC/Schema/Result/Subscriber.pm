@@ -46,7 +46,7 @@ sub _url {
         sprintf "/s/%s/%s/%s/%s",
         ( $type eq 'u' ? 'u' : 'v' ),
         $self->campaign,
-        $self->email_address =~ s/\@/%24/gr,
+        $self->email_address =~ s/\@/%40/gr,
         ( $type eq 'u' ? $self->u_key : $self->v_key )
     );
     return $u->canonical->as_string;
