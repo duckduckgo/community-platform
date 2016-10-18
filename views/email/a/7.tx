@@ -1,1 +1,2 @@
 Placeholder 7
+<a href="<: $subscriber.unsubscribe_url :>">Unsubscribe</a>
