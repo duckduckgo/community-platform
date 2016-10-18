@@ -12,6 +12,7 @@ has campaigns => ( is => 'lazy' );
 sub _build_campaigns {
     {
         'a' => {
+            live => 1,
             verify => {
                 subject => 'Please verify your email address',
                 template => 'email/a/v.tx'
@@ -81,6 +82,7 @@ sub execute {
     my ( $self ) = @_;
 
     for my $campaign ( keys %{ $self->campaigns } ) {
+        next if !$self->campaigns->{ $campaign }->{live};
         for my $mail ( keys %{ $self->campaigns->{ $campaign }->mails } ) {
             my @subscribers = rset('Subscriber')
                 ->campaign( $campaign )
@@ -108,6 +110,7 @@ sub verify {
     my ( $self ) = @_;
 
     for my $campaign ( keys %{ $self->campaigns } ) {
+        next if !$self->campaigns->{ $campaign }->{live};
         my @subscribers = rset('Subscriber')
             ->campaign( $campaign )
             ->unverified
