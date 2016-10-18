@@ -146,6 +146,8 @@ sub send {
             ],
         }
     }
+
+    return { ok => 1 };
 }
 
 sub DESTROY {
