@@ -73,7 +73,7 @@ sub email {
     } );
 
     if ( $status->{ok} ) {
-        $subscriber->update_or_create_related( 'logs', $log );
+        $subscriber->update_or_create_related( 'logs', { email_id => $log } );
     }
 }
 
