@@ -45,12 +45,11 @@ test_psgi $app => sub {
     }
 
     my $transport = DDGC::Util::Script::SubscriberMailer->new->verify;
-    my @deliveries = $transport->deliveries;
-    is( scalar @deliveries, 5, 'Correct number of verification emails sent' );
+    is( $transport->delivery_count, 5, 'Correct number of verification emails sent' );
 
     $transport = DDGC::Util::Script::SubscriberMailer->new->verify;
-    @deliveries = $transport->deliveries;
-    is( scalar @deliveries, 0, 'No verification emails re-sent' );
+    is( $transport->delivery_count, 0, 'No verification emails re-sent' );
+
 };
 
 done_testing;
