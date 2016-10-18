@@ -121,8 +121,8 @@ sub verify {
             $self->email(
                 'v',
                 $subscriber,
-                $self->campaigns->{verify}->{subject},
-                $self->campaigns->{verify}->{template},
+                $self->campaigns->{ $campaign }->{verify}->{subject},
+                $self->campaigns->{ $campaign }->{verify}->{template},
                 1
             );
         }
