@@ -1,2 +1,352 @@
-Placeholder 5
-<a href="<: $subscriber.unsubscribe_url :>">Unsubscribe</a>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Is Your Data Being Sold?</title>
+        <style type="text/css">
+
+            /*  CLIENT-SPECIFIC STYLES  */
+            #outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
+            .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
+            .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
+            body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
+            table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing between tables in Outlook 2007 and up */
+            img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
+
+            /*  RESET STYLES  */
+            body{margin:0; padding:0;}
+            img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
+            table{border-collapse:collapse !important;}
+            body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;}
+
+            /*  TEMPLATE STYLES  */
+            /* === Page Styles ==== */
+            #bodyCell{padding:20px;}
+            #templateContainer{width:600px;}
+            /**
+            * @section background style
+            */
+            body, #bodyTable{
+                 background-color:#FAFAFA;
+            }
+            /**
+            * @section background style
+            */
+            #bodyCell{
+                border-top:4px solid #BBBBBB;
+            }
+            /**
+            * @section email border
+            */
+            #templateContainer{
+                border:1px solid #BBBBBB;
+            }
+            /**
+            * @section heading 1
+            * @style heading 1
+            */
+            h1{
+                color:#202020 !important;
+                display:block;
+                font-family: -apple-system, 'proxima-nova', BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+                font-size:26px;
+                font-style:normal;
+                font-weight:bold;
+                line-height:100%;
+                letter-spacing:normal;
+                margin-top:0;
+                margin-right:0;
+                margin-bottom:10px;
+                margin-left:0;
+                text-align:left;
+            }
+            /* ========== Header Styles ========== */
+            /**
+            * @section preheader style
+            */
+            #templatePreheader{
+                background-color:#F4F4F4;
+                border-bottom:1px solid #CCCCCC;
+            }
+            /**
+            * @section preheader text
+            */
+            .preheaderContent{
+                color:#808080;
+                font-family: -apple-system, 'proxima-nova', BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+                font-size:10px;
+                line-height:125%;
+                text-align:left;
+            }
+            /**
+            * @section preheader link
+            */
+            .preheaderContent a:link, .preheaderContent a:visited, /* Yahoo! Mail Override */ .preheaderContent a .yshortcuts /* Yahoo! Mail Override */{
+                color:#606060;
+                font-weight:normal;
+                text-decoration:underline;
+            }
+            /**
+            * @section header style
+            */
+            #templateHeader{
+                background-color:#FFFFFF;
+                border-top:1px solid #FFFFFF;
+                
+            }
+            /**
+            * @section header text
+            */
+            .headerContent{
+                color:#505050;
+                font-family: -apple-system, 'proxima-nova', BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+                font-size:20px;
+                font-weight:bold;
+                line-height:100%;
+                padding-top:0;
+                padding-right:0;
+                padding-bottom:0;
+                padding-left:0;
+                text-align:left;
+                vertical-align:middle;
+            }
+            /**
+            * @section header link
+            */
+            .headerContent a:link, .headerContent a:visited, /* Yahoo! Mail Override */ .headerContent a .yshortcuts /* Yahoo! Mail Override */{
+                color:#EB4102;
+                font-weight:normal;
+                text-decoration:underline;
+            }
+            #headerImage{
+                height:auto;
+                max-width:600px;
+            }
+            /* ========== Body Styles ========== */
+            /**
+            * @section body style
+            */
+            #templateBody{
+                background-color:#FFFFFF;
+                border-top:1px solid #FFFFFF;
+                border-bottom:1px solid #CCCCCC;
+                margin-bottom:1em; /* force YahooMail to space paragraphs */
+            }
+            /**
+            * @section body text
+            */
+            .bodyContent{
+                color:#505050;
+                font-family: -apple-system, 'proxima-nova', BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+                font-size:14px;
+                line-height:150%;
+                padding-top:20px;
+                padding-right:20px;
+                padding-bottom:20px;
+                padding-left:20px;
+                text-align:left;
+            }
+            /**
+            * @section body link
+            */
+            .bodyContent a:link, .bodyContent a:visited, /* Yahoo! Mail Override */ .bodyContent a .yshortcuts /* Yahoo! Mail Override */{
+                color:#0645AD;
+                font-weight:normal;
+                text-decoration:underline;
+            }
+            .bodyContent img{
+                display:inline;
+                height:auto;
+                max-width:560px;
+            }
+            /* ========== Footer Styles ========== */
+            /**
+            * @section footer style
+            */
+            #templateFooter{
+                background-color:#F4F4F4;
+                border-top:1px solid #FFFFFF;
+            }
+            /**
+            * @section footer text
+            */
+            .footerContent{
+                color:#808080;
+                font-family: -apple-system, 'proxima-nova', BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+                font-size:10px;
+                line-height:150%;
+                padding-top:20px;
+                padding-right:20px;
+                padding-bottom:20px;
+                padding-left:20px;
+                text-align:left;
+            }
+            /**
+            * @section footer link
+            */
+            .footerContent a:link, .footerContent a:visited, /* Yahoo! Mail Override */ .footerContent a .yshortcuts, .footerContent a span /* Yahoo! Mail Override */{
+                color:#0645AD;
+                font-weight:normal;
+                text-decoration:underline;
+            }
+            /*  MOBILE STYLES  */
+            @media only screen and (max-width: 480px){
+                /*  CLIENT-SPECIFIC MOBILE STYLES */
+                body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:none !important;} /* Prevent Webkit platforms from changing default text sizes */
+                body{width:100% !important; min-width:100% !important;} /* Prevent iOS Mail from adding padding to the body */
+                /* / MOBILE RESET STYLES  */
+                #bodyCell{padding:10px !important;}
+                /*  MOBILE TEMPLATE STYLES  */
+                /* ======== Page Styles ======== */
+                /**
+                * @section template width
+                * Make the template fluid for portrait or landscape view adaptability. If a fluid layout doesn't work for you, set the width to 300px instead.
+                */
+                #templateContainer{
+                    max-width:600px !important;
+                    width:100% !important;
+                }
+                /**
+                * @section heading 1
+                * Makes the first-level headings larger in size for better readability on small screens.
+                */
+                h1{
+                    font-size:24px !important;
+                    line-height:100% !important;
+                }
+                /* ======== Header Styles ======== */
+                #templatePreheader{display:none !important;} /* Hide the template preheader to save space */
+                /**
+                * @section header image
+                * Make the main header image fluid for portrait or landscape view adaptability, and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width to half its original size instead.
+                */
+                #headerImage{
+                    height:auto !important;
+                    max-width:600px !important;
+                    width:100% !important;
+                }
+                /**
+                * @section header text
+                */
+                .headerContent{
+                    font-size:20px !important;
+                    line-height:125% !important;
+                }
+                /* ======== Body Styles ======== */
+                /**
+                * @section body text
+                */
+                .bodyContent{
+                    font-size:18px !important;
+                    line-height:125% !important;
+                }
+                /* ======== Footer Styles ======== */
+                /**
+                * @section footer text
+                */
+                .footerContent{
+                    font-size:14px !important;
+                    line-height:115% !important;
+                }
+                .footerContent a{display:block !important;} /* Place footer social and utility links on their own lines, for easier access */
+            }
+        </style>
+    </head>
+    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
+        <center>
+            <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+                <tr>
+                    <td align="center" valign="top" id="bodyCell">
+                        <!-- BEGIN TEMPLATE // -->
+                        <table border="0" cellpadding="0" cellspacing="0" id="templateContainer">
+                            <tr>
+                                <td align="center" valign="top">
+                                    <!-- BEGIN PREHEADER // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templatePreheader">
+                                        <tr>
+                                            <td valign="top" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px;">
+                                                Ever wonder how advertisers use your data?
+                                            </td>
+                                            <td valign="top" width="180" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0;">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END PREHEADER -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="top">
+                                    <!-- BEGIN HEADER // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
+                                        <tr>
+                                            <td valign="top" class="headerContent">
+                                                <center><img src="http://cdn.shopify.com/s/files/1/0262/6023/t/2/assets/logo.png?6147621552951365931" style="max-width:600px; padding-top: 15px; padding-bottom: 15px;" id="headerImage" alt="DuckDuckGo Logo"/></center>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END HEADER -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="top">
+                                    <!-- BEGIN BODY // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
+                                        <tr>
+                                            <td valign="top" class="bodyContent">
+                                                 
+<p style="margin-bottom: 1em">In our last email, we showed how to delete your <a href="http://history.google.com/history">Google Search History</a>.</p>
+<p style="margin-bottom: 1em">This limits the information that Google has to sell to advertisers. But, they likely still have an advertising profile on you.</p>
+<p style="margin-bottom: 1em">We've mentioned before that as an advertising company Google has trackers on more than 2.2 million websites and 1 million apps. They collect information about you as you surf across the net and use this to compile your "<a href="https://www.google.com/settings/u/0/ads/authenticated">Ad Settings</a>."&nbsp;</p>
+<p style="margin-bottom: 1em">This is really just a way for them to sell your profile of interests to advertisers for top dollar.</p>
+<strong><span style="text-decoration: underline;">How to Disable Ad Settings:</span></strong></p>
+<ol>
+<li>Navigate to Google's <a href="https://www.google.com/settings/u/0/ads/authenticated">Ad Settings page</a></li><br />
+<li>Scroll down, and toggle "Ads Based on Your Interest" to off</li><br />
+<li>Then, scroll down more, and click the blue button to "opt-out of signed out ads." Turn off the toggles on that page too.&nbsp;</li><br />
+</ol>
+<p style="margin-bottom: 1em">Tracking is creepy, but luckily, you've switched to the Duck Side, and so now your searches are completely anonymous.<img src="https://duck.co/media/1/1/110f9241cce50cfb39840e84228d2414/8/d/8dc133ea4d23b60f8007059b7867b8dc.png" width="20px" height="20px"/></p>
+<p style="margin-bottom: 1em">
+Proudly Private,<br /><br />
+Dax the Duck,<br />
+Mascot - DuckDuckGo</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END BODY -->
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" valign="top">
+                                    <!-- BEGIN FOOTER // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter">
+                                        <tr>
+                                            <td valign="top" class="footerContent">
+                                                <p style="margin-bottom: 1em"><center>&nbsp;<a href="https://twitter.com/duckduckgo">Follow us on Twitter</a> | <a href="https://www.facebook.com/duckduckgo/">Friend us on Facebook</a> | <a href="https://duckduckgo.com/spread">Spread DuckDuckGo</a>&nbsp;</center></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" class="footerContent" style="padding-top:0;">
+                                               <em>Copyright &copy; 2016 Duck Duck Go Inc,<br /> All rights reserved.</em>
+                                                                <br />
+                                                <p style="margin-bottom: 1em"> <strong>Our mailing address is:</strong></p>
+                                                               <p style="margin-bottom: 1em"> 20 Paoli Pike, Paoli, PA
+                                                                   19302, USA<br /></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td valign="top" class="footerContent" style="padding-top:0; padding-bottom:40px;">
+                                                <a href="<: $subscriber.unsubscribe_url :>">unsubscribe from this list</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END FOOTER -->
+                                </td>
+                            </tr>
+                        </table>
+                        <!-- // END TEMPLATE -->
+                    </td>
+                </tr>
+            </table>
+        </center>
+    </body>
+</html>
