@@ -1,0 +1,1 @@
+<a href="<: $subscriber.verify_url :>">Please verify your email address</a>

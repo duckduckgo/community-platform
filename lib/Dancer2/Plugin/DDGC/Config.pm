@@ -7,6 +7,13 @@ use Dancer2::Plugin;
 use DDGC::Config;
 use DDGC::Util::TemplateHelpers;
 
+my $nosession;
+
+sub import {
+    shift;
+    $nosession = grep { $_ eq 'nosession' } @_;
+}
+
 on_plugin_import {
     my ( $dsl ) = @_;
     my $settings = plugin_setting();
@@ -23,19 +30,21 @@ on_plugin_import {
         $dsl->set( environment => 'staging' );
     }
 
-    $dsl->set(
-        engines  => {
-            ( $dsl->config->{engines} )
-            ? %{ $dsl->config->{engines} }
-            : (),
-            session => {
-                PSGI => {
-                    cookie_name => 'ddgc_session',
+    if ( !$nosession ) {
+        $dsl->set(
+            engines  => {
+                ( $dsl->config->{engines} )
+                ? %{ $dsl->config->{engines} }
+                : (),
+                session => {
+                    PSGI => {
+                        cookie_name => 'ddgc_session',
+                    },
                 },
-            },
-        }
-    );
-    $dsl->set(session => 'PSGI');
+            }
+        );
+        $dsl->set(session => 'PSGI');
+    }
 
     my $dsn_cfgs = {
        'Pg' => {
