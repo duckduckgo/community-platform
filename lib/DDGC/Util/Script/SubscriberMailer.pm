@@ -14,43 +14,43 @@ sub _build_campaigns {
         'a' => {
             live => 1,
             verify => {
-                subject => 'Please verify your email address',
+                subject => 'Privacy Newsletter | DuckDuckGo',
                 template => 'email/a/v.tx'
             },
             mails => {
                 1 => {
                     days     => 1,
-                    subject  => 'Placeholder 1',
+                    subject  => 'Tracking In Incognito?',
                     template => 'email/a/1.tx',
                 },
                 2 => {
                     days     => 3,
-                    subject  => 'Placeholder 2',
+                    subject  => 'Are Ads Following You?',
                     template => 'email/a/2.tx',
                 },
                 3 => {
                     days     => 5,
-                    subject  => 'Placeholder 3',
+                    subject  => 'Are Ads Costing You Money?',
                     template => 'email/a/3.tx',
                 },
                 4 => {
                     days     => 7,
-                    subject  => 'Placeholder 4',
+                    subject  => 'Have You Deleted Your Google Search History Yet?',
                     template => 'email/a/4.tx',
                 },
                 5 => {
                     days     => 9,
-                    subject  => 'Placeholder 5',
+                    subject  => 'Is Your Data Being Sold?',
                     template => 'email/a/5.tx',
                 },
                 6 => {
                     days     => 11,
-                    subject  => 'Placeholder 6',
+                    subject  => 'Who Decides What Websites You Visit?',
                     template => 'email/a/6.tx',
                 },
                 7 => {
-                    days     => 15,
-                    subject  => 'Placeholder 7',
+                    days     => 13,
+                    subject  => 'Was This Useful?',
                     template => 'email/a/7.tx',
                 },
             }
