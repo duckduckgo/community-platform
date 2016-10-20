@@ -10,11 +10,12 @@ get '/u/:campaign/:email/:key' => sub {
         email_address => $params->{email},
         campaign      => $params->{campaign},
     } );
-    if ( !$s || !$s->unsubscribe( $params->{ key } ) ) {
-        status 500;
-        return "NOT OK";
-    }
-    return "OK";
+    template 'email/a/unsub.tx',
+             { success => (
+                     $s && $s->unsubscribe( $params->{ key } )
+                 )
+             },
+             { layout => undef };
 };
 
 get '/v/:campaign/:email/:key' => sub {
@@ -23,11 +24,23 @@ get '/v/:campaign/:email/:key' => sub {
         email_address => $params->{email},
         campaign      => $params->{campaign},
     } );
-    if ( !$s || !$s->verify( $params->{ key } ) ) {
-        status 500;
-        return "NOT OK";
-    }
-    return "OK";
+    template 'email/a/verify.tx',
+             { success => (
+                     $s && $s->verify( $params->{ key } )
+                 )
+             },
+             { layout => undef };
+};
+
+get '/form' => sub {
+    return <<'FORM'
+    <form method="POST" action="/s/a">
+        email: <input type="text" name="email">
+        <input type="submit" name="submit">
+        <input type="hidden" name="campaign" value="a">
+        <input type="hidden" name="flow" value="form">
+    </form>
+FORM
 };
 
 post '/a' => sub {

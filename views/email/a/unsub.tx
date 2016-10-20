@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title>Are Ads Following You?</title>
+        <title>Unsubscribe</title>
         <style type="text/css">
 
             /*  CLIENT-SPECIFIC STYLES  */
@@ -265,7 +265,6 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templatePreheader">
                                         <tr>
                                             <td valign="top" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px;">
-                                                Learn how to get rid of ads that follow you around the internet!
                                             </td>
                                             <td valign="top" width="180" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0;">
                                             </td>
@@ -293,19 +292,13 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
                                         <tr>
                                             <td valign="top" class="bodyContent">
-                                                 <p style="margin-bottom: 1em">
-    Last email we talked about how you're still tracked in "private" browsing modes. But, what is all this tracking for?</br></br>
-Put simply, Google isn't a search company, they're an advertising company.</br></br>
-Princeton's WebTAP privacy project recently found that <a href="http://randomwalker.info/publications/OpenWPM_1_million_site_tracking_measurement.pdf">Google's trackers are installed on 75% of the top million internet websites</a>. (The next closest is Facebook at 25%! See Figure 3 in Section 5.1 for details.)</p>
-<p style="margin-bottom: 1em">Google sells ads not only on their search engine, but also on over 2.2 million other websites and over 1 million apps. Every time you visit one of these sites or apps, Google is storing that information and using it to target ads at you.</br></br>
-That's why you may have seen ads tracking you across the net!
-<p style="margin-bottom: 1em">If you want to stop websites from re-marketing to you, you'll need to install a free tool like <a href="https://www.eff.org/privacybadger">Privacy Badger</a>&nbsp;(Firefox or Chrome only), or<a href="https://disconnect.me/">Disconnect</a>.&nbsp;<br /><br />
-If you don't already use Privacy Badger or Disconnect, make sure you install them now. Stop ad stalking today!</p>
-</p><br />
-<p style="margin-bottom: 1em">
-Proudly Private,<br /><br />
-Dax the Duck,<br />
-Mascot - DuckDuckGo</p>
+                                                <h4>
+                                                : if $success {
+                                                    You have been unsubscribed from The DuckDuckGo Privacy Newsletter.
+                                                : } else {
+                                                    There was a problem processing this request! Please contact ddgc@duckduckgo.com
+                                                : }
+                                                </h4>
                                             </td>
                                         </tr>
                                     </table>
@@ -328,11 +321,6 @@ Mascot - DuckDuckGo</p>
                                                 <p style="margin-bottom: 1em"> <strong>Our mailing address is:</strong></p>
                                                                <p style="margin-bottom: 1em"> 20 Paoli Pike, Paoli, PA
                                                                    19302, USA<br /></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td valign="top" class="footerContent" style="padding-top:0; padding-bottom:40px;">
-                                                <a href="<: $subscriber.unsubscribe_url :>">unsubscribe from this list</a>
                                             </td>
                                         </tr>
                                     </table>
