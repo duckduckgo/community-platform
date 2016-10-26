@@ -6,7 +6,6 @@
         <style type="text/css">
 
             /*  CLIENT-SPECIFIC STYLES  */
-            #outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
             .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
             .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
             body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
@@ -21,25 +20,25 @@
 
             /*  TEMPLATE STYLES  */
             /* === Page Styles ==== */
-            #bodyCell{padding:20px;}
+            #bodyCell{padding:0px;}
             #templateContainer{width:600px;}
             /**
             * @section background style
             */
             body, #bodyTable{
-                 background-color:#FAFAFA;
+                    background-color:#FFFFFF;
             }
             /**
             * @section background style
             */
             #bodyCell{
-                border-top:4px solid #BBBBBB;
+                 border-top:4px solid #FFFFFF;
             }
             /**
             * @section email border
             */
             #templateContainer{
-                border:1px solid #BBBBBB;
+                border:1px solid #FFFFFF;
             }
             /**
             * @section heading 1
@@ -65,14 +64,14 @@
             * @section preheader style
             */
             #templatePreheader{
-                background-color:#F4F4F4;
-                border-bottom:1px solid #CCCCCC;
+                background-color:#FFFFFF;
+                border-bottom:1px solid #FFFFFF;
             }
             /**
             * @section preheader text
             */
             .preheaderContent{
-                color:#808080;
+                color:#FFFFFF;
                 font-family: -apple-system, 'proxima-nova', BlinkMacSystemFont, Helvetica, Arial, sans-serif;
                 font-size:10px;
                 line-height:125%;
@@ -82,7 +81,7 @@
             * @section preheader link
             */
             .preheaderContent a:link, .preheaderContent a:visited, /* Yahoo! Mail Override */ .preheaderContent a .yshortcuts /* Yahoo! Mail Override */{
-                color:#606060;
+                color:#FFFFFF;
                 font-weight:normal;
                 text-decoration:underline;
             }
@@ -140,7 +139,7 @@
                 font-family: -apple-system, 'proxima-nova', BlinkMacSystemFont, Helvetica, Arial, sans-serif;
                 font-size:14px;
                 line-height:150%;
-                padding-top:20px;
+                padding-top:10px;
                 padding-right:20px;
                 padding-bottom:20px;
                 padding-left:20px;
@@ -165,7 +164,7 @@
             */
             #templateFooter{
                 background-color:#F4F4F4;
-                border-top:1px solid #FFFFFF;
+                border-top:0px solid #FFFFFF;
             }
             /**
             * @section footer text
@@ -203,7 +202,7 @@
                 * Make the template fluid for portrait or landscape view adaptability. If a fluid layout doesn't work for you, set the width to 300px instead.
                 */
                 #templateContainer{
-                    max-width:600px !important;
+                    max-width:1200px !important;
                     width:100% !important;
                 }
                 /**
@@ -223,7 +222,7 @@
                 #headerImage{
                     height:auto !important;
                     max-width:600px !important;
-                    width:100% !important;
+                     width:100% !important;
                 }
                 /**
                 * @section header text
@@ -253,19 +252,17 @@
         </style>
     </head>
     <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-        <center>
-            <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+            <table align="left" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
                 <tr>
-                    <td align="center" valign="top" id="bodyCell">
+                    <td align="left" valign="top" id="bodyCell">
                         <!-- BEGIN TEMPLATE // -->
                         <table border="0" cellpadding="0" cellspacing="0" id="templateContainer">
                             <tr>
-                                <td align="center" valign="top">
+                                <td align="left" valign="top">
                                     <!-- BEGIN PREHEADER // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templatePreheader">
                                         <tr>
                                             <td valign="top" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px;">
-                                                Did you know ads actually cost you money?
                                             </td>
                                             <td valign="top" width="180" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0;">
                                             </td>
@@ -280,7 +277,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                <center><img src="https://duck.co/media/b/7/b7c6b29aab82abdb1186799773a6f3dd/e/1/e128f8b99e29ab46bb4fd926dd49e917.png" style="max-width:600px; padding-top: 15px; padding-bottom: 15px;" id="headerImage" alt="DuckDuckGo Logo"/></center>
+                                                <img src="https://duck.co/media/b/7/b7c6b29aab82abdb1186799773a6f3dd/e/1/e128f8b99e29ab46bb4fd926dd49e917.png" style="max-width:600px; padding-top: 15px; padding-bottom: 15px; padding-left: 10px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -295,50 +292,41 @@
                                             <td valign="top" class="bodyContent">
                                                  
 <p style="margin-bottom: 1em">Last email we discussed the ads that track you across the internet.</p>
-Did you know this tracking can actually cost you money?!<img src="https://duck.co/media/4/c/4c2d196c71e436388106021352deef7d/b/b/bbd0ae48ce03951bc294f6462a62937e.png" alt="money flying away"></p>
+Did you know this tracking can actually cost you money?! <img src="https://duck.co/media/4/c/4c2d196c71e436388106021352deef7d/b/b/bbd0ae48ce03951bc294f6462a62937e.png" alt="money flying away"></p>
 
 <p style="margin-bottom: 1em">Retailers are increasingly charging "personalized" or "dynamic" prices based on your online footprint. They manipulate prices, trying to charge you the max they think you're willing to pay. You could be sitting right next to someone, looking at the same online product, and be charged more just because of a website you visited.</p>
 
-<p style="margin-bottom: 1em">You're probably familiar with how common this practice is in the airline industry. That's all thanks to Google's <a href="https://www.itasoftware.com/solutions/qpx/">ITA QPX Software</a>&nbsp;which provides solutions to airlines to price "by market segment, point-of-sale, channel and even user." </p>
+<p style="margin-bottom: 1em">You're probably familiar with how common this practice is in the airline industry. That's all thanks to Google's ITA QPX Software; which provides solutions to airlines to price "by market segment, point-of-sale, channel and <a href="https://www.itasoftware.com/solutions/qpx/">even user.</a>" </p>
 
 <p style="margin-bottom: 1em">That profit comes right of your pocket because they decided you were willing to pay more for your flight based on tracking.&nbsp;The worst part is, this sneaky pricing tactic is spreading to other industries!</p>
 
-<p style="margin-bottom: 1em">If you haven't installed <a href="https://www.eff.org/privacybadger">Privacy Badger</a>&nbsp;(Firefox or Chrome only) or <a href="https://www.disconnect.me">Disconnect</a>&nbsp;yet, then now might be a good time.</p>
+<p style="margin-bottom: 1em">If you haven't installed <a href="https://www.eff.org/privacybadger">Privacy Badger</a>&nbsp;(Firefox or Chrome only) or <a href="https://www.ghostery.com/our-solutions/ghostery-browser-extension/">Ghostery</a>&nbsp;yet, then now might be a good time.</p>
 <p style="margin-bottom: 1em">
 Proudly Private,<br /><br />
 Dax the Duck,<br />
 Mascot - DuckDuckGo</p>
                                             </td>
                                         </tr>
-                                    </table>
+                                   
                                     <!-- // END BODY -->
                                 </td>
                             </tr>
                             <tr>
                                 <td align="center" valign="top">
-                                    <!-- BEGIN FOOTER // -->
+                                     <!--Begin Footer // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter">
-                                        <tr>
-                                            <td valign="top" class="footerContent">
-                                                <p style="margin-bottom: 1em"><center>&nbsp;<a href="https://twitter.com/duckduckgo">Follow us on Twitter</a> | <a href="https://duckduckgo.com/spread">Spread DuckDuckGo</a>&nbsp;</center></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
+                     <tr>
                                             <td valign="top" class="footerContent" style="padding-top:0;">
-                                               <em>Copyright &copy; 2016 Duck Duck Go Inc,<br /> All rights reserved.</em>
-                                                                <br />
-                                                <p style="margin-bottom: 1em"> <strong>Our mailing address is:</strong></p>
-                                                               <p style="margin-bottom: 1em"> 20 Paoli Pike, Paoli, PA
-                                                                   19302, USA<br /></p>
+                                                               <p style="margin-bottom: 1em">Duck Duck Go Inc<br /> 20 Paoli Pike,<br /> Paoli, PA
+                                                                   19301, USA<br /></p>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td valign="top" class="footerContent" style="padding-top:0; padding-bottom:40px;">
+                                            <td valign="top" class="footerContent" style="padding-top:0; padding-bottom:5px;">
                                                 <a href="<: $subscriber.unsubscribe_url :>">unsubscribe from this list</a>
                                             </td>
                                         </tr>
                                     </table>
-                                    <!-- // END FOOTER -->
                                 </td>
                             </tr>
                         </table>
@@ -346,7 +334,6 @@ Mascot - DuckDuckGo</p>
                     </td>
                 </tr>
             </table>
-        </center>
+        </table>
     </body>
 </html>
-

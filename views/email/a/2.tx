@@ -6,7 +6,6 @@
         <style type="text/css">
 
             /*  CLIENT-SPECIFIC STYLES  */
-            #outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
             .ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
             .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
             body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;} /* Prevent WebKit and Windows mobile changing default text sizes */
@@ -21,25 +20,25 @@
 
             /*  TEMPLATE STYLES  */
             /* === Page Styles ==== */
-            #bodyCell{padding:20px;}
+            #bodyCell{padding:0px;}
             #templateContainer{width:600px;}
             /**
             * @section background style
             */
             body, #bodyTable{
-                 background-color:#FAFAFA;
+                    background-color:#FFFFFF;
             }
             /**
             * @section background style
             */
             #bodyCell{
-                border-top:4px solid #BBBBBB;
+                 border-top:4px solid #FFFFFF;
             }
             /**
             * @section email border
             */
             #templateContainer{
-                border:1px solid #BBBBBB;
+                border:1px solid #FFFFFF;
             }
             /**
             * @section heading 1
@@ -65,14 +64,14 @@
             * @section preheader style
             */
             #templatePreheader{
-                background-color:#F4F4F4;
-                border-bottom:1px solid #CCCCCC;
+                background-color:#FFFFFF;
+                border-bottom:1px solid #FFFFFF;
             }
             /**
             * @section preheader text
             */
             .preheaderContent{
-                color:#808080;
+                color:#FFFFFF;
                 font-family: -apple-system, 'proxima-nova', BlinkMacSystemFont, Helvetica, Arial, sans-serif;
                 font-size:10px;
                 line-height:125%;
@@ -82,7 +81,7 @@
             * @section preheader link
             */
             .preheaderContent a:link, .preheaderContent a:visited, /* Yahoo! Mail Override */ .preheaderContent a .yshortcuts /* Yahoo! Mail Override */{
-                color:#606060;
+                color:#FFFFFF;
                 font-weight:normal;
                 text-decoration:underline;
             }
@@ -140,7 +139,7 @@
                 font-family: -apple-system, 'proxima-nova', BlinkMacSystemFont, Helvetica, Arial, sans-serif;
                 font-size:14px;
                 line-height:150%;
-                padding-top:20px;
+                padding-top:10px;
                 padding-right:20px;
                 padding-bottom:20px;
                 padding-left:20px;
@@ -165,7 +164,7 @@
             */
             #templateFooter{
                 background-color:#F4F4F4;
-                border-top:1px solid #FFFFFF;
+                border-top:0px solid #FFFFFF;
             }
             /**
             * @section footer text
@@ -203,7 +202,7 @@
                 * Make the template fluid for portrait or landscape view adaptability. If a fluid layout doesn't work for you, set the width to 300px instead.
                 */
                 #templateContainer{
-                    max-width:600px !important;
+                    max-width:1200px !important;
                     width:100% !important;
                 }
                 /**
@@ -223,7 +222,7 @@
                 #headerImage{
                     height:auto !important;
                     max-width:600px !important;
-                    width:100% !important;
+                     width:100% !important;
                 }
                 /**
                 * @section header text
@@ -253,19 +252,17 @@
         </style>
     </head>
     <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
-        <center>
-            <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
+            <table align="left" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
                 <tr>
-                    <td align="center" valign="top" id="bodyCell">
+                    <td align="left" valign="top" id="bodyCell">
                         <!-- BEGIN TEMPLATE // -->
                         <table border="0" cellpadding="0" cellspacing="0" id="templateContainer">
                             <tr>
-                                <td align="center" valign="top">
+                                <td align="left" valign="top">
                                     <!-- BEGIN PREHEADER // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templatePreheader">
                                         <tr>
                                             <td valign="top" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:20px;">
-                                                Learn how to get rid of ads that follow you around the internet!
                                             </td>
                                             <td valign="top" width="180" class="preheaderContent" style="padding-top:10px; padding-right:20px; padding-bottom:10px; padding-left:0;">
                                             </td>
@@ -280,7 +277,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                <center><img src="https://duck.co/media/b/7/b7c6b29aab82abdb1186799773a6f3dd/e/1/e128f8b99e29ab46bb4fd926dd49e917.png" style="max-width:600px; padding-top: 15px; padding-bottom: 15px;" id="headerImage" alt="DuckDuckGo Logo"/></center>
+                                                <img src="https://duck.co/media/b/7/b7c6b29aab82abdb1186799773a6f3dd/e/1/e128f8b99e29ab46bb4fd926dd49e917.png" style="max-width:600px; padding-top: 15px; padding-bottom: 15px; padding-left: 10px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -296,10 +293,11 @@
                                                  <p style="margin-bottom: 1em">
     Last email we talked about how you're still tracked in "private" browsing modes. But, what is all this tracking for?</br></br>
 Put simply, Google isn't a search company, they're an advertising company.</br></br>
-Princeton's WebTAP privacy project recently found that <a href="http://randomwalker.info/publications/OpenWPM_1_million_site_tracking_measurement.pdf">Google's trackers are installed on 75% of the top million internet websites</a>. (The next closest is Facebook at 25%! See Figure 3 in Section 5.1 for details.)</p>
+Princeton's WebTAP privacy project recently <a href="http://randomwalker.info/publications/OpenWPM_1_million_site_tracking_measurement.pdf">found that</a> Google's trackers are installed on 75% of the top million internet websites. (The next closest is Facebook at 25%! See Figure 3 in Section 5.1 for details.)</p>
+<p style="margin-bottom: 1em"><img src="https://duck.co/media/c/b/cb8284459b0d99fffce2daa73f3f10b7/f/0/f00d21dddc1d410641e45121b076880a.png" style="max-width:500px; padding-left: 5px; padding-bottom: 10px;" alt="Chart of companies by number of trackers"/>
 <p style="margin-bottom: 1em">Google sells ads not only on their search engine, but also on over 2.2 million other websites and over 1 million apps. Every time you visit one of these sites or apps, Google is storing that information and using it to target ads at you.</br></br>
 That's why you may have seen ads tracking you across the net!
-<p style="margin-bottom: 1em">If you want to stop websites from re-marketing to you, you'll need to install a free tool like <a href="https://www.eff.org/privacybadger">Privacy Badger</a>&nbsp;(Firefox or Chrome only), or <a href="https://disconnect.me/">Disconnect</a>.&nbsp;<br /><br />
+<p style="margin-bottom: 1em">If you want to stop websites from re-marketing to you, you'll need to install a free tool like <a href="https://www.eff.org/privacybadger">Privacy Badger</a>&nbsp;(Firefox or Chrome only), or <a href="https://www.ghostery.com/our-solutions/ghostery-browser-extensions">Ghostery</a>.&nbsp;<br /><br />
 If you don't already use Privacy Badger or Disconnect, make sure you install them now. Stop ad stalking today!</p>
 </p><br />
 <p style="margin-bottom: 1em">
@@ -313,30 +311,21 @@ Mascot - DuckDuckGo</p>
                                 </td>
                             </tr>
                             <tr>
-                                <td align="center" valign="top">
-                                    <!-- BEGIN FOOTER // -->
+                                <td align="left" valign="top">
+                                    <!--Begin Footer // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter">
-                                        <tr>
-                                            <td valign="top" class="footerContent">
-                                                <p style="margin-bottom: 1em"><center>&nbsp;<a href="https://twitter.com/duckduckgo">Follow us on Twitter</a> | <a href="https://duckduckgo.com/spread">Spread DuckDuckGo</a>&nbsp;</center></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
+                     <tr>
                                             <td valign="top" class="footerContent" style="padding-top:0;">
-                                               <em>Copyright &copy; 2016 Duck Duck Go Inc,<br /> All rights reserved.</em>
-                                                                <br />
-                                                <p style="margin-bottom: 1em"> <strong>Our mailing address is:</strong></p>
-                                                               <p style="margin-bottom: 1em"> 20 Paoli Pike, Paoli, PA
-                                                                   19302, USA<br /></p>
+                                                               <p style="margin-bottom: 1em">Duck Duck Go Inc<br /> 20 Paoli Pike,<br /> Paoli, PA
+                                                                   19301, USA<br /></p>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td valign="top" class="footerContent" style="padding-top:0; padding-bottom:40px;">
+                                            <td valign="top" class="footerContent" style="padding-top:0; padding-bottom:5px;">
                                                 <a href="<: $subscriber.unsubscribe_url :>">unsubscribe from this list</a>
                                             </td>
                                         </tr>
                                     </table>
-                                    <!-- // END FOOTER -->
                                 </td>
                             </tr>
                         </table>
@@ -344,6 +333,6 @@ Mascot - DuckDuckGo</p>
                     </td>
                 </tr>
             </table>
-        </center>
+        </table>
     </body>
 </html>
