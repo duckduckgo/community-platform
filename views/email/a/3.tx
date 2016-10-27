@@ -176,7 +176,6 @@
                 line-height:150%;
                 padding-top:20px;
                 padding-right:20px;
-                padding-bottom:20px;
                 padding-left:20px;
                 text-align:left;
             }
@@ -291,13 +290,12 @@
                                         <tr>
                                             <td valign="top" class="bodyContent">
                                                  
-<p style="margin-bottom: 1em">Last email we discussed the ads that track you across the internet.</p>
-Did you know this tracking can actually cost you money?! <img src="https://duck.co/media/4/c/4c2d196c71e436388106021352deef7d/b/b/bbd0ae48ce03951bc294f6462a62937e.png" alt="money flying away"></p>
+<p style="margin-bottom: 1em">Last email we discussed the ads that track you across the internet. But, did you know this tracking can actually cost you money?! <img src="https://duck.co/media/4/c/4c2d196c71e436388106021352deef7d/b/b/bbd0ae48ce03951bc294f6462a62937e.png" alt="money flying away"></p>
 
 <p style="margin-bottom: 1em">Retailers are increasingly charging "personalized" or "dynamic" prices based on your online footprint. They manipulate prices, trying to charge you the max they think you're willing to pay. You could be sitting right next to someone, looking at the same online product, and be charged more just because of a website you visited.</p>
 
 <p style="margin-bottom: 1em">You're probably familiar with how common this practice is in the airline industry. That's all thanks to Google's ITA QPX Software; which provides solutions to airlines to price "by market segment, point-of-sale, channel and <a href="https://www.itasoftware.com/solutions/qpx/">even user.</a>" </p>
-
+<img src="https://duck.co/media/4/3/4311d867bc482f4c7b4ffaff51af8571/a/e/aee923e21199b0e8e0740ed150bcd187.png" style="max-width: 600px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" alt="picture of airline prices manipulated by user tracking."/>
 <p style="margin-bottom: 1em">That profit comes right of your pocket because they decided you were willing to pay more for your flight based on tracking.&nbsp;The worst part is, this sneaky pricing tactic is spreading to other industries!</p>
 
 <p style="margin-bottom: 1em">If you haven't installed <a href="https://www.eff.org/privacybadger">Privacy Badger</a>&nbsp;(Firefox or Chrome only) or <a href="https://www.ghostery.com/our-solutions/ghostery-browser-extension/">Ghostery</a>&nbsp;yet, then now might be a good time.</p>
@@ -318,7 +316,7 @@ Mascot - DuckDuckGo</p>
                      <tr>
                                             <td valign="top" class="footerContent" style="padding-top:0;">
                                                                <p style="margin-bottom: 1em">Duck Duck Go Inc<br /> 20 Paoli Pike,<br /> Paoli, PA
-                                                                   19301, USA<br /></p>
+                                                                   19301, USA</p>
                                             </td>
                                         </tr>
                                         <tr>
