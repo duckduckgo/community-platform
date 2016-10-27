@@ -175,7 +175,6 @@
                 line-height:150%;
                 padding-top:20px;
                 padding-right:20px;
-                padding-bottom:20px;
                 padding-left:20px;
                 text-align:left;
             }
@@ -292,9 +291,9 @@
                                                  
 <p style="margin-bottom: 1em">In our last email, we showed how to delete your <a href="http://history.google.com/history">Google Search History</a>.</p>
 <p style="margin-bottom: 1em">This limits the information that Google has to sell to advertisers. But, they likely still have an advertising profile on you.</p>
-<p style="margin-bottom: 1em">We've mentioned before that as an advertising company Google has trackers on more than 2.2 million websites and 1 million apps. They collect information about you as you surf across the net and use this to compile your "Ad Settings"&nbsp;</p>
+<p style="margin-bottom: 1em">We've mentioned before that as an advertising company Google has trackers on more than 2.2 million websites and 1 million apps. They collect information about you as you surf across the net and use this to compile your "Ad Settings".</p>
 <p style="margin-bottom: 1em">This is really just a way for them to sell your profile of interests to advertisers for top dollar.</p>
-<strong><span style="text-decoration: underline;">How to Disable Ad Settings:</span></strong></p>
+<strong><span style="text-decoration: underline;">How to Disable Ad Settings</span></strong></p>
 <ol>
 <li>Navigate to Google's <a href="https://www.google.com/settings/u/0/ads/authenticated">Ad Settings page</a></li><br />
 <li>Scroll down, and toggle "Ads Based on Your Interest" to off</li>
