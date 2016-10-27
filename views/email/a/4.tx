@@ -175,7 +175,6 @@
                 line-height:150%;
                 padding-top:20px;
                 padding-right:20px;
-                padding-bottom:20px;
                 padding-left:20px;
                 text-align:left;
             }
@@ -290,7 +289,7 @@
                                         <tr>
                                             <td valign="top" class="bodyContent">
                                                  
-<p style="margin-bottom: 1em">In our last email we showed you how to save enough money to adopt a pony! <b>#ChildhoodDream</b> <img src="https://duck.co/media/0/4/0440e26c47a44b28c99957ef28b9c59c/c/2/c2d9a706b15c8886cf7777235a586637.png"/></p>
+<p style="margin-bottom: 1em">In our last email we showed you how to save enough money to adopt a pony! <b>#ChildhoodDream</b> <img src="https://duck.co/media/0/4/0440e26c47a44b28c99957ef28b9c59c/c/2/c2d9a706b15c8886cf7777235a586637.png" alt="pony emoji"/></p>
 <p style="margin-bottom: 1em">Now that you use DuckDuckGo, you're free from having your personal information tracked. But, Google may still have a copy of your search history!</p>
 <p style="margin-bottom: 1em">Check out your <a href="http://history.google.com/history">Google Search History</a>.&nbsp;Searches, locations, interests. They've recorded it all. </p>
 <p style="margin-bottom: 1em">Deleting your Google search history will prevent it from being used by the highest bidder on the millions of sites and apps that use Google's advertising networks.</p> 
@@ -313,7 +312,7 @@ Mascot - DuckDuckGo</p>
                      <tr>
                                             <td valign="top" class="footerContent" style="padding-top:0;">
                                                                <p style="margin-bottom: 1em">Duck Duck Go Inc<br /> 20 Paoli Pike,<br /> Paoli, PA
-                                                                   19301, USA<br /></p>
+                                                                   19301, USA</p>
                                             </td>
                                         </tr>
                                         <tr>
