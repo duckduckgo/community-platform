@@ -24,22 +24,22 @@ sub _build_campaigns {
                     template => 'email/a/1.tx',
                 },
                 2 => {
-                    days     => 3,
+                    days     => 2,
                     subject  => 'Are Ads Following You?',
                     template => 'email/a/2.tx',
                 },
                 3 => {
-                    days     => 5,
+                    days     => 4,
                     subject  => 'Are Ads Costing You Money?',
                     template => 'email/a/3.tx',
                 },
                 4 => {
-                    days     => 7,
+                    days     => 6,
                     subject  => 'Have You Deleted Your Google Search History Yet?',
                     template => 'email/a/4.tx',
                 },
                 5 => {
-                    days     => 9,
+                    days     => 8,
                     subject  => 'Is Your Data Being Sold?',
                     template => 'email/a/5.tx',
                 },
@@ -49,7 +49,7 @@ sub _build_campaigns {
                     template => 'email/a/6.tx',
                 },
                 7 => {
-                    days     => 13,
+                    days     => 12,
                     subject  => 'Was This Useful?',
                     template => 'email/a/7.tx',
                 },
