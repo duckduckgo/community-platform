@@ -275,7 +275,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                <img src="https://duck.co/media/b/7/b7c6b29aab82abdb1186799773a6f3dd/e/1/e128f8b99e29ab46bb4fd926dd49e917.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
+                                                <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -297,11 +297,11 @@
 <ol>
 <li>Navigate to Google's <a href="https://www.google.com/settings/u/0/ads/authenticated">Ad Settings page</a></li><br />
 <li>Scroll down, and toggle "Ads Based on Your Interest" to off</li>
-<img src="https://duck.co/media/b/6/b635268b6e3a66b9ab0fa0aa4d233c12/1/7/1723a5706ea33a78a098c7a708f1384e.png" style="max-width:400px; padding-top: 5px; padding-bottom: 15px; padding-left: 25px;" alt="Picture of setting ad interests to off"/>
+<img src="https://duckduckgo.com/assets/email/ads_interests5.png?atb=<: $subscriber.flow :>" style="max-width:400px; padding-top: 5px; padding-bottom: 15px; padding-left: 25px;" alt="Picture of setting ad interests to off"/>
 <li>Then, scroll down more, and click the blue button to "opt-out of signed out ads." Turn off the toggles on that page too.&nbsp;</li>
-<img src="https://duck.co/media/c/c/cc20c35d6c75b59399d3afecac42babd/6/9/69fe6f29421a70e6fa8d6175d563ec44.png" style="max-width:400px; padding-bottom: 15px; padding-top: 5px; padding-left: 25px;" alt="Picture of setting logged out ad tracking to off"/>
+<img src="https://duckduckgo.com/assets/email/control_ads.png" style="max-width:400px; padding-bottom: 15px; padding-top: 5px; padding-left: 25px;" alt="Picture of setting logged out ad tracking to off"/>
 </ol>
-<p style="margin-bottom: 1em">Tracking is creepy, but luckily, you've switched to the Duck Side, and so now your searches are completely anonymous.<img src="https://duck.co/media/1/1/110f9241cce50cfb39840e84228d2414/8/d/8dc133ea4d23b60f8007059b7867b8dc.png" width="20px" height="20px"/></p>
+<p style="margin-bottom: 1em">Tracking is creepy, but luckily, you've switched to the Duck Side, and so now your searches are completely anonymous.<img src="https://duckduckgo.com/assets/email/ghost.png" width="20px" height="20px"/></p>
 <p style="margin-bottom: 1em">
 Proudly Private,<br /><br />
 Dax the Duck,<br />

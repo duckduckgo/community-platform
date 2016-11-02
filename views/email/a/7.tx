@@ -275,7 +275,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                 <img src="https://duck.co/media/b/7/b7c6b29aab82abdb1186799773a6f3dd/e/1/e128f8b99e29ab46bb4fd926dd49e917.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
+                                                 <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -292,14 +292,14 @@
 <p style="margin-bottom: 1em">Over the past two weeks we've been on a journey together to take back your privacy.</p>
 <p style="margin-bottom: 1em">We learned how to delete your ad settings, prevent price manipulation, and how to afford a pony.</p> 
 <p style="margin-bottom: 1em">The best part is, if you've followed along on this email series, you've now reduced your online footprint - that's something worth celebrating!</p>
-<img src="https://duck.co/media/b/d/bdb17e7c48a8ba82bf48a420f592de86/6/a/6a3b97a2a87016a1eaf7e2dde2f34389.gif" style="max-width:300px; padding-top:5px; padding-bottom:5px; alt="celebration confetti gif"/>
+<img src="https://duckduckgo.com/assets/email/confetti7.gif?atb=<: $subscriber.flow :>" style="max-width:300px; padding-top:5px; padding-bottom:5px; alt="celebration confetti gif"/>
 <p style="margin-bottom: 1em">Even though this is the last email in this series we don't want our privacy journey together to be over.</p> 
 <p style="margin-bottom: 1em">We hope you'll fill out the brief survey below and let us know what you thought about our email series:</p>
 <p style="margin-bottom: 1em"><a href="https://www.surveymonkey.com/r/NQR7TQZ">https://www.surveymonkey.com/r/NQR7TQZ</a></p>
 <p style="margin-bottom: 1em">If you enjoyed these emails, or found them useful, then we want to hear from you. Based on your responses we may make more great privacy content in the future!</p>
 <p style="margin-bottom: 1em">
 Until then,<br /><br />
-<img src="https://duck.co/media/f/7/f7b17414f17316b92c075b4add18c17e/a/5/a57766e215ff3a09a1e232d0bf16614b.png" alt="Dax's Signature"/></br></br>
+<img src="https://duckduckgo.com/assets/email/signature.png" alt="Dax's Signature"/></br></br>
 Dax the Duck,<br />
 Mascot - DuckDuckGo</p>
                                             </td>

@@ -276,7 +276,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                 <img src="https://duck.co/media/b/7/b7c6b29aab82abdb1186799773a6f3dd/e/1/e128f8b99e29ab46bb4fd926dd49e917.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
+                                                 <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -291,7 +291,7 @@
                                             <td valign="top" class="bodyContent">
                                                  <p style="margin-bottom: 1em">
     It may surprise you that ads can still follow you around in "Incognito" and other "private browsing" modes.</p>
-    <p style="margin-bottom: 1em">That's because Incognito mode <strong>isn't</strong> really private. <img src="https://duck.co/media/2/9/2915df2a0e8c2998201e15b6cd659826/2/7/2778344d43d1f446c03c66ed61279b56.png" alt="shocked face emoji" />
+    <p style="margin-bottom: 1em">That's because Incognito mode <strong>isn't</strong> really private. <img src="https://duckduckgo.com/assets/email/shocked1.png?atb=<: $subscriber.flow :>" alt="shocked face emoji" />
 </p>
 <p style="margin-bottom: 1em">
     Incognito mode only deletes your <u>local</u> search and browsing history - just the content on your computer. Websites, search engines, internet service
@@ -303,7 +303,7 @@
 
 <p style="margin-bottom: 1em">
     Using Incognito mode to keep you private online is kind of like using a bucket to put out a raging fire:<br /><br />
-    <img src="https://duck.co/media/c/c/cce66955b853160231e983b06e7d5b4c/6/a/6a5bd442f76b699db868be6f9a2e9930.jpg" alt="Picture of man putting out fire with small bucket of water" width="200" height="200" style="padding-bottom:15px;" />
+    <img src="https://duckduckgo.com/assets/email/fire.jpg" alt="Picture of man putting out fire with small bucket of water" width="200" height="200" style="padding-bottom:15px;" />
 </p>
 <p style="margin-bottom: 1em">
     In a study we ran, we found that <b>74% of people</b> <u>over-estimate</u> the protection that private browsing modes offer. Now you don't have to be part of that statistic -- welcome to the Duck Side!
