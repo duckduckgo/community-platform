@@ -87,13 +87,13 @@ test_psgi $app => sub {
     $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
     is( $transport->delivery_count, 0, 'Emails not re-sent' );
 
-    set_absolute_time('2016-10-20T12:00:00Z');
+    set_absolute_time('2016-10-21T12:00:00Z');
     $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
     is( $transport->delivery_count, 0, '0 received emails - non scheduled' );
 
     $unsubscribe->('test2@duckduckgo.com');
 
-    set_absolute_time('2016-10-21T12:00:00Z');
+    set_absolute_time('2016-10-22T12:00:00Z');
     $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
     is( $transport->delivery_count, 2, '2 received emails - one unsubscribed' );
 };
