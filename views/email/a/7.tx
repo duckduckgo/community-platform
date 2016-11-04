@@ -162,7 +162,7 @@
             * @section footer style
             */
             #templateFooter{
-                background-color:#F4F4F4;
+                background-color:#FFFFFF;
                 border-top:0px solid #FFFFFF;
             }
             /**
@@ -319,7 +319,7 @@ Mascot - DuckDuckGo</p>
                                         </tr>
                                         <tr>
                                             <td valign="top" class="footerContent" style="padding-top:0; padding-bottom:5px;">
-                                                <a href="<: $subscriber.unsubscribe_url :>">unsubscribe from this list</a>
+                                                <a href="<: $subscriber.unsubscribe_url :>">unsubscribe</a>
                                             </td>
                                         </tr>
                                     </table>
