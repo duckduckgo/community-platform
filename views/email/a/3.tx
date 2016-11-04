@@ -163,7 +163,7 @@
             * @section footer style
             */
             #templateFooter{
-                background-color:#F4F4F4;
+                background-color:#FFFFFF;
                 border-top:0px solid #FFFFFF;
             }
             /**
