@@ -790,7 +790,7 @@ sub find_user {
 		%xmpp_user = $self->xmpp->user(lc($username));
 		return unless %xmpp_user;
 		$db_user = $self->db->resultset('User')->search(\[
-			'LOWER(me.username) LIKE ?',[ plain_value => lc($username)]
+			'LOWER(me.username) = ?', lc($username)
 		])->one_row;
 		unless ($db_user) {
 			$db_user = $self->db->resultset('User')->create({
@@ -800,7 +800,7 @@ sub find_user {
 		}
 	} else {
 		$db_user = $self->db->resultset('User')->search(\[
-			'LOWER(me.username) LIKE ?',[ plain_value => lc($username)]
+			'LOWER(me.username) = ?', lc($username)
 		])->one_row;
 		return unless $db_user;
 	}
