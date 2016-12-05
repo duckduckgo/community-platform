@@ -93,8 +93,6 @@ sub getIssues{
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
 
-            warn $name_from_link;
-
 			# get repo name
 			$repo =~ s/zeroclickinfo-//;
 
@@ -491,7 +489,7 @@ sub update_pr_template {
 
     # XXX comment this line to test pr template posts
     # it will make actual posts to GitHub PRs.
-    #return unless $d->is_live;
+    return unless $d->is_live;
 
     # find dax comment at spot #1 or bail
     my @comments = $gh->issue->comments($pr_number);
