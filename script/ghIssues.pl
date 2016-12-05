@@ -78,7 +78,6 @@ sub getIssues{
             $progress->update($line) unless $d->is_live;
             $line++;
 
-
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			# Match (roughly) the following formats:
