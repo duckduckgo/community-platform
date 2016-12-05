@@ -78,6 +78,7 @@ sub getIssues{
             $progress->update($line) unless $d->is_live;
             $line++;
 
+
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
 			# Match (roughly) the following formats:
@@ -91,6 +92,8 @@ sub getIssues{
 			# remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
+
+            warn $name_from_link;
 
 			# get repo name
 			$repo =~ s/zeroclickinfo-//;
@@ -488,7 +491,7 @@ sub update_pr_template {
 
     # XXX comment this line to test pr template posts
     # it will make actual posts to GitHub PRs.
-    return unless $d->is_live;
+    #return unless $d->is_live;
 
     # find dax comment at spot #1 or bail
     my @comments = $gh->issue->comments($pr_number);
@@ -513,7 +516,8 @@ sub update_pr_template {
         }
     }
 
-    my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$data->{example_query})" || ' ';
+    my $example_query = $data->{example_query} =~ s/\s/%20/gr if $data->{example_query};
+    my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$example_query)" || ' ';
 
     if(defined $ia->{other_queries}){
         my $q = qq({"examples": $ia->{other_queries} });
@@ -525,7 +529,8 @@ sub update_pr_template {
         };
 
         foreach my $query (@{$q->{examples}}){
-            $examples .=", ". "[$query](https://beta.duckduckgo.com/?q=$query)";
+            my $q_encoded = $query =~ s/\s/%20/gr;
+            $examples .=", ". "[$query](https://beta.duckduckgo.com/?q=$q_encoded)";
         }
     }
 
