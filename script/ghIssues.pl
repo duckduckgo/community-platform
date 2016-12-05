@@ -513,7 +513,8 @@ sub update_pr_template {
         }
     }
 
-    my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$data->{example_query})" || ' ';
+    my $example_query = $data->{example_query} =~ s/\s/%20/gr if $data->{example_query};
+    my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$example_query)" || ' ';
 
     if(defined $ia->{other_queries}){
         my $q = qq({"examples": $ia->{other_queries} });
@@ -525,7 +526,8 @@ sub update_pr_template {
         };
 
         foreach my $query (@{$q->{examples}}){
-            $examples .=", ". "[$query](https://beta.duckduckgo.com/?q=$query)";
+            my $q_encoded = $query =~ s/\s/%20/gr;
+            $examples .=", ". "[$query](https://beta.duckduckgo.com/?q=$q_encoded)";
         }
     }
 
