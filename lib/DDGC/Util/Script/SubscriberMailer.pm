@@ -117,10 +117,9 @@ sub verify {
             ->unverified
             ->verification_mail_unsent_for( $campaign );
             # ->all;
-        $subscribers->verified( 1 );
-        $subscribers->update;
-        $_->update_or_create_related( 'logs', 'v' );
-            for $subscribers->all;
+        $subscribers->update({ verified => 1 });
+        $_->update_or_create_related( 'logs', 'v' )
+            for ( $subscribers->all );
         next;
 
         for my $subscriber ( @subscribers ) {
