@@ -122,15 +122,15 @@ sub verify {
             for ( $subscribers->all );
         next;
 
-        for my $subscriber ( @subscribers ) {
-            $self->email(
-                'v',
-                $subscriber,
-                $self->campaigns->{ $campaign }->{verify}->{subject},
-                $self->campaigns->{ $campaign }->{verify}->{template},
-                1
-            );
-        }
+        #for my $subscriber ( @subscribers ) {
+        #    $self->email(
+        #        'v',
+        #        $subscriber,
+        #        $self->campaigns->{ $campaign }->{verify}->{subject},
+        #        $self->campaigns->{ $campaign }->{verify}->{template},
+        #        1
+        #    );
+        #}
     }
 
     return $self->smtp->transport;
