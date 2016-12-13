@@ -111,11 +111,17 @@ sub verify {
 
     for my $campaign ( keys %{ $self->campaigns } ) {
         next if !$self->campaigns->{ $campaign }->{live};
-        my @subscribers = rset('Subscriber')
+        #my @subscribers = rset('Subscriber')
+        my $subscribers = rset('Subscriber')
             ->campaign( $campaign )
             ->unverified
-            ->verification_mail_unsent_for( $campaign )
-            ->all;
+            ->verification_mail_unsent_for( $campaign );
+            # ->all;
+        $subscribers->verified( 1 );
+        $subscribers->update;
+        $_->update_or_create_related( 'logs', 'v' );
+            for $subscribers->all;
+        next;
 
         for my $subscriber ( @subscribers ) {
             $self->email(
