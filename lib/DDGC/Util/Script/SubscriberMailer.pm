@@ -65,7 +65,7 @@ sub email {
         to       => $subscriber->email_address,
         verified => $verified
                     || ( $subscriber->verified && !$subscriber->unsubscribed ),
-        from     => '"Dax the Duck" <dax@duckduckgo.com>',
+        from     => '"DuckDuckGo Dax" <dax@duckduckgo.com>',
         subject  => $subject,
         template => $template,
         content  => {
