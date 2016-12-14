@@ -4,8 +4,8 @@
 	<: include "translate/wiz_shortcuts.tx" :>
 <: } :>
 
-<div class="content-box translate-overview">	
-	<div class="head">		
+<div class="content-box translate-overview">
+	<div class="head">
 		<h2>Translate <: $token_domain.name :> into ...</h2>
 		<a class="button pull-right" title="Back to list of token domains" href="<: $u(['Translate','index']) :>"><i class="icon-fast-backward"></i></a>
 	</div>
@@ -13,25 +13,24 @@
 		<: for $can_speak -> $token_domain_language { :>
 			<: include "translate/domainindex/token_domain_language.tx" { token_domain_language => $token_domain_language } :>
 		<: } :>
-	</div> 
+	</div>
 </div>
 
 <a class="notice contrast" href="<: $u('Translate','domainsearch',$token_domain.key) :>">
 	<i class="icn icn--large icon-search"></i><h3>Search through all tokens and translations!</h3>
 </a>
 
-<a class="notice contrast" href="https://duck.co/blog/post/9/help-managing-translations">
+<!--<a class="notice contrast" href="https://duck.co/blog/post/9/help-managing-translations">
 	<i class="icn icn--large icon-flag"></i><h3>Become a Translation Manager!</h3>
-</a>
+</a>-->
 
-<div class="content-box translate-overview">	
-	<div class="head">		
+<div class="content-box translate-overview">
+	<div class="head">
 		<h2>other languages ...</h2>
 	</div>
 	<div class="body">
 		<: for $not_speak -> $token_domain_language { :>
 			<: include "translate/domainindex/token_domain_language.tx" { token_domain_language => $token_domain_language } :>
 		<: } :>
-	</div> 
+	</div>
 </div>
-				
