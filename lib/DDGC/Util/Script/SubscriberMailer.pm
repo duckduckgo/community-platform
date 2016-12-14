@@ -65,7 +65,7 @@ sub email {
         to       => $subscriber->email_address,
         verified => $verified
                     || ( $subscriber->verified && !$subscriber->unsubscribed ),
-        from     => '"Dax the Duck" <dax@duckduckgo.com>',
+        from     => '"DuckDuckGo Dax" <dax@duckduckgo.com>',
         subject  => $subject,
         template => $template,
         content  => {
@@ -111,21 +111,26 @@ sub verify {
 
     for my $campaign ( keys %{ $self->campaigns } ) {
         next if !$self->campaigns->{ $campaign }->{live};
-        my @subscribers = rset('Subscriber')
+        #my @subscribers = rset('Subscriber')
+        my $subscribers = rset('Subscriber')
             ->campaign( $campaign )
             ->unverified
-            ->verification_mail_unsent_for( $campaign )
-            ->all;
+            ->verification_mail_unsent_for( $campaign );
+            # ->all;
+        $subscribers->update({ verified => 1 });
+        $_->update_or_create_related( 'logs', 'v' )
+            for ( $subscribers->all );
+        next;
 
-        for my $subscriber ( @subscribers ) {
-            $self->email(
-                'v',
-                $subscriber,
-                $self->campaigns->{ $campaign }->{verify}->{subject},
-                $self->campaigns->{ $campaign }->{verify}->{template},
-                1
-            );
-        }
+        #for my $subscriber ( @subscribers ) {
+        #    $self->email(
+        #        'v',
+        #        $subscriber,
+        #        $self->campaigns->{ $campaign }->{verify}->{subject},
+        #        $self->campaigns->{ $campaign }->{verify}->{template},
+        #        1
+        #    );
+        #}
     }
 
     return $self->smtp->transport;
