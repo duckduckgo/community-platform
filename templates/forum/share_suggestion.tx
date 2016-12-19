@@ -1,6 +1,7 @@
-
+<!--
 <p class="mg-bottom--double">
 	<a class="button blue text-big tall media full--l" href="<: $u('Feedback','feedback_redirect','suggest') :>"><i class="media__img icon-bubbles"></i><span class="media__body">New Post</span></a>
 </p>
+-->
 
 : #	<p class="mg-bottom--big"><span class="account-actions"><a href="<: $u('My','login') :>" class="account-actions__btn account-actions__btn--first  nav-login" data-reveal-id="login-box">Login</a> <a href="<: $u('My','register') :>" class="account-actions__btn  nav-signup">Sign up</a> </span></p>

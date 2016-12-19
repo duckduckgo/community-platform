@@ -6,6 +6,8 @@ use warnings;
 
 use DDGC::Config;
 
+=for comment
+
 sub feedback_title { "I have something to share." }
 
 sub feedback {[
@@ -83,5 +85,6 @@ sub suggest_idea {[
   },
   "" # workaround for non submittable ending points like this here.
 ]}
+=cut
 
 1;
