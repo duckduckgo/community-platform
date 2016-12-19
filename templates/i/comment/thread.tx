@@ -72,6 +72,9 @@
 		<img id="img-<: $screenshot.media.id:>" src="/static/img/spinner.gif" data-src="<: $screenshot.media.url :>" alt="<: $screenshot.media.upload_filename :> - Full" class="reveal-modal reveal-modal--img" />
 	<: } :>
 <: } :>
+: if ( $_.context == 'DDGC::DB::Result::Thread' || $_.context == 'DDGC::DB::Result::Idea' ) {
+    <h3>This forum has been archived</h3>
+: }
 <: if $c.user and !$no_reply { :>
     <: i('comment_add',{ context => $_context, context_id => $_context_id }) :>
 <: } :>
