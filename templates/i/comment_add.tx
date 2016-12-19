@@ -1,4 +1,7 @@
-<: if $context and $context_id and $c.user { :> 
+<: if $context and $context_id and $c.user { :>
+	: if ( $context == 'DDGC::DB::Result::Idea' || $context == 'DDGC::DB::Result::Thread' ) {
+		<h3>This forum has been archived</h3>
+	: } else {
 	<form method="post" class="comment_reply  js-reply_<: $context_id:>  js-hide" action="<: $u('Comment','add',$context,$context_id) :>">    
 		<input type="hidden" name="action_token" value="<: $action_token :>">
 		<div class="user-avatar icon-user">
@@ -10,4 +13,5 @@
 		<input type="hidden" name="from" value="<: $c.req.uri :>" />
                 <: i('bbcode_controls') :>
 	</form> 
+	: }
 <: } :>

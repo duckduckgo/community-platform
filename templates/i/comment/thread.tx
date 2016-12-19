@@ -29,7 +29,7 @@
         <: if !$no_reply && $c.user { :>
             <: if !$c.user.admin && $forum_index == d().config.id_for_forum('special') { :>
 		<: # we may put something here :>
-            <: } else { :>
+            <: } elsif ( $_.context != 'DDGC::DB::Result::Thread' && $_.context != 'DDGC::DB::Result::Idea' ) { :>
                 <a class="right  js-thread-reply  no-js-hide" href="#"><i class="thread__foot__icon  icon-reply"></i><span class="thread__foot__txt">Reply</span></a>
                 <a class="right  js-thread-cancel  no-js-hide  hide" href="#"><i class="thread__foot__icon  icon-remove"></i><span class="thread__foot__txt">Cancel</span></a>
             <: } :>
