@@ -64,6 +64,7 @@ sub unsubscribe_url {
 
 sub verify {
     my ( $self, $key ) = @_;
+    return $self->verified if $self->verified;
     return unless ( $key eq $self->v_key );
     $self->update({
         verified => 1,
