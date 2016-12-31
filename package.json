@@ -1,6 +1,6 @@
 {
   "name": "ddg_community_platform",
-  "version": "0.195.0",
+  "version": "0.210.0",
   "engines": {
     "node": ">=0.10.0"
   },
@@ -26,6 +26,9 @@
     "grunt-remove-logging": "^0.2.0",
     "grunt-sass": "^1.1.0",
     "grunt-version": "~0.2.2",
-    "load-grunt-tasks": "^3.3.0"
+    "load-grunt-tasks": "^3.3.0",
+    "phantomjs": "1.9.8",
+    "bower": "1.7.7",
+    "casperjs": "1.1.0"
   }
 }

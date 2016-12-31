@@ -56,7 +56,7 @@ __PACKAGE__->config(
 	},
 	'Plugin::ErrorCatcher::Email' => {
 		to => $ENV{DDGC_ERROR_EMAIL} // 'ddgc@duckduckgo.com',
-		from => 'noreply@duck.co',
+		from => 'noreply@duckduckgo.com',
 		subject => '[DuckDuckGo Community] %p %l CRASH!!!',
 		use_tags => 1,
 	},
@@ -331,12 +331,12 @@ sub return_if_not_modified {
 	my ( $c, $dt ) = @_;
 	$dt->set_formatter( 'DateTime::Format::HTTP' ) if $dt;
 	my $if_modified_since = $c->req->header('If-Modified-Since');
-	$if_modified_since =~ s/;.*$//;
 
 	$c->response->header(
 		'Last-Modified' => "$dt",
 	);
 	return if !$if_modified_since;
+	$if_modified_since =~ s/;.*$//;
 
 	my $if_modified_since_dt = DateTime::Format::HTTP->parse_datetime( $if_modified_since );
 

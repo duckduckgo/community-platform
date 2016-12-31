@@ -56,7 +56,7 @@
                                                 var temp_dev = {};
                                                 temp_dev.name = $.trim($(this).text());
                                                 temp_dev.type = $.trim($(this).attr("data-type"));
-                                                temp_dev.url = $.trim($(this).find("a").attr("href"));
+                                                temp_dev.url = $.trim($(this).attr("data-url"));
 
                                                 temp_value.push(temp_dev);
                                             } else {

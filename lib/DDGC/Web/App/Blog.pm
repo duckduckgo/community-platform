@@ -36,16 +36,11 @@ get qr/^.*/ => sub {
 
 get '/' => sub {
     my $page = param_hmv('page') || 1;
-    my $res = ddgcr_get( [ 'Blog' ], {
-            page => $page,
-            ( param_hmv('topic') )
-                ? ( topic => param_hmv('topic') )
-                : (),
-        });
+    my $rs = rset('User::Blog')->single_page_ref( $page, param_hmv('topic') );
 
-    if ( $res->is_success ) {
+    if ( scalar @{ $rs->{ posts } } ) {
         return template 'blog/index', {
-            %{$res->{ddgcr}},
+            %{ $rs },
             title => title,
             topic => param_hmv('topic'),
         };
@@ -60,22 +55,13 @@ get '/page/:page' => sub {
 };
 
 get '/rss' => sub {
-    my $p = ddgcr_get( [ 'Blog' ], { page => 1 } );
-    if ( $p->is_success ) {
-        return feed( $p->{ddgcr}->{posts} );
-    }
-    status 404;
+    my $p = rset('User::Blog')->single_page_ref;
+    return feed( $p->{posts} );
 };
 
 get '/topic/:topic/rss' => sub {
-    my $p = ddgcr_get( [ 'Blog' ], {
-        page  => 1,
-        topic => params('route')->{topic},
-    } );
-    if ( $p->is_success ) {
-        return feed( $p->{ddgcr}->{posts} );
-    }
-    status 404;
+    my $p = rset('User::Blog')->single_page_ref( 1, params('route')->{topic} );
+    return feed( $p->{posts} );
 };
 
 get '/topic/:topic' => sub {
@@ -88,21 +74,17 @@ get '/topic/:topic' => sub {
 
 get '/post/:id/:uri' => sub {
     my $params = params('route');
-    my $post;
     # Since we have a login prompt on this page, set last_url
     # TODO: Make this happen for everything (in login handler?)
     session last_url => request->env->{REQUEST_URI};
-    my $res = ddgcr_get [ 'Blog', 'post' ], { id => $params->{id} };
-    if ( $res->is_success ) {
-        $post = $res->{ddgcr}->{post};
-
-        if ( $post->{uri} ne $params->{uri} ) {
-            redirect '/post/' . $post->{id} . '/' . $post->{uri};
+    my $post = rset('User::Blog')->single_post_ref( $params->{id} );
+    if ( $post->{post} ) {
+        if ( $post->{post}->{uri} ne $params->{uri} ) {
+            redirect '/post/' . $post->{post}->{id} . '/' . $post->{post}->{uri};
         }
-
         template 'blog/index', {
-            %{$res->{ddgcr}},
-            title => join ' : ', ( title, $post->{title} ),
+            %{ $post },
+            title => join ' : ', ( title, $post->{post}->{title} ),
         };
     }
     else {
@@ -112,14 +94,16 @@ get '/post/:id/:uri' => sub {
 
 get '/:uri_or_id' => sub {
     my $uri_or_id = params('route')->{uri_or_id};
-    my $req = ( looks_like_number( $uri_or_id ) )
-        ? ddgcr_get [ 'Blog', 'post' ], { id => int( $uri_or_id + 0 ) }
-        : ddgcr_get [ 'Blog', 'post', 'by_url' ], { url => $uri_or_id };
-    if ( $req->is_success ) {
+    my $post = ( looks_like_number( $uri_or_id ) )
+        ? rset('User::Blog')->company_blog->find( int( $uri_or_id + 0 ) )
+        : rset('User::Blog')->company_blog
+                            ->search( { uri => $uri_or_id } )
+                            ->one_row;
+    if ( $post ) {
 
         my ($id, $uri) = (
-            $req->{ddgcr}->{post}->{id},
-            $req->{ddgcr}->{post}->{uri},
+            $post->id,
+            $post->uri,
         );
 
         redirect "/post/$id/$uri";

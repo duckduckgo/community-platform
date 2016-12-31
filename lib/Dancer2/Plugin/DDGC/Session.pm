@@ -19,7 +19,9 @@ on_plugin_import {
 
             code => sub {
                 $dsl->var( user =>
-                    $schema->resultset('User')->find(
+                    $schema->resultset('User')
+                    ->prefetch([qw/ roles /])
+                    ->find(
                         { username => $dsl->session('__user') || undef }
                     )
                 );

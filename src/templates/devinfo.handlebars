@@ -132,7 +132,7 @@
     <p  class="readonly--info {{#exists staged 'maintainer'}}hide{{/exists}}" id="maintainer--readonly">
         {{#if maintainer}}
             {{#if maintainer.github}}
-                <a href="https://github.com/{{maintainer.github}}"> {{maintainer.github}}</a>
+                <a href="http://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link"> {{maintainer.github}}</a>
             {{else}}
                 <span class="no-available">No maintainer yet.</span>
             {{/if}}
@@ -160,10 +160,10 @@
         {{/ne_and}}
     {{/if}}
     </h3>
-    <ul>
+    <ul id="contributors--readonly">
       {{#if developer}}
         {{#each developer}}
-          <li><a href="{{url}}" class="one-line">{{name}}</a></li>
+          <li><a {{#eq type 'github'}}href="http://duckduckhack.com/u/{{slug (final_path url)}}" class="userpage-link"{{else}}href="{{url}}"{{/eq}}>{{name}}</a></li>
         {{/each}}
       {{else}}
         <span class="no-available">No contributors yet.</span>
@@ -171,8 +171,8 @@
     </ul>
 </div>
 
-<div class="ia-single--info">
-  {{#if back_end}}
+{{#if back_end}}
+  <div class="ia-single--info">
     <h3 class="ia-single--header">Back-End Files</h3>
     <ul>
       {{#each back_end}}
@@ -181,11 +181,11 @@
         </li>
       {{/each}}
     </ul>
-  {{/if}}
-</div>
+  </div>
+{{/if}}
 
-<div class="ia-single--info">
-  {{#if front_end}}
+{{#if front_end}}
+  <div class="ia-single--info">
     <h3 class="ia-single--header">Front-End Files</h3>
     <ul>
       {{#each front_end}}
@@ -194,8 +194,21 @@
         </li>
       {{/each}}
     </ul>
-  {{/if}}
-</div>
+  </div>
+{{/if}}
+
+{{#if readme}}
+  <div class="ia-single--info">
+    <h3 class="ia-single--header">README Files</h3>
+    <ul>
+      {{#each readme}}
+        <li>
+        <a class="one-line" href="https://github.com/duckduckgo/zeroclickinfo-{{../repo}}/tree/master/{{this}}">{{final_path this}}</a>
+        </li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}
 
 <div class="hide edit-popup" id="contributors-popup">
     <h3 class="ia-single--header">Contributors</h3>

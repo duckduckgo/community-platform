@@ -32,9 +32,11 @@
                 //console.log("for ia id '%s'", DDH_iaid);
 
                 $.getJSON(json_url, function(ia_data) {
+
                     //Get user permissions
                     ia_data.permissions = {};
                     if ($(".special-permissions").length) {
+                        ia_data.username = this_username;
                         ia_data.permissions = {can_edit: 1};
 
 			// See if we can show the generate screenshot button.
@@ -66,25 +68,37 @@
                         } else {
                             ia_data.edited_dev_milestone = ia_data.live.dev_milestone;
                         }
+                    } else {
+                        ia_data.live.username = this_username;
                     }
 
                     // Separate back-end files from front-end ones
                     ia_data.live.back_end = [];
                     ia_data.live.front_end = [];
+                    ia_data.live.readme = [];
                     if (ia_data.live.code) {
-                        front_end = ["handlebars", "js", "css", "json"];
-                        back_end = ["pm", "t"];
+                        var front_end = ["handlebars", "css", "json"];
+                        var back_end = ["pm", "t", "py", "sh", "rb", "pl"];
+                        var readme = ["md", "txt"];
                         $.each(ia_data.live.code, function(idx) {
                             var file = ia_data.live.code[idx];
                             var type = file.replace(/.*\.([^\.]*)$/,'$1');
 
                             if ($.inArray(type, front_end) !== -1) {
                                 ia_data.live.front_end.push(file);
-                            } else if ($.inArray(type, back_end) !== -1) {
+                            } else if (($.inArray(type, back_end) !== -1) 
+                                || (type === "js" && file.match(/\/lib\//))) { // In this case it's a fathead or longtail file
                                 ia_data.live.back_end.push(file);
+                            } else if (type === "js") {
+                                ia_data.live.front_end.push(file);
+                            } else if (($.inArray(type, readme) !== -1) 
+                                && (ia_data.live.repo === "fathead" || ia_data.live.repo === "longtail") // Show README files only for fatheads and longtails
+                                && file.match(/.*\/readme\.(md|txt)/ig)) { 
+                                ia_data.live.readme.push(file);
                             }
                         });
                     }
+
 
                     // Show latest edits for admins and users with edit permissions
                     var latest_edits_data = {};
@@ -358,6 +372,10 @@
                         if (ia_data.permissions.admin && ia_data.edit_count) {
                             $("#view_commits").removeClass("hide");
                         }
+                    });
+
+                    $("body").on('click', ".userpage-link", function(evt) {
+                        Utils.sendReq($(this).parent());
                     });
 
                     $('body').on('click', '.switch.js-switch', function(evt) {
@@ -1783,7 +1801,7 @@
             var sum = 0;
 
             $.each(counts, function(idx) {
-                sum += counts[idx];
+                sum += parseInt(counts[idx], 10);
             });
 
             return sum;

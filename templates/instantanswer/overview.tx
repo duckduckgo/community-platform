@@ -1,3 +1,4 @@
+
 <div class="developer-nav">
     <h1>Instant Answers</h1>
 
@@ -11,7 +12,7 @@
       <: } :>
     </div>
 </div>
-
+<: include "notice_campaign.tx" :>
 <div id="ia-overview">
   <div class='waiting-circle'>
     <div class='waiting'>

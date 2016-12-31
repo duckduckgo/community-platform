@@ -72,6 +72,10 @@ column context_id => {
     is_nullable => 0,
 };
 
+column ghosted => {
+    data_type => 'int',
+};
+
 belongs_to 'user',     'DDGC::Schema::Result::User',    'users_id';
 has_many   'children', 'DDGC::Schema::Result::Comment', 'parent_id';
 belongs_to 'parent',   'DDGC::Schema::Result::Comment', 'parent_id';

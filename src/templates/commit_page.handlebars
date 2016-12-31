@@ -193,14 +193,14 @@
                 <td name="maintainer"  id="maintainer_original">
                     {{#if original.maintainer}}
                         {{#if original.maintainer.github}}
-                            <a href="https://github.com/{{original.maintainer.github}}">{{original.maintainer.github}}</a>
+                            {{original.maintainer.github}}
                         {{/if}}
                     {{/if}}
                 </td>
                 <td name="maintainer">
                     {{#if maintainer}}
                         {{#if maintainer.github}}
-                            <a href="https://github.com/{{maintainer.github}}">{{maintainer.github}}</a>
+                            {{maintainer.github}}
                         {{/if}}
                     {{/if}}
                 </td>
@@ -226,19 +226,15 @@
 
                 <td name="developer"  id="developer_original">
                     {{#each original.developer}}
-                        <li data-type="{{type}}">
-                            <a href="{{url}}">
+                        <li data-url="{{url}}" data-type="{{type}}">
                                 {{name}}
-                            </a>
                         </li>
                     {{/each}}
                 </td>
                 <td name="developer">
                     {{#each developer}}
-                        <li data-type="{{type}}">
-                            <a href="{{url}}">
+                        <li data-url="{{url}}" data-type="{{type}}">
                                 {{name}}
-                            </a>
                         </li>
                     {{/each}}
                 </td>

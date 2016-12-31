@@ -73,7 +73,7 @@ sub upload :Chained('base') :Args(0) {
 	$c->d->postman->template_mail(
 		1,
 		$c->user->email,
-		'"DuckDuckGo Translations" <noreply@duck.co>',
+		'"DuckDuckGo Translations" <noreply@duckduckgo.com>',
 		'[DuckDuckGo Translations] New PO file uploaded',
 		'newpo',
 		$c->stash,

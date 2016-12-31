@@ -39,13 +39,19 @@ my @repos = (
     'zeroclickinfo-fathead'
 );
 
-my $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+my $token;
+if($d->is_live){
+    $token = $ENV{DDGC_GITHUB_TOKEN} || $ENV{DDG_GITHUB_BASIC_OAUTH_TOKEN};
+}else{
+    $token = $ARGV[0] || $ENV{GITHUB_ISSUES_TOKEN} || die "Missing API token\tusage: ./ghIssues.pl <GitHub token>\nhttps://github.com/settings/tokens";
+}
+
 my $gh = Net::GitHub->new(access_token => $token);
 
 
 my $today = localtime;
-# get last days worth of issues
-my $since = $today - (1 * ONE_DAY);
+# get last 6 hours of issues
+my $since = $today - (6 * ONE_HOUR);
 
 # get the GH issues
 sub getIssues{
@@ -74,10 +80,15 @@ sub getIssues{
 
             # get the IA name from the link in the first comment
 			# Update this later for whatever format we decide on
-			my $name_from_link = '';
-            ($name_from_link) = $issue->{'body'} =~ /https?:\/\/duck\.co\/ia\/view\/(\w+)/i;
+			# Match (roughly) the following formats:
+			# Instant Answer Page: Link   <- preferred standard link
+			# [Instant Answer Page](Link) <- GHFM link
+			$issue->{'body'} =~ qr{
+				\[(?:Instant\s?Answer|IA)\sPage\]\(https?://duck\.co/ia/view/(?<id>\w+[^\s])\)
+				| (?:Instant\s?Answer|IA)\sPage:?\s+ https?://duck\.co/ia/view/(?<id>\w+[^\s])}ix;
 
-            # remove special chars from title and body
+			my $name_from_link = $+{id} // '';
+			# remove special chars from title and body
 			$issue->{'body'} =~ s/\'//g;
 			$issue->{'title'} =~ s/\'//g;
 
@@ -196,7 +207,7 @@ sub getIssues{
                 my $dev_milestone;
                 if (($ia->{dev_milestone} eq 'planning') && ($state eq 'open')){
                     $dev_milestone = 'development';
-                } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated')) {
+                } elsif (($ia->{dev_milestone} ne 'live') && ($ia->{dev_milestone} ne 'deprecated') && ($ia->{dev_milestone} ne 'ghosted')) {
                     if ($state eq 'merged') {
                         $dev_milestone = 'complete';
                     } elsif (($state eq 'closed') && ($ia->{production_state} eq 'offline')) {
@@ -204,7 +215,7 @@ sub getIssues{
                     }
                 } 
 
-                if($ia->{developer} && $data->{state} eq 'merged'){
+                if($data->{state} eq 'merged'){
                     $ia->{developer} = add_developer($ia->{developer}, $data->{author}, $ia);
                 }
 
@@ -237,7 +248,8 @@ sub getIssues{
 
                 #return 1 if !$is_new_ia;
                 $d->rs('InstantAnswer')->update_or_create({%new_data});
-
+                
+                #print "ia/view/$new_data{id}\n";
 
             };
 
@@ -354,12 +366,27 @@ sub merge_files {
         return unless $pr->{merged_at};
         
         my @files_changed = $gh->pull_request->files($issue_id);
-
-        my @files;
-        map{ push(@files, $_->{filename}) } @files_changed;
-
-        #update code in db
         my $result = $d->rs('InstantAnswer')->find({id => $data->id});
+        my $files;
+
+        # turn code from db into hash
+        if($result->code){
+            my $code = from_json($result->code);
+            foreach (@{$code}){
+                $files->{$_} = 1;
+            }
+        }
+        # add any new files to files hash or delete files that were removed in the PR
+        for (@files_changed){
+            if($_->{status} eq 'removed'){
+                delete $files->{$_->{filename}};
+            }
+            else{
+                $files->{$_->{filename}} = 1;
+            }
+        }
+        my @files = keys $files;
+
         $result->update({code => JSON->new->ascii(1)->encode(\@files)}) if $result;
 }
 
@@ -473,11 +500,12 @@ sub update_pr_template {
         return unless $comment->{user}->{login} eq 'daxtheduck';
 
         # skip dax welcome message if it exists
-        if($comment->{body} =~ /Thanks for taking the time to contribute!/){
+        if($comment->{body} =~ /Thanks for the pull request/){
             if(scalar @comments > 1){
                 $comment = $comments[1];
                 return unless $comment->{user}->{login} eq 'daxtheduck';
                 $comment_number = $comment->{id};
+                $old_comment = $comment->{body};
             }
         }else{
             $comment_number = $comment->{id};
@@ -485,7 +513,8 @@ sub update_pr_template {
         }
     }
 
-    my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$data->{example_query})" || ' ';
+    my $example_query = $data->{example_query} =~ s/\s/%20/gr if $data->{example_query};
+    my $examples = "[$data->{example_query}](https://beta.duckduckgo.com/?q=$example_query)" || ' ';
 
     if(defined $ia->{other_queries}){
         my $q = qq({"examples": $ia->{other_queries} });
@@ -497,7 +526,8 @@ sub update_pr_template {
         };
 
         foreach my $query (@{$q->{examples}}){
-            $examples .=", ". "[$query](https://beta.duckduckgo.com/?q=$query)";
+            my $q_encoded = $query =~ s/\s/%20/gr;
+            $examples .=", ". "[$query](https://beta.duckduckgo.com/?q=$q_encoded)";
         }
     }
 
@@ -563,7 +593,7 @@ sub update_pr_template {
 sub add_developer {
     my ($dev_json, $author, $ia_hash) = @_;
     # don't add duplicates
-    return $dev_json if $dev_json =~ /$author/ig;
+    return $dev_json if $dev_json && $dev_json =~ /$author/ig;
 
     my $user = $d->rs('User')->find_by_github_login($author);
     my $data;
@@ -579,10 +609,10 @@ sub add_developer {
                 $ia->add_to_users($user) unless ($ia->users->find($user->id) || $user->admin);
             }
 
-            return $dev_json if $dev_json =~ /duck.co\/user\/$ddgc_name/g;
+            return $dev_json if $dev_json && $dev_json =~ /duck.co\/user\/$ddgc_name/g;
         }
 
-        $data = from_json($dev_json);
+        $data = from_json($dev_json) if $dev_json;
 
         my $new_dev = {
             name => $author,

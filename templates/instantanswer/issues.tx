@@ -12,6 +12,8 @@
     </div>
 </div>
 
+<: include "notice_campaign.tx" :>
+
 <div id="issues">
   <div class='waiting-circle'>
     <div class='waiting'>

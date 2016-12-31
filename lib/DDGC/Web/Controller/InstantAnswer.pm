@@ -595,7 +595,7 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     my ( $self, $c, $answer_id ) = @_;
 
     $c->stash->{ia_page} = "IAPage";
-    $c->stash->{ia} = $c->d->rs('InstantAnswer')->find({meta_id => $answer_id});
+    $c->stash->{ia} = $c->d->rs('InstantAnswer')->search( \[ 'LOWER(me.meta_id) = ?', ( lc($answer_id) ) ] )->one_row;
     my $ia = $c->stash->{ia};
     
     unless ($ia) {
@@ -760,21 +760,23 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
             my $weekdays = 7;
             
             # Traffic data is updated on Mondays
-            my $last_monday = $today->subtract(days => ($today->day_of_week - $monday) %$weekdays || $weekdays);
-            my $month_ago = $last_monday->clone->subtract( days => 30 )->date();
-            my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search(
+            my $last_monday = $today->subtract(days => ($today->day_of_week - $monday) % $weekdays || $weekdays);
+            my $month_ago = $last_monday->clone->subtract( days => 31 )->date();
+
+            my $traffic_rs = $c->d->rs('InstantAnswer::Traffic')->search({},
                 {
-                    answer_id => $ia->meta_id, 
-                    date => { '<' => $last_monday->date()}, 
-                    date => { '>' => $month_ago},
-                    pixel_type => [qw( iaoi iaoe )],
-                },
-                {
-                    order_by => [qw( date )]
+                    select => ["date", {sum => 'me.count', -as => 'total'} ],
+                    where => [{
+                            answer_id => $ia->meta_id, 
+                            date => { '<=' => $last_monday->date(), '>=' => $month_ago},
+                            pixel_type => [qw/ iaoi iaoe /]
+                        }],
+                    group_by => ["me.date"],
+                    order_by => ["me.date"],
                 });
-            
-            my $iaoi = $traffic_rs->get_array_by_pixel();
-            $ia_data{live}->{traffic} = $iaoi;
+            my @dates = $traffic_rs->get_column('date')->all;
+            my @totals = $traffic_rs->get_column('total')->all;
+            $ia_data{live}->{traffic} = {dates => \@dates, counts => \@totals};
         }
     }
 
@@ -862,7 +864,7 @@ sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
     $c->stash->{x}->{result} = $result;
     return $c->forward($c->view('JSON')) unless ($c->req->params->{data} && $c->user && $c->user->admin);
 
-    my $server = "http://beta.duckduckgo.com/install";
+    my $server = "http://beta.duckduckgo.com/ia_install";
     my $key = $ENV{'BETA_KEY'};
     my $decoded_data = from_json($c->req->params->{data});
 
@@ -999,7 +1001,16 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                             $complat_user = $c->d->rs('User')->find({username => $temp_username});
                             return $c->forward($c->view('JSON')) unless $complat_user;
 
-                            $temp_url = 'https://duck.co/user/'.$temp_username;
+                            if (my $gh_login = find_gh_login($c, $complat_user)) {
+                                $temp_username = $gh_login;
+                                $temp_fullname = $temp_username;
+                                $temp_url = 'https://github.com/';
+                                $temp_type = 'github';
+                            } else {
+                                $temp_url = 'https://duck.co/user/';
+                            }
+
+                            $temp_url = $temp_url . $temp_username;
                         } elsif ($temp_type eq 'github') {
                             return $c->forward($c->view('JSON')) unless check_github($temp_username);
 
@@ -1025,8 +1036,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                     }
 
                     $value = to_json \@result_devs;
-
-                    print $value;
                 }
             }
 
@@ -1035,7 +1044,7 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
             if ($field =~ /designer|producer/){
                 return $c->forward($c->view('JSON')) unless ($complat_user_admin || $value eq '');
             } elsif ($field eq "maintainer") {
-                return $c->forward($c->view('JSON')) unless $value = format_maintainer($c, $value, $ia, 0);
+                return $c->forward($c->view('JSON')) unless $value = format_maintainer($c, $value, $ia, $autocommit);
             } elsif ($field eq "id") {
                 return $c->forward($c->view('JSON')) unless $is_admin;
                 $field = "meta_id";
@@ -1161,30 +1170,43 @@ sub create_ia :Chained('base') :PathPart('create') :Args() {
     my $is_admin;
     my $result = '';
     my $data = $c->req->params->{data}? from_json($c->req->params->{data}) : "";
-    use Data::Dumper;
-    print Dumper $c->req->params;
     my $meta_id = format_id($data->{id});
-    warn $meta_id;
     my $ia = $c->d->rs('InstantAnswer')->find({id => $meta_id}) || $c->d->rs('InstantAnswer')->find({meta_id => $meta_id});
     my $name;
     my $exists;
 
     if ($c->user && (!$ia)) {
         $is_admin = $c->user->admin;
-        my $gh_id = $c->user->github_id;
         my $dev_milestone = $data->{dev_milestone}? $data->{dev_milestone} : "planning";
         my $name = $data->{name};
         my $repo = $data->{repo}? lc $data->{repo} : undef;
         my $other_queries = $data->{other_queries}? from_json($data->{other_queries}) : [];
-        my $author = {
-            url => 'https://duck.co/user/' . $c->user->username,
-            name => $c->user->username,
-            type => "duck.co"
-        };
+        my $author;
+        my $maintainer;
+        my $gh_id = $c->user->github_id;
+        
+        if ($gh_id && (my $gh_user =  $c->d->rs('GitHub::User')->find({github_id => $gh_id}))) {
+            $maintainer = { 
+                github => $gh_user->login
+            };
+            
+            $author = {
+                url => 'https://github.com/' . $gh_user->login,
+                name => $gh_user->login,
+                type => "github"
+            };
 
-        my $maintainer = { 
-            github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
-        };
+        } else {
+            $author = {
+                url => 'https://duck.co/user/' . $c->user->username,
+                name => $c->user->username,
+                type => "duck.co"
+            };
+
+            $maintainer = { 
+                github => ''
+            };
+        }
 
         # Capitalize each word in the name string
         $name =~ s/([\w']+)/\u\L$1/g;
@@ -1247,6 +1269,7 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
     my $repo;
     my $pr_number;
     my $gh;
+    my $gh_id = $c->user->github_id;
     
     if ($user) {
         if(($repo, $pr_number) = $url =~ /https?:\/\/github.com\/duckduckgo\/zeroclickinfo-(.+)\/pull\/(.+)$/){
@@ -1256,17 +1279,32 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
             $gh->set_default_user_repo('duckduckgo', "zeroclickinfo-$repo");
 
             my @files = $gh->pull_request->files($pr_number);
-            my $gh_id = $user->github_id;
             $pr_data = $gh->pull_request->pull($pr_number);
-            my $author = {
-                url => 'https://duck.co/user/' . $c->user->username,
-                name => $user->username,
-                type => "duck.co"
-            };
-            
-            my $maintainer = { 
-                github => $gh_id ? $c->d->rs('GitHub::User')->find({github_id => $gh_id})->login : ''
-            };
+            my $author;
+            my $maintainer;
+
+            if ($gh_id && (my $gh_user =  $c->d->rs('GitHub::User')->find({github_id => $gh_id}))) {
+                $maintainer = { 
+                    github => $gh_user->login
+                };
+                
+                $author = {
+                    url => 'https://github.com/' . $gh_user->login,
+                    name => $gh_user->login,
+                    type => "github"
+                };
+
+            } else {
+                $author = {
+                    url => 'https://duck.co/user/' . $c->user->username,
+                    name => $c->user->username,
+                    type => "duck.co"
+                };
+
+                $maintainer = { 
+                    github => ''
+                };
+            }
             
             my $perl_module;
             my $tab;
@@ -1319,6 +1357,8 @@ sub create_ia_from_pr :Chained('base') :PathPart('create_from_pr') :Args() {
                     
                     # Capitalize each word in the name string
                     $name =~ s/([\w']+)/\u\L$1/g;
+
+                    $id = format_id($id);
                     
                     my $new_ia = $c->d->rs('InstantAnswer')->update_or_create({
                         id => $id,
@@ -1396,6 +1436,19 @@ sub format_id {
     $id =~ s/^[^a-zA-Z]+$//;
 
     return $id;
+}
+
+sub find_gh_login {
+    my ( $c, $complat_user ) = @_;
+
+    my $login;
+
+    if ($complat_user && (my $gh_id = $complat_user->github_id)) {
+        my $gh_user = $c->d->rs('GitHub::User')->find({github_id => $gh_id});
+        $login = $gh_user? $gh_user->login : undef;
+    }
+
+    return $login;
 }
 
 # Return the properly formatted JSON value

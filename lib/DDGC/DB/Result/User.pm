@@ -4,13 +4,17 @@ package DDGC::DB::Result::User;
 use Moose;
 use MooseX::NonMoose;
 extends 'DDGC::DB::Base::Result';
-with 'DDGC::Schema::Role::Result::User::Subscription';
+with qw/
+    DDGC::Schema::Role::Result::User::Subscription
+    DDGC::Schema::Role::Result::User::Profile
+/;
 use DBIx::Class::Candy;
 use DDGC::User::Page;
 use Path::Class;
 use IPC::Run qw/ run timeout /;
 use LWP::Simple qw/ is_success getstore /;
 use File::Temp qw/ tempfile /;
+use URI;
 use Carp;
 use Prosody::Mod::Data::Access;
 use Digest::MD5 qw( md5_hex );
@@ -272,6 +276,27 @@ sub store_github_credentials {
 			gh_data => $gh_data,
 		})
 	}
+}
+
+sub has_not_seen_userpage_banner {
+	my ( $self ) = @_;
+	my $result = $self->schema->resultset('User::CampaignNotice')->find( {
+		users_id => $self->id,
+		campaign_id => 128,
+		campaign_source => 'campaign',
+		cache_for => 600,
+	} );
+
+	return ($result) ? 0 : 1;
+}
+
+sub set_seen_userpage_banner {
+	my ( $self ) = @_;
+	$self->schema->resultset('User::CampaignNotice')->find_or_create( {
+		users_id => $self->id,
+		campaign_id => 128,
+		campaign_source => 'campaign',
+	}	);
 }
 
 sub add_default_notifications {

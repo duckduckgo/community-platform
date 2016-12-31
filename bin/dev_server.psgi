@@ -12,13 +12,17 @@ use Plack::App::File;
 
 use DDH::UserPage::Generate;
 
-DDH::UserPage::Generate->new(
-    view_dir     => "$FindBin::Dir/../views",
-    build_dir    => "$FindBin::Dir/../build",
-)->generate;
+my $root = $ENV{USERPAGE_OUT} || "/home/ddgc/ddgc/ddh-userpages";
+
+if ( !$ENV{SKIP_GENERATE} ) {
+    DDH::UserPage::Generate->new(
+        view_dir     => "$FindBin::Dir/../views",
+        build_dir    => $root,
+    )->generate;
+}
 
 builder {
-    mount '/' => Plack::App::Directory::WithIndex->new( root => $FindBin::Dir . "/../build" )->to_app;
-    mount "/static" => Plack::App::File->new(root => $FindBin::Dir . '/../root/static')->to_app;
+    mount '/u' => Plack::App::Directory::WithIndex->new( root => $root )->to_app;
+    mount "/ddh-static" => Plack::App::File->new(root => $FindBin::Dir . '/../root/static')->to_app;
 };
 

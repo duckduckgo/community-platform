@@ -1,0 +1,38 @@
+<!-- Outside is wrapped within <div class="ia..."> -->
+
+<div class="grid-6">
+  <strong><a href="https://duck.co/ia/view/{{ia.id}}" ng-click="addImg('iapage', ia.id); $event.stopPropagation()">{{ia.name}}</a></strong>
+</div>
+
+<!-- developers -->
+<div class="avatars grid-2 pad-right-20">
+  <!--
+    <div class="avatar" ng-repeat="dev in ia.contributors" title="{{dev.username}}">
+        <a href="/u/{{dev.username.toLowerCase()}}" ng-click="addImg('avatar', dev.username.toLowerCase()); $event.stopPropagation()">
+
+	  <span ng-if="dev.avatar_url">
+                <img src="{{dev.avatar_url}}" />
+            </span>
+            <span ng-if="!dev.avatar_url">
+                {{fn.firstUsernameChar(dev.username)}}
+            </span>
+        </a>
+    </div>
+    -->
+</div>
+
+<span class="count" ng-if="ia.pull_count > 0">{{ia.pull_count}} <span class="octicon octicon-git-pull-request"></span></span>
+<span class="count" ng-if="ia.issue_count > 0">{{ia.issue_count}} <span class="octicon octicon-issue-opened"></span></span>
+
+
+<!-- status -->
+<div ng-if="ia.dev_milestone !== 'live'" class="status full {{ia.dev_milestone}} grid-1">{{ia.dev_milestone}}</div>
+
+<span ng-if="ia.issues.length > 0">
+  <span class="plus" ng-if="!ia.expand">
+    <span class="octicon octicon-plus" style="color: #666"></span>
+  </span>
+  <span class="minus" ng-if="ia.expand">
+    <span class="octicon octicon-dash" style="color: #666"></span>
+  </span>
+</span>

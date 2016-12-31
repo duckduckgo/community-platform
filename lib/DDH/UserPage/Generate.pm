@@ -12,6 +12,9 @@ use Carp;
 use DDGC;
 use DDH::UserPage::Gather;
 
+binmode STDOUT, ':encoding(UTF-8)';
+binmode STDERR, ':encoding(UTF-8)';
+
 has view_dir => (
     is       => 'ro',
     required => 1,
@@ -56,7 +59,7 @@ sub _build_xslate {
 
 has json => ( is => 'lazy' );
 sub _build_json {
-    JSON::MaybeXS->new( utf8 => 1, pretty => 1 );
+    JSON::MaybeXS->new( pretty => 0 );
 }
 
 has ddgc => ( is => 'lazy' );
@@ -87,6 +90,7 @@ sub contributor_dir {
 
 sub generate {
     my ( $self ) = @_;
+    my $valid_contributors;
 
     open my $fh, '>:encoding(UTF-8)', $self->build_dir . "/index.json" or die();
     print $fh $self->json->encode( $self->contributors );
@@ -97,33 +101,26 @@ sub generate {
             warn "$contributor appears to be a URL - skipping";
             next;
         }
+
         my $build_dir = $self->contributor_dir( $contributor );
         my $contributor_data = $self->contributors->{ $contributor };
-
-        my $content = $self->xslate->render(
-            'userpage/index.tx',
-            {
-                data => $contributor_data
-            }
-        );
-
-        open my $fh, '>:encoding(UTF-8)', "$build_dir/index.html" or die();
-        print $fh $self->xslate->render(
-            'layouts/main.tx',
-            {
-                content => $content,
-                settings => $self->settings,
-                hide_login => 1,
-                no_js => 1
-            }
-        );
-        close $fh;
 
         # JSON dump of user's data
         open my $jfh, '>:encoding(UTF-8)', "$build_dir/index.json" or die();
         print $jfh $self->json->encode( $contributor_data );
         close $jfh;
+
+        my $original_login = $contributor_data->{ original_login };
+        my $original_login_path = sprintf( '%s/%s', $self->build_dir, $original_login ) if $original_login;
+        if ( $original_login && $original_login ne $contributor && !-e $original_login_path ) {
+            symlink $build_dir, $original_login_path;
+        }
+        push @{ $valid_contributors }, $contributor;
     }
+
+    open my $jfh, '>:encoding(UTF-8)', $self->build_dir. "/users.json" or die();
+    print $jfh $self->json->encode( $valid_contributors );
+    close $jfh;
 }
 
 1;

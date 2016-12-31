@@ -1,7 +1,7 @@
 <div class="breadcrumb-nav">
 <div class='breadcrumbs'>
     : # TODO - deprecate this phony breadcrumb
-    <a href='/'>
+    <a href='https://duckduckhack.com/'>
         Home
     </a>
     &gt;
@@ -75,8 +75,13 @@
                     </a>
                 </li>
                 <li>
-                    <a href='https://duck.co/'>
-                        Community Platform
+                    <a href='https://duckduckhack.com'>
+                        DuckDuckHack
+                    </a>
+                </li>
+                <li>
+                    <a href='https://forum.duckduckhack.com'>
+                        Forum
                     </a>
                 </li>
                 <li>
@@ -139,6 +144,10 @@
                 </button>
             </form>
         </section>
+
+        <section class='clear tab-mid'>
+            <h5>Weekly Developer Newsletter</h5>
+            <p><a href="https://www.listbox.com/subscribe/?list_id=197814">Subscribe for coding tips and contribution suggestions</a></p>
+        </section>
     </div>
 </aside>
-

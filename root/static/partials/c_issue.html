@@ -1,0 +1,19 @@
+<span class="octicon" ng-class="{true: 'octicon-git-pull-request', false: 'octicon-issue-opened'}[!!issue.isa_pull_request]" style="padding-right: 14px"></span>
+
+<span class="grid-6 content">
+  <div ng-if="issue.ia_name">
+    <div class="one-line issue-name"><a href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}" ng-click="addImg('issueianame', issue.github_repo.full_name + issue.number)">{{issue.title}}</a></div>
+    <span class="subtitle" ng-if="issue.ia_name"><a href="https://duck.co/ia/view/{{issue.ia_id}}" ng-click="addImg('iapageinpr', issue.ia_id)" class="subtitle">{{issue.ia_name}}</a></span>
+  </div>
+
+  <div ng-if="!issue.ia_name">
+      <span style="width: initial;" class="one-line issue-name"><a class="issue-link one-line" href="https://github.com/{{issue.github_repo.full_name}}/issues/{{issue.number}}" ng-click="addImg('issue', issue.github_repo.full_name + issue.number)" ><div class="issue-ellipsis">{{issue.title}}</div></a>
+      </span>
+  </div>
+
+</span>
+
+<span class="grid-2 subtitle text-right pad-left-10">{{fn.getFromNow(issue.updated_at)}}</span>
+
+<!-- developer -->
+<!-- <div class="avatars" ng-bind-html="fn.getAvatar(users, issue.user.login, 'right')"></div> -->

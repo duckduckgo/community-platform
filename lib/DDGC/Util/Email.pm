@@ -133,8 +133,8 @@ sub send {
         },
         header_str => $header,
         parts => [
-            $html_part,
             $plaintext_part,
+            $html_part,
         ],
     );
 
@@ -146,6 +146,8 @@ sub send {
             ],
         }
     }
+
+    return { ok => 1 };
 }
 
 sub DESTROY {
