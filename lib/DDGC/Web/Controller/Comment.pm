@@ -57,6 +57,7 @@ sub delete : Chained('do') Args(1) {
 sub add :Chained('base') :Args(2) {
 	my ( $self, $c, $context, $context_id ) = @_;
 	return unless $c->user || ! $c->stash->{no_reply};
+	return if ( $context eq 'DDGC::DB::Result::Thread' || $context eq 'DDGC::DB::Result::Idea' );
 	$c->require_action_token;
 	unless ($c->user) {
 		$c->response->redirect($c->chained_uri('My','login'));

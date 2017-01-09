@@ -37,7 +37,7 @@
 				<: if !$no_reply && $c.user && (!$_.ghosted || ($_.ghosted && $_.users_id == $c.user.id)) { :>
 					<: if !$c.user.admin and $forum_index == d().config.id_for_forum('special') { :>
 						<: # we may put something here :>
-					<: } else { :>
+					<: } elsif ( $_.context != 'DDGC::DB::Result::Thread' && $_.context != 'DDGC::DB::Result::Idea' ) { :>
 						<span class="comment-meta__link">
 							&bull; <a class="js-reply_link_<: $_.id :>  js-comment-reply no-js-hide" data-target="<: $_.id :>" href="#">Reply</a>
 							<a class="js-cancel_link_<: $_.id :>  js-comment-cancel no-js-hide hide" data-target="<: $_.id :>" href="#">Cancel</a>

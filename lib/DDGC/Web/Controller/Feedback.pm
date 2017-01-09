@@ -56,6 +56,9 @@ sub feedback :Chained('base') :PathPart('') :CaptureArgs(1) {
     $c->stash->{feedback_config} = DDGC::Feedback::Config::NoLove->feedback;
     $c->stash->{feedback_title} = DDGC::Feedback::Config::NoLove->feedback_title;
   } elsif ($feedback eq 'suggest') {
+    $c->response->status(404);
+    $c->response->redirect('/');
+    return $c->detach;
     if (!$c->user) {
       $c->response->redirect($c->chained_uri('My','login'));
       return $c->detach;
