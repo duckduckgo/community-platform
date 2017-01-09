@@ -74,6 +74,7 @@
 <: } :>
 : if ( $_.context == 'DDGC::DB::Result::Thread' || $_.context == 'DDGC::DB::Result::Idea' ) {
     <h3>This forum has been archived</h3>
+    <p>Thank you all for the many comments, questions and suggestions. Particular thanks go to <a href="https://duck.co/user/x.15a2">user x.15a2</a> for constantly monitoring, replying and helping so many users here. To continue these discussions, please head over to the <a href="https://www.reddit.com/r/duckduckgo/">DuckDuckGo subreddit</a>.</p>
 : }
 <: if $c.user and !$no_reply { :>
     <: i('comment_add',{ context => $_context, context_id => $_context_id }) :>
