@@ -1,3 +1,4 @@
+: include 'forum/archived.tx';
 <div class="content-box">
   <div class="group  head--forum">
     <div class="forum-nav">
