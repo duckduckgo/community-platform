@@ -426,6 +426,8 @@ sub _build_xslate {
                         # String::Truncate's elide function
                         truncate => \&elide,
 
+			p => sub { use DDP; return mark_raw( '<pre>' . p( $_[0] ) . '</pre>' ); },
+
 		},
 	});
 	return $xslate;
