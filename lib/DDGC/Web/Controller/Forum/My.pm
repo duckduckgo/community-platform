@@ -18,6 +18,8 @@ sub base : Chained('/forum/base') PathPart('my') CaptureArgs(0) {
 # /forum/my/newthread
 sub newthread : Chained('base') Args(1) {
 	my ( $self, $c, $forum_id ) = @_;
+	$c->response->status(404);
+	return $c->detach;
 	$c->stash->{forum_index} = $forum_id // 1;
 	if (!$c->d->config->forums->{$c->stash->{forum_index}}) {
 		$c->response->redirect($c->chained_uri('Forum', 'general'));
