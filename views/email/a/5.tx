@@ -297,7 +297,7 @@
 <ol>
 <li>Navigate to Google's <a href="https://www.google.com/settings/u/0/ads/authenticated">Ad Settings page</a></li><br />
 <li>Scroll down, and toggle "Ads Based on Your Interest" to off</li>
-<img src="https://duckduckgo.com/assets/email/ads_interests5.png?atb=<: $subscriber.flow :>" style="max-width:400px; padding-top: 5px; padding-bottom: 15px; padding-left: 25px;" alt="Picture of setting ad interests to off"/>
+<img src="https://duckduckgo.com/assets/email/ads_interests5.png?atb=<: $subscriber.flow :>" style="max-width:456px; padding-top: 5px; padding-bottom: 15px; padding-left: 25px;" alt="Picture of setting ad interests to off"/>
 <li>Then, scroll down more, and click the blue button to "opt-out of signed out ads." Turn off the toggles on that page too.&nbsp;</li>
 <img src="https://duckduckgo.com/assets/email/control_ads.png" style="max-width:400px; padding-bottom: 15px; padding-top: 5px; padding-left: 25px;" alt="Picture of setting logged out ad tracking to off"/>
 </ol>
