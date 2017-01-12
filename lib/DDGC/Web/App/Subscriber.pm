@@ -3,6 +3,7 @@ package DDGC::Web::App::Subscriber;
 # ABSTRACT: Subscriber management
 
 use DDGC::Base::Web::Light;
+use Email::Valid;
 
 get '/u/:campaign/:email/:key' => sub {
     my $params = params('route');
@@ -45,8 +46,10 @@ FORM
 
 post '/a' => sub {
     my $params = params('body');
+    my $email = Email::Valid->address($params->{email});
+    return unless $email;
     my $s = rset('Subscriber')->create( {
-        email_address => $params->{email},
+        email_address => $email,
         campaign      => $params->{campaign},
         flow          => $params->{flow}
     } );

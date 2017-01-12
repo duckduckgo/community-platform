@@ -38,12 +38,19 @@ test_psgi $app => sub {
         test5@duckduckgo.com
         test6duckduckgo.com
         lateverify@duckduckgo.com
+        notanemailaddress
     / ) {
         ok( $cb->(
             POST '/s/a',
             [ email => $email, campaign => 'a', flow => 'flow1' ]
         ), "Adding subscriber : $email" );
     }
+
+    my $invalid = rset('Subscriber')->find( {
+        email_address => 'notanemailaddress',
+        campaign => 'a'
+    } );
+    is( $invalid, undef, 'Invalid address not inserted via POST' );
 
     my $transport = DDGC::Util::Script::SubscriberMailer->new->verify;
     is( $transport->delivery_count, 6, 'Correct number of verification emails sent' );
