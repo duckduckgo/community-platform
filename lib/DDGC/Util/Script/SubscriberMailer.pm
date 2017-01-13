@@ -3,6 +3,7 @@ use warnings;
 package DDGC::Util::Script::SubscriberMailer;
 
 use DateTime;
+use DDGC::Schema::Result::Subscriber;
 use Moo;
 
 with 'DDGC::Util::Script::Base::Service';
@@ -59,7 +60,7 @@ sub _build_campaigns {
 }
 
 sub email {
-    my ( $self, $log, $subscriber, $subject, $template, $verified ) = @_;
+    my ( $self, $log, $subscriber, $subject, $template, $verified, $nolog ) = @_;
 
     my $status = $self->smtp->send( {
         to       => $subscriber->email_address,
@@ -73,7 +74,7 @@ sub email {
         }
     } );
 
-    if ( $status->{ok} ) {
+    if ( $status->{ok} && !$nolog ) {
         $subscriber->update_or_create_related( 'logs', { email_id => $log } );
     }
 }
@@ -129,6 +130,26 @@ sub verify {
     }
 
     return $self->smtp->transport;
+}
+
+sub testrun {
+    my ( $self, $campaign, $email ) = @_;
+    my $subscriber = DDGC::Schema::Result::Subscriber->new( {
+        email_address => $email,
+        campaign      => $campaign,
+        verified      => 1,
+    } );
+
+    my $mails = $self->campaigns->{ $campaign }->{mails};
+    for my $mail ( keys $mails ) {
+        $self->email(
+            $mail,
+            $subscriber,
+            $mails->{ $mail }->{subject},
+            $mails->{ $mail }->{template},
+            1, 1
+        );
+    }
 }
 
 1;
