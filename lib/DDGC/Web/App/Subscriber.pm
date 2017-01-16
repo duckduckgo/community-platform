@@ -51,7 +51,7 @@ get '/form' => sub {
 FORM
 };
 
-any qr/^\/testrun/ => http_basic_auth required => sub {
+any '/testrun/**' => http_basic_auth required => sub {
     pass;
 };
 
