@@ -23,6 +23,9 @@ on_plugin_import {
     $dsl->set(ddgc_config => $config);
     $dsl->set(charset => 'UTF-8');
 
+    $dsl->set(basic_auth_user => $ENV{DDGC_BASIC_AUTH_USER});
+    $dsl->set(basic_auth_pass => $ENV{DDGC_BASIC_AUTH_PASS});
+
     if ( $config->is_live ) {
         $dsl->set( environment => 'production' );
     }

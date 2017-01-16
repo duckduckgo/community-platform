@@ -117,6 +117,7 @@ requires 'Dancer2::Plugin::RootURIFor', '0.02';
 requires 'Dancer2::Plugin::DBIC', '0.0009';
 requires 'Dancer2::Plugin::Feed', '1.142060';
 requires 'Dancer2::Template::Xslate', 'v0.0.7';
+requires 'Dancer2::Plugin::Auth::HTTP::Basic::DWIW', '0.04';
 requires 'Text::Markdown', '1.000031';
 requires 'HTML::TreeBuilder::LibXML', '0.25';
 requires 'Hash::Merge::Simple', '0.051';

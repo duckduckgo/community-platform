@@ -3,8 +3,14 @@ package DDGC::Web::App::Subscriber;
 # ABSTRACT: Subscriber management
 
 use DDGC::Base::Web::Light;
+use Dancer2::Plugin::Auth::HTTP::Basic::DWIW;
 use DDGC::Util::Script::SubscriberMailer;
 use Email::Valid;
+
+http_basic_auth_set_check_handler sub {
+    my ( $user, $pass ) = @_;
+    return $user eq config->{basic_auth_user} && $pass eq config->{basic_auth_pass};
+};
 
 get '/u/:campaign/:email/:key' => sub {
     my $params = params('route');
@@ -43,6 +49,10 @@ get '/form' => sub {
         <input type="hidden" name="flow" value="form">
     </form>
 FORM
+};
+
+any qr/^\/testrun/ => http_basic_auth required => sub {
+    pass;
 };
 
 get '/testrun/:campaign' => sub {
