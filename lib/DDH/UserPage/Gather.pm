@@ -177,6 +177,18 @@ sub get_avatar {
     }
 }
 
+sub add_to_contributors {
+    my ( $self, $login, $ia, $ia_id, @contributors ) = @_;
+
+    my %contributor = (
+        username => $login,
+        avatar_url => $self->get_avatar($login)
+    );
+
+    push @{ $ia->{$ia_id}->{contributors} }, \%contributor;
+    push @contributors, $login;
+}
+
 sub transform {
     my ( $self, $ia ) = @_;
     my $transform = {};
@@ -203,13 +215,17 @@ sub transform {
                         ( my $login = $developer->{url} ) =~
                             s{https://github.com/(.*)/?}{$1};
 
-                        my %contributor = (
-                            username => $login,
-                            avatar_url => $self->get_avatar($login)
-                        );
+                        $self->add_to_contributors($login, $ia, $ia_id, @contributors);
+                    } elsif ( $developer->{type} && 
+                              $developer->{type} eq 'duck.co' ) {
 
-                        push @{ $ia->{$ia_id}->{contributors} }, \%contributor;
-                        push @contributors, $login;
+                            my $complat_user = $self->ddgc->rs('User')->find({ username => $developer->{name} });
+
+                            if ( $complat_user && ( my $gh_id = $complat_user->github_id ) ) {
+                                my $gh_user = $self->ddgc->rs('GitHub::User')->find({ github_id => $gh_id });
+
+                                $self->add_to_contributors($gh_user->login, $ia, $ia_id, @contributors);
+                            }
                     }
                 }
 
