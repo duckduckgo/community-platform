@@ -61,6 +61,8 @@ sub add_ideas_table {
 
 sub newidea : Chained('base') Args(0) {
 	my ( $self, $c ) = @_;
+	$c->response->status(404);
+	return $c->detach;
 	$self->add_latest_ideas($c);
 	$c->stash->{title} = 'New Instant Answer Idea';
 	$c->add_bc('New Instant Answer Idea');
