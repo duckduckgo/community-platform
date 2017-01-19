@@ -37,7 +37,9 @@ sub find_by_username {
 
 sub handle_bounces {
     my ( $self, $message ) = @_;
-    if ( $message->{bounceType} eq 'Permanent' || $message->{complaintFeedbackType} ) {
+    if ( ( $message->{bounce}->{bounceType}
+            && $message->{bounce}->{bounceType} eq 'Permanent' )
+            || $message->{notificationType} eq 'Complaint' ) {
         my @emails;
         push @emails,
              map { $_->{emailAddress} }
