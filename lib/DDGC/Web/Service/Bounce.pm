@@ -18,6 +18,7 @@ sub verify {
     return {
         ok => $ok,
         status => $res->{status},
+        message => $res->{reason}
     };
 }
 
