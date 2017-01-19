@@ -86,7 +86,7 @@ sub handle_bounces {
         $update_params = { complaint => 1 };
         push @emails, map { $_->{emailAddress} } @{$message->{complainedRecipients}};
     }
-    return { status => 'OK' } if !$update_params || !@emails;
+    return { ok => 1 } if !$update_params || !@emails;
     for my $email (@emails) {
         my $subscribers = $self->search(\[ 'LOWER( email ) = ?', lc( $email ) ]);
         $subscribers->update( $update_params ) if $subscribers;
