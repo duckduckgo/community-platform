@@ -26,6 +26,11 @@ sub unverified {
     $self->search_rs( { verified => 0 } );
 }
 
+sub unbounced {
+    my ( $self ) = @_;
+    $self->search_rs( { bounced => 0, complaint => 0 } );
+}
+
 sub mail_unsent {
     my ( $self, $campaign, $email ) = @_;
     $self->search_rs( {
