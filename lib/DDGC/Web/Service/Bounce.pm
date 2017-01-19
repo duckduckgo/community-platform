@@ -19,7 +19,9 @@ post '/handler' => sub {
     if ( $packet->{Type} eq 'SubscriptionConfirmation' ) {
         return verify( $packet );
     }
-    return rset('Subscriber')->handle_bounces( decode_json( $packet->{Message} ) );
+    my $message = decode_json( $packet->{Message} );
+    rset('User')->handle_bounces( $message );
+    return rset('Subscriber')->handle_bounces( $message );
 };
 
 1;
