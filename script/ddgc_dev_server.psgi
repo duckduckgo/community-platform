@@ -15,6 +15,7 @@ use DDGC::Web;
 use DDGC::Web::App::Blog;
 use DDGC::Web::App::Subscriber;
 use DDGC::Web::Service::Blog;
+use DDGC::Web::Service::Bounce;
 use DDGC::Web::Service::ActivityFeed;
 use Plack::App::File;
 use Plack::Session::State::Cookie;
@@ -42,6 +43,7 @@ builder {
         ];
     }
     mount '/s' => DDGC::Web::App::Subscriber->to_app;
+    mount '/bounce' => DDGC::Web::Service::Bounce->to_app;
     mount '/blog' => DDGC::Web::App::Blog->to_app;
     mount '/blog.json' => DDGC::Web::Service::Blog->to_app;
     mount '/activityfeed.json' => DDGC::Web::Service::ActivityFeed->to_app;
