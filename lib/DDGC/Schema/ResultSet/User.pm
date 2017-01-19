@@ -43,12 +43,12 @@ sub handle_bounces {
         my @emails;
         push @emails,
              map { $_->{emailAddress} }
-             @{$message->{bouncedRecipients}}
-             if $message->{bouncedRecipients};
+             @{$message->{bounce}->{bouncedRecipients}}
+             if $message->{bounce}->{bouncedRecipients};
         push @emails,
              map { $_->{emailAddress} }
-             @{$message->{complainedRecipients}}
-             if $message->{complainedRecipients};
+             @{$message->{complaint}->{complainedRecipients}}
+             if $message->{complaint}->{complainedRecipients};
         for my $email ( @emails ) {
             my $users = $self->search(\[ 'LOWER( email ) = ?', lc( $email ) ]);
             $users->update({ email_verified => 0 }) if $users;

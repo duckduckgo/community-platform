@@ -84,7 +84,7 @@ sub handle_bounces {
     }
     elsif ( $message->{notificationType} eq 'Complaint' ){
         $update_params = { complaint => 1 };
-        push @emails, map { $_->{emailAddress} } @{$message->{complainedRecipients}};
+        push @emails, map { $_->{emailAddress} } @{$message->{complaint}->{complainedRecipients}};
     }
     return { ok => 1 } if !$update_params || !@emails;
     for my $email (@emails) {
