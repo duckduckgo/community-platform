@@ -4,13 +4,21 @@ package DDGC::Web::Service::Bounce;
 
 use DDGC::Base::Web::LightService;
 use JSON::MaybeXS;
+use HTTP::Tiny;
 
 my $json = JSON::MaybeXS->new;
 
 sub verify {
+    my $ok = 1;
     my $res = HTTP::Tiny->new->get( $_[0]->{SubscribeURL} );
-    status $res->{status} unless $res->{success};
-    return { content => $res->{content} };
+    if ( !$res->{success} ) {
+        status $res->{status};
+        $ok = 0;
+    }
+    return {
+        ok => $ok,
+        status => $res->{status},
+    };
 }
 
 post '/handler' => sub {

@@ -91,7 +91,7 @@ sub handle_bounces {
         my $subscribers = $self->search(\[ 'LOWER( email ) = ?', lc( $email ) ]);
         $subscribers->update( $update_params ) if $subscribers;
     }
-    return { status => 'OK' };
+    return { ok => 1 };
 }
 
 1;

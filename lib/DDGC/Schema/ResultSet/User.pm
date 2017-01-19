@@ -52,7 +52,7 @@ sub handle_bounces {
             $users->update({ email_verified => 0 }) if $users;
         }
     }
-    return { status => 'OK' };
+    return { ok => 1 };
 }
 
 1;
