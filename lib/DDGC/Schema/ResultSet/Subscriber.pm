@@ -88,7 +88,7 @@ sub handle_bounces {
     }
     return { ok => 1 } if !$update_params || !@emails;
     for my $email (@emails) {
-        my $subscribers = $self->search(\[ 'LOWER( email ) = ?', lc( $email ) ]);
+        my $subscribers = $self->search(\[ 'LOWER( email_address ) = ?', lc( $email ) ]);
         $subscribers->update( $update_params ) if $subscribers;
     }
     return { ok => 1 };
