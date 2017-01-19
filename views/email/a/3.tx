@@ -91,7 +91,6 @@
             #templateHeader{
                 background-color:#FFFFFF;
                 border-top:1px solid #FFFFFF;
-                
             }
             /**
             * @section header text
@@ -128,7 +127,6 @@
             #templateBody{
                 background-color:#FFFFFF;
                 border-top:1px solid #FFFFFF;
-                border-bottom:1px solid #CCCCCC;
                 margin-bottom:1em; /* force YahooMail to space paragraphs */
             }
             /**
@@ -140,9 +138,8 @@
                 font-size:14px;
                 line-height:150%;
                 padding-top:10px;
-                padding-right:20px;
-                padding-bottom:20px;
-                padding-left:20px;
+                padding-right:35px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -157,6 +154,10 @@
                 display:inline;
                 height:auto;
                 max-width:560px;
+            }
+            .bodyContent img.emoticon {
+                vertical-align: middle;
+                margin-top: -4px;
             }
             /* ========== Footer Styles ========== */
             /**
@@ -175,8 +176,8 @@
                 font-size:10px;
                 line-height:150%;
                 padding-top:20px;
-                padding-right:20px;
-                padding-left:20px;
+                padding-right:35px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -276,7 +277,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
+                                                <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 35px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -290,13 +291,13 @@
                                         <tr>
                                             <td valign="top" class="bodyContent">
                                                  
-<p style="margin-bottom: 1em">Last email we discussed the ads that track you across the internet. But, did you know this tracking can actually cost you money?! <img src="https://duckduckgo.com/assets/email/money3.png?atb=<: $subscriber.flow :>" style="max-width:20px; max-height:20px;" alt="money flying away"></p>
+<p style="margin-bottom: 1em">Last email we discussed the ads that track you across the internet. But, did you know this tracking can actually cost you money?! <img class="emoticon" src="https://duckduckgo.com/assets/email/money3.png?atb=<: $subscriber.flow :>" style="max-width:20px; max-height:20px;" alt="money flying away"></p>
 
 <p style="margin-bottom: 1em">Retailers are increasingly charging "personalized" or "dynamic" prices based on your online footprint. They manipulate prices, trying to charge you the max they think you're willing to pay. You could be sitting right next to someone, looking at the same online product, and be charged more just because of a website you visited.</p>
 
 <p style="margin-bottom: 1em">You're probably familiar with how common this practice is in the airline industry. That's all thanks to Google's ITA QPX Software; which provides solutions to airlines to price "by market segment, point-of-sale, channel and <a href="https://www.itasoftware.com/solutions/qpx/">even user.</a>" </p>
 <p style="margin-bottom: 1em">That profit comes right out of your pocket because they decided you were willing to pay more for your flight based on tracking.&nbsp;The worst part is, this sneaky pricing tactic has long been used in other industries! The Wall Street Journal ran a study on the matter as far back as 2012:</p>
-<a href="http://www.wsj.com/articles/SB10001424127887323777204578189391813881534"><img src="https://duckduckgo.com/assets/email/headline.png" style="max-width: 572px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px; alt="Wall Street Journal Headline"/></a>
+<a href="http://www.wsj.com/articles/SB10001424127887323777204578189391813881534"><img src="https://duckduckgo.com/assets/email/headline.png" style="max-width: 572px;" alt="Wall Street Journal Headline"/></a>
 
 <p style="margin-bottom: 1em">If you haven't installed <a href="https://www.eff.org/privacybadger">Privacy Badger</a>&nbsp;(Firefox or Chrome only) or <a href="https://www.ghostery.com/our-solutions/ghostery-browser-extension/">Ghostery</a>&nbsp;yet, then now might be a good time.</p>
 <p style="margin-bottom: 1em">

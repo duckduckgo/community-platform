@@ -127,7 +127,6 @@
             #templateBody{
                 background-color:#FFFFFF;
                 border-top:1px solid #FFFFFF;
-                border-bottom:1px solid #CCCCCC;
                 margin-bottom:1em; /* force YahooMail to space paragraphs */
             }
             /**
@@ -139,9 +138,8 @@
                 font-size:14px;
                 line-height:150%;
                 padding-top:10px;
-                padding-right:20px;
-                padding-bottom:20px;
-                padding-left:20px;
+                padding-right:35px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -162,7 +160,7 @@
             * @section footer style
             */
             #templateFooter{
-                background-color:#F4F4F4;
+                background-color:#FFFFFF;
                 border-top:0px solid #FFFFFF;
             }
             /**
@@ -174,9 +172,9 @@
                 font-size:10px;
                 line-height:150%;
                 padding-top:20px;
-                padding-right:20px;
+                padding-right:35px;
                 padding-bottom:20px;
-                padding-left:20px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -276,7 +274,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                 <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
+                                                 <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 35px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -300,7 +298,6 @@
 <li>Deleting the data Google has stored on you.</li>
 </ul></p>
 <p style="margin-bottom: 1em">Interested? <a href="<: $subscriber.verify_url :>">Click here to confirm.</a></p>
-<br />
 <p style="margin-bottom: 1em">
 Proudly Private,<br /><br />
 Dax the Duck,<br />
@@ -314,13 +311,10 @@ Mascot - DuckDuckGo</p>
                                 <td align="center" valign="top">
                                      <!--Begin Footer // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter">
-                     <tr>
+                     					<tr>
                                             <td valign="top" class="footerContent" style="padding-top:0;">
-                                                               <p style="margin-bottom: 1em">Duck Duck Go Inc<br /> 20 Paoli Pike,<br /> Paoli, PA
-                                                                   19301, USA<br /></p>
+                                            	<p style="margin-bottom: 1em">Duck Duck Go Inc<br /> 20 Paoli Pike,<br /> Paoli, PA 19301, USA</p>
                                             </td>
-                                        </tr>
-                                        <tr>
                                         </tr>
                                     </table>
                                 </td>

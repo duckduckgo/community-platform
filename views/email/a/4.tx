@@ -127,7 +127,6 @@
             #templateBody{
                 background-color:#FFFFFF;
                 border-top:1px solid #FFFFFF;
-                border-bottom:1px solid #CCCCCC;
                 margin-bottom:1em; /* force YahooMail to space paragraphs */
             }
             /**
@@ -139,9 +138,8 @@
                 font-size:14px;
                 line-height:150%;
                 padding-top:10px;
-                padding-right:20px;
-                padding-bottom:20px;
-                padding-left:20px;
+                padding-right:35px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -156,6 +154,10 @@
                 display:inline;
                 height:auto;
                 max-width:560px;
+            }
+            .bodyContent img.emoticon {
+                vertical-align: middle;
+                margin-top: -4px;
             }
             /* ========== Footer Styles ========== */
             /**
@@ -174,8 +176,8 @@
                 font-size:10px;
                 line-height:150%;
                 padding-top:20px;
-                padding-right:20px;
-                padding-left:20px;
+                padding-right:35px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -275,7 +277,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                 <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
+                                                 <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 35px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -289,12 +291,12 @@
                                         <tr>
                                             <td valign="top" class="bodyContent">
                                                  
-<p style="margin-bottom: 1em">In our last email we showed you how to save enough money to adopt a pony! <b>#ChildhoodDream</b> <img src="https://duckduckgo.com/assets/email/horse.png" style="max-width:20px; max-height:20px;" alt="pony emoji"/></p>
+<p style="margin-bottom: 1em">In our last email we showed you how to save enough money to adopt a pony! <b>#ChildhoodDream</b> <img class="emoticon" src="https://duckduckgo.com/assets/email/horse.png" style="max-width:20px; max-height:20px;" alt="pony emoji"/></p>
 <p style="margin-bottom: 1em">Now that you use DuckDuckGo, you're free from having your personal information tracked. But, Google may still have a copy of your search history!</p>
 <p style="margin-bottom: 1em">Check out your <a href="http://history.google.com/history">Google Search History</a>.&nbsp;Searches, locations, interests. They've recorded it all. </p>
 <p style="margin-bottom: 1em">Deleting your Google search history will prevent it from being used by the highest bidder on the millions of sites and apps that use Google's advertising networks.</p> 
 <p style="margin-bottom: 1em">To delete the results you can click on the dots on the top-right hand of the page and select "<em>Delete Activity By..</em>" then, select "<em>All Time</em>" and hit delete.</p>
-<p style="margin-bottom: 1em"><img src="https://duckduckgo.com/assets/email/delete_activity4.png?atb=<: $subscriber.flow :>" style="max-width: 500px; padding-top: 5px; padding-bottom: 5px; padding-left: 10px;" alt="How to delete your Google search history"/>
+<p style="margin-bottom: 1em"><img src="https://duckduckgo.com/assets/email/delete_activity4.png?atb=<: $subscriber.flow :>" style="max-width: 572px" alt="How to delete your Google search history"/>
 <p style="margin-bottom: 1em">
 Proudly Private,<br /><br />
 Dax the Duck,<br />
