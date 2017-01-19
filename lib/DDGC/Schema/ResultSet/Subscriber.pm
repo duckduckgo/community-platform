@@ -80,7 +80,7 @@ sub handle_bounces {
     my @emails;
     if ( $message->{notificationType} eq 'Bounce' && $message->{bounce}->{bounceType} eq 'Permanent' ) {
         $update_params = { bounced => 1 };
-        push @emails, map { $_->{emailAddress} } @{$message->{bouncedRecipients}};
+        push @emails, map { $_->{emailAddress} } @{$message->{bounce}->{bouncedRecipients}};
     }
     elsif ( $message->{complaintFeedbackType} ){
         $update_params = { complaint => 1 };
