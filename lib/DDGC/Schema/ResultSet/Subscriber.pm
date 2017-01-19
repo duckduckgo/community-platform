@@ -74,4 +74,24 @@ sub by_days_ago {
     } );
 }
 
+sub handle_bounces {
+    my ( $self, $message ) = @_;
+    my $update_params;
+    my @emails;
+    if ( $message->{notificationType} eq 'Bounce' && $message->{bounce}->{bounceType} eq 'Permanent' ) {
+        $update_params = { bounced => 1 };
+        push @emails, map { $_->{emailAddress} } @{$message->{bouncedRecipients}};
+    }
+    elsif ( $message->{complaintFeedbackType} ){
+        $update_params = { complaint => 1 };
+        push @emails, map { $_->{emailAddress} } @{$message->{complainedRecipients}};
+    }
+    return { status => 'OK' } if !$update_params || !@emails;
+    for my $email (@emails) {
+        my $subscribers = $self->search(\[ 'LOWER( email ) = ?', lc( $email ) ]);
+        $subscribers->update( $update_params ) if $subscribers;
+    }
+    return { status => 'OK' };
+}
+
 1;
