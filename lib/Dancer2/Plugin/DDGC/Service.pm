@@ -42,6 +42,7 @@ on_plugin_import {
                     if ( $datum->{status} >= 400 ) {
                         $datum->{ok} = 0;
                     }
+                    $dsl->status( $datum->{status} );
                 }
             },
         )
