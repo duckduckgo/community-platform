@@ -107,24 +107,24 @@
         </section>
 
         <section class='sidebar-social tab-half'>
-            <h5>Feeds</h5>
+            <h5>Social media</h5>
             <div class='icons'>
                 <a class='icon tw'
                    href='https://twitter.com/duckduckgo'
-                   title='DuckDuckGo on twitter'>
+                   title='DuckDuckGo on Twitter'>
                     Twitter
                 </a>
 
-                <a class='icon re'
-                   href='http://www.reddit.com/r/duckduckgo'
-                   title='DuckDuckGo on reddit'>
-                    reddit /r/duckduckgo
+                <a class='icon fb'
+                   href='https://www.facebook.com/duckduckgo'>
+                   title='DuckDuckGo on Facebook'>
+                    Facebook
                 </a>
 
-                <a class='icon rss'
-                   href='/blog/rss'>
-                   title='DuckDuckGo Blog RSS feed'>
-                    RSS
+                <a class='icon re'
+                   href='https://www.reddit.com/r/duckduckgo'
+                   title='DuckDuckGo on Reddit'>
+                    reddit /r/duckduckgo
                 </a>
             </div>
         </section>
