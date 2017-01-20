@@ -133,4 +133,8 @@ requires 'HTML::FormatText::WithLinks', '0.15';
 requires 'Cache::LRU', '0.04';
 requires 'Number::Format', '1.73';
 requires 'Starman', '0.4009';
-
+requires 'Ouch', '0.0410';
+requires 'Crypt::OpenSSL::X509' '1.804';
+requires 'Crypt::OpenSSL::Random' '0.11';
+requires 'Crypt::OpenSSL::RSA' '0.28';
+requires 'AWS::SNS::Verify' '0.0102';

@@ -3,6 +3,7 @@ use warnings;
 
 BEGIN {
     $ENV{DDGC_DB_DSN} = 'dbi:SQLite:dbname=ddgc_test.db';
+    $ENV{DDGC_SNS_VERIFY_TEST} = 1;
     $ENV{DDGC_MAIL_TEST} = 1;
 }
 

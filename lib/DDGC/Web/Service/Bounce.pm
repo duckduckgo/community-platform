@@ -5,6 +5,8 @@ package DDGC::Web::Service::Bounce;
 use DDGC::Base::Web::LightService;
 use JSON::MaybeXS;
 use HTTP::Tiny;
+use Try::Tiny;
+use AWS::SNS::Verify;
 
 my $json = JSON::MaybeXS->new;
 
@@ -22,8 +24,21 @@ sub verify_subscription {
     };
 }
 
+sub verify_message {
+    my ( $body ) = @_;
+    return 1 if !config->{verify_sns};
+    try {
+        AWS::SNS::Verify->new( body => $body )->verify;
+        return 1;
+    } catch {
+        return 0;
+    };
+}
+
 post '/handler' => sub {
     my $packet = params('body');
+    return { ok => 0, status => 401 }
+        if (!verify_message( request->body ) );
 
     if ( $packet->{Type} eq 'SubscriptionConfirmation' ) {
         return verify_subscription( $packet );

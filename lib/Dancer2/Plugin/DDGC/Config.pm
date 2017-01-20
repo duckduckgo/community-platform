@@ -20,6 +20,7 @@ on_plugin_import {
     my $config = DDGC::Config->new;
     my $appdir = $dsl->config->{appdir};
 
+    $dsl->set(verify_sns => !$ENV{DDGC_SNS_VERIFY_TEST});
     $dsl->set(ddgc_config => $config);
     $dsl->set(charset => 'UTF-8');
 
