@@ -8,7 +8,7 @@ use HTTP::Tiny;
 
 my $json = JSON::MaybeXS->new;
 
-sub verify {
+sub verify_subscription {
     my $ok = 1;
     my $res = HTTP::Tiny->new->get( $_[0]->{SubscribeURL} );
     if ( !$res->{success} ) {
@@ -26,7 +26,7 @@ post '/handler' => sub {
     my $packet = params('body');
 
     if ( $packet->{Type} eq 'SubscriptionConfirmation' ) {
-        return verify( $packet );
+        return verify_subscription( $packet );
     }
     my $message = decode_json( $packet->{Message} );
     rset('User')->handle_bounces( $message );
