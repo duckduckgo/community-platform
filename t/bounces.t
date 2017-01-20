@@ -44,7 +44,7 @@ test_psgi $app => sub {
     ok( $cb->( POST '/bounce/handler',
             'Content-Type' => 'application/json',
             Content => sns->sns_complaint( 'test1@duckduckgo.com' )
-        ), 'Complaint from test1@duckduckgo.com' );
+        )->is_success, 'Complaint from test1@duckduckgo.com' );
 
     is( rset('Subscriber')->unbounced->count, 2,
         'Complaint report received - 2 subscribers remain' );
@@ -52,7 +52,7 @@ test_psgi $app => sub {
     ok( $cb->( POST '/bounce/handler',
             'Content-Type' => 'application/json',
             Content => sns->sns_transient_bounce( 'test2@duckduckgo.com' )
-        ), 'Transient bounce message about test2@duckduckgo.com' );
+        )->is_success, 'Transient bounce message about test2@duckduckgo.com' );
 
     is( rset('Subscriber')->unbounced->count, 2,
         'Transient bounce received - 2 subscribers remain' );
@@ -60,10 +60,11 @@ test_psgi $app => sub {
     ok( $cb->( POST '/bounce/handler',
             'Content-Type' => 'application/json',
             Content => sns->sns_permanent_bounce( 'test3@duckduckgo.com' )
-        ), 'Permanent bounce message about test3@duckduckgo.com' );
+        )->is_success, 'Permanent bounce message about test3@duckduckgo.com' );
 
     is( rset('Subscriber')->unbounced->count, 1,
         'Permanent bounce received - 1 subscriber remains' );
+
 
 };
 
