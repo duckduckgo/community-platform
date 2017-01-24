@@ -16,6 +16,8 @@
             img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
             table{border-collapse:collapse !important;}
             body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;}
+            ol {padding-left: 25px}
+            ol li {margin-bottom: 10px}
 
             /*  TEMPLATE STYLES  */
             /* === Page Styles ==== */
@@ -127,7 +129,6 @@
             #templateBody{
                 background-color:#FFFFFF;
                 border-top:1px solid #FFFFFF;
-                border-bottom:1px solid #CCCCCC;
                 margin-bottom:1em; /* force YahooMail to space paragraphs */
             }
             /**
@@ -139,9 +140,8 @@
                 font-size:14px;
                 line-height:150%;
                 padding-top:10px;
-                padding-right:20px;
-                padding-bottom:20px;
-                padding-left:20px;
+                padding-right:35px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -156,6 +156,10 @@
                 display:inline;
                 height:auto;
                 max-width:560px;
+            }
+            .bodyContent img.emoticon {
+                vertical-align: middle;
+                margin-top: -4px;
             }
             /* ========== Footer Styles ========== */
             /**
@@ -174,8 +178,8 @@
                 font-size:10px;
                 line-height:150%;
                 padding-top:20px;
-                padding-right:20px;
-                padding-left:20px;
+                padding-right:35px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -275,7 +279,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
+                                                <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 35px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -293,15 +297,13 @@
 <p style="margin-bottom: 1em">This limits the information that Google has to sell to advertisers. But, they likely still have an advertising profile on you.</p>
 <p style="margin-bottom: 1em">We've mentioned before that as an advertising company Google has trackers on more than 2.2 million websites and 1 million apps. They collect information about you as you surf across the net and use this to compile your "Ad Settings".</p>
 <p style="margin-bottom: 1em">This is really just a way for them to sell your profile of interests to advertisers for top dollar.</p>
-<strong><span style="text-decoration: underline;">How to Disable Ad Settings</span></strong></p>
+<strong><span style="text-decoration: underline;">How to Disable Ad Settings:</span></strong></p>
 <ol>
-<li>Navigate to Google's <a href="https://www.google.com/settings/u/0/ads/authenticated">Ad Settings page</a></li><br />
-<li>Scroll down, and toggle "Ads Based on Your Interest" to off</li>
-<img src="https://duckduckgo.com/assets/email/ads_interests5.png?atb=<: $subscriber.flow :>" style="max-width:456px; padding-top: 5px; padding-bottom: 15px; padding-left: 25px;" alt="Picture of setting ad interests to off"/>
-<li>Then, scroll down more, and click the blue button to "opt-out of signed out ads." Turn off the toggles on that page too.&nbsp;</li>
-<img src="https://duckduckgo.com/assets/email/control_ads.png" style="max-width:400px; padding-bottom: 15px; padding-top: 5px; padding-left: 25px;" alt="Picture of setting logged out ad tracking to off"/>
+<li>Navigate to Google's <a href="https://www.google.com/settings/u/0/ads/authenticated">Ad Settings page</a></li>
+<li>Scroll down, and toggle "Ads Based on Your Interest" to off<img src="https://duckduckgo.com/assets/email/ads_interests5.png?atb=<: $subscriber.flow :>" style="max-width:500px" alt="Picture of setting ad interests to off"/></li>
+<li>Then, scroll down more, and click the blue button to "opt-out of signed out ads." Turn off the toggles on that page too.&nbsp;<img src="https://duckduckgo.com/assets/email/control_ads.png" style="max-width:400px" alt="Picture of setting logged out ad tracking to off"/></li>
 </ol>
-<p style="margin-bottom: 1em">Tracking is creepy, but luckily, you've switched to the Duck Side, and so now your searches are completely anonymous.<img src="https://duckduckgo.com/assets/email/ghost.png" width="20px" height="20px"/></p>
+<p style="margin-bottom: 1em">Tracking is creepy, but luckily, you've switched to the Duck Side, and so now your searches are completely anonymous. <img class="emoticon" src="https://duckduckgo.com/assets/email/ghost.png" width="20px" height="20px"/></p>
 <p style="margin-bottom: 1em">
 Proudly Private,<br /><br />
 Dax the Duck,<br />

@@ -127,7 +127,6 @@
             #templateBody{
                 background-color:#FFFFFF;
                 border-top:1px solid #FFFFFF;
-                border-bottom:1px solid #CCCCCC;
                 margin-bottom:1em; /* force YahooMail to space paragraphs */
             }
             /**
@@ -139,9 +138,8 @@
                 font-size:14px;
                 line-height:150%;
                 padding-top:10px;
-                padding-right:20px;
-                padding-bottom:20px;
-                padding-left:20px;
+                padding-right:35px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -156,6 +154,10 @@
                 display:inline;
                 height:auto;
                 max-width:560px;
+            }
+            .bodyContent img.emoticon {
+                vertical-align: middle;
+                margin-top: -4px;
             }
             /* ========== Footer Styles ========== */
             /**
@@ -174,9 +176,8 @@
                 font-size:10px;
                 line-height:150%;
                 padding-top:20px;
-                padding-right:20px;
-                padding-bottom:20px;
-                padding-left:20px;
+                padding-right:35px;
+                padding-left:35px;
                 text-align:left;
             }
             /**
@@ -276,7 +277,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                 <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 20px;" id="headerImage" alt="DuckDuckGo Logo"/>
+                                                 <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 35px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -294,9 +295,9 @@
 <p style="margin-bottom: 1em">Google uses your profile to filter the results they show you, based on what they think you are most likely to click on. This is commonly known as the "Filter Bubble."</p>
 <p style="margin-bottom: 1em">It's a form of corporate censorship that can be used to influence public opinion (even unintentionally), such as election outcomes and other political issues. </p>
 <p style="margin-bottom: 1em">Want to learn more about how you are being censored? Check out the <a href="https://www.ted.com/talks/eli_pariser_beware_online_filter_bubbles?language=en">TED talk by Eli Parsier</a>.</p>
-<a href="https://www.ted.com/talks/eli_pariser_beware_online_filter_bubbles?language=en"><img src="https://duckduckgo.com/assets/email/ted6.png?atb=<: $subscriber.flow :>" style="padding-top: 5px; padding-left: 65px; padding-bottom: 15px;" alt="Video of Eli Parsier's TED talk."/></a>
-<p style="margin-bottom: 1em">We don't think someone else should decide what information you get to see! <img src="https://duckduckgo.com/assets/email/monkey.png" width="20px" height="20px"/></p> 
-<p style="margin-bottom: 1em">At DuckDuckGo, we don't put you in the "Filter Bubble." Period.</p><br />
+<a href="https://www.ted.com/talks/eli_pariser_beware_online_filter_bubbles?language=en"><img src="https://duckduckgo.com/assets/email/ted6.png?atb=<: $subscriber.flow :>" alt="Video of Eli Parsier's TED talk."/></a>
+<p style="margin-bottom: 1em">We don't think someone else should decide what information you get to see! <img class="emoticon" src="https://duckduckgo.com/assets/email/monkey.png" width="20px" height="20px"/></p> 
+<p style="margin-bottom: 1em">At DuckDuckGo, we don't put you in the "Filter Bubble." Period.</p>
 <p style="margin-bottom: 1em">
 Proudly Private,<br /><br />
 Dax the Duck,<br />
@@ -310,10 +311,9 @@ Mascot - DuckDuckGo</p>
                                 <td align="center" valign="top">
                                      <!--Begin Footer // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter">
-                     <tr>
+                     					<tr>
                                             <td valign="top" class="footerContent" style="padding-top:0;">
-                                                               <p style="margin-bottom: 1em">Duck Duck Go Inc<br /> 20 Paoli Pike,<br /> Paoli, PA
-                                                                   19301, USA<br /></p>
+                                            	<p style="margin-bottom: 1em">Duck Duck Go Inc<br /> 20 Paoli Pike,<br /> Paoli, PA 19301, USA</p>
                                             </td>
                                         </tr>
                                         <tr>
