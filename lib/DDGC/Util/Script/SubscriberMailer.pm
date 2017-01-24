@@ -132,4 +132,15 @@ sub verify {
     return $self->smtp->transport;
 }
 
+sub add {
+    my ( $self, $params ) = @_;
+    my $email = Email::Valid->address($params->{email});
+    return unless $email;
+    return rset('Subscriber')->create( {
+        email_address => $email,
+        campaign      => $params->{campaign},
+        flow          => $params->{flow},
+    } );
+}
+
 1;
