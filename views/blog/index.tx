@@ -98,14 +98,6 @@
             </ul>
         </section>
 
-        <section class='clear tab-half'>
-            <h5>Some things you should know&hellip;</h5>
-            <a href='http://donttrack.us'>
-                <img src='https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fdonttrack.us%2Fimages%2Fdont-track-us.png&f=1'
-                     alt="DON'T TRACK US" />
-            </a>
-        </section>
-
         <section class='sidebar-social tab-half'>
             <h5>Social media</h5>
             <div class='icons'>
