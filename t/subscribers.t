@@ -84,15 +84,9 @@ test_psgi $app => sub {
         );
     };
 
-    for my $email (qw/ test1@duckduckgo.com test2@duckduckgo.com test3@duckduckgo.com /) {
-        $verify->( $email );
-    }
-    set_absolute_time('2016-10-21T09:00:00Z');
-    $verify->( 'lateverify@duckduckgo.com' );
-
     set_absolute_time('2016-10-19T12:00:00Z');
     $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
-    is( $transport->delivery_count, 3, '3 received emails' );
+    is( $transport->delivery_count, 6, '6 received emails' );
 
     $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
     is( $transport->delivery_count, 0, 'Emails not re-sent' );
@@ -105,7 +99,10 @@ test_psgi $app => sub {
 
     set_absolute_time('2016-10-22T12:00:00Z');
     $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
-    is( $transport->delivery_count, 3, '3 received emails - one unsubscribed, one rescheduled' );
+    is( $transport->delivery_count, 5, '5 received emails - one unsubscribed' );
+
+    $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
+    is( $transport->delivery_count, 0, 'Emails not re-sent' );
 };
 
 done_testing;

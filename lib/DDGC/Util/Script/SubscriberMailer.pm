@@ -12,6 +12,7 @@ has campaigns => ( is => 'lazy' );
 sub _build_campaigns {
     {
         'a' => {
+            single_opt_in => 1,
             live => 1,
             verify => {
                 subject => 'Privacy Newsletter | DuckDuckGo',
@@ -114,7 +115,7 @@ sub verify {
         next if !$self->campaigns->{ $campaign }->{live};
         my @subscribers = rset('Subscriber')
             ->campaign( $campaign )
-            ->unverified
+            ->unverified( $self->campaigns->{ $campaign }->{single_opt_in} )
             ->verification_mail_unsent_for( $campaign )
             ->all;
 
@@ -140,6 +141,7 @@ sub add {
         email_address => $email,
         campaign      => $params->{campaign},
         flow          => $params->{flow},
+        verified      => $self->campaigns->{ $params->{campaign} }->{single_opt_in},
     } );
 }
 
