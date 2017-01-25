@@ -84,7 +84,7 @@ test_psgi $app => sub {
         );
     };
 
-    set_absolute_time('2016-10-19T12:00:00Z');
+    set_absolute_time('2016-10-20T12:00:00Z');
     $transport = DDGC::Util::Script::SubscriberMailer->new->execute;
     is( $transport->delivery_count, 6, '6 received emails' );
 
