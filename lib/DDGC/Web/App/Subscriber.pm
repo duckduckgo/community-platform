@@ -6,6 +6,9 @@ use DDGC::Base::Web::Light;
 use Dancer2::Plugin::Auth::HTTP::Basic::DWIW;
 use DDGC::Util::Script::SubscriberMailer;
 use Email::Valid;
+use DDGC::Util::Script::SubscriberMailer;
+
+my $subscriber = DDGC::Util::Script::SubscriberMailer->new;
 
 http_basic_auth_set_check_handler sub {
     my ( $user, $pass ) = @_;
@@ -80,14 +83,7 @@ post '/testrun/:campaign' => sub {
 
 post '/a' => sub {
     my $params = params('body');
-    my $email = Email::Valid->address($params->{email});
-    return unless $email;
-    my $s = rset('Subscriber')->create( {
-        email_address => $email,
-        campaign      => $params->{campaign},
-        flow          => $params->{flow}
-    } );
-    if ( !$s ) {
+    if ( !$subscriber->add( $params ) ) {
         status 500;
         return "NOT OK";
     }

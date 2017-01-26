@@ -292,6 +292,9 @@
                                         <tr>
                                             <td valign="top" class="bodyContent">
                                                  <p style="margin-bottom: 1em">
+                                                 You, or someone you know, has signed you up for the DuckDuckGo privacy newsletter. If at any point in time you wish to stop receiving these emails, you can opt-out using the link in the footer.
+                                                 </p>
+                                                 <p style="margin-bottom: 1em">
     It may surprise you that ads can still follow you around in "Incognito" and other "private browsing" modes.</p>
     <p style="margin-bottom: 1em">That's because Incognito mode <strong>isn't</strong> really private. <img class="emoticon" src="https://duckduckgo.com/assets/email/shocked1.png?atb=<: $subscriber.flow :><: $getjunk ? "&" ~ $getjunk | raw : "" :>" height="20" width="20" alt="shocked face emoji" />
 </p>

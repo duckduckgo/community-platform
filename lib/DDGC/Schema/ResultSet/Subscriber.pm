@@ -22,7 +22,8 @@ sub verified {
 }
 
 sub unverified {
-    my ( $self ) = @_;
+    my ( $self, $single_opt_in ) = @_;
+    return $self->verified if $single_opt_in;
     $self->search_rs( { verified => 0 } );
 }
 
