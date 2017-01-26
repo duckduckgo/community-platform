@@ -12,17 +12,13 @@ has campaigns => ( is => 'lazy' );
 sub _build_campaigns {
     {
         'a' => {
+            single_opt_in => 1,
             live => 1,
             verify => {
-                subject => 'Privacy Newsletter | DuckDuckGo',
-                template => 'email/a/v.tx'
+                subject => 'Tracking in Incognito?',
+                template => 'email/a/1.tx'
             },
             mails => {
-                1 => {
-                    days     => 1,
-                    subject  => 'Tracking In Incognito?',
-                    template => 'email/a/1.tx',
-                },
                 2 => {
                     days     => 2,
                     subject  => 'Are Ads Following You?',
@@ -76,6 +72,8 @@ sub email {
     if ( $status->{ok} ) {
         $subscriber->update_or_create_related( 'logs', { email_id => $log } );
     }
+
+    return $status;
 }
 
 sub execute {
@@ -114,7 +112,7 @@ sub verify {
         next if !$self->campaigns->{ $campaign }->{live};
         my @subscribers = rset('Subscriber')
             ->campaign( $campaign )
-            ->unverified
+            ->unverified( $self->campaigns->{ $campaign }->{single_opt_in} )
             ->verification_mail_unsent_for( $campaign )
             ->all;
 
@@ -130,6 +128,18 @@ sub verify {
     }
 
     return $self->smtp->transport;
+}
+
+sub add {
+    my ( $self, $params ) = @_;
+    my $email = Email::Valid->address($params->{email});
+    return unless $email;
+    return rset('Subscriber')->create( {
+        email_address => $email,
+        campaign      => $params->{campaign},
+        flow          => $params->{flow},
+        verified      => $self->campaigns->{ $params->{campaign} }->{single_opt_in},
+    } );
 }
 
 1;

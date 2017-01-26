@@ -4,6 +4,9 @@ package DDGC::Web::App::Subscriber;
 
 use DDGC::Base::Web::Light;
 use Email::Valid;
+use DDGC::Util::Script::SubscriberMailer;
+
+my $subscriber = DDGC::Util::Script::SubscriberMailer->new;
 
 get '/u/:campaign/:email/:key' => sub {
     my $params = params('route');
@@ -46,14 +49,7 @@ FORM
 
 post '/a' => sub {
     my $params = params('body');
-    my $email = Email::Valid->address($params->{email});
-    return unless $email;
-    my $s = rset('Subscriber')->create( {
-        email_address => $email,
-        campaign      => $params->{campaign},
-        flow          => $params->{flow}
-    } );
-    if ( !$s ) {
+    if ( !$subscriber->add( $params ) ) {
         status 500;
         return "NOT OK";
     }
