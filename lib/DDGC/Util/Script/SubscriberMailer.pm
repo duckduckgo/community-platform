@@ -60,7 +60,7 @@ sub _build_campaigns {
 }
 
 sub email {
-    my ( $self, $log, $subscriber, $subject, $template, $verified, $nolog ) = @_;
+    my ( $self, $log, $subscriber, $subject, $template, $verified, $nolog, $extra ) = @_;
 
     my $status = $self->smtp->send( {
         to       => $subscriber->email_address,
@@ -71,6 +71,7 @@ sub email {
         template => $template,
         content  => {
             subscriber => $subscriber,
+            $extra ? () : %{ $extra },
         }
     } );
 
@@ -135,6 +136,8 @@ sub verify {
 
 sub testrun {
     my ( $self, $campaign, $email ) = @_;
+    my $junk = time;
+
     my $subscriber = DDGC::Schema::Result::Subscriber->new( {
         email_address => $email,
         campaign      => $campaign,
@@ -148,7 +151,10 @@ sub testrun {
             $subscriber,
             $mails->{ $mail }->{subject},
             $mails->{ $mail }->{template},
-            1, 1
+            1, 1,
+            {
+                getjunk => $junk
+            }
         );
     }
 }
