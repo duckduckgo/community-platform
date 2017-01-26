@@ -35,4 +35,26 @@ sub find_by_username {
          ->one_row;
 }
 
+sub handle_bounces {
+    my ( $self, $message ) = @_;
+    if ( ( $message->{bounce}->{bounceType}
+            && $message->{bounce}->{bounceType} eq 'Permanent' )
+            || $message->{notificationType} eq 'Complaint' ) {
+        my @emails;
+        push @emails,
+             map { $_->{emailAddress} }
+             @{$message->{bounce}->{bouncedRecipients}}
+             if $message->{bounce}->{bouncedRecipients};
+        push @emails,
+             map { $_->{emailAddress} }
+             @{$message->{complaint}->{complainedRecipients}}
+             if $message->{complaint}->{complainedRecipients};
+        for my $email ( @emails ) {
+            my $users = $self->search(\[ 'LOWER( email ) = ?', lc( $email ) ]);
+            $users->update({ email_verified => 0 }) if $users;
+        }
+    }
+    return { ok => 1 };
+}
+
 1;

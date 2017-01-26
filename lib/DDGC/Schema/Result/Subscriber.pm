@@ -14,6 +14,8 @@ primary_column campaign      => { data_type => 'text' };
 
 column verified     => { data_type => 'int', default_value => 0 };
 column unsubscribed => { data_type => 'int', default_value => 0 };
+column bounced      => { data_type => 'int', default_value => 0 };
+column complaint    => { data_type => 'int', default_value => 0 };
 column flow         => { data_type => 'text', is_nullable => 1 };
 column v_key        => { data_type => 'text' };
 column u_key        => { data_type => 'text' };
