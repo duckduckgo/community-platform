@@ -144,6 +144,12 @@ sub testrun {
         verified      => 1,
     } );
 
+    $self->email('v', $subscriber,
+                 $self->campaigns->{ $campaign }->{verify}->{subject},
+                 $self->campaigns->{ $campaign }->{verify}->{template},
+                 1, 1, { getjunk => $junk }
+    );
+
     my $mails = $self->campaigns->{ $campaign }->{mails};
     for my $mail ( keys $mails ) {
         $self->email(
