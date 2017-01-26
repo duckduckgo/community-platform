@@ -71,7 +71,7 @@ sub email {
         template => $template,
         content  => {
             subscriber => $subscriber,
-            $extra ? () : %{ $extra },
+            $extra ? %{ $extra } : (),
         }
     } );
 
