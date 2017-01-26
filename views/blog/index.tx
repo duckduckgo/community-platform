@@ -68,10 +68,9 @@
         <section class='menu-list tab-third'>
             <h5>Contribute to <abbr title='DuckDuckGo'>DDG</abbr></h5>
             <ul>
-
                 <li>
                     <a href='https://github.com/duckduckgo'>
-                        Github <i class='icon  icon-github'></i>
+                        <i class='icon icon-github'></i> GitHub
                     </a>
                 </li>
                 <li>
@@ -94,25 +93,23 @@
                         Spread <abbr title='DuckDuckGo'>DDG</abbr>
                     </a>
                 </li>
-
             </ul>
         </section>
 
-        <section class='sidebar-social tab-half'>
-            <h5>Keep in touch</h5>
-            <div class='icons'>
-                <a class='icon tw'
-                   href='https://twitter.com/duckduckgo'
-                   title='DuckDuckGo on Twitter'>
-                    Twitter
-                </a>
-
-                <a class='icon re'
-                   href='https://www.reddit.com/r/duckduckgo'
-                   title='DuckDuckGo on Reddit'>
-                    reddit /r/duckduckgo
-                </a>
-            </div>
+        <section class="menu-list tab-third">
+            <h5>Keep in Touch</h5>
+            <ul>
+                <li>
+                    <a href="https://twitter.com/duckduckgo">
+                        <i class="icon icon-twitter"></i> Twitter
+                    </a>
+                </li>
+                <li>
+                    <a href="https://reddit.com/r/duckduckgo">
+                        <i class="icon icon-reddit"></i> Reddit
+                    </a>
+                </li>
+            </ul>
         </section>
 
         <section class='clear tab-mid'>
