@@ -291,7 +291,7 @@
                                         <tr>
                                             <td valign="top" class="bodyContent">
                                                  
-                                                <p style="margin-bottom: 1em">Last email we discussed the ads that track you across the internet. But, did you know this tracking can actually cost you money?! <img class="emoticon" src="https://duckduckgo.com/assets/email/money3.png?atb=<: $subscriber.flow :><: $getjunk ? "&" ~ $getjunk : "" :>" style="max-width:20px; max-height:20px;" alt="money flying away"></p>
+                                                <p style="margin-bottom: 1em">Last email we discussed the ads that track you across the internet. But, did you know this tracking can actually cost you money?! <img class="emoticon" src="https://duckduckgo.com/assets/email/money3.png?atb=<: $subscriber.flow :><: $getjunk ? "&" ~ $getjunk | raw : "" :>" style="max-width:20px; max-height:20px;" alt="money flying away"></p>
 
 <p style="margin-bottom: 1em">Retailers are increasingly charging "personalized" or "dynamic" prices based on your online footprint. They manipulate prices, trying to charge you the max they think you're willing to pay. You could be sitting right next to someone, looking at the same online product, and be charged more just because of a website you visited.</p>
 

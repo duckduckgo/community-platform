@@ -296,7 +296,7 @@
 <p style="margin-bottom: 1em">Check out your <a href="http://history.google.com/history">Google Search History</a>.&nbsp;Searches, locations, interests. They've recorded it all. </p>
 <p style="margin-bottom: 1em">Deleting your Google search history will prevent it from being used by the highest bidder on the millions of sites and apps that use Google's advertising networks.</p> 
 <p style="margin-bottom: 1em">To delete the results you can click on the dots on the top-right hand of the page and select "<em>Delete Activity By..</em>" then, select "<em>All Time</em>" and hit delete.</p>
-<p style="margin-bottom: 1em"><img src="https://duckduckgo.com/assets/email/delete_activity4.png?atb=<: $subscriber.flow :><: $getjunk ? "&" ~ $getjunk : "" :>" style="max-width: 572px" alt="How to delete your Google search history"/>
+<p style="margin-bottom: 1em"><img src="https://duckduckgo.com/assets/email/delete_activity4.png?atb=<: $subscriber.flow :><: $getjunk ? "&" ~ $getjunk | raw : "" :>" style="max-width: 572px" alt="How to delete your Google search history"/>
 <p style="margin-bottom: 1em">
 Proudly Private,<br /><br />
 Dax the Duck,<br />
