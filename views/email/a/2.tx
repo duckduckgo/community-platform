@@ -274,7 +274,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
                                             <td valign="top" class="headerContent">
-                                                <img src="https://duckduckgo.com/assets/email/logo.png<: $getjunk ? "?" ~ $getjunk : "" :>" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 35px;" id="headerImage" alt="DuckDuckGo Logo"/>
+                                                 <img src="https://duckduckgo.com/assets/email/logo.png" style="max-width:200px; max-height:85px; padding-top: 5px; padding-bottom: 5px; padding-left: 35px;" id="headerImage" alt="DuckDuckGo Logo"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -292,8 +292,6 @@
 Put simply, Google isn't a search company, they're an advertising company.</br></br>
 Princeton's WebTAP privacy project recently <a href="http://randomwalker.info/publications/OpenWPM_1_million_site_tracking_measurement.pdf">found that</a> Google's trackers are installed on 75% of the top million internet websites. The next closest is Facebook at 25%! (See Figure 3 in Section 5.1 for details.)</p>
                                                  <p style="margin-bottom: 1em"><img src="https://duckduckgo.com/assets/email/tracking2.png?atb=<: $subscriber.flow :><: $getjunk ? "&" ~ $getjunk | raw : "" :>" style="max-width:572px; padding-left: 5px; padding-bottom: 10px;" alt="Chart of companies by number of trackers"/>
-Princeton's WebTAP privacy project recently <a href="http://randomwalker.info/publications/OpenWPM_1_million_site_tracking_measurement.pdf">found that</a> Google's trackers are installed on 75% of the top million internet websites. The next closest is Facebook at 25%! (See Figure 3 in Section 5.1 for details.)</p>
-<p style="margin-bottom: 1em"><img src="https://duckduckgo.com/assets/email/tracking2.png?atb=<: $subscriber.flow :>" style="max-width:572px; padding-left: 5px; padding-bottom: 10px;" alt="Chart of companies by number of trackers"/>
 <p style="margin-bottom: 1em">Google sells ads not only on their search engine, but also on over 2.2 million other websites and over 1 million apps. Every time you visit one of these sites or apps, Google is storing that information and using it to target ads at you.</br></br>
 That's why you may have seen ads tracking you across the net.
 <p style="margin-bottom: 1em">If you want to stop websites from re-marketing to you, you'll need to install a free tool like <a href="https://www.eff.org/privacybadger">Privacy Badger</a>&nbsp;(Firefox or Chrome only), or <a href="https://www.ghostery.com/our-solutions/ghostery-browser-extensions">Ghostery</a>.&nbsp;<br /><br />
