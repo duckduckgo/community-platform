@@ -32,7 +32,6 @@ use DDGC::Web::Wizard::Unvoted;
 use DDGC::Web::Wizard::Untranslated;
 use DDGC::Web::Wizard::UnvotedAll;
 use DDGC::Web::Wizard::UntranslatedAll;
-use DDGC::Web::Table;
 
 use namespace::autoclean;
 
@@ -199,20 +198,6 @@ sub bc_index {
 sub done {
 	my ( $c ) = @_;
 	$c->wiz_done;
-}
-
-sub table {
-	my ( $c, $resultset, $u, $columns, %args ) = @_;
-	my $class = defined $args{class}
-		? delete $args{class}
-		: "DDGC::Web::Table";
-	return $class->new(
-		c => $c,
-		u => $u,
-		resultset => $resultset,
-		columns => $columns,
-		%args,
-	);
 }
 
 sub wiz_die { die "Wizard is running" unless shift->wiz_running }
