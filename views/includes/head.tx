@@ -19,7 +19,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@duckduckgo">
 <meta property="og:url" content="https://duck.co/blog">
-<meta property="og:title" content="DuckDuckGo Community Platform Blog">
+<meta property="og:title" content="<: $title :>">
 <meta property="og:description" content="Archived. For the DuckDuckGo blog please visit https://spreadprivacy.com">
 <meta property="og:image" content="https://duckduckgo.com/assets/logo_social-media.png">
 <meta property="og:site_name" content="DuckDuckGo Community Platform">
