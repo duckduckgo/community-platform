@@ -3,6 +3,7 @@ use warnings;
 package DDGC::Util::Script::SubscriberMailer;
 
 use DateTime;
+use DDGC::Schema::Result::Subscriber;
 use Moo;
 
 with 'DDGC::Util::Script::Base::Service';
@@ -55,7 +56,7 @@ sub _build_campaigns {
 }
 
 sub email {
-    my ( $self, $log, $subscriber, $subject, $template, $verified ) = @_;
+    my ( $self, $log, $subscriber, $subject, $template, $verified, $nolog, $extra ) = @_;
 
     my $status = $self->smtp->send( {
         to       => $subscriber->email_address,
@@ -66,10 +67,11 @@ sub email {
         template => $template,
         content  => {
             subscriber => $subscriber,
+            $extra ? %{ $extra } : (),
         }
     } );
 
-    if ( $status->{ok} ) {
+    if ( $status->{ok} && !$nolog ) {
         $subscriber->update_or_create_related( 'logs', { email_id => $log } );
     }
 
@@ -128,6 +130,37 @@ sub verify {
     }
 
     return $self->smtp->transport;
+}
+
+sub testrun {
+    my ( $self, $campaign, $email ) = @_;
+    my $junk = time;
+
+    my $subscriber = DDGC::Schema::Result::Subscriber->new( {
+        email_address => $email,
+        campaign      => $campaign,
+        verified      => 1,
+    } );
+
+    $self->email('v', $subscriber,
+                 $self->campaigns->{ $campaign }->{verify}->{subject},
+                 $self->campaigns->{ $campaign }->{verify}->{template},
+                 1, 1, { getjunk => $junk }
+    );
+
+    my $mails = $self->campaigns->{ $campaign }->{mails};
+    for my $mail ( keys $mails ) {
+        $self->email(
+            $mail,
+            $subscriber,
+            $mails->{ $mail }->{subject},
+            $mails->{ $mail }->{template},
+            1, 1,
+            {
+                getjunk => $junk
+            }
+        );
+    }
 }
 
 sub add {
