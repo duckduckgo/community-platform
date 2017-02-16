@@ -294,7 +294,7 @@
                                                  <i>You, or someone you know, has signed you up for the DuckDuckGo privacy newsletter. If at any point in time you wish to stop receiving these emails, you can opt-out using the link in the footer.</i>
                                                  </p>
                                                  <p style="margin-bottom: 1em">
-    It may surprise you that ads can still follow you around in "Incognito" and other "private browsing" modes.</p>
+    It may surprise you that ads can still follow you around in “Incognito” and other “private browsing” modes.</p>
     <p style="margin-bottom: 1em">That's because Incognito mode <strong>isn't</strong> really private. <img class="emoticon" src="https://duckduckgo.com/assets/email/shocked1.png?atb=<: $subscriber.flow :>" height="20" width="20" alt="shocked face emoji" />
 </p>
 <p style="margin-bottom: 1em">
@@ -307,15 +307,20 @@
 
 <p style="margin-bottom: 1em">
     Using Incognito mode to keep you private online is kind of like using a bucket to put out a raging fire:<br /><br />
-    <img src="https://duckduckgo.com/assets/email/fire.jpg" alt="Picture of man putting out fire with small bucket of water" width="200" height="200" style="padding-bottom:15px;" />
+    <center><img src="https://duckduckgo.com/assets/email/fire.jpg" alt="Picture of man putting out fire with small bucket of water" width="200" height="200" style="padding-bottom:15px;" /></center>
 </p>
 <p style="margin-bottom: 1em">
-    In a study we ran, we found that <b>74% of people</b> <u>over-estimate</u> the protection that private browsing modes offer. Now you don't have to be part of that statistic -- welcome to the Duck Side!
+   If you didn’t know that private browsing isn’t private — you’re not alone! <a href="https://spreadprivacy.com/private-browsing-9276d6d16ea4">67% of people</a> who use private browsing <u>over-estimate</u> the protection that private browsing modes offer.
+</p>
+<p style="margin-bottom: 1em">
+Now you don't have to be part of that statistic - welcome to the Duck Side!
 </p>
 <p style="margin-bottom: 1em">
 <br />Proudly Private,<br />
-<br />Dax the Duck,
-<br />Mascot - DuckDuckGo<br /></p>
+<img src="https://duckduckgo.com/assets/email/signature.png" alt="Dax's Signature"/></br></br>
+Dax the Duck,<br />
+Mascot - DuckDuckGo</p>
+
                                             </td>
                                         </tr>
                                     <!-- // END BODY -->
