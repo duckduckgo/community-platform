@@ -4,13 +4,14 @@ package DDGC::Util::Script::SubscriberMailer;
 
 use DateTime;
 use Moo;
+use Hash::Merge qw/ merge /;
 
 with 'DDGC::Util::Script::Base::Service';
 with 'DDGC::Util::Script::Base::ServiceEmail';
 
 has campaigns => ( is => 'lazy' );
 sub _build_campaigns {
-    {
+    my $campaigns = +{
         'a' => {
             single_opt_in => 1,
             live => 1,
@@ -50,8 +51,35 @@ sub _build_campaigns {
                     template => 'email/a/7.tx',
                 },
             }
+        },
+        'b' => {
+            base => 'a',
+            verify => {
+                template => 'email/a/1b.tx'
+            }
+        },
+        'c' => {
+            base => 'a',
+            single_opt_in => 0,
+            verify => {
+                template => 'email/a/v.tx'
+            }
         }
-    },
+    };
+
+
+    for my $campaign ( keys %{ $campaigns } ) {
+        if ( my $base = delete $campaigns->{ $campaign }->{base} ) {
+            if ( $campaigns->{ $base } ) {
+                $campaigns->{ $campaign } = merge( $campaigns->{ $campaign }, $campaigns->{ $base } );
+            }
+            else {
+                die "Base $base does not exist - cannot build campaign $campaign"
+            }
+        }
+    };
+
+    return $campaigns;
 }
 
 sub email {
