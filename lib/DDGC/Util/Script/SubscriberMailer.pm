@@ -55,6 +55,7 @@ sub _build_campaigns {
         'b' => {
             base => 'a',
             verify => {
+                subject => 'Tracking in Incognito?',
                 template => 'email/a/1b.tx'
             }
         },
@@ -62,11 +63,11 @@ sub _build_campaigns {
             base => 'a',
             single_opt_in => 0,
             verify => {
+                subject => 'Tracking in Incognito?',
                 template => 'email/a/v.tx'
             }
         }
     };
-
 
     for my $campaign ( keys %{ $campaigns } ) {
         if ( my $base = $campaigns->{ $campaign }->{base} ) {
