@@ -307,7 +307,7 @@
 
 <p style="margin-bottom: 1em">
     Using Incognito mode to keep you private online is kind of like using a bucket to put out a raging fire:<br /><br />
-    <img src="https://duckduckgo.com/assets/email/fire.jpg" alt="Picture of man putting out fire with small bucket of water" width="200" height="200" style="padding-bottom:15px;" />
+    <center><img src="https://duckduckgo.com/assets/email/fire.jpg" alt="Picture of man putting out fire with small bucket of water" width="200" height="200" style="padding-bottom:15px;" /></center>
 </p>
 <p style="margin-bottom: 1em">
    If you didn’t know that private browsing isn’t private — you’re not alone! <a href="https://spreadprivacy.com/private-browsing-9276d6d16ea4">67% of people</a> who use private browsing <u>over-estimate</u> the protection that private browsing modes offer.
@@ -317,8 +317,10 @@ Now you don't have to be part of that statistic - welcome to the Duck Side!
 </p>
 <p style="margin-bottom: 1em">
 <br />Proudly Private,<br />
-<br />Dax the Duck,
-<br />Mascot - DuckDuckGo<br /></p>
+<img src="https://duckduckgo.com/assets/email/signature.png" alt="Dax's Signature"/></br></br>
+Dax the Duck,<br />
+Mascot - DuckDuckGo</p>
+
                                             </td>
                                         </tr>
                                     <!-- // END BODY -->
