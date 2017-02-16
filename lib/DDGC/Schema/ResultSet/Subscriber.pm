@@ -95,4 +95,11 @@ sub handle_bounces {
     return { ok => 1 };
 }
 
+sub exists {
+    my ( $self, $email, $campaigns ) = @_;
+    $self->search( \[ 'LOWER( email_address ) = ?', lc( $email ) ] )
+         ->search( { campaign => $campaigns } )
+         ->one_row;
+}
+
 1;

@@ -4,13 +4,14 @@ package DDGC::Util::Script::SubscriberMailer;
 
 use DateTime;
 use Moo;
+use Hash::Merge qw/ merge /;
 
 with 'DDGC::Util::Script::Base::Service';
 with 'DDGC::Util::Script::Base::ServiceEmail';
 
 has campaigns => ( is => 'lazy' );
 sub _build_campaigns {
-    {
+    my $campaigns = +{
         'a' => {
             single_opt_in => 1,
             live => 1,
@@ -50,8 +51,36 @@ sub _build_campaigns {
                     template => 'email/a/7.tx',
                 },
             }
+        },
+        'b' => {
+            base => 'a',
+            verify => {
+                subject => 'Tracking in Incognito?',
+                template => 'email/a/1b.tx'
+            }
+        },
+        'c' => {
+            base => 'a',
+            single_opt_in => 0,
+            verify => {
+                subject => 'Tracking in Incognito?',
+                template => 'email/a/v.tx'
+            }
         }
-    },
+    };
+
+    for my $campaign ( keys %{ $campaigns } ) {
+        if ( my $base = $campaigns->{ $campaign }->{base} ) {
+            if ( $campaigns->{ $base } ) {
+                $campaigns->{ $campaign } = merge( $campaigns->{ $campaign }, $campaigns->{ $base } );
+            }
+            else {
+                die "Base $base does not exist - cannot build campaign $campaign"
+            }
+        }
+    };
+
+    return $campaigns;
 }
 
 sub email {
@@ -134,6 +163,13 @@ sub add {
     my ( $self, $params ) = @_;
     my $email = Email::Valid->address($params->{email});
     return unless $email;
+
+    my $campaigns = [ $params->{campaign} ];
+    push @{ $campaigns }, $self->campaigns->{ $params->{campaign} }->{base}
+        if $self->campaigns->{ $params->{campaign} }->{base};
+    my $exists = rset('Subscriber')->exists( $email, $campaigns );
+    return $exists if $exists;
+
     return rset('Subscriber')->create( {
         email_address => $email,
         campaign      => $params->{campaign},
