@@ -296,13 +296,13 @@
 <p style="margin-bottom: 1em">This limits the information that Google has to sell to advertisers. But, they likely still have an advertising profile on you.</p>
 <p style="margin-bottom: 1em">We've mentioned before that as an advertising company Google has trackers on more than 2.2 million websites and 1 million apps. They collect information about you as you surf across the net and use this to compile your "Ad Settings."</p>
 <p style="margin-bottom: 1em">This is really just a way for them to sell your profile of interests to advertisers for top dollar.</p>
-<strong><span style="text-decoration: underline;">How to Disable Ad Settings:</span></strong></p>
+<strong>How to Disable Ad Settings:</strong></p>
 <ol>
-<li>Navigate to Google's <a href="https://www.google.com/settings/u/0/ads/authenticated">Ad Settings page</a></li>
-<li>Scroll down, and toggle "Ads Based on Your Interest" to off<img src="https://duckduckgo.com/assets/email/ads_interests5.png?atb=<: $subscriber.flow :>" style="max-width:500px" alt="Picture of setting ad interests to off"/></li>
-<li>Then, scroll down more, and click the blue button to "opt-out of signed out ads." Turn off the toggles on that page too.&nbsp;<img src="https://duckduckgo.com/assets/email/control_ads.png" style="max-width:400px" alt="Picture of setting logged out ad tracking to off"/></li>
+<li>Navigate to Google's <a href="https://www.google.com/settings/u/0/ads/authenticated">Ad Settings page</a>.</li>
+<li>Scroll down, and toggle "Ads Based on Your Interest" to off.<br /><img src="https://duckduckgo.com/assets/email/ads_interests5.png?atb=<: $subscriber.flow :>" style="max-width:500px" alt="Picture of setting ad interests to off"/></li>
+<li>Then, scroll down more, and click the blue button to "opt-out of signed out ads." Turn off the toggles on that page too.<br /><img src="https://duckduckgo.com/assets/email/control_ads.png" style="max-width:400px" alt="Picture of setting logged out ad tracking to off"/></li>
 </ol>
-<p style="margin-bottom: 1em">Tracking is creepy, but luckily, you've switched to the Duck Side, and so now your searches are completely anonymous. DuckDuckGo protects your search history from everyone -- even us! <img class="emoticon" src="https://duckduckgo.com/assets/email/ghost.png" width="20px" height="20px"/></p>
+<p style="margin-bottom: 1em">Tracking is creepy, but luckily, you've switched to the Duck Side, and so now your searches are completely anonymous. DuckDuckGo protects your search history from everyone — even us! <img class="emoticon" src="https://duckduckgo.com/assets/email/ghost.png" width="20px" height="20px"/></p>
 <p style="margin-bottom: 1em">
 Proudly Private,<br /><br />
 <img src="https://duckduckgo.com/assets/email/signature.png" alt="Dax's Signature"/></br></br>
