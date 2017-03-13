@@ -21,22 +21,22 @@
 
 
 
-    
+
 </head>
 <body class="" ng-controller="UserPageController">
     <div id="wrapper">
 <div class="site-header desktop">
 	<div class="content-wrap">
-		
+
 			<div class="header-logo">
 				<div class="header-logo__logo"><a href="https://duckduckhack.com"><img src="/ddh-static/images/logo.svg" alt="DuckDuckGo Community Platform" /></a></div>
-			</div>	
-		
+			</div>
+
 <div class="header-nav">
     <ul>
         <li class="nav-develop"><a href="https://duck.co/ia">Instant Answers</a></li>
         <li class="nav-docs"><a href="http://docs.duckduckhack.com/">Docs</a></li>
-        <li class="nav-blog"><a href="https://duck.co/blog">Blog</a></li>
+        <li class="nav-blog"><a href="https://spreadprivacy.com/">Blog</a></li>
         <li class="nav-forum"><a href="https://forum.duckduckhack.com/">Forum</a></li>
     </ul>
 </div>
@@ -137,11 +137,11 @@
       <div class="tutorial-text">
 	<strong>Welcome to your DuckDuckHack Profile!</strong></br></br>
 	You now have one place to manage <strong>all</strong> your Instant Answers and any Issues or Pull Requests for them. </br></br>
-	
+
 	Can we make your profile more useful? <a href="mailto:open@duckduckgo.com?subject=DuckDuckHack%20Profile%20feedback">Let us know how!</a>
       </div>
     </div>
-    
+
     <section class="ias">
       <h3>
 	<div class="tabs">
@@ -186,7 +186,7 @@
 
 	    <div class="avatar" ng-if="!!issue.github_user_assignee && issue.github_user_assignee.login.toLowerCase() !== response.gh_data.login.toLowerCase()">
               <a href="/u/{{issue.github_user_assignee.login.toLowerCase()}}" ng-click="addImg('avatar', issue.github_user_assignee.login.toLowerCase()); $event.stopPropagation()">
-		
+
 		<span ng-if="issue.github_user_assignee.avatar_url">
                   <img src="{{issue.github_user_assignee.avatar_url}}" />
 		</span>
@@ -205,9 +205,9 @@
 
     <section>
       <div class="flex-container">
-	<!-- PR Reviews 
+	<!-- PR Reviews
 	<h3 ng-if="count.reviewed_prs" ng-class="{'margin-right': count.developed_prs}" class="grid-1">Assigned Pull Requests</h3>
-	<!-- Open PRs 
+	<!-- Open PRs
 	<h3 ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">Open Pull Requests</h3>
 	-->
 	</div>
@@ -220,7 +220,7 @@
 	    </div>
 	  </div>
 
-	<!-- Open PRs 
+	<!-- Open PRs
 	<div ng-if="count.developed_prs" ng-class="{'margin-left': count.reviewed_prs}" class="grid-1">
 	  <div ng-repeat="issue in prs_open_developed | orderBy: '-updated_at'" ng-include="'/ddh-static/partials/c_issue.html'" class="issue typeC hideAvatar flex-container">
 	    </div>
@@ -264,8 +264,8 @@
 				<h4>Follow</h4>
 				<ul>
 					<li><a href="https://twitter.com/duckduckgo">Twitter</a></li>
-					<li><a href="https://duck.co/blog">Blog</a></li>
 					<li><a href="https://www.reddit.com/r/duckduckgo">Reddit</a></li>
+					<li><a href="https://spreadprivacy.com/">Blog</a></li>
 					<li><a href="https://github.com/duckduckgo">GitHub</a></li>
 				</ul>
 			</div>
