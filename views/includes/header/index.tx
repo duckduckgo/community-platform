@@ -1,17 +1,17 @@
 <div class="site-header desktop">
 	<div class="content-wrap">
 		<: if $duckpan { :>
-			<div class="header-logo wide">			
+			<div class="header-logo wide">
 				<div class="header-logo__logo"><a href="https://duckduckhack.com/"><img src="/static/images/logo.svg" alt="DuckPAN Perl Archive Network" /></a></div>
 			</div>
 		<: } else if $duckduckhack { :>
 			<div class="header-logo">
 				<div class="header-logo__logo"><a href="https://duckduckhack.com/"><img src="/static/images/logo.svg" alt="DuckDuckGo Community Platform" /></a></div>
-			</div>	
+			</div>
 		<: } else { :>
 			<div class="header-logo">
 				<div class="header-logo__logo"><a href="https://duckduckhack.com/"><img src="/static/images/logo.svg" alt="DuckDuckGo Community Platform" /></a></div>
-			</div>	
+			</div>
 		<: } :>
         : include "includes/header/nav.tx"
 
@@ -57,9 +57,9 @@
     <i class="ddgsi ddgsi-close"></i>
     <li class="nav-menu__heading"><span>Menu</span></li>
     <li class="nav-menu__item"><a href="/ia">Instant Answers</a></li>
-    <li class="nav-menu__item"><a href="http://docs.duckduckhack.com/">Docs</a></li>
-    <li class="nav-menu__item"><a href="/blog" class="active">Blog</a></li>
-    <li class="nav-menu__item"><a href="http://forum.duckduckhack.com/">Forum</a></li>
+    <li class="nav-menu__item"><a href="https://docs.duckduckhack.com/">Docs</a></li>
+    <li class="nav-menu__item"><a href="https://spreadprivacy.com/" class="active">Blog</a></li>
+    <li class="nav-menu__item"><a href="https://forum.duckduckhack.com/">Forum</a></li>
 
     : if $vars.user {
       <li class="nav-menu__heading"><span><: $vars.user.username :></span></li>
