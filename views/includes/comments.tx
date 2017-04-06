@@ -172,7 +172,7 @@
     <h3>This blog has been archived</h3>
     <p>
     Thank you for reading and contributing lively discussion to our blog!
-    Please feel free to read new posts from DuckDuckGo on <a href="https://spreadprivacy.com/">spreadprivacy.com</a>
+    Read more posts about online privacy on our new blog at <a href="https://spreadprivacy.com/">spreadprivacy.com</a>.
     </p>
 : if $vars.user {
     : comment_reply_form( $comment, $context, $context_id, 'nohide' );
