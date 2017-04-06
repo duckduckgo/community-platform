@@ -34,7 +34,7 @@
         <span class="comment-meta__link">
             &bull;
 
-            <a class='js-reply_link_<: $comment.id :>  js-comment-reply no-js-hide'
+            <!-- a class='js-reply_link_<: $comment.id :>  js-comment-reply no-js-hide'
                data-target='<: $comment.id :>'
                href='#'>
                 Reply
@@ -44,11 +44,11 @@
                data-target='<: $comment.id :>'
                href='#'>
                 Cancel
-            </a>
+            </a -->
         </span>
 
         : if ($vars.user.is('admin') or $vars.user.id == $comment.user.id) {
-            <span class="comment-meta__link">
+            <!-- span class="comment-meta__link">
                 : # TODO: Make this a POST
                 &bull;
                 <a href='<:
@@ -58,7 +58,7 @@
                    onclick="return confirm ('Are you sure?')">
                     Delete
                 </a>
-            </span>
+            </span -->
         : }
     : }
 : }
@@ -77,13 +77,14 @@
 : macro comment_report -> ( $comment ) {
     : if $vars.user && $vars.user.id != $comment.user.id {
         &bull;
+        <!-- 
         <a href='#report_<: $comment.id :>'
            class='js-reveal js-report-content'
            data-reveal-id='report-content'
            data-context='DDGC::DB::Result::Comment'
            data-context-id='<: $comment.id :>' >
             Report
-        </a>
+        </a -->
     : }
 : }
 
@@ -98,7 +99,7 @@
 
 : macro comment_reply_form -> ( $comment, $context, $context_id, $hide ) {
     : if $context and $context_id and $vars.user {
-        <form method='post'
+        <! -- form method='post'>
               class='comment_reply  js-reply_<: $context_id :>  <: ( $hide == 'hide' )? 'js-hide' : '' :>'
               action='/comment/add/<: $context :>/<: $context_id :>'>
 
@@ -118,7 +119,7 @@
 
             : include 'includes/bbcode_controls.tx'
 
-        </form>
+        </form -->
     : }
 : }
 
@@ -171,7 +172,7 @@
 : if $vars.user {
     : comment_reply_form( $comment, $context, $context_id, 'nohide' );
 : } else {
-    <div class="notice alert warning">
+    <!-- div class="notice alert warning">
         <i class="icn icon-warning-sign"></i>
         You must be logged in to comment. Please
         <a href='/my/login' data-reveal-id="login-box">
@@ -181,7 +182,7 @@
         <a href='/my/register'>
             Register
         </a>.
-    </div>
+    </div -->
 : }
 
 
