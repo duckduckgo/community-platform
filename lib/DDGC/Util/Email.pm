@@ -49,7 +49,7 @@ sub _build_transport {
     my ( $self ) = @_;
     return Email::Sender::Transport::Test->new if $ENV{DDGC_MAIL_TEST};
     Email::Sender::Transport::SMTP::Persistent->new(
-        $self->smtp_config,
+        $self->smtp_config // {},
     );
 }
 
