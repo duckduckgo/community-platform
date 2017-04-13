@@ -1,0 +1,12 @@
+<table>
+: for $languages.keys() -> $locale {
+    <tr>
+        <td>
+            : $locale ~ " : "
+        </td>
+        <td>
+            : $languages[ $locale ] ~ "%"
+        </td>
+    </tr>
+: }
+</table>
