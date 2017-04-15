@@ -225,6 +225,10 @@ sub add_comment {
 	
 	if ( $context eq 'DDGC::DB::Result::Comment' ) {
 		my $comment = $self->ddgc->rs('Comment')->find($context_id);
+        my $thread  = $self->ddgc->rs('Thread')->search( { comment_id => $context_id } )->first;
+ 
+        $user->add_context_notification( 'forum_comments', $thread );
+
 		return $self->ddgc->rs('Comment')->create({
 			context => $comment->context,
 			context_id => $comment->context_id,

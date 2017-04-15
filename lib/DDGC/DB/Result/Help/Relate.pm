@@ -29,9 +29,9 @@ column show_help_id => {
   is_nullable => 0,
 };
 
-belongs_to 'show_help', 'DDGC::DB::Result::Help', 'show_help_id', {
-  on_delete => 'cascade',
-};
+#belongs_to 'show_help', 'DDGC::DB::Result::Help', 'show_help_id', {
+#  on_delete => 'cascade',
+#};
 
 column created => {
   data_type => 'timestamp with time zone',
