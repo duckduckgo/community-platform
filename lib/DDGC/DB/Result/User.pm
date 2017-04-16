@@ -485,7 +485,7 @@ sub blog { shift->user_blogs_rs }
 # This validation is performed on signup, but better to do it again, prevent traversal etc.
 sub username_to_filename {
 	my ($self) = @_;
-	my $n = $self->username;
+	my $n = lc($self->username);
 	$n =~ s/[^A-Za-z0-9_-]+/_/g;
 	return $n;
 }
@@ -493,7 +493,7 @@ sub username_to_filename {
 sub user_avatar_directory {
 	my ($self) = @_;
 	my @d = (split '',$self->username_to_filename)[0..1];
-	push @d, $self->username;
+	push @d, lc($self->username);
 	return @d;
 }
 
