@@ -15,6 +15,7 @@ use DDGC::GitHub;
 use DDGC::Forum;
 use DDGC::Help;
 use DDGC::Ideas;
+use DDGC::Search;
 use DDGC::Util::DateTime;
 
 use IO::All;
@@ -208,6 +209,14 @@ sub _build_cache {
 				cache_root => $_[0]->config->cachedir,
 			});
 }
+
+has search => (
+	isa => 'DDGC::Search',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_search { DDGC::Search->new({ ddgc => shift }) }
+
 
 ##############################
 # __  __    _       _

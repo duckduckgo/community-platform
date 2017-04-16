@@ -37,7 +37,7 @@
 <script type="text/javascript">
     function suggest(e) {
         if(!e.charCode || e.ctrlKey || e.altKey) return;
-        var v=e.target.value + String.fromCharCode(e.which) + '*';
+        var v=e.target.value + String.fromCharCode(e.which);
         v=v.replace(/-/g, '');
         $.getJSON("<: $u('Forum','suggest') :>?q="+window.encodeURIComponent(v), function(data,b,xhr) {
             if(xhr.l < e.target.value.length+1) return;
@@ -50,10 +50,10 @@
                 row.className = 'row';
                 row.style.textOverflow = 'ellipsis';
                 row.style.overflow = 'hidden';
-                a.href = "../../thread/" + r.uri;
+                a.href = "../../thread/" + r.id + "/" + r.key;
                 a.textContent = r.title;
                 row.appendChild(a);
-                row.innerHTML += ' - ' + r.summary.slice(0,130);
+                row.innerHTML += ' - ' + r.content.slice(0,130);
                 s.append(row);
             });
         }).l=v.length;
