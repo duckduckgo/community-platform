@@ -1,0 +1,2 @@
+"#body
+Hack duckduckgo.js#"
