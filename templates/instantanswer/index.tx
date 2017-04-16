@@ -159,7 +159,7 @@
         </ul>
     </div>
 
-    <div id="clear_filters" class="btn--wire hide">
+    <div id="clear_filters" class="btn--wire hide" href="#">
         Clear Filters
     </div>
 </div>
