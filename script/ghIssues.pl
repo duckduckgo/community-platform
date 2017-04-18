@@ -533,12 +533,6 @@ sub update_pr_template {
 
     map{ $data->{$_} = ' ' unless $data->{$_} } qw(src_url description tab);
 
-    if($data->{repo} =~ /fathead/i){
-        $data->{tab} = "About";
-    }elsif($data->{repo} =~ /goodie/i){
-        $data->{tab} = ($data->{tab} eq "Cheat Sheet")? $data->{tab} : "Answer";
-    }
-
     my $message = qq(
 ## [$data->{name}](https://duck.co/ia/view/$data->{meta_id})
 
