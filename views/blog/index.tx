@@ -113,15 +113,17 @@
         </section>
 
         <section class='clear tab-mid'>
-            <h5>Monthly Newsletter</h5>
+            <h5>Privacy Tips</h5>
             <form class='one-field'
-                  action='https://flash.duckduckgo.com/e.js'
+                  action='https://duck.co/s/a'
                   method='post'>
-                <input type='hidden' name='add' value='1'>
+                <input type='hidden' name='page' value='1'>
+                <input type='hidden' name='campaign' value='b'>
+                <input type='hidden' name='flow' value='oldblog'>
                 <input type='email'
                        class='text'
                        placeholder='email'
-                       name='from' />
+                       name='email' />
                 <button type='submit' class='button'>
                     GO
                 </button>
