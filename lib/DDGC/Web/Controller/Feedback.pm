@@ -169,15 +169,28 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
       delete $data{$_} unless $data{$_};
     }
 
-    $c->stash->{feedback_data} = \%data;
-    my @header_field_names = $c->req->headers->header_field_names();
-    $c->stash->{header_field_names} = [grep { ($_ ne 'COOKIE' && $_ ne 'User-Agent')  } @header_field_names];
+    my ( $email, $from );
+    if ( $data{1} =~ /security/ ) {
+      $from = 'dax@duckduckgo.com';
+      $email = $c->d->config->directline_email;
+       $c->stash->{feedback_data} = {
+         Bug => $data{'1_bug'},
+         Email => $data{'1_email'} // '',
+         Hearabout => $data{'1_hearabout'} // ''
+       };
+       $c->stash->{directline} = 1;
+    } else {
+      $from = '"DuckDuckGo Community" <noreply@duckduckgo.com>';
+      $email = $c->d->config->feedback_email;
+      $c->stash->{feedback_data} = \%data;
+      my @header_field_names = $c->req->headers->header_field_names();
+      $c->stash->{header_field_names} = [grep { ($_ ne 'COOKIE' && $_ ne 'User-Agent')  } @header_field_names];
+    }
 
     $c->stash->{c} = $c;
     $c->d->postman->template_mail(
       1,
-      $c->d->config->feedback_email,
-      '"DuckDuckGo Community" <noreply@duckduckgo.com>',
+      $email, $from,
       '[DDG Feedback '.$c->stash->{feedback_name}.'] '.$data{'1'},
       'feedback',
       $c->stash,

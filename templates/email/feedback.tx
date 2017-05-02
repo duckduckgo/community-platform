@@ -1,7 +1,9 @@
 <table>
+  : if !$directline {
   <tr>
     <th>Feedback Data</th>
   </tr>
+  : }
   <: for $feedback_data.kv() -> $kv { :>
     <tr>
       <td><: $kv.key :></td>
@@ -10,6 +12,7 @@
       <th><: $kv.value :></th>
     </tr>
   <: } :>
+  : if !$directline {
   <: if $c.user { :>
     <tr>
       <th><hr/></th>
@@ -38,4 +41,5 @@
       <th><: $c.req.header($field) :>
     </tr>
   <: } :>
+  : }
 </table>
