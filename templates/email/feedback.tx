@@ -10,6 +10,7 @@
       <th><: $kv.value :></th>
     </tr>
   <: } :>
+  : if !$directline {
   <: if $c.user { :>
     <tr>
       <th><hr/></th>
@@ -38,4 +39,5 @@
       <th><: $c.req.header($field) :>
     </tr>
   <: } :>
+  : }
 </table>
