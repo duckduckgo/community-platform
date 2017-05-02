@@ -34,7 +34,7 @@ if [[ ( $DOWNLOAD_EXIT_CODE -eq 0 && $NEW_MODIFIED_TIME -gt $LAST_MODIFIED_TIME 
       if [ "$?" == "0" ] ; then
         s3cmd -P -m 'application/x-bzip2' --add-header='Content-Encoding: bzip2' --force -c /usr/local/etc/s3cmd/ddgc-metadata.s3cfg put $DDGC_REPO_BZIP2_OUT $DDGC_REPO_JSON_S3URL_TMP > /dev/null
         if [ "$?" == "0" ] ; then
-          s3cmd -c /usr/local/etc/s3cmd/ddgc-metadata.s3cfg mv $DDGC_REPO_JSON_S3URL_TMP $DDGC_REPO_JSON_S3URL > /dev/null
+          s3cmd --force -c /usr/local/etc/s3cmd/ddgc-metadata.s3cfg mv $DDGC_REPO_JSON_S3URL_TMP $DDGC_REPO_JSON_S3URL > /dev/null
         fi
       fi
     fi
