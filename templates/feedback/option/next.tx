@@ -1,3 +1,2 @@
-<input type="hidden" name="action_token" value="<: $action_token :>">
 <input type="submit" name="option_<: $index :>" value="<: $option.description :>" class="fb-step__body  fb-step__body--btn" />
 <i class="fb-step__arrow  ddgi-arrow-right"></i>
