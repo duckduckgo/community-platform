@@ -1,7 +1,9 @@
 <table>
+  : if !$directline {
   <tr>
     <th>Feedback Data</th>
   </tr>
+  : }
   <: for $feedback_data.kv() -> $kv { :>
     <tr>
       <td><: $kv.key :></td>

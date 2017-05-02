@@ -5,11 +5,13 @@
   </head>
   <body style="padding:0; margin:0; background-color: #ffffff">
 	<table cellpadding="5" cellspacing="0" border="0" width="100%" bgcolor="#ffffff">
+		: if !$directline {
 		<tr>
 			<td height="20" align="center" valign="top" colspan="3" <: style("warning") :>>
 			  This is an automated email from DuckDuckGo's Community platform. <b>DO NOT REPLY</b>.
 			</td>
 		</tr>
+		: }
 		<tr>
 			<td width="5">&nbsp;</td>
 			<td>
