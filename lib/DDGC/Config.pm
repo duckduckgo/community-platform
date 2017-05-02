@@ -389,6 +389,7 @@ sub first_active_campaign {
 }
 
 has_conf feedback_email => DDGC_FEEDBACK_EMAIL => 'support@duckduckgo.com';
+has_conf directline_email => DDGC_DIRECTLINE_EMAIL => 'support@duckduckgo.com';
 has_conf error_email => DDGC_ERROR_EMAIL => 'ddgc@duckduckgo.com';
 has_conf share_email => DDGC_SHARE_EMAIL => 'sharewear@duckduckgo.com';
 has_conf ia_email => DDGC_IA_EMAIL => 'ddgc-ia@duckduckgo.com';
