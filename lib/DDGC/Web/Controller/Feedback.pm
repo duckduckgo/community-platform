@@ -169,8 +169,9 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
       delete $data{$_} unless $data{$_};
     }
 
-    my $email;
+    my ( $email, $from );
     if ( $data{1} =~ /security/ ) {
+      $from = 'dax@duckduckgo.com';
       $email = $c->d->config->directline_email;
        $c->stash->{feedback_data} = {
          Bug => $data{'1_bug'},
@@ -179,6 +180,7 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
        };
        $c->stash->{directline} = 1;
     } else {
+      $from = '"DuckDuckGo Community" <noreply@duckduckgo.com>';
       $email = $c->d->config->feedback_email;
       $c->stash->{feedback_data} = \%data;
       my @header_field_names = $c->req->headers->header_field_names();
@@ -188,8 +190,7 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
     $c->stash->{c} = $c;
     $c->d->postman->template_mail(
       1,
-      $email,
-      '"DuckDuckGo Community" <noreply@duckduckgo.com>',
+      $email, $from,
       '[DDG Feedback '.$c->stash->{feedback_name}.'] '.$data{'1'},
       'feedback',
       $c->stash,
