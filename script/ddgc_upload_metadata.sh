@@ -26,18 +26,36 @@ NEW_MODIFIED_TIME=0
   NEW_MODIFIED_TIME=$(/usr/bin/stat --format=%Y $DDGC_REPO_JSON_OUT)
 
 if [[ ( $DOWNLOAD_EXIT_CODE -eq 0 && $NEW_MODIFIED_TIME -gt $LAST_MODIFIED_TIME ) || ( $DOWNLOAD_EXIT_CODE -eq 0 && $FORCE_UPLOAD -eq 1 ) ]] ; then
+
   json_xs < $DDGC_REPO_JSON_OUT > /dev/null
-  if [ "$?" == "0" ] ; then
-    bzip2 --best --force --keep $DDGC_REPO_JSON_OUT
-    if [ "$?" == "0" ] ; then
-      bzip2 -t $DDGC_REPO_BZIP2_OUT
-      if [ "$?" == "0" ] ; then
-        s3cmd -P -m 'application/x-bzip2' --add-header='Content-Encoding: bzip2' --force -c /usr/local/etc/s3cmd/ddgc-metadata.s3cfg put $DDGC_REPO_BZIP2_OUT $DDGC_REPO_JSON_S3URL_TMP > /dev/null
-        if [ "$?" == "0" ] ; then
-          s3cmd --force -c /usr/local/etc/s3cmd/ddgc-metadata.s3cfg mv $DDGC_REPO_JSON_S3URL_TMP $DDGC_REPO_JSON_S3URL > /dev/null
-        fi
-      fi
-    fi
+  if [ "$?" != "0" ] ; then
+    echo "JSON mirrored from duck.co is invalid"
+    exit 1
   fi
+
+  bzip2 --best --force --keep $DDGC_REPO_JSON_OUT
+  if [ "$?" != "0" ] ; then
+    echo "bzip2 compression failed"
+    exit 1
+  fi
+
+  bzip2 -t $DDGC_REPO_BZIP2_OUT
+  if [ "$?" != "0" ] ; then
+    echo "bzip2 test failed"
+    exit 1
+  fi
+
+  s3cmd -P -m 'application/x-bzip2' --add-header='Content-Encoding: bzip2' --force -c /usr/local/etc/s3cmd/ddgc-metadata.s3cfg put $DDGC_REPO_BZIP2_OUT $DDGC_REPO_JSON_S3URL_TMP > /dev/null
+  if [ "$?" != "0" ] ; then
+    echo "s3cmd put failed"
+    exit 1
+  fi
+
+  s3cmd --force -c /usr/local/etc/s3cmd/ddgc-metadata.s3cfg mv $DDGC_REPO_JSON_S3URL_TMP $DDGC_REPO_JSON_S3URL > /dev/null
+  if [ "$?" != "0" ] ; then
+    echo "s3cmd mv failed"
+    exit 1
+  fi
+
 fi
 
