@@ -26,7 +26,7 @@ sub base :Chained('/') :PathPart('') :CaptureArgs(0) {
 		}
 	}
 
-	if ($c->user) {
+	elsif ($c->user) {
 		$c->d->current_user($c->user);
 
 		if (
