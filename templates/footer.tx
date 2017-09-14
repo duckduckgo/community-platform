@@ -4,9 +4,9 @@
 			<div class="nav-col">
 				<h4>Community</h4>
 				<ul>
-					<li><a href="/ia">Instant Answers</a></li>
-					<li><a href="https://www.reddit.com/r/duckduckgo">Reddit</a></li>
-					<li><a href="http://duck-duck-go.myshopify.com/">Swag</a></li>
+					<li><a href="https://duck.co/translate">Translate</a></li>
+					<li><a href="https://duckduckgo.com/spread">Spread</a></li>
+					<li><a href="https://www.reddit.com/r/duckduckgo/">Discuss</a></li>
 				</ul>
 			</div>
 		</div>
@@ -14,8 +14,9 @@
 			<div class="nav-col">
 				<h4>Follow</h4>
 				<ul>
-					<li><a href="https://twitter.com/duckduckgo">Twitter</a></li>
 					<li><a href="https://spreadprivacy.com/">Blog</a></li>
+					<li><a href="https://twitter.com/duckduckgo">Twitter</a></li>
+					<li><a href="https://dribbble.com/duckduckgo">Dribbble</a></li>
 					<li><a href="https://github.com/duckduckgo">GitHub</a></li>
 				</ul>
 			</div>
@@ -26,7 +27,7 @@
 				<ul>
 					<li><a href="/help">Help</a></li>
 					<li><a href="/help/privacy">Privacy</a></li>
-					<li><a href="https://duckduckgo.com/hiring/">Jobs</a></li>
+					<li><a href="https://duckduckgo.com/hiring/">Careers</a></li>
 					<li><a href="https://duckduckgo.com/traffic.html">Traffic</a></li>
 				</ul>
 			</div>
