@@ -28,9 +28,8 @@
 			<div class="body">
 				<h3 class="headfont">Help us translate DuckDuckGo into your languages.</h3>
 				<ul> 
-					<li>Use this platform to translate DuckDuckGo into your language.</li>
 					<li>Your contributions are attributed to you!</li>
-					<li>Discuss the translation of tricky terms with others in the community.</li>					
+					<li>Discuss tricky translations with others in the community.</li>					
 				</ul>
 				<a href="<: $u('Translate','index') :>" class="cta"><i class="icon-circle-arrow-right"></i>Help Translate DuckDuckGo</a>
 			</div>
