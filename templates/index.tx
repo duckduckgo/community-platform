@@ -3,42 +3,23 @@
 <: include "view_disclaimer.tx" :>
 
 <div class="callout">	
-	<div class="third">
+	<div class="half">
 		<div class="callout-box green">
-			<a class="head" href="http://duckduckhack.com/#join-community">
+			<a class="head" href="https://www.reddit.com/r/duckduckgo/">
 				<i class="icon-bubbles"></i> 
 				<h2>Discuss</h2>				
 			</a>
 			<div class="body">
 				<h3 class="headfont">Help improve DuckDuckGo by making great suggestions.</h3>
 				<ul>					
-					<li>Share your ideas for new Instant Answers.</li>
-					<li>Suggest Instant Answer sources.</li>
+					<li>Share your feedback and ideas.</li>
 					<li>Speak with other passionate DuckDuckGo users.</li>
-					<li></li>
 				</ul>
-				<a href="http://duckduckhack.com/#join-community" class="cta"><i class="icon-circle-arrow-right"></i>Join the DuckDuckGo Community</a>
+				<a href="https://www.reddit.com/r/duckduckgo/" class="cta"><i class="icon-circle-arrow-right"></i>Join the DuckDuckGo Community</a>
 			</div>
 		</div>
 	</div>
-	<div class="third">
-		<div class="callout-box blue">
-			<a class="head" href="http://duckduckhack.com/">
-				<i class="icon-tools"></i> 
-				<h2>Develop</h2>				
-			</a>
-			<div class="body">
-				<h3 class="headfont">Develop for DuckDuckGo.<br/>Hack with us!</h3>
-				<ul>
-					<li>A great way to get started with open-source.</li>
-					<li>Improve search results for things <em>you</em> care about.</li>	
-					<li>Use open data and APIs, even yours.</li>
-				</ul>
-				<a href="http://duckduckhack.com/" class="cta"><i class="icon-circle-arrow-right"></i>Develop on DuckDuckGo</a>
-			</div>
-		</div>
-	</div>
-	<div class="third">
+	<div class="half">
 		<div class="callout-box yellow">
 			<a class="head" href="<: $u('Translate','index') :>">
 				<i class="icon-globe"></i> 
@@ -47,9 +28,8 @@
 			<div class="body">
 				<h3 class="headfont">Help us translate DuckDuckGo into your languages.</h3>
 				<ul> 
-					<li>Use this platform to translate DuckDuckGo into your language.</li>
 					<li>Your contributions are attributed to you!</li>
-					<li>Discuss the translation of tricky terms with others in the community.</li>					
+					<li>Discuss tricky translations with others in the community.</li>					
 				</ul>
 				<a href="<: $u('Translate','index') :>" class="cta"><i class="icon-circle-arrow-right"></i>Help Translate DuckDuckGo</a>
 			</div>

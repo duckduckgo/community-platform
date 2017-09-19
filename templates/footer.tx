@@ -2,34 +2,32 @@
 	<div class="content-wrap clearfix">
 		<div class="third">
 			<div class="nav-col">
-				<h4>Community</h4>
+				<h4>DuckDuckGo</h4>
 				<ul>
-					<li><a href="https://duckduckhack.com/">DuckDuckHack</a></li>
-					<li><a href="https://forum.duckduckhack.com/">Forum</a></li>
-					<li><a href="/ia">Instant Answers</a></li>
-					<li><a href="http://duck-duck-go.myshopify.com/">Swag</a></li>
+					<li><a href="https://duckduckgo.com/about">About</a></li>
+					<li><a href="https://duckduckgo.com/bang">Bangs</a></li>
+					<li><a href="https://duckduckgo.com/spread">Spread</a></li>
+					<li><a href="https://duckduckgo.com/hiring">Careers</a></li>
+					<li><a href="https://duck.co/help">Help</a></li>
 				</ul>
 			</div>
 		</div>
 		<div class="third">
 			<div class="nav-col">
-				<h4>Follow</h4>
+				<h4>Privacy</h4>
+				<ul>
+					<li><a href="https://spreadprivacy.com/">Blog</a></li>
+					<li><a href="https://donttrack.us/">DontTrack.us</a></li>
+					<li><a href="https://duckduckgo.com/privacy">Policy</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="third">
+			<div class="nav-col">
+				<h4>Keep in Touch</h4>
 				<ul>
 					<li><a href="https://twitter.com/duckduckgo">Twitter</a></li>
-					<li><a href="https://spreadprivacy.com/">Blog</a></li>
-					<li><a href="https://www.reddit.com/r/duckduckgo">Reddit</a></li>
-					<li><a href="https://github.com/duckduckgo">GitHub</a></li>
-				</ul>
-			</div>
-		</div>
-		<div class="third">
-			<div class="nav-col">
-				<h4>More</h4>
-				<ul>
-					<li><a href="/help">Help</a></li>
-					<li><a href="/help/privacy">Privacy</a></li>
-					<li><a href="https://duckduckgo.com/hiring/">Jobs</a></li>
-					<li><a href="https://duckduckgo.com/traffic.html">Traffic</a></li>
+					<li><a href="https://reddit.com/r/duckduckgo">Reddit</a></li>
 				</ul>
 			</div>
 		</div>
@@ -37,7 +35,7 @@
 
 	<div class="content-wrap">
 	  <div class="footer-tagline">
-	    © DuckDuckGo. The search engine that doesn't track you.
+		© DuckDuckGo. The search engine that doesn't track you.
 	  </div>
 	</div>
 </div>
