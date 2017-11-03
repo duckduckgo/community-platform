@@ -17,7 +17,8 @@ has workspace_id => ( is => 'lazy' );
 sub _build_workspace_id { $_[0]->ddgc->config->asana_workspace_id }
 
 sub add_task {
-    my ( $self, $title, $content ) = @_;
+    my ( $self, $title, $content, $extra ) = @_;
+    $extra //= {};
     my $req = HTTP::Request->new(
         POST => 'https://app.asana.com/api/1.0/tasks'
     );
@@ -28,9 +29,10 @@ sub add_task {
           {
             workspace => $self->workspace_id,
             name      => $title,
-            notes     => $content
+            notes     => $content,
+            %{ $extra }
           }
-        } );
+        } )
     );
 
     my $res = $self->ddgc->http->request($req);
