@@ -138,6 +138,14 @@ sub _build_db { DDGC::DB->connect(shift) }
 sub resultset { shift->db->resultset(@_) }
 sub rs { shift->resultset(@_) }
 
+# Asana access
+has xmpp => (
+	isa => 'DDGC::Asana',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_xmpp { DDGC::Asana->new({ ddgc => shift }) }
+
 # XMPP access interface
 has xmpp => (
 	isa => 'DDGC::XMPP',
