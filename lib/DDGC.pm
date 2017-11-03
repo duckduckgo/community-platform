@@ -139,12 +139,12 @@ sub resultset { shift->db->resultset(@_) }
 sub rs { shift->resultset(@_) }
 
 # Asana access
-has xmpp => (
+has asana => (
 	isa => 'DDGC::Asana',
 	is => 'ro',
 	lazy_build => 1,
 );
-sub _build_xmpp { DDGC::Asana->new({ ddgc => shift }) }
+sub _build_asana { DDGC::Asana->new({ ddgc => shift }) }
 
 # XMPP access interface
 has xmpp => (
