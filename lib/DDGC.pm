@@ -6,6 +6,7 @@ use Moose;
 use DDGC::Config;
 use DDGC::DB;
 use DDGC::DuckPAN;
+use DDGC::Asana;
 use DDGC::XMPP;
 use DDGC::Markup;
 use DDGC::Envoy;
