@@ -7,6 +7,7 @@ use DDGC::Config;
 use DDGC::DB;
 use DDGC::DuckPAN;
 use DDGC::Asana;
+use DDGC::PagerDuty;
 use DDGC::XMPP;
 use DDGC::Markup;
 use DDGC::Envoy;
@@ -146,6 +147,14 @@ has asana => (
 	lazy_build => 1,
 );
 sub _build_asana { DDGC::Asana->new({ ddgc => shift }) }
+
+# Get current on-call
+has pagerduty => (
+	isa => 'DDGC::PagerDuty',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_pagerduty { DDGC::PagerDuty->new({ ddgc => shift }) }
 
 # XMPP access interface
 has xmpp => (
