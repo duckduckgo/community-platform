@@ -19,9 +19,7 @@ sub _build_workspace_id { $_[0]->ddgc->config->asana_workspace_id }
 sub add_task {
     my ( $self, $title, $content, $extra ) = @_;
     $extra //= {};
-    my $req = HTTP::Request->new(
-        POST => 'https://app.asana.com/api/1.0/tasks'
-    );
+    my $req = POST 'https://app.asana.com/api/1.0/tasks';
     $req->authorization('Bearer ' . $self->personal_access_token);
     $req->content_type('application/json');
     $req->content(
