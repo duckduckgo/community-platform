@@ -185,7 +185,12 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
            "Bug: %s\n\nFrom: %s\n\nHearabout: %s",
            $data{'1_bug'}, ( $data{'1_email'} // '' ), ( $data{'1_hearabout'} // '' )
          ),
-         { memberships => [ { project => '61443643187795', section => '326450847267127' } ] }
+         { memberships => [ {
+               project => $c->d->config->asana_oncall_project,
+               section => $c->d->config->asana_oncall_section,
+           } ],
+           assignee => $c->d->pagerduty->on_call
+         }
        );
     } else {
       $from = '"DuckDuckGo Community" <noreply@duckduckgo.com>';
