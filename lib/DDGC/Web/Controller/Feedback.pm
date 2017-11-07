@@ -179,6 +179,19 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
          Hearabout => $data{'1_hearabout'} // ''
        };
        $c->stash->{directline} = 1;
+       $c->d->asana->add_task(
+         'Feedback security issue',
+         sprintf(
+           "Bug: %s\n\nFrom: %s\n\nHearabout: %s",
+           $data{'1_bug'}, ( $data{'1_email'} // '' ), ( $data{'1_hearabout'} // '' )
+         ),
+         { memberships => [ {
+               project => $c->d->config->asana_oncall_project,
+               section => $c->d->config->asana_oncall_section,
+           } ],
+           assignee => $c->d->pagerduty->on_call
+         }
+       );
     } else {
       $from = '"DuckDuckGo Community" <noreply@duckduckgo.com>';
       $email = $c->d->config->feedback_email;

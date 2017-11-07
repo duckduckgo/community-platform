@@ -6,6 +6,8 @@ use Moose;
 use DDGC::Config;
 use DDGC::DB;
 use DDGC::DuckPAN;
+use DDGC::Asana;
+use DDGC::PagerDuty;
 use DDGC::XMPP;
 use DDGC::Markup;
 use DDGC::Envoy;
@@ -137,6 +139,22 @@ has db => (
 sub _build_db { DDGC::DB->connect(shift) }
 sub resultset { shift->db->resultset(@_) }
 sub rs { shift->resultset(@_) }
+
+# Asana access
+has asana => (
+	isa => 'DDGC::Asana',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_asana { DDGC::Asana->new({ ddgc => shift }) }
+
+# Get current on-call
+has pagerduty => (
+	isa => 'DDGC::PagerDuty',
+	is => 'ro',
+	lazy_build => 1,
+);
+sub _build_pagerduty { DDGC::PagerDuty->new({ ddgc => shift }) }
 
 # XMPP access interface
 has xmpp => (
