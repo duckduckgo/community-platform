@@ -207,10 +207,10 @@ button {
   /* set your own damn widths, you crazy kids */
   /* protip: if the height != the width, you'll end up with an elipse. */ }
 
-/* 
-	faux tables for image/text display 
-	- the 'flag' object with a different name: 
-	   http://csswizardry.com/2013/05/the-flag-object/ 
+/*
+	faux tables for image/text display
+	- the 'flag' object with a different name:
+	   http://csswizardry.com/2013/05/the-flag-object/
 */
 .faux {
   display: table;
@@ -286,20 +286,20 @@ button {
 
     Large (l) and Extra-Large (xl) are 'min-width' media queries,
     meaning they'll only appear on screens that are big enough.
-    
+
     Medium (m), Small (s), and Extra-Small (xs) are max-width queries,
     meaning that they only appear on screens that are small enough.
-    
+
     The 'density' queries are kind of heavy-duty, so use extra-sparingly. :)
-    
+
     For high pixel-density images, you can use (retinahd), (retina) or (hdpi).
-    
-    
+
+
     Usage:  @include media-query(size){ [styles here] }
 */
 /*
     DuckDuckGo Icons!
-    
+
     Requires that you compile the icon font yourself and
     serve it via @font-face under the name 'ddg-serp-icons'
 */
@@ -621,10 +621,10 @@ button {
   font-weight: normal;
   font-style: normal; }
 
-/*  
+/*
 Font Awesome - http://fortawesome.github.com/Font-Awesome
 */
-/* 
+/*
 	@font-face declarations moved to font-face.css
 */
 /* FONT AWESOME CORE
@@ -2362,7 +2362,7 @@ a .icon-flip-vertical:before {
   content: "\e05f"; }
 
 /*
- * Linkbox 
+ * Linkbox
  * The help 'categories' and 'search results' both use this 'linkbox' construction,
  * with modifiers based on what is being displayed.
  */
@@ -2731,9 +2731,9 @@ Reveal Modals
 
 @media only screen and (max-width: 380px) {
   .reveal-modal {
-    /* 
+    /*
 				by sticking to a fixed width we cause ourselves some problems.
-				much of this could probably be re-written to work better on mobile, 
+				much of this could probably be re-written to work better on mobile,
 				but this is the lesser of two evils at the moment.
 			*/
     width: 280px;
@@ -3611,7 +3611,7 @@ Buttons/Tags
   margin-top: -12px;
   background: #fff; }
 
-/* 
+/*
 	Media Queries
 */
 @media only screen and (max-width: 40em) {
@@ -3643,7 +3643,7 @@ Buttons/Tags
     margin: 0 auto;
     float: none; } }
 
-/* 
+/*
  * DuckDuckGo Feedback Guide
  * Styling for the DuckDuckGo Feedback System
  */
@@ -4031,8 +4031,8 @@ you can use the generic selector below, but it's slower:
   max-height: 0;
   visibility: hidden; }
 
-/* 
- * experimental css-only optional field hiding 
+/*
+ * experimental css-only optional field hiding
  * this should trigger all optional fields to hide when in the presence of a required (active) field
  * only set to trigger if javascript is active
  */
@@ -4097,8 +4097,8 @@ you can use the generic selector below, but it's slower:
   border-left: 5px solid #d9d9d9;
   border-right: none; }
 
-/* 
- *  _litestrap 
+/*
+ *  _litestrap
  *
  * Utility Classes to control site width, columns, floats, clears, and fixes
  *
@@ -4555,8 +4555,8 @@ a, .fakelink {
 /*	a:hover { color: #3e77d5; }
 	a:visited { color: #6933b3; }
 */
-/* 
-	Global Elements 
+/*
+	Global Elements
 */
 #wrapper {
   width: 100%;
@@ -4736,8 +4736,8 @@ blockquote:before {
 .lt-ie9 blockquote:before {
   color: #f2f2f2; }
 
-/* 	
-	Semantic Helper Classes 
+/*
+	Semantic Helper Classes
 */
 .left {
   float: left; }
@@ -4816,8 +4816,8 @@ a.fill {
   margin: auto;
   position: relative; }
 
-/* 
-	nav stylin' 
+/*
+	nav stylin'
 */
 .nav {
   /* navs are usually 'ul's, so we're going to reset them sum-bitches */
@@ -4902,10 +4902,10 @@ a.fill {
   color: inherit;
   box-shadow: inset 0 1px 1px #ddd; }
 
-/* 
-		 * this animation could work one of two ways.  
+/*
+		 * this animation could work one of two ways.
 		 * either it's slow to open, or it's slow to close.
-		 * Max-height makes it slow to close, margin-top makes it slow to open.  
+		 * Max-height makes it slow to close, margin-top makes it slow to open.
 		 * I've combined the two and now it's pretty snappy!
 		 */
 .nav--sub.is-open {
@@ -4937,7 +4937,7 @@ a.fill {
   display: table;
   clear: both; }
 
-/* 
+/*
 	Header
 */
 .site-header {
@@ -5158,7 +5158,7 @@ a.fill {
   padding: 0;
   /*
 			border-left: 1px solid #d5d5d5;
-			border-right: 1px solid #f3f3f3;		
+			border-right: 1px solid #f3f3f3;
 			*/ }
 
 .header-nav li {
@@ -5181,7 +5181,7 @@ a.fill {
 .page-home .header-nav ul {
   border-left-color: #c3c3c3; }
 
-/* 
+/*
 	Site Content
 */
 .site-main {
@@ -5473,7 +5473,7 @@ h1 + .intro, .intro--mg {
 .site-bottom a:hover {
   color: white; }
 
-/* 
+/*
 	Site Footer
 */
 .site-footer {
@@ -5497,7 +5497,7 @@ h1 + .intro, .intro--mg {
   display: inline-block;
   padding-right: 16px; }
 
-/* 
+/*
 	Margin Helpers
 	At the bottom of this file to be more helpful :)
 */
@@ -5537,7 +5537,7 @@ h1 + .intro, .intro--mg {
 .mg-bottom--none {
   margin-bottom: 0; }
 
-/* 
+/*
 	Fun fun Rotation!
 */
 .rotate {
@@ -5564,7 +5564,7 @@ h1 + .intro, .intro--mg {
   transform: rotate(180deg);
   filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2); }
 
-/* 
+/*
 	Media Queries
 */
 @media only screen and (min-width: 1000px) {
@@ -5878,3 +5878,86 @@ h1 + .intro, .intro--mg {
 
 .modal--popout--sm .modal__box {
   width: 85px; }
+
+/*
+* Design refresh, Nov 2017
+*/
+
+.content-box .head, .content-box__head,
+.content-box .body, .content-box__body,
+.translate-overview p {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: #333;
+}
+
+.content-box .row {
+  border: none;
+}
+
+.ducksymbol, body.texture-ducksymbol:before {
+  background: none;
+}
+
+/* Keeping hover the same as non-hover, otherwise they'll be white text on white background */
+.date-box, .button.ghostblue, .tag.ghostblue,
+.button, .tag, input.button, .one-field .button, .button.disabled,
+.button:hover, .tag:hover, input.button:hover, .one-field .button:hover, .button.disabled:hover, .button.ghostblue:hover, .tag.ghostblue:hover,
+.button:focus, .tag:focus, input.button:focus, .one-field .button:focus, .button.disabled:focus, .button.ghostblue:focus, .tag.ghostblue:focus {
+  background: #4495d4;
+  border-color: #4495d4;
+  border-radius: 0.25em;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: none;
+}
+.date-box:before {
+  border-left: 7px solid #4495d4;
+}
+
+.button.disabled {
+  opacity: 1;
+}
+
+.linkbox {
+  color: #666;
+}
+
+.linkbox__icon {
+  color: #c3c3c3;
+}
+
+.button.red, .tag.red {
+  background-color: #de5833;
+  border-color: #bd4b2b;
+}
+
+.button.blue, .tag.blue {
+  text-shadow: none;
+  background-color: #4495d4;
+  border-color: #4495d4;
+}
+
+
+/* Side menu */
+.nav--panels {
+  background: none;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+}
+.nav-item__title {
+  background: none;
+}
+.nav a.sub-item__link {
+  color: #666;
+  font-weight: 400;
+}
+.nav-item--active .nav-item__title {
+  background-color: #434a50;
+  color: #dee2e5;
+  background: #fff;
+  color: #333;
+  text-shadow: none;
+}
