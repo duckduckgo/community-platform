@@ -5900,11 +5900,8 @@ h1 + .intro, .intro--mg {
   background: none;
 }
 
-/* Keeping hover the same as non-hover, otherwise they'll be white text on white background */
 .date-box, .button.ghostblue, .tag.ghostblue,
-.button, .tag, input.button, .one-field .button, .button.disabled,
-.button:hover, .tag:hover, input.button:hover, .one-field .button:hover, .button.disabled:hover, .button.ghostblue:hover, .tag.ghostblue:hover,
-.button:focus, .tag:focus, input.button:focus, .one-field .button:focus, .button.disabled:focus, .button.ghostblue:focus, .tag.ghostblue:focus {
+.button, .tag, input.button, .one-field .button, .button.disabled {
   background: #4495d4;
   border-color: #4495d4;
   border-radius: 0.25em;
@@ -5912,6 +5909,13 @@ h1 + .intro, .intro--mg {
   font-weight: 500;
   text-shadow: none;
 }
+
+.button:hover, .tag:hover, input.button:hover, .one-field .button:hover, .button.disabled:hover, .button.ghostblue:hover, .tag.ghostblue:hover,
+.button:focus, .tag:focus, input.button:focus, .one-field .button:focus, .button.disabled:focus, .button.ghostblue:focus, .tag.ghostblue:focus {
+  background: #3a7fb4;
+  border-color: #3a7fb4;
+}
+
 .date-box:before {
   border-left: 7px solid #4495d4;
 }
