@@ -5965,3 +5965,8 @@ h1 + .intro, .intro--mg {
   color: #333;
   text-shadow: none;
 }
+
+/* Translation login form fix */
+.notice .account-actions {
+  padding-top: 0;
+}
