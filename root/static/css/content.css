@@ -5118,6 +5118,7 @@ a.fill {
   float: right; }
 
 .account-actions {
+  padding-top: 22px;
   display: inline-block;
   white-space: nowrap;
   word-wrap: break-word; }
@@ -5963,4 +5964,9 @@ h1 + .intro, .intro--mg {
   background: #fff;
   color: #333;
   text-shadow: none;
+}
+
+/* Translation login form fix */
+.notice .account-actions {
+  padding-top: 0;
 }
