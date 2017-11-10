@@ -5880,8 +5880,12 @@ h1 + .intro, .intro--mg {
   width: 85px; }
 
 /*
-* Design refresh, Nov 2017
+* Design refresh overrides, Nov 2017
 */
+
+body.texture, body.texture-nohighlight, body.texture-ducksymbol {
+  background: #f9f9f9;   
+}
 
 .content-box .head, .content-box__head,
 .content-box .body, .content-box__body,
@@ -5904,7 +5908,7 @@ h1 + .intro, .intro--mg {
 .button, .tag, input.button, .one-field .button, .button.disabled {
   background: #4495d4;
   border-color: #4495d4;
-  border-radius: 0.25em;
+  border-radius: 3px;
   color: #fff;
   font-weight: 500;
   text-shadow: none;
@@ -5941,6 +5945,31 @@ h1 + .intro, .intro--mg {
   text-shadow: none;
   background-color: #4495d4;
   border-color: #4495d4;
+}
+
+.button.button-nav-current {
+  background: #3a7fb4;
+  border-color: #3a7fb4;
+  box-shadow: none;
+  moz-box-shadow: none;
+  webkit-box-shadow: none;
+}
+
+.button.disabled:not(.button-nav-current):hover, .button.disabled:not(.button-nav-current):focus {
+  background: #4495d4;
+  border-color: #4495d4;
+}
+    
+.button-group .button {
+  border-radius: 0px;
+}
+.button-group > .button:first-child,
+.button-group > .radio:first-child + .button {
+  border-radius: 3px 0 0 3px;
+}
+    
+.button-group > .button:last-child {
+  border-radius: 0 3px 3px 0;
 }
 
 
