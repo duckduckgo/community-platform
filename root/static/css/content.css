@@ -5955,7 +5955,8 @@ body.texture, body.texture-nohighlight, body.texture-ducksymbol {
   webkit-box-shadow: none;
 }
 
-.button.disabled:not(.button-nav-current):hover, .button.disabled:not(.button-nav-current):focus {
+.button.disabled:not(.button-nav-current):hover,
+.button.disabled:not(.button-nav-current):focus {
   background: #4495d4;
   border-color: #4495d4;
 }
@@ -5963,6 +5964,7 @@ body.texture, body.texture-nohighlight, body.texture-ducksymbol {
 .button-group .button {
   border-radius: 0px;
 }
+
 .button-group > .button:first-child,
 .button-group > .radio:first-child + .button {
   border-radius: 3px 0 0 3px;
@@ -5980,13 +5982,16 @@ body.texture, body.texture-nohighlight, body.texture-ducksymbol {
   border-left: none;
   border-right: none;
 }
+
 .nav-item__title {
   background: none;
 }
+
 .nav a.sub-item__link {
   color: #666;
   font-weight: 400;
 }
+
 .nav-item--active .nav-item__title {
   background-color: #434a50;
   color: #dee2e5;
