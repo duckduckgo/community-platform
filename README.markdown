@@ -4,7 +4,7 @@ This is the source code for the DuckDuckGo Community Platform at [duck.co](https
 
 ## Requirements / Installation
 
-The DuckDuckGo Community Platform is built on [Perl](http://www.perl.org/),
+The DuckDuckGo Community Platform is built on [Perl](https://www.perl.org),
 [Catalyst](https://metacpan.org/pod/Catalyst),
 [DBIx::Class](https://metacpan.org/pod/DBIx::Class),
 [Text::Xslate](https://metacpan.org/pod/Text::Xslate) and
@@ -12,7 +12,7 @@ The DuckDuckGo Community Platform is built on [Perl](http://www.perl.org/),
 
 Requires perl 5.16.3 (or higher) and:
 
-- cpanm ([local::lib](https://metacpan.org/pod/local::lib) and/or [perlbrew](http://perlbrew.pl/) recommended)
+- cpanm ([local::lib](https://metacpan.org/pod/local::lib) and/or [perlbrew](https://perlbrew.pl) recommended)
 - gcc toolchain (gcc, make, lib headers)
 - git
 - libcurl
@@ -140,10 +140,10 @@ The project is built using other software packages and creative content:
 
 - SCEditor, [MIT license](http://www.opensource.org/licenses/MIT)
 - jQuery JavaScript Library v1.9.1, [MIT license](http://www.opensource.org/licenses/MIT)
-- aToolTip jQuery plugin, [CC-BY 3.0 Unported license](http://creativecommons.org/licenses/by/3.0)			
-- Select2, [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0) or [GPL v2](http://www.gnu.org/licenses/gpl-2.0.html)
+- aToolTip jQuery plugin, [CC-BY 3.0 Unported license](https://creativecommons.org/licenses/by/3.0/)
+- Select2, [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0) or [GPL v2](https://www.gnu.org/licenses/gpl-2.0.html)
 - handlebars v1.3.0, [MIT license](http://www.opensource.org/licenses/MIT)
-- HTML5shiv, dual license, [MIT](http://www.opensource.org/licenses/MIT) or [GPL v2](http://www.gnu.org/licenses/gpl-2.0.html)
+- HTML5shiv, dual license, [MIT](http://www.opensource.org/licenses/MIT) or [GPL v2](https://www.gnu.org/licenses/gpl-2.0.html)
 - jQuery Iframe Transport, part of jQuery-File-Upload jQuery plugin, [MIT license](http://www.opensource.org/licenses/MIT)
 - Dropzone, [MIT license](http://www.opensource.org/licenses/MIT)
 - ContentLoaded, [MIT license](http://www.opensource.org/licenses/MIT)
