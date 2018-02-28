@@ -31,7 +31,7 @@ sub on_call {
             $_->{escalation_policy}->{summary} eq 'ops on-call' && $_->{escalation_level} == 1
         } @{ $self->json->decode( $res->decoded_content )->{oncalls} };
         $req = $self->_build_req('https://api.pagerduty.com/users/' . $on_call->{user}->{id});
-        $res = $http->request($req);
+        $res = $self->ddgc->http->request($req);
         if ($res->is_success) {
             return $self->json->decode( $res->decoded_content )->{user}->{email};
         }
