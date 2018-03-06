@@ -89,7 +89,7 @@
 
         {{#if permissions.admin}}
             {{#match beta_install 'success'}}
-                <p>Installed on <a href="http://beta.duckduckgo.com/{{#or example_query beta_query}}?q={{#if example_query}}{{example_query}}{{else}}{{beta_query}}{{/if}}{{/or}}">beta</a></p>
+                <p>Installed on <a href="https://beta.duckduckgo.com/{{#or example_query beta_query}}?q={{#if example_query}}{{example_query}}{{else}}{{beta_query}}{{/if}}{{/or}}">beta</a></p>
                 {{#if pr.id}}
                     <div class="button btn--primary {{#if staged.beta}}disabled{{/if}}" id="beta-install">Re-install on beta</div>
                 {{/if}}
@@ -106,7 +106,7 @@
         {{else}}
             <span class="readonly--info" id="test_machine--readonly">
                 {{#match beta_install 'success'}}
-                    Installed on <a href="http://beta.duckduckgo.com/{{#or example_query beta_query}}?q={{#if example_query}}{{example_query}}{{else}}{{beta_query}}{{/if}}{{/or}}">beta</a>
+                    Installed on <a href="https://beta.duckduckgo.com/{{#or example_query beta_query}}?q={{#if example_query}}{{example_query}}{{else}}{{beta_query}}{{/if}}{{/or}}">beta</a>
                 {{else}}
                     <span class="no-available">
                         Not yet installed on beta
@@ -132,7 +132,7 @@
     <p  class="readonly--info {{#exists staged 'maintainer'}}hide{{/exists}}" id="maintainer--readonly">
         {{#if maintainer}}
             {{#if maintainer.github}}
-                <a href="http://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link"> {{maintainer.github}}</a>
+                <a href="https://duckduckhack.com/u/{{slug maintainer.github}}" class="userpage-link"> {{maintainer.github}}</a>
             {{else}}
                 <span class="no-available">No maintainer yet.</span>
             {{/if}}
@@ -163,7 +163,7 @@
     <ul id="contributors--readonly">
       {{#if developer}}
         {{#each developer}}
-          <li><a {{#eq type 'github'}}href="http://duckduckhack.com/u/{{slug (final_path url)}}" class="userpage-link"{{else}}href="{{url}}"{{/eq}}>{{name}}</a></li>
+          <li><a {{#eq type 'github'}}href="https://duckduckhack.com/u/{{slug (final_path url)}}" class="userpage-link"{{else}}href="{{url}}"{{/eq}}>{{name}}</a></li>
         {{/each}}
       {{else}}
         <span class="no-available">No contributors yet.</span>

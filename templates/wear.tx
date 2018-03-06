@@ -154,7 +154,7 @@
 <div id="thankyou2" class="shareit-thanks  hide">
 	<p class="shareit-thanks__give">Thanks for sharing DuckDuckGo!  Here's a coupon code for a free t-shirt to help you spread the message in style!</p>
 		<div class="shareit-couponcode  notice"><i class="icn icon-tag"></i>Your coupon code is: <span id="couponcode" class="shareit-couponcode__code"><: $coupon_code :></span></div>
-	<p><a href="http://d-d-g.myshopify.com/">Go to the DuckDuckGo store</a></p>
+	<p><a href="https://duck-duck-go.myshopify.com/">Go to the DuckDuckGo store</a></p>
 </div>
 
 <: if $coupon_code { :>

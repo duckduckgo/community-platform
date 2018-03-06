@@ -2,7 +2,7 @@
 	<ul>
 		<!-- <li class="nav-home"><a href="https://duckduckhack.com/">Home</a></li> -->
 		<li class="nav-develop"><a href="/ia">Instant Answers</a></li>
-		<!-- <li class="nav-docs"><a href="http://docs.duckduckhack.com">Docs</a></li> --> 
+		<!-- <li class="nav-docs"><a href="https://docs.duckduckhack.com">Docs</a></li> -->
 		<!-- <li class="nav-search"><a href="https://duckduckgo.com/">Search DDG</a></li> -->
 		<!-- <li class="nav-help"><a href="<: $u('Help','index') :>">Help</a></li> -->
 		<li class="nav-blog"><a href="https://spreadprivacy.com/">Blog</a></li>

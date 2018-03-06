@@ -58,7 +58,7 @@
 									</span>
 									<: } :>
 									<h5 class="callout-row__text  icon" style="font-weight: bold;overflow:hidden;margin: 0;line-height:30px;/* dirty workaround -temp */">
-									Not helpful?  Help <a href="<: $file_path :>/<: if $file_dir { $file_dir :>/<: } $file :>.md">Edit</a> or <a href="http://duck.co/forum">Ask the Community</a></h5>									
+									Not helpful?  Help <a href="<: $file_path :>/<: if $file_dir { $file_dir :>/<: } $file :>.md">Edit</a> or <a href="https://duck.co/forum/general">Ask the Community</a></h5>
 								</div>
 							  </div>
 							</div>							
