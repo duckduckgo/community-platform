@@ -90,7 +90,7 @@ sub BUILD {
 	my $lib_dir = dir($self->build_dir,'lib',@lib_dir_parts);
 	my $testdir = dir($self->build_dir,'t');
 
-	my $tokencount = $self->token_domain->tokens->search()->count;
+	my $tokencount = $self->token_domain->tokens->search({ 'retired' => 0 })->count;
 	my $domainname = $self->token_domain->name;
 
 	my %locales;
