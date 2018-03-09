@@ -10,8 +10,9 @@ sub untranslated {
 	my ( $self, $token_domain_id, $language_id, $scalar_ignore_ids ) = @_;
 	my @ignore_ids = $scalar_ignore_ids ? @{$scalar_ignore_ids} : ();
 	$self->search({
-		'token_domain_id' => $token_domain_id,
+		'token_domain_language.token_domain_id' => $token_domain_id,
 		'language_id' => $language_id,
+		'token.retired' => 0,
 		-and => [
 			'me.id' => { -not_in => \@ignore_ids },
 			-or => [
@@ -26,7 +27,7 @@ sub untranslated {
 	},{
 		join => [ {
 			token_language_translations => 'token_language_translation_votes'
-		}, 'token_domain_language' ],
+		}, 'token_domain_language', 'token' ],
 		order_by => { -asc => ($self->me.'created') },
 	});
 }
@@ -43,10 +44,11 @@ sub untranslated_all {
 		'token_language_translations.id' => undef,
 		'token_domain_language.language_id' => { -in => \@language_ids},
 		'token_domain.active' => 1,
+		'token.retired' => 0,
 		($self->me.'id') => { -not_in => \@ignore_ids },
 		$self->result_source->schema->ddgc->is_live ? ( 'token_domain.key' => { -like => 'duckduckgo-%' } ) : (),
 	},{
-		join => [ 'token_language_translations', { token_domain_language => 'token_domain' } ],
+		join => [ 'token', 'token_language_translations', { token_domain_language => 'token_domain' } ],
 		order_by => { -asc => ($self->me.'created') },
 	});
 }
@@ -65,6 +67,7 @@ sub unvoted_all {
 		'token_language_translations.id' => { -not => undef },
 		'token_domain_language.language_id' => { -in => \@language_ids},
 		'token_domain.active' => 1,
+		'token.retired' => 0,
 		$token_domain_id ? ( 'token_domain_language.token_domain_id' => $token_domain_id ) : (),
 		-and => [
 			($self->me.'id') => { -not_in => \@ignore_ids },
@@ -81,7 +84,7 @@ sub unvoted_all {
 		],
 		$schema->ddgc->is_live ? ( 'token_domain.key' => { -like => 'duckduckgo-%' } ) : (),
 	},{
-		join => [ {
+		join => [ 'token', {
 			token_language_translations => 'token_language_translation_votes'
 		}, { token_domain_language => 'token_domain' } ],
 		order_by => { -desc => ($self->me.'created') },
@@ -103,13 +106,14 @@ sub unvoted {
 	my @ignore_ids = $scalar_ignore_ids ? @{$scalar_ignore_ids} : ();
 	$self->search({
 		'token_language_translations.id' => { -not => undef },
-		'token_domain_id' => $token_domain_id,
+		'token_domain_language.token_domain_id' => $token_domain_id,
 		'language_id' => $language_id,
+		'token.retired' => 0,
 		-and => [
 			($self->me.'id') => { -not_in => \@ignore_ids },
 			($self->me.'id') => { -not_in => $self->search({
 				'token_language_translation_votes.users_id' => $user->id,
-				'token_domain_id' => $token_domain_id,
+				'token_domain_language.token_domain_id' => $token_domain_id,
 				'language_id' => $language_id,
 			},{
 				select => 'user_voted.id',
@@ -120,7 +124,7 @@ sub unvoted {
 			})->as_query},
 		],
 	},{
-		join => [ {
+		join => [ 'token', {
 			token_language_translations => 'token_language_translation_votes'
 		}, 'token_domain_language' ],
 		order_by => { -desc => 'me.created' },
