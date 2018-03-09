@@ -161,6 +161,29 @@ sub translation_check :Chained('translation') :PathPart('check') :Args(1) {
 	$c->forward( $c->view('JSON') );
 }
 
+sub single_token :Chained('logged_in') CaptureArgs(1) {
+	my ( $self, $c, $token_id ) = @_;
+	$c->stash->{token} = $c->d->rs('Token')->find({ id => $token_id });
+	if (!$c->stash->{token}) {
+		$c->response->status(404);
+		return $c->detach;
+	}
+}
+
+sub token_retire :Chained('single_token') :PathPart('retire') :Args(1) {
+	my ( $self, $c, $retire ) = @_;
+	if ( !$c->user->admin ) {
+		$c->response->status(403);
+		return $c->detach;
+	}
+	$c->stash->{token}->retired($retire);
+	$c->stash->{token}->update;
+	$c->stash->{x} = {
+		check_result => $c->stash->{token}->retired,
+	};
+	$c->forward( $c->view('JSON') );
+}
+
 sub vote :Chained('translation') :CaptureArgs(1) {
 	my ( $self, $c, $vote ) = @_;
 	$c->require_action_token;
