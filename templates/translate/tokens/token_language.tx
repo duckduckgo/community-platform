@@ -3,25 +3,24 @@
 <: my $hide_field = "Hide translation field" :>
 <: my $show_field = "Add your own translation" :>
 
-: macro retired -> ( $c, $token_language ) {
+: macro retired -> ( $c, $token ) {
 	: if $c.user.admin {
 		<span>
-		: if $token_language.token.retired == 1 {
-			<a href="<: $u('Translate', 'token_retire', $token_language.token.id, 0) :>" class="retire_link button">
+		: if $token.retired == 1 {
+			<a href="<: $u('Translate', 'token_retire', $token.id, 0) :>" class="retire_link button">
 				Un-retire
 			</a>
 		: } else {
-			<a href="<: $u('Translate', 'token_retire', $token_language.token.id, 1) :>" class="retire_link button">
+			<a href="<: $u('Translate', 'token_retire', $token.id, 1) :>" class="retire_link button">
 				Retire
 			</a>
 		: }
 		</span>
 	: } else {
-		: if $token_language.token.retired == 1 {
+		: if $token.retired == 1 {
 			<span class="translation-invalid group">This token has been retired</span>
 		: }
 	: }
-	
 : }
 
 <fieldset class="row snippet">		
@@ -31,14 +30,14 @@
 		<div class="token__content">			
 			<strong class="snippet__heading"><: hilight_token_placeholders($token_language.token.msgid) :></strong>
 			<: if !$token_language_page { :><a href="<: $u('Translate','tokenlanguage',$token_language.id) :>" class="button  light  pull-right">Discuss</a><: } :>
-			: retired( $c, $token_language );
+			: retired( $c, $token_language.token );
 		</div>	
 	<: if $token_language.token.msgid_plural { :>
 		<div class="row">
 			<div class="token__label"><label>Term (Plural):</label></div>
 			<div class="token__content">
 				<strong class="snippet__heading"><: hilight_token_placeholders($token_language.token.msgid_plural) :></strong>
-				: retired( $c, $token_language );
+				: retired( $c, $token_language.token );
 			</div>
 		</div>
 	<: } :>
