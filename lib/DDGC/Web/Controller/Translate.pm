@@ -62,8 +62,8 @@ sub active_tokens :Chained('base') :PathPart('active_tokens.json') :Args(1) {
 	my ( $self, $c, $domain ) = @_;
 	$domain ||= 'duckduckgo-duckduckgo';
 	$c->stash->{x} = {
-		tokens => {
-			map { $_->id, $_->msgid }
+		tokens => [
+			map { { id => $_->id, msgid => $_->msgid } }
 			$c->d->rs('Token')
 			->search({
 				retired => 0,
@@ -71,7 +71,7 @@ sub active_tokens :Chained('base') :PathPart('active_tokens.json') :Args(1) {
 			},
 			{ prefetch => 'token_domain' })
 			->all
-		}
+		]
 	};
 	$c->forward( $c->view('JSON') );
 }
