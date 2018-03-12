@@ -271,7 +271,7 @@ $(document).ready(function() {
 				var text = ( data.check_result == 1 )
 					? 'Retired'
 					: 'Un-retired';
-				parent.html('<div class="button">'+text+'</div>');
+				parent.html('('+text+')');
 			}
 		});
 	});
