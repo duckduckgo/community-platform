@@ -58,6 +58,24 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 	}
 }
 
+sub active_tokens :Chained('base') :PathPart('active_tokens.json') :Args(1) {
+	my ( $self, $c, $domain ) = @_;
+	$domain ||= 'duckduckgo-duckduckgo';
+	$c->stash->{x} = {
+		tokens => {
+			map { $_->id, $_->msgid }
+			$c->d->rs('Token')
+			->search({
+				retired => 0,
+				'token_domain.key' => $domain,
+			},
+			{ prefetch => 'token_domain' })
+			->all
+		}
+	};
+	$c->forward( $c->view('JSON') );
+}
+
 sub untranslated_all :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->wiz_start( 'UntranslatedAll' );
