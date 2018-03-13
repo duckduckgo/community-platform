@@ -15,10 +15,13 @@ use Plack::Builder;
 use Plack::Session::State::Cookie;
 use Plack::Session::Store::File;
 use File::Temp qw/ tempdir /;
+use File::Spec::Functions;
+use IO::All -utf8;
 use JSON::MaybeXS qw/:all/;
 use URI;
 
 use DDGC;
+use DDGC::LocaleDist;
 use DDGC::Web;
 
 my $d = DDGC->new;
@@ -129,6 +132,17 @@ test_psgi $app => sub {
     $r = $retire_request->( $admin, $token->('baz')->id, 1 );
     ok( $r->is_success, 'Admin can retire token' );
     is( $token->('baz')->retired, 1, 'Token baz retired' );
+
+    my $dist = DDGC::LocaleDist->new( token_domain => $domain );
+    my $dir = $dist->distribution_file->stringify =~ s/\.tar\.[a-zA-Z0-9]+$//r;
+
+    for my $lang (qw/ en_AU en_GB /) {
+        my $fn = catfile( $dir, 'share', $lang, 'LC_MESSAGES', 'test.js' );
+        my $baz = grep { /baz/ } io->file($fn)->all;
+        my $quux = grep { /quux/ } io->file($fn)->all;
+        ok( !$baz, "Retired token baz not in locale js for $lang" );
+        ok( $quux, "Token quux is in locale js for $lang" );
+    }
 
 };
 
