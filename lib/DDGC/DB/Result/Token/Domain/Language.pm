@@ -157,7 +157,9 @@ msgstr ""
 EOF
 	$intro > $po;
 	my %doublecheck;
-	for my $tl ($self->search_related('token_languages',{},{
+	for my $tl ($self->search_related('token_languages',{
+		'token.retired' => 0
+	},{
 		prefetch => ['token',{ 
 			token_domain_language => [qw( language token_domain )],
 			token_language_translations => [{ user => { user_languages => 'language' }, token_language_translation_votes => 'user' }],

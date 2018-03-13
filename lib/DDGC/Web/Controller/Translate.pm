@@ -58,6 +58,24 @@ sub logged_in :Chained('base') :PathPart('') :CaptureArgs(0) {
 	}
 }
 
+sub active_tokens :Chained('base') :PathPart('active_tokens.json') :Args(1) {
+	my ( $self, $c, $domain ) = @_;
+	$domain ||= 'duckduckgo-duckduckgo';
+	$c->stash->{x} = {
+		tokens => [
+			map { { id => $_->id, msgid => $_->msgid } }
+			$c->d->rs('Token')
+			->search({
+				retired => 0,
+				'token_domain.key' => $domain,
+			},
+			{ prefetch => 'token_domain' })
+			->all
+		]
+	};
+	$c->forward( $c->view('JSON') );
+}
+
 sub untranslated_all :Chained('logged_in') :Args(0) {
 	my ( $self, $c ) = @_;
 	$c->wiz_start( 'UntranslatedAll' );
@@ -161,6 +179,33 @@ sub translation_check :Chained('translation') :PathPart('check') :Args(1) {
 	$c->forward( $c->view('JSON') );
 }
 
+sub single_token :Chained('logged_in') CaptureArgs(1) {
+	my ( $self, $c, $token_id ) = @_;
+	$c->stash->{token} = $c->d->rs('Token')->find({ id => $token_id });
+	if (!$c->stash->{token}) {
+		$c->response->status(404);
+		return $c->detach;
+	}
+}
+
+sub token_retire :Chained('single_token') :PathPart('retire') :Args(1) {
+	my ( $self, $c, $retire ) = @_;
+	if ( !$c->user->admin ) {
+		$c->response->status(403);
+		$c->stash->{x} = {
+			error => 403
+		}
+	}
+	else {
+		$c->stash->{token}->retired($retire);
+		$c->stash->{token}->update;
+		$c->stash->{x} = {
+			check_result => $c->stash->{token}->retired,
+		};
+	}
+	$c->forward( $c->view('JSON') );
+}
+
 sub vote :Chained('translation') :CaptureArgs(1) {
 	my ( $self, $c, $vote ) = @_;
 	$c->require_action_token;
@@ -199,12 +244,15 @@ sub domain :Chained('logged_in') :PathPart('') :CaptureArgs(1) {
 						},)->get_column('token_language_id')->as_query,
 					},
 					'undone_count.token_domain_language_id' => { -ident => 'me.id' },
+					'token.retired' => 0,
 				],
 			},{
-				join => 'token_language_translations', alias => 'undone_count'
+				join => [ 'token', 'token_language_translations' ],
+				alias => 'undone_count'
 			})->count_rs->as_query,
 			token_total_count => $c->d->rs('Token')->search({
 				'total_count.token_domain_id' => { -ident => 'me.token_domain_id' },
+				'retired' => 0,
 			},{
 				join => 'token_domain', alias => 'total_count'
 			})->count_rs->as_query,
