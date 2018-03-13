@@ -192,13 +192,17 @@ sub token_retire :Chained('single_token') :PathPart('retire') :Args(1) {
 	my ( $self, $c, $retire ) = @_;
 	if ( !$c->user->admin ) {
 		$c->response->status(403);
-		return $c->detach;
+		$c->stash->{x} = {
+			error => 403
+		}
 	}
-	$c->stash->{token}->retired($retire);
-	$c->stash->{token}->update;
-	$c->stash->{x} = {
-		check_result => $c->stash->{token}->retired,
-	};
+	else {
+		$c->stash->{token}->retired($retire);
+		$c->stash->{token}->update;
+		$c->stash->{x} = {
+			check_result => $c->stash->{token}->retired,
+		};
+	}
 	$c->forward( $c->view('JSON') );
 }
 
