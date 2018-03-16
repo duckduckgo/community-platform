@@ -120,7 +120,7 @@ test_psgi $app => sub {
         token_domain_languages => {
             language => $_
         }
-    ) for ( $l2, $l3 );
+    ) for ( $l1, $l2, $l3 );
 
     $domain->create_related( tokens => { msgid => $_ } )
         for ( qw/ foo bar baz qux quux quuz / );
@@ -142,6 +142,14 @@ test_psgi $app => sub {
         my $quux = grep { /quux/ } io->file($fn)->all;
         ok( !$baz, "Retired token baz not in locale js for $lang" );
         ok( $quux, "Token quux is in locale js for $lang" );
+    }
+
+    my $en_us_dir = catfile( $dir, qw/ share en_US LC_MESSAGES / );
+    my @po = io->file( catfile( $en_us_dir, 'test.po' ) )->all;
+    my @js = io->file( catfile( $en_us_dir, 'test.js' ) )->all;
+    for my $token ( qw/ foo bar baz qux quux quuz / ) {
+        ok( !( grep { /$token/ } @js ), 'en_US tokens not in js' );
+        ok( !( grep { /$token/ } @po ), 'en_US tokens not in po' );
     }
 
 };
