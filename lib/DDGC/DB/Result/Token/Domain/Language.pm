@@ -166,6 +166,7 @@ EOF
 		}],
 		order_by => [ 'token_language_translations.updated', 'token_language_translations.id' ],
 	})->all) {
+		next if $tl->token_domain_language->language->locale eq 'en_US';
 		$tl->auto_use; # should be renamed
 		my $msgid = $tl->token->msgid;
 		$msgid .= '||||msgctxt||||'.$tl->token->msgctxt if $tl->token->msgctxt;
