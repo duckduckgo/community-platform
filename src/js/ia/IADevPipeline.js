@@ -10,7 +10,6 @@
             'important',
             'mentioned',
             'attention',
-            'beta'
         ],
 
         current_filter: '',
@@ -147,39 +146,6 @@
                     dev_p.query = $(this).val();
                     $("#pipeline-clear-filters").removeClass("hide");
                     filter();
-                }
-            });
-
-            $("body").on("click", "#beta_install", function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    $(this).addClass("disabled");
-                    var prs = [];
-                    $(".dev_pipeline-column__list .selected").each(function(idx) {
-                        var temp_pr = $.trim($(this).find(".item-activity a").attr("href"));
-                        var temp_hash = pr_hash(temp_pr);
-
-                        if (temp_hash) {
-                            prs.push(temp_hash);
-                        }
-                    });
-
-                    if (prs.length) {
-                        send_to_beta(JSON.stringify(prs));
-                    }
-                }
-            });
-
-            $("body").on("click", "#beta-single", function(evt) {
-                if (!$(this).hasClass("disabled")) {
-                    $(this).addClass("disabled");
-                    var prs = [];
-                    var pr = $.trim($("#pr").attr("href"));
-                    var tmp_hash = pr_hash(pr);
-
-                    if (pr_hash) {
-                        prs.push(tmp_hash);
-                        send_to_beta(JSON.stringify(prs));
-                    }
                 }
             });
 
@@ -342,16 +308,6 @@
                 return false;
             }
 
-            function send_to_beta(prs) {
-                var jqxhr = $.post("/ia/send_to_beta", {
-                    data : prs,
-                    action_token: $.trim($('meta[name=action-token]').attr("content")) 
-                })
-                .done(function(data) {
-                    dev_p.saved = true;
-                });
-            }
-
             function autocommit(field, value, id) {
                var jqxhr = $.post("/ia/save", {
                    field : field,
@@ -401,7 +357,6 @@
                    var actions_data = {};
                    actions_data.permissions = dev_p.data.permissions;
                    actions_data.selected = selected;
-                   actions_data.beta = 1;
                    actions_data.got_prs = 0;
                    var same_type = true;
                    var temp_type = '';
@@ -411,11 +366,6 @@
                        var milestone = $(this).parents(".dev_pipeline-column").attr("id").replace("pipeline-", "");
                        var page_data = getPageData(meta_id, milestone);
                         
-                       // If at least one of the selected IAs isn't on beta we show the "install on beta" button
-                       if ((page_data.beta_install && (!page_data.beta_install.match(/^success/))) || (!page_data.beta_install)) {
-                           actions_data.beta = 0;
-                       }
-
                        if (page_data.pr && (page_data.pr.status === "open" || page_data.pr.status === "merged")) {
                            actions_data.got_prs = 1;
                        }
