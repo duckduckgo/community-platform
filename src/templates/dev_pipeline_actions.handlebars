@@ -38,21 +38,5 @@
                   </select>
 		</span>
             </div>
-
-            {{#if got_prs}}
-            <div class="frm__label field-label"> Dev Machine </div>
-                <div class="field-section">
-                    {{#if beta}}
-                        <p>Installed on <a href="https://beta.duckduckgo.com">beta</a></p>
-                        <div class="pipeline-actions__button button btn--primary" id="beta_install">
-                            Re-install on beta
-                        </div>
-                    {{else}}
-                        <div class="pipeline-actions__button button btn--primary" id="beta_install">
-                            Install on beta
-                        </div>
-                    {{/if}}
-                </div>
-            {{/if}}
         </div>
 {{/if}}

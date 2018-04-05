@@ -83,38 +83,6 @@
             </span>
         </div>
     {{/if}}
-    
-    <div class="ia-single--info">
-        <h3 class="ia-single--header">Dev Machine</h3>
-
-        {{#if permissions.admin}}
-            {{#match beta_install 'success'}}
-                <p>Installed on <a href="http://beta.duckduckgo.com/{{#or example_query beta_query}}?q={{#if example_query}}{{example_query}}{{else}}{{beta_query}}{{/if}}{{/or}}">beta</a></p>
-                {{#if pr.id}}
-                    <div class="button btn--primary {{#if staged.beta}}disabled{{/if}}" id="beta-install">Re-install on beta</div>
-                {{/if}}
-            {{else}}
-                {{#if beta_install}}
-                    <p class="not-saved">Install on beta failed: {{beta_install}}</p>
-                {{/if}}
-                {{#if pr.id}}
-                    <div class="button btn--primary {{#if staged.beta}}disabled{{/if}}" id="beta-install">Install on beta</div>
-                {{else}}
-                    <p> Can't install on beta without a PR </p>
-                {{/if}}
-            {{/match}}
-        {{else}}
-            <span class="readonly--info" id="test_machine--readonly">
-                {{#match beta_install 'success'}}
-                    Installed on <a href="http://beta.duckduckgo.com/{{#or example_query beta_query}}?q={{#if example_query}}{{example_query}}{{else}}{{beta_query}}{{/if}}{{/or}}">beta</a>
-                {{else}}
-                    <span class="no-available">
-                        Not yet installed on beta
-                    </span>
-                {{/match}}
-            </span>
-        {{/if}}
-    </div>
 {{/ne_and}}
 
 <div class="ia-single--info">
