@@ -189,7 +189,8 @@ sub step :Chained('feedback') :PathPart('') :Args(1) {
                project => $c->d->config->asana_oncall_project,
                section => $c->d->config->asana_oncall_section,
            } ],
-           assignee => $c->d->pagerduty->on_call
+           assignee => $c->d->pagerduty->on_call,
+           tags => [ $c->d->config->asana_security_tag ]
          }
        );
     } else {
