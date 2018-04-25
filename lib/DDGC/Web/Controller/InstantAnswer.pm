@@ -1116,6 +1116,22 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
                 save($c, \@update, $ia, 1);
                 $saved = 1;
                 
+                if ($field eq "production_state" || $field eq "deployment_state" || $field eq "dev_milestone"
+                   || $field eq "perl_module" || $field eq "blockgroup") {
+                    $ia->{$field} = $value;
+
+                    my $milestone = $ia->dev_milestone;
+                    my $perl_module = $ia->perl_module ? 1 : 0;
+                    my $online = ($ia->production_state eq "online") ? 1 : 0;
+                    my $blockgroup = $ia->blockgroup ? 1 : 0;
+                    my $deployment_state = $ia->deployment_state ? 1 : 0;
+
+                    my $new_milestone = statuscheck($milestone, $perl_module, $online, $blockgroup, $deployment_state);
+                    my @new_update = [];
+                    push(@new_update, {value => $new_milestone, field => "dev_milestone"} );
+                    save($c, \@$new_update, $ia, 1);
+                }
+                
                 save_milestone_date($ia, $c->req->params->{value});
             }
 
@@ -1647,6 +1663,39 @@ sub remove_edit {
 sub update_ia {
     my ($ia, $field, $value) = @_;
     $ia->update({$field => $value});
+}
+
+sub statuscheck {
+    my ($milestone, $perl_module, $online, $blockgroup, $deployment_state) = @_;
+
+    my $dev_milestone;
+
+    if ($online) {
+        if ($perl_module && $blockgroup && $deployment_state) {
+            $dev_milestone = "live";
+        } else {
+            if ($milestone eq "live") {
+                $dev_milestone = "offline";
+            }
+        }
+    } else {
+        if ($milestone eq "live") {
+            $dev_milestone = "offline";
+        } else if ($milestone ne "deprecated" && $milestone ne "complete") {
+            if (!$blockgroup && $milestone eq "testing") {
+                $dev_milestone = "development";
+            } else if ($blockgroup) {
+                if ($deployment_state) {
+                    $dev_milestone = "complete";
+                } else {
+                    $dev_milestone = "testing";
+                }
+            }
+        } 
+    }
+
+    return $dev_milestone;
+
 }
 
 # given a result set and a field name, remove all the
