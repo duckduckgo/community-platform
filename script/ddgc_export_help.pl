@@ -10,6 +10,7 @@ use IO::All -utf8;
 use HTML::TreeBuilder::LibXML;
 use Archive::Tar;
 use File::Find;
+use Try::Tiny;
 
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
@@ -95,7 +96,13 @@ sub write_markup {
     for my $node ( $tree->findnodes('//img') ) {
         my $src = $node->attr('src');
         if ( $src =~ m{^https?://}i ) {
-            my $m = $self->ddgc->rs('Media')->create_via_url( $self->user, $src );
+            my $m;
+            try {
+                $m = $self->ddgc->rs('Media')->create_via_url( $self->user, $src );
+            } catch {
+                warn "Downloading $src failed : $_";
+            };
+            next unless $m;
             $src = '/media/' . $m->filename;
         }
         copy( catfile( $self->ddgc->config->rootdir_path, $src ), $d );
