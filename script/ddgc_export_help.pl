@@ -95,8 +95,7 @@ sub write_markup {
             my $m = $self->rs('Media')->create_via_url( $self->user, $src );
             $src = $m->filename;
         }
-        copy( catfile( $self->ddgc->config->rootdir_path, $src ),
-              $self->pkg_dir );
+        copy( catfile( $self->ddgc->config->rootdir_path, $src ), $d );
         $src = $self->filename_for( $src );
 
         $node->attr( 'src', $src );
