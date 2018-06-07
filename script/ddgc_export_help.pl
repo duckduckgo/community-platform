@@ -83,7 +83,10 @@ sub write_markup {
     my $content = join " ",
                   map { $_->content_html }
                   $help->help_contents->all;
-    my $d = $self->dir_for( $help->help_category->key );
+    my $category = $help->help_category
+        ? $help->help_category->key
+        : 'hidden';
+    my $d = $self->dir_for( $category );
 
     my $tree = HTML::TreeBuilder::LibXML->new;
     $tree->parse( $content );
