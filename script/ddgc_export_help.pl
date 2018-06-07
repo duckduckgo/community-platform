@@ -25,10 +25,15 @@ has now => (
     default => sub { time() }
 );
 
+has ddgc_dir => ( is => 'lazy' );
+sub _build_ddgc_dir {
+    $_[0]->ddgc->config->rootdir_path
+}
+
 has help_dir => ( is => 'lazy' );
 sub _build_help_dir {
     my ( $self ) = @_;
-    $self->_mkdir( $self->ddgc->config->rootdir_path, 'help' );
+    $self->_mkdir( $self->ddgc_dir, 'help' );
 }
 
 has pkg_dir => ( is => 'lazy' );
@@ -46,7 +51,7 @@ sub _build_user {
 has tarball => ( is => 'lazy' );
 sub _build_tarball {
     my ( $self ) = @_;
-    catfile( $self->help_dir, 'help-' . $self->now . '.tar.bz2' );
+    catfile( $self->ddgc_dir, 'media', 'help-' . $self->now . '.tar.bz2' );
 }
 
 has archive_tar => ( is => 'lazy' );
