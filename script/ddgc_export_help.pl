@@ -92,8 +92,8 @@ sub write_markup {
     for my $node ( $tree->findnodes('//img') ) {
         my $src = $node->attr('src');
         if ( $src =~ m{^https?://}i ) {
-            my $m = $self->rs('Media')->create_via_url( $self->user, $src );
-            $src = $m->filename;
+            my $m = $self->ddgc->rs('Media')->create_via_url( $self->user, $src );
+            $src = '/media/' . $m->filename;
         }
         copy( catfile( $self->ddgc->config->rootdir_path, $src ), $d );
         $src = $self->filename_for( $src );
