@@ -8,6 +8,8 @@ use File::Path qw/ make_path /;
 use File::Copy;
 use IO::All -utf8;
 use HTML::TreeBuilder::LibXML;
+use Archive::Tar;
+use File::Find;
 
 use FindBin;
 use lib $FindBin::Dir . "/../lib";
@@ -18,12 +20,21 @@ sub _build_ddgc {
     DDGC->new;
 }
 
-has target_dir => ( is => 'lazy' );
-sub _build_target_dir {
+has now => (
+    is => 'ro',
+    default => sub { time() }
+);
+
+has help_dir => ( is => 'lazy' );
+sub _build_help_dir {
     my ( $self ) = @_;
-    my $d = catdir( $self->ddgc->config->rootdir_path, 'help', time );
-    make_path $d unless -d $d;
-    return $d;
+    $self->_mkdir( $self->ddgc->config->rootdir_path, 'help' );
+}
+
+has pkg_dir => ( is => 'lazy' );
+sub _build_pkg_dir {
+    my ( $self ) = @_;
+    $self->_mkdir( $self->help_dir, $self->now );
 }
 
 has user => ( is => 'lazy' );
@@ -32,9 +43,28 @@ sub _build_user {
     $self->ddgc->find_user('ddgc');
 }
 
+has tarball => ( is => 'lazy' );
+sub _build_tarball {
+    my ( $self ) = @_;
+    catfile( $self->help_dir, 'help-' . $self->now . '.tar.bz2' );
+}
+
+has archive_tar => ( is => 'lazy' );
+sub _build_archive_tar {
+    my ( $self ) = @_;
+    Archive::Tar->new;
+}
+
+sub _mkdir {
+    my ( $self, @dir ) = @_;
+    my $d = catdir( @dir );
+    make_path $d unless -d $d;
+    return $d;
+}
+
 sub dir_for {
     my ( $self, $dir ) = @_;
-    my $d = catdir( $self->target_dir, $dir );
+    my $d = catdir( $self->pkg_dir, $dir );
     make_path $d unless -d $d;
     return $d;
 }
@@ -61,7 +91,7 @@ sub write_markup {
             $src = $m->filename;
         }
         copy( catfile( $self->ddgc->config->rootdir_path, $src ),
-              $self->target_dir );
+              $self->pkg_dir );
         $src = $self->filename_for( $src );
 
         $node->attr( 'src', $src );
@@ -82,9 +112,22 @@ sub export_helps {
     }
 }
 
+sub zip_helps {
+    my ( $self ) = @_;
+    my @files;
+    find (
+        sub { push @files, $File::Find::name },
+        $self->pkg_dir
+    );
+    $self->archive_tar->add_files( @files );
+    $self->archive_tar->write( $self->tarball, COMPRESS_BZIP )
+     and printf( "Wrote %s\n", $self->tarball );
+}
+
 sub go {
     my ( $self ) = @_;
     $self->export_helps;
+    $self->zip_helps;
 }
 
 main->new_with_options->go;
