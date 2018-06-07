@@ -104,7 +104,7 @@ sub write_markup {
         $node->attr( 'src', $src );
     }
 
-    $content = $tree->guts->as_HTML =~ s{</br>}{}mgr;
+    $content = $tree->as_HTML =~ s{</br>}{}mgr;
 
     $content > io( catfile( $d, $help->key . '.html' ) );
 }
