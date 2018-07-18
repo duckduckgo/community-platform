@@ -10,23 +10,23 @@
 		<: } :>
 	</div>
 	<ul class="translation-details">
-		: if $c.user.translation_manager && $token_language_page {
+		: if $c.user.translation_manager  {
 			<div id="translation_check_<: $translation.id :>" class="translation-validate">
-				<: if !$translation.invalid { :>
-					<a href="<: $u('Translate', 'translation_check', $translation.id, 0) :>" class="checkfalse_link button">
-						SET INVALID
+				: if $translation.isa('DDGC::DB::Result::Token::Language::Translation') {
+					<: if !$translation.invalid { :>
+						<a href="<: $u('Translate', 'translation_check', $translation.id, 0) :>" class="checkfalse_link button">
+							SET INVALID
+						</a>
+					<: } else { :>
+						<a href="<: $u('Translate', 'translation_check', $translation.id, 1) :>" class="checkfalse_link button">
+							SET VALID
+						</a>
+					<: } :>
+				: } else {
+					<a href="<: $u('Translate', 'delete_msgstr', $translation.id) :>" class="checkfalse_link button">
+						DELETE
 					</a>
-				<: } else { :>
-					<a href="<: $u('Translate', 'translation_check', $translation.id, 1) :>" class="checkfalse_link button">
-						SET VALID
-					</a>
-				<: } :>
-			</div>
-		: } else {
-			<div id="translation_check_<: $translation.id :>" class="translation-validate">
-				<a href="<: $u('Translate', 'delete_msgstr', $translation.id) :>" class="checkfalse_link button">
-					DELETE
-				</a>
+				: }
 			</div>
 		: }
 		<: if $translation.invalid { :>
