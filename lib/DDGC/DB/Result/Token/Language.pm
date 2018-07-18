@@ -171,6 +171,15 @@ sub gettext_escape {
 	return $content;
 }
 
+sub delete_msgstr {
+	my ( $self, $user ) = @_;
+	die "Access denied" unless $user->is('translation_manager');
+	for ( map { "msgstr$_" } 0..5 ) {
+		$self->$_(undef);
+	}
+	$self->update;
+}
+
 sub gettext_snippet_formatter {
 	my ( $self, %vars ) = @_;
 	my $return;

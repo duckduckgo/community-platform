@@ -6,11 +6,6 @@
 	  <form action="<: $u('Translate','tokenlanguage',$token_language.id) :>" method="post">
 		<div class="row">
 			<: include "translate/tokens/token_language.tx" { token_language_page => 1 } :>
-			: if $c.user.translation_manager {
-				<strong style="color:red"><center>
-					NB: To change the Translation in use there must be at least one valid translation above
-				</center></strong>
-			: }
 			<fieldset class="row translation-use">
 				<div class="token__label"><label>Translation in use:</label></div>
 				<div class="token__content">
