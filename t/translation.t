@@ -19,6 +19,8 @@ use File::Spec::Functions;
 use IO::All -utf8;
 use JSON::MaybeXS qw/:all/;
 use URI;
+use MIME::Base64;
+use List::MoreUtils qw/ pairwise /;
 
 use DDGC;
 use DDGC::LocaleDist;
@@ -65,11 +67,32 @@ test_psgi $app => sub {
         my $cookie = 'ddgc_session=' . $session_request->content;
     };
 
+    my $delete_msgstr_request = sub {
+        my ( $user, $token_language_id ) = @_;
+
+        $cb->(
+            GET "/translate/delete_live/$token_language_id",
+            Cookie => $user,
+        );
+    };
+
     my $retire_request = sub {
         my ( $user, $token_id, $retire ) = @_;
 
         $cb->(
             GET "/translate/single_token/$token_id/retire/$retire",
+            Cookie => $user,
+        );
+    };
+
+    my $add_translation_request = sub {
+        my ( $user, $token_language_id, $msgstr ) = @_;
+
+        $cb->(
+            POST "/translate/tokenlanguage/$token_language_id", [
+                "token_language_${token_language_id}_msgstr0" => $msgstr,
+                save_translations => 'yes',
+            ],
             Cookie => $user,
         );
     };
