@@ -116,6 +116,11 @@ test_psgi $app => sub {
     } );
     my $admin_user = $d->find_user('tadminuser');
 
+    my $polyglot = $create_user_and_get_cookie->( {
+        username => 'polyglot',
+    } );
+    my $polyglot_user = $d->find_user('polyglot');
+
     my $user = $create_user_and_get_cookie->( {
         username => 'tuser',
     } );
@@ -142,6 +147,13 @@ test_psgi $app => sub {
     $domain->create_related(
         token_domain_languages => {
             language => $_
+        }
+    ) for ( $l1, $l2, $l3 );
+
+    $polyglot_user->create_related(
+        user_languages => {
+            grade => 5,
+            language_id => $_->id,
         }
     ) for ( $l1, $l2, $l3 );
 
