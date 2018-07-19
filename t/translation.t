@@ -199,8 +199,10 @@ test_psgi $app => sub {
         my $fn = catfile( $dir, 'share', $lang, 'LC_MESSAGES', 'test.js' );
         my $baz = grep { /baz/ } io->file($fn)->all;
         my $quux = grep { /quux/ } io->file($fn)->all;
+        my $bad = grep { my $l = $_; grep { $l =~ /$_/ } @bad_msgstrs } io->file($fn)->all;
         ok( !$baz, "Retired token baz not in locale js for $lang" );
         ok( $quux, "Token quux is in locale js for $lang" );
+        ok( !$bad, "No invalid translations in locale js" );
     }
 
     my $en_us_dir = catfile( $dir, qw/ share en_US LC_MESSAGES / );
