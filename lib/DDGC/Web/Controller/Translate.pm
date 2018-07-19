@@ -186,10 +186,14 @@ sub delete_msgstr :Chained('logged_in') :PathPart('delete_live') :Args(1) {
 		$c->response->status(404);
 		return $c->detach;
 	}
-	$tl->delete_msgstr( $c->user );
-	$c->stash->{x} = {
-		check_result => 2,
-	};
+	if ( $tl->delete_msgstr( $c->user ) ) {
+		$c->stash->{x} = {
+			check_result => 2,
+		};
+	} else {
+		$c->response->status(403);
+		$c->stash->{x} = { error => 'Access denied' };
+	}
 	$c->forward( $c->view('JSON') );
 }
 

@@ -175,7 +175,7 @@ sub gettext_escape {
 
 sub delete_msgstr {
 	my ( $self, $user ) = @_;
-	die "Access denied" unless $user->is('translation_manager');
+	return "" unless $user->is('translation_manager');
 	for ( map { "msgstr$_" } 0..5 ) {
 		$self->$_(undef);
 	}
