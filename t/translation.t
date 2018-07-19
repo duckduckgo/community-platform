@@ -213,6 +213,25 @@ test_psgi $app => sub {
         ok( !( grep { /$token/ } @po ), 'en_US tokens not in po' );
     }
 
+    my $tl = $d->rs('Token::Language')->search({
+        msgstr0 => { '!=' => undef },
+        token_domain_language_id => {
+            '!=' => $d->rs('Token::Domain::Language')->search({ language_id => $l1->id })->one_row->id
+        }
+    })->one_row;
+    ok ( $tl->msgstr0, "tokenlanguage has msgstr" );
+
+    $r = $delete_msgstr_request->( $polyglot, $tl->id );
+    ok ( ! $r->is_success, "Non translation manager msgstr delete request failed" );
+    $tl = $tl->get_from_storage;
+    ok ( $tl->msgstr0, "tokenlanguage still has msgstr" );
+
+    $r = $delete_msgstr_request->( $admin, $tl->id );
+    ok ( $r->is_success, "Admin delete request msgstr succeeded" );
+    $tl = $tl->get_from_storage;
+    ok ( ! $tl->msgstr0, "tokenlanguage no longer has msgstr" );
+
 };
 
 done_testing;
+
