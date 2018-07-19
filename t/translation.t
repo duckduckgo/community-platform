@@ -168,6 +168,30 @@ test_psgi $app => sub {
     ok( $r->is_success, 'Admin can retire token' );
     is( $token->('baz')->retired, 1, 'Token baz retired' );
 
+    my @bad_msgstrs = ( decode_base64('aG9yc2UgcGlzcw=='), decode_base64('c2hpdHR5IGJlZXI='),
+        q{'><img src=x onerror='alert(1)>}, q{"><script>alert(1)</script>}, q{"><img src=x onerror=prompt(1)>} );
+    my @good_msgstrs = ( q{scunthorpe}, q{shitake mushrooms}, q{Open Menu > Settings > Search and select DuckDuckGo!}, q{> 20 Minuten} );
+    my @tl = $d->rs('Token::Language')->search( {
+        token_domain_language_id => {
+            '!=' => $d->rs('Token::Domain::Language')->search({ language_id => $l1->id })->one_row->id
+        },
+    } )->all;
+
+    my @slice =  @tl[0..4];
+    pairwise {
+        my $display_bad_msgstr = encode_base64($a);
+        my $r = $add_translation_request->( $polyglot, $b->id, $a );
+        ok( $r->is_success, "Adding translation $display_bad_msgstr" );
+        is( $d->rs('Token::Language::Translation')->order_by({ -desc => 'id' })->one_row->check_result, 0, "Invalid token $display_bad_msgstr" );
+    } @bad_msgstrs, @slice;
+
+    @slice =  @tl[5..8];
+    pairwise {
+        my $r = $add_translation_request->( $polyglot, $b->id, $a );
+        ok( $r->is_success, "Adding translation $a" );
+        is( $d->rs('Token::Language::Translation')->order_by({ -desc => 'id' })->one_row->check_result, 1, "Valid token $a" );
+    } @good_msgstrs, @slice;
+
     my $dist = DDGC::LocaleDist->new( token_domain => $domain );
     my $dir = $dist->distribution_file->stringify =~ s/\.tar\.[a-zA-Z0-9]+$//r;
 
