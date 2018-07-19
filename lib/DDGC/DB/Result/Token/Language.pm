@@ -111,6 +111,8 @@ has_many 'token_language_translations', 'DDGC::DB::Result::Token::Language::Tran
 	cascade_delete => 1,
 };
 
+has $_ => ( is => 'rw', default => sub { 0 } ) for qw/ user invalid username user_voted vote_count /;
+
 unique_constraint [qw/ token_id token_domain_language_id /];
 
 sub event_related {
@@ -169,6 +171,15 @@ sub gettext_escape {
 	$content =~ s/\\/\\\\/g;
 	$content =~ s/"/\\"/g;
 	return $content;
+}
+
+sub delete_msgstr {
+	my ( $self, $user ) = @_;
+	return "" unless $user->is('translation_manager');
+	for ( map { "msgstr$_" } 0..5 ) {
+		$self->$_(undef);
+	}
+	$self->update;
 }
 
 sub gettext_snippet_formatter {

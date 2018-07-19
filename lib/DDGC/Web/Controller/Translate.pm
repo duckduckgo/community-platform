@@ -179,6 +179,24 @@ sub translation_check :Chained('translation') :PathPart('check') :Args(1) {
 	$c->forward( $c->view('JSON') );
 }
 
+sub delete_msgstr :Chained('logged_in') :PathPart('delete_live') :Args(1) {
+	my ( $self, $c, $token_language_id ) = @_;
+	my $tl = $c->d->rs('Token::Language')->find({ id => $token_language_id });
+	if ( !$tl ) {
+		$c->response->status(404);
+		return $c->detach;
+	}
+	if ( $tl->delete_msgstr( $c->user ) ) {
+		$c->stash->{x} = {
+			check_result => 2,
+		};
+	} else {
+		$c->response->status(403);
+		$c->stash->{x} = { error => 'Access denied' };
+	}
+	$c->forward( $c->view('JSON') );
+}
+
 sub single_token :Chained('logged_in') CaptureArgs(1) {
 	my ( $self, $c, $token_id ) = @_;
 	$c->stash->{token} = $c->d->rs('Token')->find({ id => $token_id });

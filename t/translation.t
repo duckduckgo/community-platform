@@ -19,6 +19,8 @@ use File::Spec::Functions;
 use IO::All -utf8;
 use JSON::MaybeXS qw/:all/;
 use URI;
+use MIME::Base64;
+use List::MoreUtils qw/ pairwise /;
 
 use DDGC;
 use DDGC::LocaleDist;
@@ -65,11 +67,32 @@ test_psgi $app => sub {
         my $cookie = 'ddgc_session=' . $session_request->content;
     };
 
+    my $delete_msgstr_request = sub {
+        my ( $user, $token_language_id ) = @_;
+
+        $cb->(
+            GET "/translate/delete_live/$token_language_id",
+            Cookie => $user,
+        );
+    };
+
     my $retire_request = sub {
         my ( $user, $token_id, $retire ) = @_;
 
         $cb->(
             GET "/translate/single_token/$token_id/retire/$retire",
+            Cookie => $user,
+        );
+    };
+
+    my $add_translation_request = sub {
+        my ( $user, $token_language_id, $msgstr ) = @_;
+
+        $cb->(
+            POST "/translate/tokenlanguage/$token_language_id", [
+                "token_language_${token_language_id}_msgstr0" => $msgstr,
+                save_translations => 'yes',
+            ],
             Cookie => $user,
         );
     };
@@ -92,6 +115,11 @@ test_psgi $app => sub {
         role     => 'admin',
     } );
     my $admin_user = $d->find_user('tadminuser');
+
+    my $polyglot = $create_user_and_get_cookie->( {
+        username => 'polyglot',
+    } );
+    my $polyglot_user = $d->find_user('polyglot');
 
     my $user = $create_user_and_get_cookie->( {
         username => 'tuser',
@@ -122,6 +150,13 @@ test_psgi $app => sub {
         }
     ) for ( $l1, $l2, $l3 );
 
+    $polyglot_user->create_related(
+        user_languages => {
+            grade => 5,
+            language_id => $_->id,
+        }
+    ) for ( $l1, $l2, $l3 );
+
     $domain->create_related( tokens => { msgid => $_ } )
         for ( qw/ foo bar baz qux quux quuz / );
 
@@ -133,6 +168,30 @@ test_psgi $app => sub {
     ok( $r->is_success, 'Admin can retire token' );
     is( $token->('baz')->retired, 1, 'Token baz retired' );
 
+    my @bad_msgstrs = ( decode_base64('aG9yc2UgcGlzcw=='), decode_base64('c2hpdHR5IGJlZXI='),
+        q{'><img src=x onerror='alert(1)>}, q{"><script>alert(1)</script>}, q{"><img src=x onerror=prompt(1)>} );
+    my @good_msgstrs = ( q{scunthorpe}, q{shitake mushrooms}, q{Open Menu > Settings > Search and select DuckDuckGo!}, q{> 20 Minuten} );
+    my @tl = $d->rs('Token::Language')->search( {
+        token_domain_language_id => {
+            '!=' => $d->rs('Token::Domain::Language')->search({ language_id => $l1->id })->one_row->id
+        },
+    } )->all;
+
+    my @slice =  @tl[0..4];
+    pairwise {
+        my $display_bad_msgstr = encode_base64($a);
+        my $r = $add_translation_request->( $polyglot, $b->id, $a );
+        ok( $r->is_success, "Adding translation $display_bad_msgstr" );
+        is( $d->rs('Token::Language::Translation')->order_by({ -desc => 'id' })->one_row->check_result, 0, "Invalid token $display_bad_msgstr" );
+    } @bad_msgstrs, @slice;
+
+    @slice =  @tl[5..8];
+    pairwise {
+        my $r = $add_translation_request->( $polyglot, $b->id, $a );
+        ok( $r->is_success, "Adding translation $a" );
+        is( $d->rs('Token::Language::Translation')->order_by({ -desc => 'id' })->one_row->check_result, 1, "Valid token $a" );
+    } @good_msgstrs, @slice;
+
     my $dist = DDGC::LocaleDist->new( token_domain => $domain );
     my $dir = $dist->distribution_file->stringify =~ s/\.tar\.[a-zA-Z0-9]+$//r;
 
@@ -140,8 +199,10 @@ test_psgi $app => sub {
         my $fn = catfile( $dir, 'share', $lang, 'LC_MESSAGES', 'test.js' );
         my $baz = grep { /baz/ } io->file($fn)->all;
         my $quux = grep { /quux/ } io->file($fn)->all;
+        my $bad = grep { my $l = $_; grep { $l =~ /$_/ } @bad_msgstrs } io->file($fn)->all;
         ok( !$baz, "Retired token baz not in locale js for $lang" );
         ok( $quux, "Token quux is in locale js for $lang" );
+        ok( !$bad, "No invalid translations in locale js" );
     }
 
     my $en_us_dir = catfile( $dir, qw/ share en_US LC_MESSAGES / );
@@ -152,6 +213,25 @@ test_psgi $app => sub {
         ok( !( grep { /$token/ } @po ), 'en_US tokens not in po' );
     }
 
+    my $tl = $d->rs('Token::Language')->search({
+        msgstr0 => { '!=' => undef },
+        token_domain_language_id => {
+            '!=' => $d->rs('Token::Domain::Language')->search({ language_id => $l1->id })->one_row->id
+        }
+    })->one_row;
+    ok ( $tl->msgstr0, "tokenlanguage has msgstr" );
+
+    $r = $delete_msgstr_request->( $polyglot, $tl->id );
+    ok ( ! $r->is_success, "Non translation manager msgstr delete request failed" );
+    $tl = $tl->get_from_storage;
+    ok ( $tl->msgstr0, "tokenlanguage still has msgstr" );
+
+    $r = $delete_msgstr_request->( $admin, $tl->id );
+    ok ( $r->is_success, "Admin delete request msgstr succeeded" );
+    $tl = $tl->get_from_storage;
+    ok ( ! $tl->msgstr0, "tokenlanguage no longer has msgstr" );
+
 };
 
 done_testing;
+

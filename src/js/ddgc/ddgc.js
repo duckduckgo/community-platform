@@ -287,9 +287,9 @@ $(document).ready(function() {
 					'src="/static/img/ajax-loader.gif"/>');
 			},
 			success: function(data) {				
-				var text = data.check_result
-					? 'VALID'
-					: 'INVALID';
+				var text = 'INVALID';
+				if ( data.check_result === 1 ) { text = 'VALID' }
+				if ( data.check_result === 2 ) { text = 'DELETED' }
 				parent.html('<div class="button">'+text+'</div>');
 			}
 		});
