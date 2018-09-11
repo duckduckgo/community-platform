@@ -196,7 +196,7 @@
 		</div>
 	</div>
 
-	<div class="content-box account-box">	
+	<div class="content-box account-box" style="display:none">	
 		<div class="head">
 			<h2>Your chat (XMPP)</h2>
 		</div>
