@@ -5445,3 +5445,108 @@ h1 + .intro, .intro--mg {
     padding-top: 10px; }
   .header-account-info {
     margin-right: -5px; } }
+
+
+/*
+* Design refresh overrides, Nov 2017
+*/
+
+body.texture, body.texture-nohighlight, body.texture-ducksymbol {
+  background: #f9f9f9; }
+
+.content-box .head, .content-box__head,
+.content-box .body, .content-box__body,
+.translate-overview p {
+  background: none;
+  border: none;
+  border-radius: 0;
+  color: #333; }
+
+.content-box .row {
+  border: none; }
+
+.ducksymbol, body.texture-ducksymbol:before {
+  background: none; }
+
+.date-box, .button.ghostblue, .tag.ghostblue,
+.button, .tag, input.button, .one-field .button, .button.disabled {
+  background: #4495d4;
+  border-color: #4495d4;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: 500;
+  text-shadow: none; }
+
+.button:hover, .tag:hover, input.button:hover, .one-field .button:hover, .button.disabled:hover, .button.ghostblue:hover, .tag.ghostblue:hover,
+.button:focus, .tag:focus, input.button:focus, .one-field .button:focus, .button.disabled:focus, .button.ghostblue:focus, .tag.ghostblue:focus {
+  background: #3a7fb4;
+  border-color: #3a7fb4; }
+
+.date-box:before {
+  border-left: 7px solid #4495d4; }
+
+.button.disabled {
+  opacity: 1; }
+
+.linkbox {
+  color: #666; }
+
+.linkbox__icon {
+  color: #c3c3c3; }
+
+.button.red, .tag.red {
+  background-color: #de5833;
+  border-color: #bd4b2b; }
+
+.button.blue, .tag.blue {
+  text-shadow: none;
+  background-color: #4495d4;
+  border-color: #4495d4; }
+
+.button.button-nav-current {
+  background: #3a7fb4;
+  border-color: #3a7fb4;
+  box-shadow: none;
+  moz-box-shadow: none;
+  webkit-box-shadow: none; }
+
+.button.disabled:not(.button-nav-current):hover,
+.button.disabled:not(.button-nav-current):focus {
+  background: #4495d4;
+  border-color: #4495d4; }
+
+.button-group .button {
+  border-radius: 0px; }
+
+.button-group > .button:first-child,
+.button-group > .radio:first-child + .button {
+  border-radius: 3px 0 0 3px; }
+
+.button-group > .button:last-child {
+  border-radius: 0 3px 3px 0; }
+
+
+/* Side menu */
+.nav--panels {
+  background: none;
+  border-radius: 0;
+  border-left: none;
+  border-right: none; }
+
+.nav-item__title {
+  background: none; }
+
+.nav a.sub-item__link {
+  color: #666;
+  font-weight: 400; }
+
+.nav-item--active .nav-item__title {
+  background-color: #434a50;
+  color: #dee2e5;
+  background: #fff;
+  color: #333;
+  text-shadow: none; }
+
+/* Translation login form fix */
+.notice .account-actions {
+  padding-top: 0; }
