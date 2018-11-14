@@ -151,6 +151,8 @@ sub gettext_snippet {
 		$vars{'msgstr'} = $self->gettext_escape($self->msgstr0) if $self->msgstr0;
 	}
 	return unless %vars || $fallback;
+	$vars{notes} = join "\n", map { "#. $_" } grep { $_ } split /[\n\r]+/, $self->token->notes
+		if $self->token->notes;
 	$vars{msgid} = $self->gettext_escape($self->token->msgid);
 	$vars{msgctxt} = $self->gettext_escape($self->token->msgctxt) if $self->token->msgctxt;
 	if ($self->token->msgid_plural) {
@@ -185,6 +187,7 @@ sub delete_msgstr {
 sub gettext_snippet_formatter {
 	my ( $self, %vars ) = @_;
 	my $return;
+	$return = ( delete $vars{notes} ) . "\n" if $vars{notes};
 	for (qw( msgctxt msgid msgid_plural )) {
 		$return .= $_.' "'.(delete $vars{$_}).'"'."\n" if $vars{$_};
 	}
