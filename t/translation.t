@@ -192,8 +192,21 @@ test_psgi $app => sub {
         is( $d->rs('Token::Language::Translation')->order_by({ -desc => 'id' })->one_row->check_result, 1, "Valid token $a" );
     } @good_msgstrs, @slice;
 
+    my @tokens =  $d->rs('Token')->search({ retired => 0 })->all;
+    $tokens[0]->notes("This is a usage note for this token\n\nIt is split over multiple lines");
+    $tokens[1]->notes("This is a single line usage note");
+    $tokens[0]->update;
+    $tokens[1]->update;
+
     my $dist = DDGC::LocaleDist->new( token_domain => $domain );
     my $dir = $dist->distribution_file->stringify =~ s/\.tar\.[a-zA-Z0-9]+$//r;
+
+    my $pofile = catfile( $dir, qw/ share en_AU LC_MESSAGES test.po / );
+    my $content = io->file($pofile)->slurp;
+    ok( $content =~ /#\. This is a single line usage note/,
+        'PO file contains properly formatted comment' );
+    ok( $content =~ /#\. This is a usage note for this token[\n\r]+#\. It is split over multiple lines/s,
+        'PO file contains properly formatted multiline comment' );
 
     for my $lang (qw/ en_AU en_GB /) {
         my $fn = catfile( $dir, 'share', $lang, 'LC_MESSAGES', 'test.js' );
