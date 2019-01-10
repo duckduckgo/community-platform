@@ -1,3 +1,4 @@
+: include 'translate/close.tx'
 <div class="content-box translate-snippets">	
 	<div class="head">		
 		<h2><: $token_language.token_domain_language.token_domain.name :> in <: i($token_language.token_domain_language.language,'flag') :> <: $token_language.token_domain_language.language.name_in_english :></h2>
