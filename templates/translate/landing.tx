@@ -3,6 +3,7 @@
 <span class="h3">For token domain <b><: $token_domain_language.token_domain.name :></b> in <b><: $token_domain_language.language.name_in_english :></b></span>
 </div>
 
+: include 'translate/close.tx'
 <div class="seventy block-mid mg-top--big mg-bottom">
 	<: if $user_can_speak { :>
 		<div class="row gw">

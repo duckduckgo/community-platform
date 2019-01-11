@@ -1,6 +1,6 @@
 <h1>Welcome to DuckDuckGo Translations!</h1>
 <p class="intro-message">You can translate text ("tokens") from our sites.</p>
-
+: include 'translate/close.tx'
 <div class="row gw">
 	<div class="g twothirds">
 		<div class="notice  contrast  intro--m">

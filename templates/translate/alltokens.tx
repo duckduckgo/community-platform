@@ -1,4 +1,5 @@
 
+: include 'translate/close.tx'
 <div class="language_nav">
 	<input type="submit" value="Go" class="button js-hide" /><: include "translate/tokens/nav_language.tx" :>
 </div>
