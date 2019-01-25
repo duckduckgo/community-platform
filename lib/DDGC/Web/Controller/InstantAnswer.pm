@@ -4,8 +4,7 @@ use Moose;
 use namespace::autoclean;
 use Try::Tiny;
 use Time::Local;
-use JSON;
-use JSON::MaybeXS ':all';
+use JSON::MaybeXS ':legacy';
 use Net::GitHub::V3;
 use DateTime;
 use LWP::UserAgent;
@@ -851,45 +850,11 @@ sub commit_save :Chained('commit_base') :PathPart('save') :Args(0) {
     return $c->forward($c->view('JSON'));
 }
 
-# Install the data on the beta server
-# Data is an hash of arrays
-# {goodies: [#pr1, #pr2, #pr3], spice: [#pr1, #pr2] ... and so on
-sub send_to_beta :Chained('base') :PathPart('send_to_beta') :Args(0) {
-    my ( $self, $c ) = @_;
-    $c->check_action_token;
-    
-    my $ua = LWP::UserAgent->new;
-
-    my $result = '';
-    $c->stash->{x}->{result} = $result;
-    return $c->forward($c->view('JSON')) unless ($c->req->params->{data} && $c->user && $c->user->admin);
-
-    my $server = "http://beta.duckduckgo.com/ia_install";
-    my $key = $ENV{'BETA_KEY'};
-    my $decoded_data = from_json($c->req->params->{data});
-
-    for my $data (@{$decoded_data}) {
-        my $req = HTTP::Request->new(GET => $server);
-        my $header_data = "sha1=".Digest::SHA::hmac_sha1_hex(to_json($data), $key);
-        
-        $req->header('content-type' => 'application/json');
-        $req->header("x-hub-signature" => $header_data);
-        $req->content(to_json($data));
-
-        my $resp = $ua->request($req);
-        
-        $result = $resp->is_success? 1 : 0;
-        $c->stash->{x}->{result} = $result;
-    }
-
-    return $c->forward($c->view('JSON'));
-}
-
 sub beta_req {
     my ($self) = @_;
 
     my $ua = LWP::UserAgent->new;
-    my $server = "http://beta.duckduckgo.com/installed.json";
+    my $server = "https://s3.amazonaws.com/ddg-community/beta/installed.json";
     my $req = HTTP::Request->new(GET => $server);
 
     my $resp;

@@ -160,6 +160,7 @@ has_conf asana_personal_access_token => DDGC_ASANA_PERSONAL_ACCESS_TOKEN => unde
 has_conf asana_workspace_id => DDGC_ASANA_WORKSPACE_ID => undef;
 has_conf asana_oncall_project => DDGC_ASANA_ONCALL_PROJECT => undef;
 has_conf asana_oncall_section => DDGC_ASANA_ONCALL_SECTION => undef;
+has_conf asana_security_tag => DDGC_ASANA_SECURITY_TAG => undef;
 has_conf pagerduty_api_key => DDGC_PAGERDUTY_API_KEY => undef;
 
 # DANGER: DEACTIVATES PASSWORD CHECK FOR ALL USERACCOUNTS!!!!!!!!!!!!!!!!!!!!!!

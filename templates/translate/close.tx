@@ -1,0 +1,9 @@
+	<div class="notice contrast">
+	<i class="icn icon-warning-sign"></i>
+		<strong>
+			We are in the process of <a href="https://github.com/duckduckgo/duckduckgo-locales">migrating DuckDuckGo Translations to GitHub</a>.
+			A huge thank you to everyone who has contributed to the translation system here on duck.co!<br />
+			Please note that from 21 Jan 2019, translations published on <a href="https://duckduckgo.com">DuckDuckGo search</a> will only be sourced from the GitHub repository. Feel free to join us there!
+		</strong>
+	</div>
+

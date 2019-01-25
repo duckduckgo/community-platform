@@ -55,12 +55,6 @@
                             ia_data.permissions.admin = 1;
                         }
 
-                        if (ia_data.live.hasOwnProperty("beta_install") && ia_data.live.beta_install) {
-                            if(ia_data.live.beta_install.match(/^success/) && ia_data.live.example_query) {
-                                ia_data.live.can_show = true;
-                            }
-                        }
-
                         // Avoid using the edited dev milestone to decide what page layout
                         // to show, if the live version or the dev version
                         if (ia_data.hasOwnProperty("edited") && ia_data.edited && ia_data.edited.dev_milestone) {
@@ -200,18 +194,6 @@
                         }
                         return value.length * 8 || 100;
                     }
-
-                    $("body").on("click", "#beta-install", function(evt) {
-                        if (!$(this).hasClass("disabled")) {
-                            $(this).addClass("disabled");
-                            var temp_hash = {
-                                "action" : "duckco",
-                                "number" : ia_data.live.pr.id,
-                                "repo" : "zeroclickinfo-" + ia_data.live.repo
-                            };
-                            beta_install(temp_hash);
-                        }
-                    });
 
                     $("body").on("change", "select.top-details.js-autocommit", function(evt) {
                         if($(this).hasClass("topic")) {
@@ -1518,25 +1500,6 @@
                             $("." + val.field).addClass("not_saved");
                             var $error_msg = $("." + val.field).siblings(".error-notification");
                             $error_msg.removeClass("hide").text(val.msg);
-                        });
-                    }
-
-                    //Install pr on beta
-                    function beta_install(pr) {
-                        var prs = [pr];
-                        var action_token = $.trim($('meta[name=action-token]').attr("content"));
-                        
-                        var data = JSON.stringify(prs);
-                        var jqxhr = $.post("/ia/send_to_beta", {
-                            data : data,
-                            action_token : action_token
-                        })
-                        .done(function (data) {
-                            if (!ia_data.staged) {
-                                ia_data.staged = {};
-                            }
-                                
-                            ia_data.staged.beta = 1;
                         });
                     }
 

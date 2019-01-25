@@ -9,13 +9,9 @@
       <header>
 	<strong>
 	  <span class="pull-left">
-	    {{#eq @key 'new'}}
-	      Recently on Beta
-	    {{else}}
-	      Recently Live
-	    {{/eq}}
+	    Recently Live
 	  </span>
-          <a class="pull-right tx-clr--lt" href="/ia{{#eq @key 'new'}}/dev/pipeline?filter=beta{{/eq}}">{{count}} Total</a>
+          <a class="pull-right tx-clr--lt" href="/ia">{{count}} Total</a>
 	</strong>
       </header>
         

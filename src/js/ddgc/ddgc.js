@@ -257,6 +257,25 @@ $(document).ready(function() {
 	    });
 	});
 
+	$('a.retire_link').click(function(e){
+		e.preventDefault();
+		var parent = $(this).parent();
+		$.ajax({
+			url: $(this).attr('href'),
+			beforeSend: function(xhr) {				
+				parent.html(
+					'<img class="loading-image"' +
+					'src="/static/img/ajax-loader.gif"/>');
+			},
+			success: function(data) {				
+				var text = ( data.check_result == 1 )
+					? 'Retired'
+					: 'Un-retired';
+				parent.html('('+text+')');
+			}
+		});
+	});
+
 	$('a.checkfalse_link').click(function(e){
 		e.preventDefault();
 		var parent = $(this).parent();
@@ -268,9 +287,9 @@ $(document).ready(function() {
 					'src="/static/img/ajax-loader.gif"/>');
 			},
 			success: function(data) {				
-				var text = data.check_result
-					? 'VALID'
-					: 'INVALID';
+				var text = 'INVALID';
+				if ( data.check_result === 1 ) { text = 'VALID' }
+				if ( data.check_result === 2 ) { text = 'DELETED' }
 				parent.html('<div class="button">'+text+'</div>');
 			}
 		});

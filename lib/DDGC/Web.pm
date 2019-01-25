@@ -54,12 +54,6 @@ __PACKAGE__->config(
 		enable => $ENV{DDGC_ACTIVATE_ERRORCATCHING}||0,
 		emit_module => 'Catalyst::Plugin::ErrorCatcher::Email',
 	},
-	'Plugin::ErrorCatcher::Email' => {
-		to => $ENV{DDGC_ERROR_EMAIL} // 'ddgc@duckduckgo.com',
-		from => 'noreply@duckduckgo.com',
-		subject => '[DuckDuckGo Community] %p %l CRASH!!!',
-		use_tags => 1,
-	},
 	'Plugin::Static::Simple' => {
 		dirs => [
 			'root'
