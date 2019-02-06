@@ -11,8 +11,7 @@ sub feedback {[
       bug_mobile(),
   { description => "It's a bug on Desktop (good ole' fashion computers)", icon => "browser" },
       bug_desktop(),
-  { description => "It's a security issue", icon => "bug" },
-      bug_security(),
+  { description => "It's a security issue", icon => "bug", type => "external", link => "https://hackerone.com/duckduckgo" }
 ]}
 
 sub bug_mobile {[
