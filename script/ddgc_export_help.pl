@@ -108,7 +108,7 @@ sub write_markup {
         copy( catfile( $self->ddgc->config->rootdir_path, $src ), $self->img_dir );
         $src = $self->filename_for( $src );
 
-        $node->attr( 'src', "/images/$src" );
+        $node->attr( 'src', "/edition-jekyll-template/images/$src" );
     }
 
     $content = sprintf(
