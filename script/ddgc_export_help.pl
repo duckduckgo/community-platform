@@ -83,9 +83,8 @@ sub write_markup {
     my $content = join " ",
                   map { $_->content_html }
                   $help->help_contents->all;
-    my $category = $help->help_category
-        ? $help->help_category->key
-        : 'hidden';
+    my $category = $help->help_category ? $help->help_category->key : undef;
+    return unless $category;
     my $d = $self->dir_for( '_docs', $category );
     my $title = $help->help_contents->one_row->title;
     my $filename = lc($title) =~ s/\s+/-/gr;
