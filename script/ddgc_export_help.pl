@@ -8,7 +8,6 @@ use File::Path qw/ make_path /;
 use File::Copy;
 use IO::All -utf8;
 use HTML::TreeBuilder::LibXML;
-use Archive::Tar;
 use File::Find;
 use Try::Tiny;
 
@@ -53,12 +52,6 @@ has tarball => ( is => 'lazy' );
 sub _build_tarball {
     my ( $self ) = @_;
     catfile( $self->ddgc_dir, 'media', 'help-' . $self->now . '.tar.bz2' );
-}
-
-has archive_tar => ( is => 'lazy' );
-sub _build_archive_tar {
-    my ( $self ) = @_;
-    Archive::Tar->new;
 }
 
 sub _mkdir {
@@ -128,14 +121,9 @@ sub export_helps {
 
 sub zip_helps {
     my ( $self ) = @_;
-    my @files;
-    find (
-        sub { push @files, $File::Find::name },
-        $self->pkg_dir
-    );
-    $self->archive_tar->add_files( @files );
-    $self->archive_tar->write( $self->tarball, COMPRESS_BZIP )
-     and printf( "Wrote %s\n", $self->tarball );
+    chdir $self->pkg_dir;
+    system( qw/ tar cjf /, $self->tarball, '.' );
+    printf( "Wrote %s\n", $self->tarball ) unless $? != 0;
 }
 
 sub go {
