@@ -119,7 +119,7 @@ sub write_markup {
     );
     $content .= $tree->as_HTML =~ s{</br>}{}mgr;
 
-    $content > io( catfile( $d, $help->key . '.html' ) );
+    $content > io( catfile( $d, $help->key . '.md' ) );
 }
 
 sub export_helps {
