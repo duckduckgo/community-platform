@@ -112,7 +112,13 @@ sub write_markup {
         $node->attr( 'src', "/images/$src" );
     }
 
-    $content = $tree->as_HTML =~ s{</br>}{}mgr;
+    $content = sprintf(
+        "---\ntitle: %s\ncategory: %s\norder: %s\n---\n",
+        $title,
+        ucfirst($category),
+        $help->sort // 9999,
+    );
+    $content .= $tree->as_HTML =~ s{</br>}{}mgr;
 
     $content > io( catfile( $d, $help->key . '.html' ) );
 }
