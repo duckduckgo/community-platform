@@ -42,6 +42,12 @@ sub _build_pkg_dir {
     $self->_mkdir( $self->help_dir, $self->now );
 }
 
+has img_dir => ( is => 'lazy' );
+sub _build_img_dir {
+    my ( $self ) = @_;
+    $self->_mkdir( $self->pkg_dir, 'images' );
+}
+
 has user => ( is => 'lazy' );
 sub _build_user {
     my ( $self ) = @_;
@@ -98,10 +104,10 @@ sub write_markup {
             next unless $m;
             $src = '/media/' . $m->filename;
         }
-        copy( catfile( $self->ddgc->config->rootdir_path, $src ), $d );
+        copy( catfile( $self->ddgc->config->rootdir_path, $src ), $self->img_dir );
         $src = $self->filename_for( $src );
 
-        $node->attr( 'src', $src );
+        $node->attr( 'src', "/images/$src" );
     }
 
     $content = $tree->as_HTML =~ s{</br>}{}mgr;
