@@ -68,8 +68,8 @@ sub _mkdir {
 }
 
 sub dir_for {
-    my ( $self, $dir ) = @_;
-    my $d = catdir( $self->pkg_dir, $dir );
+    my ( $self, @dir ) = @_;
+    my $d = catdir( $self->pkg_dir, @dir );
     make_path $d unless -d $d;
     return $d;
 }
@@ -86,7 +86,9 @@ sub write_markup {
     my $category = $help->help_category
         ? $help->help_category->key
         : 'hidden';
-    my $d = $self->dir_for( $category );
+    my $d = $self->dir_for( '_docs', $category );
+    my $title = $help->help_contents->one_row->title;
+    my $filename = lc($title) =~ s/\s+/-/gr;
 
     my $tree = HTML::TreeBuilder::LibXML->new;
     $tree->parse( $content );
