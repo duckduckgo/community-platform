@@ -117,7 +117,12 @@ sub write_markup {
         ucfirst($category),
         $help->sort // 9999,
     );
-    $content .= $tree->as_HTML =~ s{</br>}{}mgr =~ s{</img>}{}mgr;
+    $content .= $tree->as_HTML
+        =~ s{</br>}{}mgr
+        =~ s{</img>}{}mgr
+        =~ s{</?html>}{}mgr
+        =~ s{</?body>}{}mgr
+        =~ s{&#xD;}{}mgr;
 
     $content > io( catfile( $d, $help->key . '.md' ) );
 }
