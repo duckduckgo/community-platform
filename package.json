@@ -28,7 +28,7 @@
     "grunt-version": "~0.2.2",
     "load-grunt-tasks": "^3.3.0",
     "phantomjs": "1.9.8",
-    "bower": "1.7.7",
+    "bower": "1.8.8",
     "casperjs": "1.1.0"
   }
 }
