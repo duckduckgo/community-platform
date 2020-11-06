@@ -604,7 +604,6 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     
     @{$c->stash->{issues}} = $c->d->rs('InstantAnswer::Issues')->search({instant_answer_id => $ia->id}); 
 
-    my $permissions;
     my $is_admin;
     my $can_edit;
     my $can_commit;
@@ -613,10 +612,9 @@ sub ia_base :Chained('base') :PathPart('view') :CaptureArgs(1) {  # /ia/view/cal
     $c->stash->{repo} = $ia->repo;
 
     if ($c->user) {
-        $permissions = $ia->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
-        if ($permissions || $is_admin) {
+        if ($is_admin) {
             $can_edit = 1;
 
             if ($is_admin) {
@@ -682,7 +680,6 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     my @ia_pr;
     my @all_prs;
     my %ia_data;
-    my $permissions;
     my $is_admin;
     my $dev_milestone = $ia->dev_milestone; 
 
@@ -747,10 +744,9 @@ sub ia_json :Chained('ia_base') :PathPart('json') :Args(0) {
     $ia_data{live}->{prs} = \@all_prs;
     
     if ($c->user) {
-        $permissions = $c->stash->{ia}->users->find($c->user->id);
         $is_admin = $c->user->admin;
 
-        if (($is_admin || $permissions) && ($ia->dev_milestone eq 'live' || $ia->dev_milestone eq 'deprecated')) {
+        if ($is_admin && ($ia->dev_milestone eq 'live' || $ia->dev_milestone eq 'deprecated')) {
             $edited = current_ia($c->d, $ia);
             $ia_data{edited} = $edited;
             
@@ -915,7 +911,6 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     }
     
     my $ia_data = $ia->TO_JSON;
-    my $permissions;
     my $is_admin = 0;
     my $saved = 0;
     my $field = $c->req->params->{field};
@@ -937,10 +932,9 @@ sub save_edit :Chained('base') :PathPart('save') :Args(0) {
     $c->stash->{not_last_url} = 1;
 
     if ($c->user) {
-       $permissions = $ia->users->find($c->user->id);
        $is_admin = $c->user->admin;
 
-        if ($permissions || $is_admin) {
+        if ($is_admin) {
             $result->{is_admin} = $is_admin;
             $c->stash->{x}->{result} = $result;
 
