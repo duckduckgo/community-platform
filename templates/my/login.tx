@@ -37,9 +37,7 @@
 		<div class="account-links clear">
 			<p><a href="<: $u('My','forgotpw') :>">Forgot your password?</a></p>
 			<p>
-				Don't have an account?
-				<a href="<: $u('My','register') :>">Sign up</a>
-				or <a href="<: $u('My','github_oauth') :>">Login with Github</a>
+				<a href="<: $u('My','github_oauth') :>">Login with Github</a>
 			</p>
 		</div>
 	</div>

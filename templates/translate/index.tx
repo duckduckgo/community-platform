@@ -18,7 +18,7 @@
 		<i class="icn  text-enormous  text-light  icon-earth"></i>
 	</div>
 </div>
-<: if !$c.user { :><div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You must be logged in for translating <span class="account-actions"><a href="<: $u('My','register') :>" class="first nav-signup">Sign up</a><a href="<: $u('My','login') :>" class="nav-login" data-reveal-id="login-box">Login</a></span><i class="close icon-remove"></i></div><: } :>
+<: if !$c.user { :><div class="notice warning clickaway"><i class="icn icon-warning-sign"></i>You must be logged in for translating <span class="account-actions"><a href="<: $u('My','login') :>" class="nav-login" data-reveal-id="login-box">Login</a></span><i class="close icon-remove"></i></div><: } :>
 
 <: if $c.user { :>
 	<: if $user_has_languages { :>
