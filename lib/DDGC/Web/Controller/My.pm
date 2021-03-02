@@ -126,38 +126,6 @@ sub login :Chained('logged_out') :Args(0) {
 	}
 }
 
-sub _github_oauth_register {
-	my ( $self, $c, $username, $user_info ) = @_;
-	my $user;
-
-	if ( $username !~ /^[a-zA-Z0-9_\.]+$/ ) {
-		$c->stash->{invalid_username} = 1;
-		$c->stash->{username_taken} = 1;
-		return 0;
-	}
-	try {
-		$user = $c->d->create_user( $username, $c->d->uid );
-		$self->_verify_email( $c, $user, $user_info->{email} )
-			if ( $user && $user_info->{email} );
-	}
-	catch {
-		if ( $_ =~ /^user exists/ ) {
-			$c->stash->{username_taken} = 1;
-		}
-		else {
-			$c->stash->{unknown_error} = 1;
-		}
-		return 0;
-	};
-	if ( !$user ) {
-		$c->stash->{unknown_error} = 1;
-		return 0;
-	}
-
-	$user->store_github_credentials( $user_info );
-	return $user;
-}
-
 sub save_data_before_redirect :Chained('base') :PathPart('save_before_oauth') :Args() {
     my ( $self, $c ) = @_;
 
@@ -858,104 +826,6 @@ sub forgotpw :Chained('logged_out') :Args(0) {
 	$c->stash->{sentok} = 1;
 }
 
-sub _verify_email {
-	my ( $self, $c, $user, $email ) = @_;
-	$user->data({}) if !$user->data;
-	my $data = $user->data();
-	$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
-	$c->stash->{email_verify_link} =
-	    $c->chained_uri('My','email_verify',$user->lowercase_username, $c->stash->{email_verify_token});
-	$user->data($data);
-	$user->email($email);
-	$user->email_verified(0);
-	$user->update;
-	$c->d->postman->template_mail(
-		1,
-		$user->email,
-		'"DuckDuckGo Community" <noreply@duckduckgo.com>',
-		'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
-		'register',
-		$c->stash,
-	);
-}
-
-
-sub register_from_ia_wizard :Chained('logged_out') :Args(0) {
-        my ( $self, $c ) = @_;
-        $c->stash->{not_last_url} = 1;
-        $c->stash->{x} = '';
-        
-        my $username = $c->req->params->{username};
-        my $password = $c->req->params->{password};
-        my $email = $c->req->params->{email};
-        my $action_token = $c->session->{action_token}; 
-        my $result = new_user($c, $username, $password, $email);
-        $c->stash->{x} = {result => $result};
-        $c->forward($c->view('JSON'));
-    #    $c->forward('/my/login', { username => $username, password => $password, action_token => $action_token });
-}
-
-sub register :Chained('logged_out') :Args(0) {
-	my ( $self, $c ) = @_;
-	$c->stash->{not_last_url} = 1;
-
-	$c->stash->{page_class} = "page-signup";
-
-	$c->stash->{title} = 'Create a new account';
-	$c->add_bc($c->stash->{title}, '');
-
-	$c->stash->{no_login} = 1;
-
-	if (!$c->req->params->{register}) {
-		return $c->detach;
-	}
-
-	$c->stash->{username} = $c->req->params->{username};
-	$c->stash->{email} = $c->req->params->{email};
-
-	my $error = 0;
-
-	if ($c->req->params->{repeat_password} ne $c->req->params->{password}) {
-		$c->stash->{password_different} = 1;
-		$error = 1;
-	}
-
-	if (!defined $c->req->params->{password} or length($c->req->params->{password}) < 8) {
-		$c->stash->{password_too_short} = 1;
-		$error = 1;
-	}
-
-	if (!defined $c->stash->{username} or $c->stash->{username} eq '') {
-		$c->stash->{need_username} = 1;
-		$error = 1;
-	}
-
-	my $email = Email::Valid->address($c->req->params->{email});
-	if ( $c->req->params->{email} && !$email ) {
-		$c->stash->{not_valid_email} = 1;
-		$error = 1;
-	}
-
-	if ($c->stash->{username} !~ /^[a-zA-Z0-9_\.]+$/) {
-		$c->stash->{not_valid_chars} = 1;
-		$error = 1;
-	}
-
-	return $c->detach if $error;
-
-
-        my $username = $c->stash->{username};
-        my $password = $c->req->params->{password};
-
-        my $result = new_user($c, $username, $password, $email);
-
-        if ($result) {
-	    $c->response->redirect($c->chained_uri('My','login',{ register_successful => 1, username => $username }));
-        } else {
-            return $c->detach;
-        }
-}
-
 sub requestlanguage :Chained('logged_in') :Args(0) {
 	my ($self, $c) = @_;
 	$c->stash->{not_last_url} = 1;
@@ -1013,54 +883,6 @@ sub requestlanguage :Chained('logged_in') :Args(0) {
 
 		}
 	}
-}
-
-sub new_user {
-    my ($c, $username, $password, $email) = @_;
-
-    my $find_user = $c->d->find_user($username);
-    my $error;
- 
-    if ($find_user) {
-    	$c->stash->{user_exist} = $username;
-    	$error = 1;
-    }
-
-    return 0 if $error;
-    
-    # Skip actual account creation if this field is filled
-    unless ($c->req->params->{emailagain}) {
-    	$c->require_action_token;
-    	my $user = $c->d->create_user($username,$password);
-    
-    	if ($user) {
-    		$user->check_password($password);
-    		if ($email) {
-    			$user->data({}) if !$user->data;
-    			my $data = $user->data();
-    			$c->stash->{email_verify_token} = $data->{email_verify_token} = $c->d->uid;
-    			$c->stash->{email_verify_link} =
-    			    $c->chained_uri('My','email_verify',$user->lowercase_username, $c->stash->{email_verify_token});
-    			$user->data($data);
-    			$user->email($email);
-    			$user->email_verified(0);
-    			$user->update;
-    			$c->d->postman->template_mail(
-    				1,
-    				$user->email,
-    				'"DuckDuckGo Community" <noreply@duckduckgo.com>',
-    				'[DuckDuckGo Community] ' . $user->username . ', thank you for registering. Please verify your email address',
-    				'register',
-    				$c->stash,
-    			);
-    		}
-    		$c->session->{captcha_string} = undef;
-                return 1;
-    	} else {
-    		$c->stash->{register_failed} = 1;
-    		return 0;
-    	}
-    }
 }
 
 sub authenticate {
