@@ -1,8 +1,5 @@
 <div class="header-login">
     <span class="account-actions">
-        <a href="/my/register" class="account-actions__btn account-actions__btn--first nav-signup">
-            Sign up
-        </a>
         <a href="/my/login" class="account-actions__btn nav-login  js-reveal" data-reveal-id="login-box">
             Login
         </a>

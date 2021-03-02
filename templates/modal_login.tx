@@ -11,7 +11,6 @@
 		or <a href="/my/github_oauth" name="register">Login with Github</a>
 		<div class="account-links clear">
 			<p class="half  palm-half"><a href="<: $u('My','forgotpw') :>">Forgot your password?</a></p>
-			<p class="half  palm-half">Don't have an account? <a href="<: $u('My','register') :>">Sign up</a></p>
 		</div>
 	</form>
 </div>
